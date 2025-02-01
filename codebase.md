@@ -534,9 +534,9 @@ export default NewsGrid;
 
 ```js
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileAnalytics, IconBook, IconClock } from '@tabler/icons-react';
+import { IconChevronUp, IconPhoto, IconFileAnalytics, IconFileTextAi, IconClock } from '@tabler/icons-react';
 import DiscussionsSection from '../DiscussionsSection.js';
-
+import RelatedPosts from './RelatedPosts';
 
 const BlogPost = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
@@ -578,7 +578,8 @@ const BlogPost = ({
   redditCards = [],
   studyCards = [],
   xCards = [],
-  youtubeCards = []
+  youtubeCards = [],
+  relatedPosts = []
 }) => {
   // Back to top button visibility state
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -774,7 +775,7 @@ const BlogPost = ({
           <div className="max-w-2xl mx-auto">
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
-                <IconFileAnalytics className="w-6 h-6" />
+                <IconFileTextAi className="w-6 h-6" />
                 <h2 className="text-xl font-bold">Bias Analysis Score </h2>
               </div>
               <div className="flex justify-center">
@@ -786,17 +787,17 @@ const BlogPost = ({
           </div>
         </section>
 
-        {/* Effectiveness Analysis Section */}
-        <section className="mb-16">
-        <div className="flex items-center gap-2 mb-4" >
-            <IconFileAnalytics className="w-6 h-6" />
-            <h2 className="text-xl font-bold mb-4 gap-2">Effectiveness Analysis</h2>
-        </div>
+        <section className="prose prose-lg max-w-none mb-16">
+          <section>
+            <div classname="flex items-center gap-2 mb-4 justify-center">
+      
+            <h2>Effectiveness Analysis</h2></div>
           
-
+            
             <div className="space-y-5 bg-secondary/5 rounded-lg p-6  ">
+            
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Intervention:</span>
+              <span className="text-muted-foreground">Intervention:</span>
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                   {effectivenessAnalysis.intervention}
                 </span>
@@ -810,19 +811,54 @@ const BlogPost = ({
               </div>
             
           </div>
+          </section>
+
+          <section>
+            <h2>Interventions</h2>
+            <p>{interventions}</p>
+          </section>
+
+          <section>
+            <h2>Key Findings</h2>
+            <p>{keyFindings}</p>
+          </section>
+          <section>
+            <h2>Comparison with other Studies</h2>
+            <p>{comparison}</p>
+          </section>
+        </section>
+
+        {/* Effectiveness Analysis Section */}
+        <section className="mb-16">
+        <div className="flex items-center gap-2 mb-4" >
+            
+            <h2 className="text-xl font-bold mb-4 gap-2">Effectiveness Analysis</h2>
+        </div>
+          
+
         </section>
 
         <section className="prose prose-lg max-w-none mb-16">
           
-          <div className="flex items-center gap-2 mb-4">
-            <IconBook className="w-6 h-6" />
-            <h2 className="text-xl font-bold">Journal Reference</h2>
-          </div>
-            
-            <p className="text-foreground">
 
-              <span className="italic">{journalReference.full}</span>
-            </p>
+            
+
+        </section>
+        <section className="prose prose-lg max-w-none mb-16">
+        <section>
+
+            <h2>Interventions</h2>
+            <p>{interventions}</p>
+          </section>
+
+          <section>
+            <h2>Journal Reference</h2>
+            <p className="italic">{journalReference.full}</p>
+          </section>
+
+
+
+          
         </section>
         
 
@@ -858,12 +894,66 @@ const BlogPost = ({
             </form>
           </div>
         </section>
+        {/* Add this before the Newsletter section */}
+      <RelatedPosts posts={relatedPosts} />
       </main>
+      
     </div>
   );
 };
 
 export default BlogPost;
+```
+
+# components\post-template\RelatedPosts.js
+
+```js
+// Add this to components/post-template/RelatedPosts.js
+import React from 'react';
+import Link from 'next/link';
+
+const PostCard = ({ title, date, description, slug }) => (
+  <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="aspect-[16/9] bg-muted">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" className="w-full h-full">
+        <rect width="400" height="225" fill="#f5f5f5"/>
+        <rect x="40" y="60" width="320" height="10" rx="2" fill="#e0e0e0"/>
+        <rect x="40" y="85" width="280" height="10" rx="2" fill="#e0e0e0"/>
+        <rect x="40" y="110" width="320" height="10" rx="2" fill="#e0e0e0"/>
+        <rect x="40" y="135" width="200" height="10" rx="2" fill="#e0e0e0"/>
+      </svg>
+    </div>
+    <div className="p-6">
+      <Link href={`/posts/${slug}`}>
+        <h3 className="text-xl font-semibold text-foreground mb-2 hover:text-primary transition-colors">
+          {title}
+        </h3>
+      </Link>
+      <time className="text-sm text-muted-foreground block mb-3">{date}</time>
+      <p className="text-muted-foreground line-clamp-2">
+        {description}
+      </p>
+    </div>
+  </div>
+);
+
+const RelatedPosts = ({ posts }) => {
+  if (!posts || posts.length === 0) return null;
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 className="text-4xl font-bold mb-8">Related Posts</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post, index) => (
+          <PostCard key={index} {...post} />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default RelatedPosts;
+
 ```
 
 # components\SearchSection.js
@@ -1134,6 +1224,26 @@ export default function ArtificialPancreasTrialPost() {
         title: "Patient Success Stories",
         outboundLink: "https://example.com/expert-analysis",
         author: "Medical Tech Reviews"
+      }
+    ],
+    relatedPosts: [
+      {
+        title: "Impact of CGM Systems on Quality of Life: A 12-Month Study",
+        date: "January 25, 2025",
+        description: "A comprehensive analysis of how continuous glucose monitoring systems affect daily living, stress levels, and overall patient satisfaction in type 1 diabetes management.",
+        slug: "cgm-quality-of-life-study"
+      },
+      {
+        title: "Comparing Smart Insulin Pens vs Traditional Insulin Delivery",
+        date: "January 28, 2025",
+        description: "New research evaluates the effectiveness of smart insulin pens against conventional methods, examining glycemic control and user experience outcomes.",
+        slug: "smart-insulin-pens-comparison"
+      },
+      {
+        title: "Machine Learning in Diabetes Care: Predictive Analytics",
+        date: "January 30, 2025",
+        description: "How artificial intelligence and machine learning algorithms are revolutionizing blood glucose prediction and personalized treatment recommendations.",
+        slug: "ml-diabetes-predictive-analytics"
       }
     ]
   };

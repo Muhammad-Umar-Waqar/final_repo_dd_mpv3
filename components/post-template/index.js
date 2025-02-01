@@ -254,7 +254,7 @@ const BlogPost = ({
 
         <section className="prose prose-lg max-w-none mb-16">
           <section>
-            <div classname="flex items-center gap-2 mb-4 justify-center">
+            <div className="flex items-center gap-2 mb-4 justify-center">
       
             <h2>Effectiveness Analysis</h2></div>
           
