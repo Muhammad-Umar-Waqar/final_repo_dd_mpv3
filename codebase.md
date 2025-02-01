@@ -45,22 +45,30 @@ yarn-error.log*
 
 ```js
 import React, { useState } from 'react';
-import { IconBrandReddit, IconBrandX, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList } from '@tabler/icons-react';
+import { IconBrandReddit, IconBrandX, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList, IconExternalLink } from '@tabler/icons-react';
 
 // Base Card Component
-const BaseDiscussionCard = ({ icon: Icon, type, title, content, author, date }) => (
+const BaseDiscussionCard = ({ icon: Icon, type, title, author, outboundLink }) => (
   <div className="bg-background border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
-    <div className="flex items-center gap-3 mb-4">
-      <Icon className="w-5 h-5" />
-      <span className="text-sm font-medium text-muted-foreground">{type}</span>
+    <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center gap-3">
+        <Icon className="w-5 h-5" />
+        <span className="text-sm font-medium text-muted-foreground">{type}</span>
+      </div>
+      <a 
+        href={outboundLink} 
+        target="_blank" 
+        rel="nofollow noopener noreferrer" 
+        className="text-muted-foreground hover:text-primary transition-colors"
+      >
+        <IconExternalLink className="w-5 h-5" />
+      </a>
     </div>
     
     <h3 className="text-lg font-semibold mb-2">{title}</h3>
-    <p className="text-muted-foreground mb-4">{content}</p>
     
-    <div className="flex justify-between items-center text-sm text-muted-foreground">
+    <div className="text-sm text-muted-foreground">
       <span>{author}</span>
-      <span>{date}</span>
     </div>
   </div>
 );
@@ -112,27 +120,18 @@ const DiscussionsSection = ({
   ];
 
   const getDisplayCards = () => {
-    if (activeTab === 'all') {
-      return [
-        ...expertCards.map(card => ({ ...card, type: 'experts' })),
-        ...onlineCards.map(card => ({ ...card, type: 'online' })),
-        ...redditCards.map(card => ({ ...card, type: 'reddit' })),
-        ...studyCards.map(card => ({ ...card, type: 'studies' })),
-        ...xCards.map(card => ({ ...card, type: 'x' })),
-        ...youtubeCards.map(card => ({ ...card, type: 'youtube' }))
-      ];
-    }
-
-    const cardMap = {
-      experts: expertCards,
-      online: onlineCards,
-      reddit: redditCards,
-      studies: studyCards,
-      x: xCards,
-      youtube: youtubeCards
+    const allCardsWithTypes = {
+      experts: expertCards.map(card => ({ ...card, type: 'experts' })),
+      online: onlineCards.map(card => ({ ...card, type: 'online' })),
+      reddit: redditCards.map(card => ({ ...card, type: 'reddit' })),
+      studies: studyCards.map(card => ({ ...card, type: 'studies' })),
+      x: xCards.map(card => ({ ...card, type: 'x' })),
+      youtube: youtubeCards.map(card => ({ ...card, type: 'youtube' }))
     };
 
-    return cardMap[activeTab] || [];
+    return activeTab === 'all' 
+      ? Object.values(allCardsWithTypes).flat()
+      : allCardsWithTypes[activeTab] || [];
   };
 
   const renderCard = (card) => {
@@ -536,7 +535,7 @@ export default NewsGrid;
 ```js
 import React, { useState } from 'react';
 import { IconChevronUp, IconPhoto, IconFileAnalytics, IconBook, IconClock } from '@tabler/icons-react';
-import DiscussionsSection from '../DiscussionsSection';
+import DiscussionsSection from '../DiscussionsSection.js';
 
 
 const BlogPost = ({
@@ -544,8 +543,10 @@ const BlogPost = ({
   author = "Dr. Sarah Johnson",
   publishDate = "January 31, 2025",
   readTime = "8 min read",
+  summary = "baba baba baba",
   studyDesign = {
     interventions: ["Continuous Monitoring", "Smart Insulin"],
+    outcomes:["outcome 1", "outcome 2"],
     studyType: "Randomized Controlled Trial",
     duration: "24 Months",
     size: "500 Participants"
@@ -562,7 +563,9 @@ const BlogPost = ({
     continuous glucose monitoring with automated insulin delivery.`,
   keyFindings = `The study revealed significant improvements in glycemic control among intervention group 
     participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
-  biasScore = "Moderate",
+    comparison = `The study revealed significant improvements in glycemic control among intervention group 
+    participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
+    biasScore = "Moderate",
   effectivenessAnalysis = {
     intervention: "AI-Driven Monitoring",
     effectiveness: "Moderate"
@@ -644,6 +647,10 @@ const BlogPost = ({
             Study visualization of the automated insulin delivery system
           </figcaption>
         </figure>
+        <section className="mb-16">
+            <h2 className="text-2xl font-bold mb-6">Summary</h2>
+            <p>{summary}</p>
+          </section>
 
         {/* Study Design Section */}
         <section className="mb-16">
@@ -666,20 +673,32 @@ const BlogPost = ({
                   {studyDesign.studyType}
                 </span>
               </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-medium mb-2">Outcomes</h3>
+                <div className="flex flex-wrap gap-2">
+                  {studyDesign.outcomes.map((outcome, index) => (
+                    <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                      {outcome}
+                    </span>
+                  ))}
+                </div>
+              </div>  
               <div>
                 <h3 className="font-medium mb-2">Duration</h3>
                 <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
                   {studyDesign.duration}
                 </span>
               </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  
               <div>
                 <h3 className="font-medium mb-2">Size</h3>
                 <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
                   {studyDesign.size}
                 </span>
               </div>
+
             </div>
           </div>
         </section>
@@ -702,6 +721,7 @@ const BlogPost = ({
                 </span>
               </div>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h3 className="font-medium mb-2">Geography</h3>
               <div className="flex flex-wrap gap-2">
@@ -722,6 +742,8 @@ const BlogPost = ({
                 ))}
               </div>
             </div>
+            
+            </div>
           </div>
         </section>
 
@@ -741,6 +763,10 @@ const BlogPost = ({
             <h2>Key Findings</h2>
             <p>{keyFindings}</p>
           </section>
+          <section>
+            <h2>Comparison with other Studies</h2>
+            <p>{comparison}</p>
+          </section>
         </section>
 
               {/* Bias Analysis Section - Now in its own centered row */}
@@ -749,7 +775,7 @@ const BlogPost = ({
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
                 <IconFileAnalytics className="w-6 h-6" />
-                <h2 className="text-xl font-bold">Bias Analysis Score</h2>
+                <h2 className="text-xl font-bold">Bias Analysis Score </h2>
               </div>
               <div className="flex justify-center">
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
@@ -775,6 +801,7 @@ const BlogPost = ({
                   {effectivenessAnalysis.intervention}
                 </span>
               </div>
+
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Effectiveness:</span>
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
@@ -974,9 +1001,13 @@ export default function ArtificialPancreasTrialPost() {
 
   const postData = {
     title: "Long-term Outcomes of Artificial Pancreas Systems: A 24-Month Multi-Center Trial",
+    summary: `esto si viene del blog post and diabetes 
+      duration before being randomly assigned to either the intervention group (artificial pancreas system) 
+      or the control group (standard insulin pump therapy) using a computer-generated algorithm.`,
     publishDate: "January 31, 2025",
     studyDesign: {
       interventions: ["Continuous Glucose Monitor", "Automated Insulin Pump"],
+      outcomes: ["Improved Glycemic Control", "Reduced Hypoglycemic Events", "Quality of Life"],
       studyType: "Randomized Controlled Trial",
       duration: "24 Months",
       size: "500 Participants"
@@ -1013,84 +1044,72 @@ export default function ArtificialPancreasTrialPost() {
     expertCards: [
       {
         title: "Expert Analysis of AID Systems",
-        content: "In-depth review of the latest automated insulin delivery developments",
-        date: "2h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Dr. Sarah Chen"
       },
       {
         title: "Clinical Perspective on Trial Results",
-        content: "Key implications for diabetes management practice",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Prof. Michael Roberts"
       }
     ],
     onlineCards: [
       {
         title: "Patient Experience Forum",
-        content: "Real-world feedback from system users",
-        date: "3h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "T1D Support Network"
       },
       {
         title: "Healthcare Provider Discussion",
-        content: "Implementation strategies and clinical observations",
-        date: "6h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Diabetes Care Community"
       }
     ],
     redditCards: [
       {
         title: "r/diabetes Tech Discussion",
-        content: "Community insights on the trial results",
-        date: "4h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "r/diabetes"
       },
       {
         title: "Patient AMA Thread",
-        content: "Trial participant sharing experiences",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "r/T1D"
       }
     ],
     studyCards: [
       {
         title: "Comparative Analysis",
-        content: "How this trial compares to previous AID studies",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Diabetes Research Institute"
       },
       {
         title: "Meta-analysis Update",
-        content: "Integration of new findings with existing research",
-        date: "2d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Clinical Trials Database"
       }
     ],
     xCards: [
       {
         title: "Research Impact Thread",
-        content: "Expert commentary on trial implications",
-        date: "1h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "@DiabetesExperts"
       },
       {
         title: "Healthcare Policy Discussion",
-        content: "Implications for treatment guidelines",
-        date: "5h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "@HealthPolicy"
       }
     ],
     youtubeCards: [
       {
         title: "Trial Results Explained",
-        content: "Visual breakdown of key findings",
-        date: "6h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "DiabetesEd Channel"
       },
       {
         title: "Patient Success Stories",
-        content: "Video testimonials from trial participants",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Medical Tech Reviews"
       }
     ]

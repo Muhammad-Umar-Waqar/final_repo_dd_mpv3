@@ -1,20 +1,28 @@
 import React, { useState } from 'react';
-import { IconBrandReddit, IconBrandX, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList } from '@tabler/icons-react';
+import { IconBrandReddit, IconBrandX, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList, IconExternalLink } from '@tabler/icons-react';
 
 // Base Card Component
-const BaseDiscussionCard = ({ icon: Icon, type, title, content, author, date }) => (
+const BaseDiscussionCard = ({ icon: Icon, type, title, author, outboundLink }) => (
   <div className="bg-background border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
-    <div className="flex items-center gap-3 mb-4">
-      <Icon className="w-5 h-5" />
-      <span className="text-sm font-medium text-muted-foreground">{type}</span>
+    <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center gap-3">
+        <Icon className="w-5 h-5" />
+        <span className="text-sm font-medium text-muted-foreground">{type}</span>
+      </div>
+      <a 
+        href={outboundLink} 
+        target="_blank" 
+        rel="nofollow noopener noreferrer" 
+        className="text-muted-foreground hover:text-primary transition-colors"
+      >
+        <IconExternalLink className="w-5 h-5" />
+      </a>
     </div>
     
     <h3 className="text-lg font-semibold mb-2">{title}</h3>
-    <p className="text-muted-foreground mb-4">{content}</p>
     
-    <div className="flex justify-between items-center text-sm text-muted-foreground">
+    <div className="text-sm text-muted-foreground">
       <span>{author}</span>
-      <span>{date}</span>
     </div>
   </div>
 );
@@ -66,7 +74,6 @@ const DiscussionsSection = ({
   ];
 
   const getDisplayCards = () => {
-    // Map each card array to include its type
     const allCardsWithTypes = {
       experts: expertCards.map(card => ({ ...card, type: 'experts' })),
       online: onlineCards.map(card => ({ ...card, type: 'online' })),
@@ -76,13 +83,9 @@ const DiscussionsSection = ({
       youtube: youtubeCards.map(card => ({ ...card, type: 'youtube' }))
     };
 
-    // If "all" is selected, return all cards
-    if (activeTab === 'all') {
-      return Object.values(allCardsWithTypes).flat();
-    }
-
-    // Return only the cards for the selected tab
-    return allCardsWithTypes[activeTab] || [];
+    return activeTab === 'all' 
+      ? Object.values(allCardsWithTypes).flat()
+      : allCardsWithTypes[activeTab] || [];
   };
 
   const renderCard = (card) => {

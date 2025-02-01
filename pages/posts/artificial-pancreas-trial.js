@@ -14,9 +14,13 @@ export default function ArtificialPancreasTrialPost() {
 
   const postData = {
     title: "Long-term Outcomes of Artificial Pancreas Systems: A 24-Month Multi-Center Trial",
+    summary: `esto si viene del blog post and diabetes 
+      duration before being randomly assigned to either the intervention group (artificial pancreas system) 
+      or the control group (standard insulin pump therapy) using a computer-generated algorithm.`,
     publishDate: "January 31, 2025",
     studyDesign: {
       interventions: ["Continuous Glucose Monitor", "Automated Insulin Pump"],
+      outcomes: ["Improved Glycemic Control", "Reduced Hypoglycemic Events", "Quality of Life"],
       studyType: "Randomized Controlled Trial",
       duration: "24 Months",
       size: "500 Participants"
@@ -53,84 +57,72 @@ export default function ArtificialPancreasTrialPost() {
     expertCards: [
       {
         title: "Expert Analysis of AID Systems",
-        content: "In-depth review of the latest automated insulin delivery developments",
-        date: "2h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Dr. Sarah Chen"
       },
       {
         title: "Clinical Perspective on Trial Results",
-        content: "Key implications for diabetes management practice",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Prof. Michael Roberts"
       }
     ],
     onlineCards: [
       {
         title: "Patient Experience Forum",
-        content: "Real-world feedback from system users",
-        date: "3h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "T1D Support Network"
       },
       {
         title: "Healthcare Provider Discussion",
-        content: "Implementation strategies and clinical observations",
-        date: "6h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Diabetes Care Community"
       }
     ],
     redditCards: [
       {
         title: "r/diabetes Tech Discussion",
-        content: "Community insights on the trial results",
-        date: "4h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "r/diabetes"
       },
       {
         title: "Patient AMA Thread",
-        content: "Trial participant sharing experiences",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "r/T1D"
       }
     ],
     studyCards: [
       {
         title: "Comparative Analysis",
-        content: "How this trial compares to previous AID studies",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Diabetes Research Institute"
       },
       {
         title: "Meta-analysis Update",
-        content: "Integration of new findings with existing research",
-        date: "2d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Clinical Trials Database"
       }
     ],
     xCards: [
       {
         title: "Research Impact Thread",
-        content: "Expert commentary on trial implications",
-        date: "1h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "@DiabetesExperts"
       },
       {
         title: "Healthcare Policy Discussion",
-        content: "Implications for treatment guidelines",
-        date: "5h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "@HealthPolicy"
       }
     ],
     youtubeCards: [
       {
         title: "Trial Results Explained",
-        content: "Visual breakdown of key findings",
-        date: "6h ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "DiabetesEd Channel"
       },
       {
         title: "Patient Success Stories",
-        content: "Video testimonials from trial participants",
-        date: "1d ago",
+        outboundLink: "https://example.com/expert-analysis",
         author: "Medical Tech Reviews"
       }
     ]

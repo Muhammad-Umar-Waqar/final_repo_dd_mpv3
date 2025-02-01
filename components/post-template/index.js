@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IconChevronUp, IconPhoto, IconFileAnalytics, IconBook, IconClock } from '@tabler/icons-react';
-import DiscussionsSection from '../DiscussionsSection';
+import DiscussionsSection from '../DiscussionsSection.js';
 
 
 const BlogPost = ({
@@ -8,8 +8,10 @@ const BlogPost = ({
   author = "Dr. Sarah Johnson",
   publishDate = "January 31, 2025",
   readTime = "8 min read",
+  summary = "baba baba baba",
   studyDesign = {
     interventions: ["Continuous Monitoring", "Smart Insulin"],
+    outcomes:["outcome 1", "outcome 2"],
     studyType: "Randomized Controlled Trial",
     duration: "24 Months",
     size: "500 Participants"
@@ -26,7 +28,9 @@ const BlogPost = ({
     continuous glucose monitoring with automated insulin delivery.`,
   keyFindings = `The study revealed significant improvements in glycemic control among intervention group 
     participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
-  biasScore = "Moderate",
+    comparison = `The study revealed significant improvements in glycemic control among intervention group 
+    participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
+    biasScore = "Moderate",
   effectivenessAnalysis = {
     intervention: "AI-Driven Monitoring",
     effectiveness: "Moderate"
@@ -108,6 +112,10 @@ const BlogPost = ({
             Study visualization of the automated insulin delivery system
           </figcaption>
         </figure>
+        <section className="mb-16">
+            <h2 className="text-2xl font-bold mb-6">Summary</h2>
+            <p>{summary}</p>
+          </section>
 
         {/* Study Design Section */}
         <section className="mb-16">
@@ -130,20 +138,32 @@ const BlogPost = ({
                   {studyDesign.studyType}
                 </span>
               </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-medium mb-2">Outcomes</h3>
+                <div className="flex flex-wrap gap-2">
+                  {studyDesign.outcomes.map((outcome, index) => (
+                    <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                      {outcome}
+                    </span>
+                  ))}
+                </div>
+              </div>  
               <div>
                 <h3 className="font-medium mb-2">Duration</h3>
                 <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
                   {studyDesign.duration}
                 </span>
               </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  
               <div>
                 <h3 className="font-medium mb-2">Size</h3>
                 <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
                   {studyDesign.size}
                 </span>
               </div>
+
             </div>
           </div>
         </section>
@@ -166,6 +186,7 @@ const BlogPost = ({
                 </span>
               </div>
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h3 className="font-medium mb-2">Geography</h3>
               <div className="flex flex-wrap gap-2">
@@ -186,6 +207,8 @@ const BlogPost = ({
                 ))}
               </div>
             </div>
+            
+            </div>
           </div>
         </section>
 
@@ -205,6 +228,10 @@ const BlogPost = ({
             <h2>Key Findings</h2>
             <p>{keyFindings}</p>
           </section>
+          <section>
+            <h2>Comparison with other Studies</h2>
+            <p>{comparison}</p>
+          </section>
         </section>
 
               {/* Bias Analysis Section - Now in its own centered row */}
@@ -213,7 +240,7 @@ const BlogPost = ({
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
                 <IconFileAnalytics className="w-6 h-6" />
-                <h2 className="text-xl font-bold">Bias Analysis Score</h2>
+                <h2 className="text-xl font-bold">Bias Analysis Score </h2>
               </div>
               <div className="flex justify-center">
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
@@ -239,6 +266,7 @@ const BlogPost = ({
                   {effectivenessAnalysis.intervention}
                 </span>
               </div>
+
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Effectiveness:</span>
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
@@ -272,6 +300,29 @@ const BlogPost = ({
           xCards={xCards}
           youtubeCards={youtubeCards}
         />
+         {/* Newsletter Section */}
+         <section className="max-w-4xl mx-auto px-4 py-16 text-center">
+          <h2 className="text-4xl font-bold mb-6">Stay informed. Stay ahead.</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
+          Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.
+          </p>
+          <div className="max-w-2xl mx-auto">
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+                required
+              />
+              <button
+                type="submit"
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </section>
       </main>
     </div>
   );
