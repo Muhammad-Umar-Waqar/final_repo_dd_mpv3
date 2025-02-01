@@ -49,14 +49,8 @@ export default function ArtificialPancreasTrialPost() {
       },
       // New journal reference data
       journalReference: {
-        title: "Recent Advances in Diabetes Management: A Comprehensive Review",
-        authors: "Smith J, Johnson M, Williams R",
-        journal: "J Diabetes Res",
-        year: "2024",
-        volume: "15",
-        issue: "3",
-        pages: "125-140",
-        doi: "10.1234/jdr.2024.15.3.125"
+
+        full: "Smith J, Johnson M, Williams R. Recent Advances in Diabetes Management: A Comprehensive Review. J Diabetes Res. 2024;15(3):125-140. doi:10.1234/jdr.2024.15.3.125"
       }
   };
 

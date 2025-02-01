@@ -41,6 +41,215 @@ yarn-error.log*
 
 ```
 
+# components\DiscussionsSection.js
+
+```js
+import React, { useState } from 'react';
+import { IconBrandReddit, IconBrandTwitter, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList } from '@tabler/icons-react';
+
+// Default discussion data
+const defaultDiscussionData = {
+  experts: [
+    {
+      title: 'Dr. Smith on Automated Insulin Delivery',
+      content: 'Expert analysis of the latest developments in AID systems',
+      date: '2h ago',
+      author: 'Dr. Jane Smith'
+    },
+    {
+      title: 'Endocrinologist Panel Discussion',
+      content: 'Leading experts discuss trial outcomes',
+      date: '1d ago',
+      author: 'Diabetes Care Journal'
+    }
+  ],
+  online: [
+    {
+      title: 'Community Discussion Thread',
+      content: 'Patient experiences with the new system',
+      date: '3h ago',
+      author: 'DiabetesForum'
+    },
+    {
+      title: 'Online Support Group',
+      content: 'Users sharing their experiences',
+      date: '5h ago',
+      author: 'T1D Community'
+    }
+  ],
+  reddit: [
+    {
+      title: 'r/diabetes Discussion',
+      content: 'User experiences and questions thread',
+      date: '4h ago',
+      author: 'r/diabetes'
+    },
+    {
+      title: 'AMA with Trial Participant',
+      content: 'First-hand experience sharing',
+      date: '1d ago',
+      author: 'r/T1D'
+    }
+  ],
+  studies: [
+    {
+      title: 'Related Clinical Trial Results',
+      content: 'Comparative analysis with similar studies',
+      date: '1d ago',
+      author: 'Clinical Trials Database'
+    },
+    {
+      title: 'Meta-analysis Publication',
+      content: 'Comprehensive review of AID systems',
+      date: '2d ago',
+      author: 'Diabetes Research'
+    }
+  ],
+  x: [
+    {
+      title: 'Trending Discussion',
+      content: 'Community reactions and insights',
+      date: '1h ago',
+      author: '@DiabetesExperts'
+    },
+    {
+      title: 'Expert Thread',
+      content: 'Key findings breakdown',
+      date: '3h ago',
+      author: '@ResearchNews'
+    }
+  ],
+  youtube: [
+    {
+      title: 'Trial Results Explained',
+      content: 'Video breakdown of key findings',
+      date: '6h ago',
+      author: 'DiabetesEducation'
+    },
+    {
+      title: 'Expert Analysis Video',
+      content: 'Detailed review of the system',
+      date: '1d ago',
+      author: 'MedTech Reviews'
+    }
+  ]
+};
+
+// Base Card Component
+const BaseDiscussionCard = ({ icon: Icon, type, title, content, author, date }) => (
+  <div className="bg-background border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
+    <div className="flex items-center gap-3 mb-4">
+      <Icon className="w-5 h-5" />
+      <span className="text-sm font-medium text-muted-foreground">{type}</span>
+    </div>
+    
+    <h3 className="text-lg font-semibold mb-2">{title}</h3>
+    <p className="text-muted-foreground mb-4">{content}</p>
+    
+    <div className="flex justify-between items-center text-sm text-muted-foreground">
+      <span>{author}</span>
+      <span>{date}</span>
+    </div>
+  </div>
+);
+
+// Specific Card Types
+export const ExpertCard = (props) => (
+  <BaseDiscussionCard {...props} icon={IconUsers} type="experts" />
+);
+
+export const OnlineCard = (props) => (
+  <BaseDiscussionCard {...props} icon={IconWorld} type="online" />
+);
+
+export const RedditCard = (props) => (
+  <BaseDiscussionCard {...props} icon={IconBrandReddit} type="reddit" />
+);
+
+export const StudyCard = (props) => (
+  <BaseDiscussionCard {...props} icon={IconClipboardList} type="studies" />
+);
+
+export const XCard = (props) => (
+  <BaseDiscussionCard {...props} icon={IconBrandTwitter} type="x" />
+);
+
+export const YoutubeCard = (props) => (
+  <BaseDiscussionCard {...props} icon={IconBrandYoutube} type="youtube" />
+);
+
+// Main Discussions Section Component
+const DiscussionsSection = ({ discussionData = defaultDiscussionData }) => {
+  const [activeTab, setActiveTab] = useState('all');
+
+  const tabs = [
+    { id: 'all', label: 'all' },
+    { id: 'experts', label: 'experts' },
+    { id: 'online', label: 'online' },
+    { id: 'reddit', label: 'reddit' },
+    { id: 'studies', label: 'studies' },
+    { id: 'x', label: 'x' },
+    { id: 'youtube', label: 'youtube' }
+  ];
+
+  const getDisplayCards = () => {
+    const data = discussionData || defaultDiscussionData;
+    
+    if (activeTab === 'all') {
+      return Object.entries(data).flatMap(([type, items]) => 
+        items.map(item => ({ ...item, type }))
+      );
+    }
+    return data[activeTab] || [];
+  };
+
+  const renderCard = (card) => {
+    const CardComponent = {
+      experts: ExpertCard,
+      online: OnlineCard,
+      reddit: RedditCard,
+      studies: StudyCard,
+      x: XCard,
+      youtube: YoutubeCard
+    }[card.type];
+
+    return CardComponent ? <CardComponent key={card.title} {...card} /> : null;
+  };
+
+  return (
+    <section className="prose prose-lg max-w-none mb-16">
+      <h2 className="text-3xl font-bold mb-8">Related and Discussions</h2>
+      
+      {/* Navigation Tabs */}
+      <div className="border-b border-border mb-8">
+        <nav className="flex space-x-8 overflow-x-auto">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`pb-4 px-1 font-medium text-sm transition-colors relative whitespace-nowrap ${
+                activeTab === tab.id
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {getDisplayCards().map(renderCard)}
+      </div>
+    </section>
+  );
+};
+
+export default DiscussionsSection;
+```
+
 # components\Hero.js
 
 ```js
@@ -393,13 +602,16 @@ export default NewsGrid;
 # components\post-template\index.js
 
 ```js
-// components/post-template/index.js
-import React from 'react';
-import { IconChevronUp, IconPhoto, IconFileAnalytics} from '@tabler/icons-react';
+import React, { useState } from 'react';
+import { IconChevronUp, IconPhoto, IconFileAnalytics, IconBook, IconClock } from '@tabler/icons-react';
+import DiscussionsSection from '../DiscussionsSection';
 
-const PostTemplate = ({
+
+const BlogPost = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
+  author = "Dr. Sarah Johnson",
   publishDate = "January 31, 2025",
+  readTime = "8 min read",
   studyDesign = {
     interventions: ["Continuous Monitoring", "Smart Insulin"],
     studyType: "Randomized Controlled Trial",
@@ -413,175 +625,251 @@ const PostTemplate = ({
     others: ["Type 1 Diabetes", "5+ years diagnosed"]
   },
   methodology = `The study employed a rigorous methodological framework to ensure data reliability and validity. 
-    Participants were randomly assigned to treatment groups using a computer-generated algorithm, with 
-    stratification by age and diabetes duration.`,
+    Participants were randomly assigned to treatment groups using a computer-generated algorithm.`,
   interventions = `The intervention protocol consisted of a multi-component diabetes management system integrating 
     continuous glucose monitoring with automated insulin delivery.`,
   keyFindings = `The study revealed significant improvements in glycemic control among intervention group 
-    participants. Key outcomes included a 35% reduction in hypoglycemic events and a 28% improvement 
-    in time-in-range glucose levels.`,
-    biasScore = "Moderate"
+    participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
+  biasScore = "Moderate",
+  effectivenessAnalysis = {
+    intervention: "AI-Driven Monitoring",
+    effectiveness: "Moderate"
+  },
+  journalReference = {
+    full: "daba daba daba"
+  },
+  discussionData
 }) => {
+  // Back to top button visibility state
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Handle scroll
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <div className="w-full min-h-screen bg-background">
+    <div className="min-h-screen bg-background">
       {/* Back to top button */}
-      <button 
-        className="fixed bottom-8 right-8 p-2 bg-background border border-border rounded-full shadow-lg hover:bg-secondary/10 transition-colors"
-        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      >
-        <IconChevronUp className="w-5 h-5 text-foreground" />
-      </button>
+      {showBackToTop && (
+        <button 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-8 right-8 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-colors z-50"
+        >
+          <IconChevronUp className="w-6 h-6" />
+        </button>
+      )}
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        <article className="prose prose-lg max-w-none">
-          {/* Article Header */}
-          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+        {/* Article Header */}
+        <header className="mb-16">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center">
+              <IconPhoto className="w-6 h-6 text-secondary" />
+            </div>
+            <div>
+              <h4 className="font-medium text-foreground">{author}</h4>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <time>{publishDate}</time>
+                <span>•</span>
+                <span className="flex items-center gap-1">
+                  <IconClock className="w-4 h-4" />
+                  {readTime}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             {title}
           </h1>
 
-          {/* Article Meta */}
-          <div className="flex flex-col gap-2 text-sm text-muted-foreground mb-12">
-            <div className="flex items-center gap-1">
-              Originally published by{" "}
-              <span className="text-primary">De Diabetes</span>
-            </div>
-            <time>{publishDate}</time>
+          <div className="flex flex-wrap gap-2">
+            {studyDesign.interventions.map((tag, index) => (
+              <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
+                {tag}
+              </span>
+            ))}
           </div>
+        </header>
 
-          {/* Featured Image */}
-          <div className="w-full aspect-[16/9] bg-muted rounded-lg mb-8">
-            <div className="w-full h-full flex items-center justify-center">
-              <IconPhoto className="w-12 h-12 text-border" />
-            </div>
+        {/* Featured Image */}
+        <figure className="mb-16">
+          <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
+            <IconPhoto className="w-12 h-12 text-muted-foreground" />
           </div>
+          <figcaption className="mt-2 text-sm text-muted-foreground text-center">
+            Study visualization of the automated insulin delivery system
+          </figcaption>
+        </figure>
 
-         
-          {/* Study Design Section */}
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-8">Study Design</h2>
-            
-            <div className="bg-secondary/5 rounded-lg p-8 space-y-6">
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Interventions:</span>
-                <div className="flex gap-3 flex-wrap">
+        {/* Study Design Section */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Study Design</h2>
+          <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-medium mb-2">Interventions</h3>
+                <div className="flex flex-wrap gap-2">
                   {studyDesign.interventions.map((intervention, index) => (
-                    <span key={index} className="bg-blue-100 text-blue-800 px-4 py-1 rounded-full">
+                    <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                       {intervention}
                     </span>
                   ))}
                 </div>
               </div>
-
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Study Type:</span>
-                <span className="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full">
+              <div>
+                <h3 className="font-medium mb-2">Study Type</h3>
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
                   {studyDesign.studyType}
                 </span>
               </div>
-
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Duration:</span>
-                <span className="bg-purple-100 text-purple-800 px-4 py-1 rounded-full">
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-medium mb-2">Duration</h3>
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
                   {studyDesign.duration}
                 </span>
               </div>
-
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Size:</span>
-                <span className="bg-red-100 text-red-800 px-4 py-1 rounded-full">
+              <div>
+                <h3 className="font-medium mb-2">Size</h3>
+                <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
                   {studyDesign.size}
                 </span>
               </div>
             </div>
-          </section>
+          </div>
+        </section>
 
-          {/* Study Population Section */}
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-8">Study Population</h2>
-            
-            <div className="bg-secondary/5 rounded-lg p-8 space-y-6">
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Age Range:</span>
-                <span className="bg-blue-100 text-blue-800 px-4 py-1 rounded-full">
+        {/* Study Population Section */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold mb-6">Study Population</h2>
+          <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-medium mb-2">Age Range</h3>
+                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                   {studyPopulation.ageRange}
                 </span>
               </div>
-
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Sex:</span>
-                <span className="bg-red-100 text-red-800 px-4 py-1 rounded-full">
+              <div>
+                <h3 className="font-medium mb-2">Sex</h3>
+                <span className="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm">
                   {studyPopulation.sex}
                 </span>
               </div>
-
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Geography:</span>
-                <div className="flex gap-3 flex-wrap">
-                  {studyPopulation.geography.map((location, index) => (
-                    <span key={index} className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
-                      {location}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <span className="text-foreground font-medium w-32">Others:</span>
-                <div className="flex gap-3 flex-wrap">
-                  {studyPopulation.others.map((item, index) => (
-                    <span key={index} className="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full">
-                      {item}
-                    </span>
-                  ))}
-                </div>
+            </div>
+            <div>
+              <h3 className="font-medium mb-2">Geography</h3>
+              <div className="flex flex-wrap gap-2">
+                {studyPopulation.geography.map((location, index) => (
+                  <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                    {location}
+                  </span>
+                ))}
               </div>
             </div>
+            <div>
+              <h3 className="font-medium mb-2">Other Criteria</h3>
+              <div className="flex flex-wrap gap-2">
+                {studyPopulation.others.map((criterion, index) => (
+                  <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                    {criterion}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Content Sections */}
+        <section className="prose prose-lg max-w-none mb-16">
+          <section>
+            <h2>Methodology</h2>
+            <p>{methodology}</p>
           </section>
 
-          {/* Methodology Section */}
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Methodology</h2>
-            <p className="text-foreground leading-relaxed mb-8">
-              {methodology}
-            </p>
+          <section>
+            <h2>Interventions</h2>
+            <p>{interventions}</p>
           </section>
 
-          {/* Interventions Section */}
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Interventions</h2>
-            <p className="text-foreground leading-relaxed mb-8">
-              {interventions}
-            </p>
+          <section>
+            <h2>Key Findings</h2>
+            <p>{keyFindings}</p>
           </section>
+        </section>
 
-          {/* Key Findings Section */}
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Key Findings</h2>
-            <p className="text-foreground leading-relaxed mb-8">
-              {keyFindings}
-            </p>
-          </section>
-           {/* Bias Analysis Score Section */}
-           <section className="mt-12 max-w-2xl mx-auto">
-            <div className="bg-secondary/5 rounded-lg p-8">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <IconFileAnalytics className="w-6 h-6 text-foreground" />
-                  <h2 className="text-2xl font-bold m-0">Bias Analysis Score</h2>
-                </div>
-                <span className="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full text-sm">
+              {/* Bias Analysis Section - Now in its own centered row */}
+              <section className="mb-16">
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-secondary/5 rounded-lg p-6">
+              <div className="flex items-center gap-2 mb-4 justify-center">
+                <IconFileAnalytics className="w-6 h-6" />
+                <h2 className="text-xl font-bold">Bias Analysis Score</h2>
+              </div>
+              <div className="flex justify-center">
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
                   {biasScore}
                 </span>
               </div>
             </div>
-          </section>
-        </article>
+          </div>
+        </section>
+
+        {/* Effectiveness Analysis Section */}
+        <section className="mb-16">
+        <div className="flex items-center gap-2 mb-4" >
+            <IconFileAnalytics className="w-6 h-6" />
+            <h2 className="text-xl font-bold mb-4 gap-2">Effectiveness Analysis</h2>
+        </div>
+          
+
+            <div className="space-y-5 bg-secondary/5 rounded-lg p-6  ">
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Intervention:</span>
+                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                  {effectivenessAnalysis.intervention}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Effectiveness:</span>
+                <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+                  {effectivenessAnalysis.effectiveness}
+                </span>
+              </div>
+            
+          </div>
+        </section>
+
+        <section className="prose prose-lg max-w-none mb-16">
+          
+          <div className="flex items-center gap-2 mb-4">
+            <IconBook className="w-6 h-6" />
+            <h2 className="text-xl font-bold">Journal Reference</h2>
+          </div>
+            
+            <p className="text-foreground">
+
+              <span className="italic">{journalReference.full}</span>
+            </p>
+        </section>
+        
+
+        {/* Discussions Section */}
+        <DiscussionsSection discussionData={discussionData} />
       </main>
     </div>
   );
 };
 
-export default PostTemplate;
+export default BlogPost;
 ```
 
 # components\SearchSection.js
@@ -769,7 +1057,17 @@ export default function ArtificialPancreasTrialPost() {
       improvement in time-in-range glucose levels compared to the control group. Additionally, HbA1c levels 
       showed a sustained reduction of 0.8% (9 mmol/mol) from baseline in the intervention group versus 0.3% 
       (3 mmol/mol) in the control group.`,
-      biasScore: "Moderate"
+      biasScore: "Moderate",
+      // New effectiveness analysis data
+    effectivenessAnalysis: {
+        intervention: "AI-Driven Monitoring",
+        effectiveness: "Moderate"
+      },
+      // New journal reference data
+      journalReference: {
+
+        full: "Smith J, Johnson M, Williams R. Recent Advances in Diabetes Management: A Comprehensive Review. J Diabetes Res. 2024;15(3):125-140. doi:10.1234/jdr.2024.15.3.125"
+      }
   };
 
   return (
