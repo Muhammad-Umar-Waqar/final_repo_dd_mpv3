@@ -45,95 +45,7 @@ yarn-error.log*
 
 ```js
 import React, { useState } from 'react';
-import { IconBrandReddit, IconBrandTwitter, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList } from '@tabler/icons-react';
-
-// Default discussion data
-const defaultDiscussionData = {
-  experts: [
-    {
-      title: 'Dr. Smith on Automated Insulin Delivery',
-      content: 'Expert analysis of the latest developments in AID systems',
-      date: '2h ago',
-      author: 'Dr. Jane Smith'
-    },
-    {
-      title: 'Endocrinologist Panel Discussion',
-      content: 'Leading experts discuss trial outcomes',
-      date: '1d ago',
-      author: 'Diabetes Care Journal'
-    }
-  ],
-  online: [
-    {
-      title: 'Community Discussion Thread',
-      content: 'Patient experiences with the new system',
-      date: '3h ago',
-      author: 'DiabetesForum'
-    },
-    {
-      title: 'Online Support Group',
-      content: 'Users sharing their experiences',
-      date: '5h ago',
-      author: 'T1D Community'
-    }
-  ],
-  reddit: [
-    {
-      title: 'r/diabetes Discussion',
-      content: 'User experiences and questions thread',
-      date: '4h ago',
-      author: 'r/diabetes'
-    },
-    {
-      title: 'AMA with Trial Participant',
-      content: 'First-hand experience sharing',
-      date: '1d ago',
-      author: 'r/T1D'
-    }
-  ],
-  studies: [
-    {
-      title: 'Related Clinical Trial Results',
-      content: 'Comparative analysis with similar studies',
-      date: '1d ago',
-      author: 'Clinical Trials Database'
-    },
-    {
-      title: 'Meta-analysis Publication',
-      content: 'Comprehensive review of AID systems',
-      date: '2d ago',
-      author: 'Diabetes Research'
-    }
-  ],
-  x: [
-    {
-      title: 'Trending Discussion',
-      content: 'Community reactions and insights',
-      date: '1h ago',
-      author: '@DiabetesExperts'
-    },
-    {
-      title: 'Expert Thread',
-      content: 'Key findings breakdown',
-      date: '3h ago',
-      author: '@ResearchNews'
-    }
-  ],
-  youtube: [
-    {
-      title: 'Trial Results Explained',
-      content: 'Video breakdown of key findings',
-      date: '6h ago',
-      author: 'DiabetesEducation'
-    },
-    {
-      title: 'Expert Analysis Video',
-      content: 'Detailed review of the system',
-      date: '1d ago',
-      author: 'MedTech Reviews'
-    }
-  ]
-};
+import { IconBrandReddit, IconBrandX, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList } from '@tabler/icons-react';
 
 // Base Card Component
 const BaseDiscussionCard = ({ icon: Icon, type, title, content, author, date }) => (
@@ -171,7 +83,7 @@ export const StudyCard = (props) => (
 );
 
 export const XCard = (props) => (
-  <BaseDiscussionCard {...props} icon={IconBrandTwitter} type="x" />
+  <BaseDiscussionCard {...props} icon={IconBrandX} type="x" />
 );
 
 export const YoutubeCard = (props) => (
@@ -179,7 +91,14 @@ export const YoutubeCard = (props) => (
 );
 
 // Main Discussions Section Component
-const DiscussionsSection = ({ discussionData = defaultDiscussionData }) => {
+const DiscussionsSection = ({ 
+  expertCards = [],
+  onlineCards = [],
+  redditCards = [],
+  studyCards = [],
+  xCards = [],
+  youtubeCards = []
+}) => {
   const [activeTab, setActiveTab] = useState('all');
 
   const tabs = [
@@ -193,14 +112,27 @@ const DiscussionsSection = ({ discussionData = defaultDiscussionData }) => {
   ];
 
   const getDisplayCards = () => {
-    const data = discussionData || defaultDiscussionData;
-    
     if (activeTab === 'all') {
-      return Object.entries(data).flatMap(([type, items]) => 
-        items.map(item => ({ ...item, type }))
-      );
+      return [
+        ...expertCards.map(card => ({ ...card, type: 'experts' })),
+        ...onlineCards.map(card => ({ ...card, type: 'online' })),
+        ...redditCards.map(card => ({ ...card, type: 'reddit' })),
+        ...studyCards.map(card => ({ ...card, type: 'studies' })),
+        ...xCards.map(card => ({ ...card, type: 'x' })),
+        ...youtubeCards.map(card => ({ ...card, type: 'youtube' }))
+      ];
     }
-    return data[activeTab] || [];
+
+    const cardMap = {
+      experts: expertCards,
+      online: onlineCards,
+      reddit: redditCards,
+      studies: studyCards,
+      x: xCards,
+      youtube: youtubeCards
+    };
+
+    return cardMap[activeTab] || [];
   };
 
   const renderCard = (card) => {
@@ -638,7 +570,12 @@ const BlogPost = ({
   journalReference = {
     full: "daba daba daba"
   },
-  discussionData
+  expertCards = [],
+  onlineCards = [],
+  redditCards = [],
+  studyCards = [],
+  xCards = [],
+  youtubeCards = []
 }) => {
   // Back to top button visibility state
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -863,7 +800,14 @@ const BlogPost = ({
         
 
         {/* Discussions Section */}
-        <DiscussionsSection discussionData={discussionData} />
+        <DiscussionsSection
+          expertCards={expertCards}
+          onlineCards={onlineCards}
+          redditCards={redditCards}
+          studyCards={studyCards}
+          xCards={xCards}
+          youtubeCards={youtubeCards}
+        />
       </main>
     </div>
   );
@@ -1057,23 +1001,105 @@ export default function ArtificialPancreasTrialPost() {
       improvement in time-in-range glucose levels compared to the control group. Additionally, HbA1c levels 
       showed a sustained reduction of 0.8% (9 mmol/mol) from baseline in the intervention group versus 0.3% 
       (3 mmol/mol) in the control group.`,
-      biasScore: "Moderate",
-      // New effectiveness analysis data
+    biasScore: "Moderate",
     effectivenessAnalysis: {
-        intervention: "AI-Driven Monitoring",
-        effectiveness: "Moderate"
+      intervention: "AI-Driven Monitoring",
+      effectiveness: "Moderate"
+    },
+    journalReference: {
+      full: "Smith J, Johnson M, Williams R. Recent Advances in Diabetes Management: A Comprehensive Review. J Diabetes Res. 2024;15(3):125-140. doi:10.1234/jdr.2024.15.3.125"
+    },
+    // Discussion cards - all types included with dummy data
+    expertCards: [
+      {
+        title: "Expert Analysis of AID Systems",
+        content: "In-depth review of the latest automated insulin delivery developments",
+        date: "2h ago",
+        author: "Dr. Sarah Chen"
       },
-      // New journal reference data
-      journalReference: {
-
-        full: "Smith J, Johnson M, Williams R. Recent Advances in Diabetes Management: A Comprehensive Review. J Diabetes Res. 2024;15(3):125-140. doi:10.1234/jdr.2024.15.3.125"
+      {
+        title: "Clinical Perspective on Trial Results",
+        content: "Key implications for diabetes management practice",
+        date: "1d ago",
+        author: "Prof. Michael Roberts"
       }
+    ],
+    onlineCards: [
+      {
+        title: "Patient Experience Forum",
+        content: "Real-world feedback from system users",
+        date: "3h ago",
+        author: "T1D Support Network"
+      },
+      {
+        title: "Healthcare Provider Discussion",
+        content: "Implementation strategies and clinical observations",
+        date: "6h ago",
+        author: "Diabetes Care Community"
+      }
+    ],
+    redditCards: [
+      {
+        title: "r/diabetes Tech Discussion",
+        content: "Community insights on the trial results",
+        date: "4h ago",
+        author: "r/diabetes"
+      },
+      {
+        title: "Patient AMA Thread",
+        content: "Trial participant sharing experiences",
+        date: "1d ago",
+        author: "r/T1D"
+      }
+    ],
+    studyCards: [
+      {
+        title: "Comparative Analysis",
+        content: "How this trial compares to previous AID studies",
+        date: "1d ago",
+        author: "Diabetes Research Institute"
+      },
+      {
+        title: "Meta-analysis Update",
+        content: "Integration of new findings with existing research",
+        date: "2d ago",
+        author: "Clinical Trials Database"
+      }
+    ],
+    xCards: [
+      {
+        title: "Research Impact Thread",
+        content: "Expert commentary on trial implications",
+        date: "1h ago",
+        author: "@DiabetesExperts"
+      },
+      {
+        title: "Healthcare Policy Discussion",
+        content: "Implications for treatment guidelines",
+        date: "5h ago",
+        author: "@HealthPolicy"
+      }
+    ],
+    youtubeCards: [
+      {
+        title: "Trial Results Explained",
+        content: "Visual breakdown of key findings",
+        date: "6h ago",
+        author: "DiabetesEd Channel"
+      },
+      {
+        title: "Patient Success Stories",
+        content: "Video testimonials from trial participants",
+        date: "1d ago",
+        author: "Medical Tech Reviews"
+      }
+    ]
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>{postData.title} - Dediabetes</title>
+        <title>{`${postData.title} - Dexdiabetes`}</title>
         <meta 
           name="description" 
           content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control." 

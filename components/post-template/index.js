@@ -34,7 +34,12 @@ const BlogPost = ({
   journalReference = {
     full: "daba daba daba"
   },
-  discussionData
+  expertCards = [],
+  onlineCards = [],
+  redditCards = [],
+  studyCards = [],
+  xCards = [],
+  youtubeCards = []
 }) => {
   // Back to top button visibility state
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -259,7 +264,14 @@ const BlogPost = ({
         
 
         {/* Discussions Section */}
-        <DiscussionsSection discussionData={discussionData} />
+        <DiscussionsSection
+          expertCards={expertCards}
+          onlineCards={onlineCards}
+          redditCards={redditCards}
+          studyCards={studyCards}
+          xCards={xCards}
+          youtubeCards={youtubeCards}
+        />
       </main>
     </div>
   );

@@ -1,93 +1,5 @@
 import React, { useState } from 'react';
-import { IconBrandReddit, IconBrandTwitter, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList } from '@tabler/icons-react';
-
-// Default discussion data
-const defaultDiscussionData = {
-  experts: [
-    {
-      title: 'Dr. Smith on Automated Insulin Delivery',
-      content: 'Expert analysis of the latest developments in AID systems',
-      date: '2h ago',
-      author: 'Dr. Jane Smith'
-    },
-    {
-      title: 'Endocrinologist Panel Discussion',
-      content: 'Leading experts discuss trial outcomes',
-      date: '1d ago',
-      author: 'Diabetes Care Journal'
-    }
-  ],
-  online: [
-    {
-      title: 'Community Discussion Thread',
-      content: 'Patient experiences with the new system',
-      date: '3h ago',
-      author: 'DiabetesForum'
-    },
-    {
-      title: 'Online Support Group',
-      content: 'Users sharing their experiences',
-      date: '5h ago',
-      author: 'T1D Community'
-    }
-  ],
-  reddit: [
-    {
-      title: 'r/diabetes Discussion',
-      content: 'User experiences and questions thread',
-      date: '4h ago',
-      author: 'r/diabetes'
-    },
-    {
-      title: 'AMA with Trial Participant',
-      content: 'First-hand experience sharing',
-      date: '1d ago',
-      author: 'r/T1D'
-    }
-  ],
-  studies: [
-    {
-      title: 'Related Clinical Trial Results',
-      content: 'Comparative analysis with similar studies',
-      date: '1d ago',
-      author: 'Clinical Trials Database'
-    },
-    {
-      title: 'Meta-analysis Publication',
-      content: 'Comprehensive review of AID systems',
-      date: '2d ago',
-      author: 'Diabetes Research'
-    }
-  ],
-  x: [
-    {
-      title: 'Trending Discussion',
-      content: 'Community reactions and insights',
-      date: '1h ago',
-      author: '@DiabetesExperts'
-    },
-    {
-      title: 'Expert Thread',
-      content: 'Key findings breakdown',
-      date: '3h ago',
-      author: '@ResearchNews'
-    }
-  ],
-  youtube: [
-    {
-      title: 'Trial Results Explained',
-      content: 'Video breakdown of key findings',
-      date: '6h ago',
-      author: 'DiabetesEducation'
-    },
-    {
-      title: 'Expert Analysis Video',
-      content: 'Detailed review of the system',
-      date: '1d ago',
-      author: 'MedTech Reviews'
-    }
-  ]
-};
+import { IconBrandReddit, IconBrandX, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList } from '@tabler/icons-react';
 
 // Base Card Component
 const BaseDiscussionCard = ({ icon: Icon, type, title, content, author, date }) => (
@@ -125,7 +37,7 @@ export const StudyCard = (props) => (
 );
 
 export const XCard = (props) => (
-  <BaseDiscussionCard {...props} icon={IconBrandTwitter} type="x" />
+  <BaseDiscussionCard {...props} icon={IconBrandX} type="x" />
 );
 
 export const YoutubeCard = (props) => (
@@ -133,7 +45,14 @@ export const YoutubeCard = (props) => (
 );
 
 // Main Discussions Section Component
-const DiscussionsSection = ({ discussionData = defaultDiscussionData }) => {
+const DiscussionsSection = ({ 
+  expertCards = [],
+  onlineCards = [],
+  redditCards = [],
+  studyCards = [],
+  xCards = [],
+  youtubeCards = []
+}) => {
   const [activeTab, setActiveTab] = useState('all');
 
   const tabs = [
@@ -147,14 +66,23 @@ const DiscussionsSection = ({ discussionData = defaultDiscussionData }) => {
   ];
 
   const getDisplayCards = () => {
-    const data = discussionData || defaultDiscussionData;
-    
+    // Map each card array to include its type
+    const allCardsWithTypes = {
+      experts: expertCards.map(card => ({ ...card, type: 'experts' })),
+      online: onlineCards.map(card => ({ ...card, type: 'online' })),
+      reddit: redditCards.map(card => ({ ...card, type: 'reddit' })),
+      studies: studyCards.map(card => ({ ...card, type: 'studies' })),
+      x: xCards.map(card => ({ ...card, type: 'x' })),
+      youtube: youtubeCards.map(card => ({ ...card, type: 'youtube' }))
+    };
+
+    // If "all" is selected, return all cards
     if (activeTab === 'all') {
-      return Object.entries(data).flatMap(([type, items]) => 
-        items.map(item => ({ ...item, type }))
-      );
+      return Object.values(allCardsWithTypes).flat();
     }
-    return data[activeTab] || [];
+
+    // Return only the cards for the selected tab
+    return allCardsWithTypes[activeTab] || [];
   };
 
   const renderCard = (card) => {
