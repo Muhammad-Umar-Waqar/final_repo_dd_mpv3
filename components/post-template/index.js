@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileAnalytics, IconBook, IconClock } from '@tabler/icons-react';
+import { IconChevronUp, IconPhoto, IconFileAnalytics, IconFileTextAi, IconClock } from '@tabler/icons-react';
 import DiscussionsSection from '../DiscussionsSection.js';
-
+import RelatedPosts from './RelatedPosts';
 
 const BlogPost = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
@@ -43,7 +43,8 @@ const BlogPost = ({
   redditCards = [],
   studyCards = [],
   xCards = [],
-  youtubeCards = []
+  youtubeCards = [],
+  relatedPosts = []
 }) => {
   // Back to top button visibility state
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -239,7 +240,7 @@ const BlogPost = ({
           <div className="max-w-2xl mx-auto">
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
-                <IconFileAnalytics className="w-6 h-6" />
+                <IconFileTextAi className="w-6 h-6" />
                 <h2 className="text-xl font-bold">Bias Analysis Score </h2>
               </div>
               <div className="flex justify-center">
@@ -251,17 +252,17 @@ const BlogPost = ({
           </div>
         </section>
 
-        {/* Effectiveness Analysis Section */}
-        <section className="mb-16">
-        <div className="flex items-center gap-2 mb-4" >
-            <IconFileAnalytics className="w-6 h-6" />
-            <h2 className="text-xl font-bold mb-4 gap-2">Effectiveness Analysis</h2>
-        </div>
+        <section className="prose prose-lg max-w-none mb-16">
+          <section>
+            <div classname="flex items-center gap-2 mb-4 justify-center">
+      
+            <h2>Effectiveness Analysis</h2></div>
           
-
+            
             <div className="space-y-5 bg-secondary/5 rounded-lg p-6  ">
+            
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Intervention:</span>
+              <span className="text-muted-foreground">Intervention:</span>
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                   {effectivenessAnalysis.intervention}
                 </span>
@@ -275,19 +276,54 @@ const BlogPost = ({
               </div>
             
           </div>
+          </section>
+
+          <section>
+            <h2>Interventions</h2>
+            <p>{interventions}</p>
+          </section>
+
+          <section>
+            <h2>Key Findings</h2>
+            <p>{keyFindings}</p>
+          </section>
+          <section>
+            <h2>Comparison with other Studies</h2>
+            <p>{comparison}</p>
+          </section>
+        </section>
+
+        {/* Effectiveness Analysis Section */}
+        <section className="mb-16">
+        <div className="flex items-center gap-2 mb-4" >
+            
+            <h2 className="text-xl font-bold mb-4 gap-2">Effectiveness Analysis</h2>
+        </div>
+          
+
         </section>
 
         <section className="prose prose-lg max-w-none mb-16">
           
-          <div className="flex items-center gap-2 mb-4">
-            <IconBook className="w-6 h-6" />
-            <h2 className="text-xl font-bold">Journal Reference</h2>
-          </div>
-            
-            <p className="text-foreground">
 
-              <span className="italic">{journalReference.full}</span>
-            </p>
+            
+
+        </section>
+        <section className="prose prose-lg max-w-none mb-16">
+        <section>
+
+            <h2>Interventions</h2>
+            <p>{interventions}</p>
+          </section>
+
+          <section>
+            <h2>Journal Reference</h2>
+            <p className="italic">{journalReference.full}</p>
+          </section>
+
+
+
+          
         </section>
         
 
@@ -323,7 +359,10 @@ const BlogPost = ({
             </form>
           </div>
         </section>
+        {/* Add this before the Newsletter section */}
+      <RelatedPosts posts={relatedPosts} />
       </main>
+      
     </div>
   );
 };

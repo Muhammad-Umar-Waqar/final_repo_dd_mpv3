@@ -835,6 +835,29 @@ const BlogPost = ({
           xCards={xCards}
           youtubeCards={youtubeCards}
         />
+         {/* Newsletter Section */}
+         <section className="max-w-4xl mx-auto px-4 py-16 text-center">
+          <h2 className="text-4xl font-bold mb-6">Stay informed. Stay ahead.</h2>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
+          Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.
+          </p>
+          <div className="max-w-2xl mx-auto">
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+                required
+              />
+              <button
+                type="submit"
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </section>
       </main>
     </div>
   );

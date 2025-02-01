@@ -125,6 +125,26 @@ export default function ArtificialPancreasTrialPost() {
         outboundLink: "https://example.com/expert-analysis",
         author: "Medical Tech Reviews"
       }
+    ],
+    relatedPosts: [
+      {
+        title: "Impact of CGM Systems on Quality of Life: A 12-Month Study",
+        date: "January 25, 2025",
+        description: "A comprehensive analysis of how continuous glucose monitoring systems affect daily living, stress levels, and overall patient satisfaction in type 1 diabetes management.",
+        slug: "cgm-quality-of-life-study"
+      },
+      {
+        title: "Comparing Smart Insulin Pens vs Traditional Insulin Delivery",
+        date: "January 28, 2025",
+        description: "New research evaluates the effectiveness of smart insulin pens against conventional methods, examining glycemic control and user experience outcomes.",
+        slug: "smart-insulin-pens-comparison"
+      },
+      {
+        title: "Machine Learning in Diabetes Care: Predictive Analytics",
+        date: "January 30, 2025",
+        description: "How artificial intelligence and machine learning algorithms are revolutionizing blood glucose prediction and personalized treatment recommendations.",
+        slug: "ml-diabetes-predictive-analytics"
+      }
     ]
   };
 
