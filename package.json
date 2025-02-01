@@ -6,13 +6,17 @@
     "start": "next start"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.0.2",
-    "lucide-react": "^0.474.0",
+    "@tabler/icons-react": "^3.29.0",
     "next": "latest",
-    "postcss": "^8.5.1",
     "react": "latest",
-    "react-dom": "latest",
-    "tailwindcss": "^4.0.2"
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "engines": {
     "node": ">=18"

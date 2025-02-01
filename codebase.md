@@ -41,6 +41,608 @@ yarn-error.log*
 
 ```
 
+# components\Hero.js
+
+```js
+// components/Hero.js
+const Hero = () => {
+  return (
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="text-center">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6">
+          <span className="text-primary">Stay informed.</span>{' '}
+          <span className="text-primary">Stay ahead.</span>
+        </h1>
+        
+        <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
+          Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates 
+          in diabetes care—delivered straight to your inbox.
+        </p>
+
+        {/* Subscription Form */}
+        <div className="max-w-2xl mx-auto">
+          <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className="flex-1 px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+              required
+            />
+            <button
+              type="submit"
+              className="px-8 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            >
+              Subscribe
+            </button>
+          </form>
+          <p className="mt-4 text-sm text-muted-foreground">
+            We respect your privacy. Unsubscribe at any time.
+          </p>
+        </div>
+      </div>
+    </main>
+  );
+};
+
+export default Hero;
+```
+
+# components\IntroSection.js
+
+```js
+// components/IntroSection.js
+const IntroSection = () => {
+    return (
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-8">
+            Bringing you the latest advancements in diabetes care and research.
+          </h2>
+          
+          <p className="text-xl sm:text-2xl text-muted-foreground max-w-4xl mx-auto">
+            Find the latest research, treatments, and insights—all in one place.
+          </p>
+        </div>
+      </section>
+    );
+  };
+  
+  export default IntroSection;
+```
+
+# components\Navbar.js
+
+```js
+import React, { useState } from 'react';
+import { 
+  IconMenu2, 
+  IconSearch, 
+  IconSun, 
+  IconMoon, 
+  IconX, 
+  IconChevronDown, 
+  IconChevronUp 
+} from '@tabler/icons-react';
+import Image from 'next/image';
+
+const menuItems = [
+  {
+    title: 'OUTCOMES',
+    children: ['Clinical Outcomes', 'Safety Outcomes', 'Patient-Reported Outcomes']
+  },
+  {
+    title: 'INTERVENTIONS',
+    children: ['Drug Interventions', 'Device Interventions', 'Behavioral Interventions']
+  },
+  {
+    title: 'PARTICIPANTS',
+    children: ['Inclusion Criteria', 'Exclusion Criteria', 'Demographics']
+  },
+  {
+    title: 'TRIAL TYPE',
+    children: ['Randomized', 'Non-Randomized', 'Observational']
+  },
+  {
+    title: 'TRIAL SIZE',
+    children: ['Small (<100)', 'Medium (100-500)', 'Large (>500)']
+  },
+  {
+    title: 'TRIAL DURATION',
+    children: ['Short-term', 'Medium-term', 'Long-term']
+  },
+  {
+    title: 'GEOGRAPHY',
+    children: ['North America', 'Europe', 'Asia', 'Other Regions']
+  },
+  {
+    title: 'YEAR',
+    children: ['2024', '2023', '2022', 'Earlier']
+  },
+  {
+    title: 'SPONSORSHIP',
+    children: ['Industry', 'Government', 'Academic', 'Other']
+  }
+];
+
+export default function Navbar({ isDarkMode, toggleDarkMode }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [openSection, setOpenSection] = useState(null);
+
+  const toggleSection = (index) => {
+    setOpenSection(openSection === index ? null : index);
+  };
+
+  return (
+    <nav className="border-b border-border bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <div className="flex items-center">
+            <Image
+              src="/logo1.png"
+              alt="DeXdiabetes Logo"
+              width={150}
+              height={40}
+              className="h-8 w-auto"
+              priority
+            />
+          </div>
+
+          {/* Navigation Icons */}
+          <div className="flex items-center gap-4">
+            <button 
+              className="p-2 rounded-full hover:bg-secondary text-foreground"
+              aria-label="Search"
+            >
+              <IconSearch className="w-5 h-5" />
+            </button>
+            <button 
+              className="p-2 rounded-full hover:bg-secondary text-foreground"
+              onClick={toggleDarkMode}
+              aria-label="Toggle theme"
+            >
+              {isDarkMode ? (
+                <IconSun className="w-5 h-5" />
+              ) : (
+                <IconMoon className="w-5 h-5" />
+              )}
+            </button>
+            <button 
+              className="p-2 rounded-full hover:bg-secondary text-foreground"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? (
+                <IconX className="w-5 h-5" />
+              ) : (
+                <IconMenu2 className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Dropdown Menu */}
+        {isOpen && (
+          <div className="absolute right-0 w-full md:w-64 bg-background border-b border-l border-border shadow-lg">
+            <div className="p-2">
+              {menuItems.map((item, index) => (
+                <div key={index} className="border-b border-border last:border-0">
+                  <button
+                    onClick={() => toggleSection(index)}
+                    className="w-full px-3 py-2 flex justify-between items-center text-foreground hover:text-primary hover:bg-secondary/50"
+                  >
+                    <span>{item.title}</span>
+                    {openSection === index ? (
+                      <IconChevronUp className="w-4 h-4" />
+                    ) : (
+                      <IconChevronDown className="w-4 h-4" />
+                    )}
+                  </button>
+                  
+                  {openSection === index && (
+                    <div className="pl-6 space-y-2 py-2 bg-secondary/10">
+                      {item.children.map((child, childIndex) => (
+                        <a
+                          key={childIndex}
+                          href="#"
+                          className="block px-3 py-1 text-sm text-muted-foreground hover:text-primary hover:bg-secondary/50"
+                        >
+                          {child}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              <a
+                href="#"
+                className="block px-3 py-2 text-foreground hover:text-primary hover:bg-secondary/50 font-semibold mt-2"
+              >
+                APPLY (#) →
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
+}
+```
+
+# components\NewsGrid.js
+
+```js
+import React from 'react';
+import { IconClock } from '@tabler/icons-react';
+
+const NewsCard = ({ category, title, description, timeToRead }) => {
+  return (
+    <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="aspect-[16/9] bg-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" className="w-full h-full">
+          <rect width="400" height="225" fill="#f5f5f5"/>
+          <rect x="40" y="60" width="320" height="10" rx="2" fill="#e0e0e0"/>
+          <rect x="40" y="85" width="280" height="10" rx="2" fill="#e0e0e0"/>
+          <rect x="40" y="110" width="320" height="10" rx="2" fill="#e0e0e0"/>
+          <rect x="40" y="135" width="200" height="10" rx="2" fill="#e0e0e0"/>
+          <circle cx="200" cy="90" r="30" fill="#e0e0e0"/>
+          <path d="M190 90 h20 m-10 -10 v20" stroke="#f5f5f5" stroke-width="2"/>
+          <text x="200" y="180" font-family="Arial, sans-serif" font-size="12" fill="#cccccc" text-anchor="middle">
+            Image placeholder
+          </text>
+        </svg>
+      </div>
+      <div className="p-6">
+        <div className="mb-3">
+          <span className="text-xs font-medium text-primary px-2.5 py-1 bg-primary/10 rounded-full">
+            {category}
+          </span>
+        </div>
+        <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
+          {title}
+        </h3>
+        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+          {description}
+        </p>
+        <div className="flex items-center text-sm text-muted-foreground">
+          <IconClock className="w-4 h-4 mr-1" />
+          <span>{timeToRead} min read</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const NewsGrid = () => {
+  const newsItems = [
+    {
+      category: 'Clinical Trial',
+      title: 'Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial',
+      description: 'Recent study demonstrates significant improvements in glycemic control and weight management in patients with type 2 diabetes.',
+      timeToRead: 8
+    },
+    {
+      category: 'Research',
+      title: 'Artificial Pancreas Technology: A Game-Changer in T1D Management',
+      description: 'Breakthrough in closed-loop insulin delivery systems shows improved outcomes in real-world settings.',
+      timeToRead: 6
+    },
+    {
+      category: 'Treatment',
+      title: 'New Guidelines for Managing Post-Meal Blood Sugar Spikes',
+      description: 'Updated recommendations focus on personalized approaches to postprandial glucose management.',
+      timeToRead: 5
+    },
+    {
+      category: 'Prevention',
+      title: 'Early Intervention Strategies in Prediabetes Show Long-term Benefits',
+      description: 'Longitudinal study reveals the importance of lifestyle modifications in preventing diabetes progression.',
+      timeToRead: 7
+    },
+    {
+      category: 'Technology',
+      title: 'Smart Contact Lenses for Continuous Glucose Monitoring',
+      description: 'Innovative wearable technology promises non-invasive glucose monitoring for diabetes patients.',
+      timeToRead: 4
+    },
+    {
+      category: 'Lifestyle',
+      title: 'Mediterranean Diet and Diabetes Management',
+      description: 'New research confirms the benefits of Mediterranean dietary patterns in glycemic control.',
+      timeToRead: 6
+    }
+  ];
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {newsItems.map((item, index) => (
+          <NewsCard key={index} {...item} />
+        ))}
+      </div>
+      
+      {/* Pagination */}
+      <div className="flex justify-center items-center space-x-2 mt-12">
+        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+          Previous
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90">
+          1
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          2
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          3
+        </button>
+        <span className="px-3 py-2 text-sm text-muted-foreground">...</span>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          8
+        </button>
+        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          Next
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default NewsGrid;
+```
+
+# components\post-template\index.js
+
+```js
+// components/post-template/index.js
+import React from 'react';
+import { IconChevronUp, IconPhoto, IconFileAnalytics} from '@tabler/icons-react';
+
+const PostTemplate = ({
+  title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
+  publishDate = "January 31, 2025",
+  studyDesign = {
+    interventions: ["Continuous Monitoring", "Smart Insulin"],
+    studyType: "Randomized Controlled Trial",
+    duration: "24 Months",
+    size: "500 Participants"
+  },
+  studyPopulation = {
+    ageRange: "18-65 years",
+    sex: "All genders",
+    geography: ["Multi-center US", "Europe"],
+    others: ["Type 1 Diabetes", "5+ years diagnosed"]
+  },
+  methodology = `The study employed a rigorous methodological framework to ensure data reliability and validity. 
+    Participants were randomly assigned to treatment groups using a computer-generated algorithm, with 
+    stratification by age and diabetes duration.`,
+  interventions = `The intervention protocol consisted of a multi-component diabetes management system integrating 
+    continuous glucose monitoring with automated insulin delivery.`,
+  keyFindings = `The study revealed significant improvements in glycemic control among intervention group 
+    participants. Key outcomes included a 35% reduction in hypoglycemic events and a 28% improvement 
+    in time-in-range glucose levels.`,
+    biasScore = "Moderate"
+}) => {
+  return (
+    <div className="w-full min-h-screen bg-background">
+      {/* Back to top button */}
+      <button 
+        className="fixed bottom-8 right-8 p-2 bg-background border border-border rounded-full shadow-lg hover:bg-secondary/10 transition-colors"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      >
+        <IconChevronUp className="w-5 h-5 text-foreground" />
+      </button>
+
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        <article className="prose prose-lg max-w-none">
+          {/* Article Header */}
+          <h1 className="text-4xl md:text-5xl font-bold text-primary mb-6">
+            {title}
+          </h1>
+
+          {/* Article Meta */}
+          <div className="flex flex-col gap-2 text-sm text-muted-foreground mb-12">
+            <div className="flex items-center gap-1">
+              Originally published by{" "}
+              <span className="text-primary">De Diabetes</span>
+            </div>
+            <time>{publishDate}</time>
+          </div>
+
+          {/* Featured Image */}
+          <div className="w-full aspect-[16/9] bg-muted rounded-lg mb-8">
+            <div className="w-full h-full flex items-center justify-center">
+              <IconPhoto className="w-12 h-12 text-border" />
+            </div>
+          </div>
+
+         
+          {/* Study Design Section */}
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-8">Study Design</h2>
+            
+            <div className="bg-secondary/5 rounded-lg p-8 space-y-6">
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Interventions:</span>
+                <div className="flex gap-3 flex-wrap">
+                  {studyDesign.interventions.map((intervention, index) => (
+                    <span key={index} className="bg-blue-100 text-blue-800 px-4 py-1 rounded-full">
+                      {intervention}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Study Type:</span>
+                <span className="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full">
+                  {studyDesign.studyType}
+                </span>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Duration:</span>
+                <span className="bg-purple-100 text-purple-800 px-4 py-1 rounded-full">
+                  {studyDesign.duration}
+                </span>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Size:</span>
+                <span className="bg-red-100 text-red-800 px-4 py-1 rounded-full">
+                  {studyDesign.size}
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* Study Population Section */}
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-8">Study Population</h2>
+            
+            <div className="bg-secondary/5 rounded-lg p-8 space-y-6">
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Age Range:</span>
+                <span className="bg-blue-100 text-blue-800 px-4 py-1 rounded-full">
+                  {studyPopulation.ageRange}
+                </span>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Sex:</span>
+                <span className="bg-red-100 text-red-800 px-4 py-1 rounded-full">
+                  {studyPopulation.sex}
+                </span>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Geography:</span>
+                <div className="flex gap-3 flex-wrap">
+                  {studyPopulation.geography.map((location, index) => (
+                    <span key={index} className="bg-green-100 text-green-800 px-4 py-1 rounded-full">
+                      {location}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <span className="text-foreground font-medium w-32">Others:</span>
+                <div className="flex gap-3 flex-wrap">
+                  {studyPopulation.others.map((item, index) => (
+                    <span key={index} className="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Methodology Section */}
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-4">Methodology</h2>
+            <p className="text-foreground leading-relaxed mb-8">
+              {methodology}
+            </p>
+          </section>
+
+          {/* Interventions Section */}
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-4">Interventions</h2>
+            <p className="text-foreground leading-relaxed mb-8">
+              {interventions}
+            </p>
+          </section>
+
+          {/* Key Findings Section */}
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-4">Key Findings</h2>
+            <p className="text-foreground leading-relaxed mb-8">
+              {keyFindings}
+            </p>
+          </section>
+           {/* Bias Analysis Score Section */}
+           <section className="mt-12 max-w-2xl mx-auto">
+            <div className="bg-secondary/5 rounded-lg p-8">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <IconFileAnalytics className="w-6 h-6 text-foreground" />
+                  <h2 className="text-2xl font-bold m-0">Bias Analysis Score</h2>
+                </div>
+                <span className="bg-yellow-100 text-yellow-800 px-4 py-1 rounded-full text-sm">
+                  {biasScore}
+                </span>
+              </div>
+            </div>
+          </section>
+        </article>
+      </main>
+    </div>
+  );
+};
+
+export default PostTemplate;
+```
+
+# components\SearchSection.js
+
+```js
+// components/SearchSection.js
+import { IconLock } from '@tabler/icons-react';
+
+const SearchSection = () => {
+  const filters = [
+    { id: 'all', label: 'All' },
+    { id: 'behavioral', label: 'Behavioral' },
+    { id: 'complications', label: 'Complications' },
+    { id: 'prevention', label: 'Prevention' },
+    { id: 'pharmacology', label: 'Pharmacology' },
+    { id: 't1d', label: 'T1D' },
+    { id: 'digital', label: 'Digital' },
+    { id: 'precision-medicine', label: 'Precision Medicine' },
+    { id: 'supplements', label: 'Supplements' }
+  ];
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-4xl font-bold text-center mb-8">Search Articles</h1>
+      
+      <div className="relative mb-6 max-w-[70%] mx-auto">
+        <input
+          type="text"
+          placeholder="Search for articles, topics, or keywords..."
+          className="w-full px-4 py-3 rounded-full border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        />
+        <button
+          className="absolute right-2 top-1/2 -translate-y-1/2 px-8 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+        >
+          Search
+        </button>
+      </div>
+
+      <div className="flex flex-wrap gap-2 items-center max-w-[70%] mx-auto text-xs">
+        {filters.map((filter) => (
+          <button
+            key={filter.id}
+            className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs"
+          >
+            {filter.label}
+          </button>
+        ))}
+        <button
+          className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-2"
+        >
+          <IconLock className="w-4 h-4" />
+          FILTER
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default SearchSection;
+```
+
 # package.json
 
 ```json
@@ -52,9 +654,17 @@ yarn-error.log*
     "start": "next start"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.29.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.4.1",
+    "tailwindcss-animate": "^1.0.7"
   },
   "engines": {
     "node": ">=18"
@@ -63,146 +673,146 @@ yarn-error.log*
 
 ```
 
+# pages\_app.js
+
+```js
+import '../styles/global.css'
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
+
+export default MyApp
+```
+
 # pages\index.js
 
 ```js
+// pages/index.js
+import { useState } from 'react';
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import Navbar from '../components/Navbar';
+import Hero from '../components/Hero';
+import IntroSection from '../components/IntroSection';
+import SearchSection from '../components/SearchSection';
+import NewsGrid from '../components/NewsGrid';
 
 export default function Home() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
   return (
-    <div className={styles.container}>
+    <div className="min-h-screen bg-background">
       <Head>
-        <title>Create Next App</title>
+        <title>dexdiabetes - Stay Informed About Diabetes</title>
+        <meta name="description" content="Stay informed about the latest breakthroughs in diabetes care" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family:
-            Menlo,
-            Monaco,
-            Lucida Console,
-            Liberation Mono,
-            DejaVu Sans Mono,
-            Bitstream Vera Sans Mono,
-            Courier New,
-            monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family:
-            -apple-system,
-            BlinkMacSystemFont,
-            Segoe UI,
-            Roboto,
-            Oxygen,
-            Ubuntu,
-            Cantarell,
-            Fira Sans,
-            Droid Sans,
-            Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <Hero />
+      <IntroSection />
+      <SearchSection />
+      <NewsGrid />
     </div>
   );
 }
+```
 
+# pages\posts\artificial-pancreas-trial.js
+
+```js
+// pages/posts/artificial-pancreas-trial.js
+import React from 'react';
+import Head from 'next/head';
+import Navbar from '../../components/Navbar';
+import PostTemplate from '../../components/post-template';
+
+export default function ArtificialPancreasTrialPost() {
+  const [isDarkMode, setIsDarkMode] = React.useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  const postData = {
+    title: "Long-term Outcomes of Artificial Pancreas Systems: A 24-Month Multi-Center Trial",
+    publishDate: "January 31, 2025",
+    studyDesign: {
+      interventions: ["Continuous Glucose Monitor", "Automated Insulin Pump"],
+      studyType: "Randomized Controlled Trial",
+      duration: "24 Months",
+      size: "500 Participants"
+    },
+    studyPopulation: {
+      ageRange: "18-65 years",
+      sex: "All genders",
+      geography: ["Multi-center US", "Europe"],
+      others: ["Type 1 Diabetes", "5+ years diagnosed"]
+    },
+    methodology: `This landmark study implemented a comprehensive methodological framework to evaluate the 
+      long-term efficacy of artificial pancreas systems. Participants were stratified by age and diabetes 
+      duration before being randomly assigned to either the intervention group (artificial pancreas system) 
+      or the control group (standard insulin pump therapy) using a computer-generated algorithm.`,
+    interventions: `The artificial pancreas system utilized in this study combined next-generation continuous 
+      glucose monitoring technology with an advanced automated insulin delivery algorithm. The system 
+      featured predictive hypoglycemia prevention, adaptive basal rate adjustment, and automated correction 
+      boluses. Control group participants used standard insulin pump therapy with manual adjustments based 
+      on CGM data.`,
+    keyFindings: `The 24-month trial demonstrated significant clinical benefits of the artificial pancreas 
+      system. Intervention group participants experienced a 35% reduction in hypoglycemic events and a 28% 
+      improvement in time-in-range glucose levels compared to the control group. Additionally, HbA1c levels 
+      showed a sustained reduction of 0.8% (9 mmol/mol) from baseline in the intervention group versus 0.3% 
+      (3 mmol/mol) in the control group.`,
+      biasScore: "Moderate"
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Head>
+        <title>{postData.title} - Dediabetes</title>
+        <meta 
+          name="description" 
+          content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control." 
+        />
+      </Head>
+
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main>
+        <article>
+          <PostTemplate {...postData} />
+        </article>
+      </main>
+    </div>
+  );
+}
+```
+
+# postcss.config.js
+
+```js
+module.exports = {
+  plugins: {
+    'tailwindcss/nesting': {},
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
 ```
 
 # public\favicon.ico
 
 This is a binary file of the type: Binary
+
+# public\logo1.png
+
+This is a binary file of the type: Image
 
 # public\vercel.svg
 
@@ -218,23 +828,72 @@ This is a starter template for [Learn Next.js](https://nextjs.org/learn).
 # styles\global.css
 
 ```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+ 
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 346.8 83.3% 56.9%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 173 59% 56%;
+    --secondary-foreground: 355.7 100% 97.3%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 346.8 83.3% 56.9%;
+    --radius: 0.5rem;
+  }
+ 
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 346.8 83.3% 56.9%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 173 59% 56%;
+    --secondary-foreground: 355.7 100% 97.3%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 346.8 83.3% 56.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+      Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  }
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
 }
 
 a {
@@ -250,7 +909,6 @@ img {
   max-width: 100%;
   height: auto;
 }
-
 ```
 
 # styles\Home.module.css
@@ -349,5 +1007,98 @@ img {
   }
 }
 
+```
+
+# tailwind.config.js
+
+```js
+// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  prefix: "",
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "#ea384c",
+          foreground: "#ffffff",
+        },
+        secondary: {
+          DEFAULT: "#4FD1C5",
+          foreground: "#ffffff",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+          },
+        },
+      },
+    },
+  },
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@tailwindcss/typography")
+  ],
+}
 ```
 

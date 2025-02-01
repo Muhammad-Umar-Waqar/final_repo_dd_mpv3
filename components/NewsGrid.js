@@ -1,0 +1,116 @@
+import React from 'react';
+import { IconClock } from '@tabler/icons-react';
+
+const NewsCard = ({ category, title, description, timeToRead }) => {
+  return (
+    <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="aspect-[16/9] bg-muted">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" className="w-full h-full">
+          <rect width="400" height="225" fill="#f5f5f5"/>
+          <rect x="40" y="60" width="320" height="10" rx="2" fill="#e0e0e0"/>
+          <rect x="40" y="85" width="280" height="10" rx="2" fill="#e0e0e0"/>
+          <rect x="40" y="110" width="320" height="10" rx="2" fill="#e0e0e0"/>
+          <rect x="40" y="135" width="200" height="10" rx="2" fill="#e0e0e0"/>
+          <circle cx="200" cy="90" r="30" fill="#e0e0e0"/>
+          <path d="M190 90 h20 m-10 -10 v20" stroke="#f5f5f5" stroke-width="2"/>
+          <text x="200" y="180" font-family="Arial, sans-serif" font-size="12" fill="#cccccc" text-anchor="middle">
+            Image placeholder
+          </text>
+        </svg>
+      </div>
+      <div className="p-6">
+        <div className="mb-3">
+          <span className="text-xs font-medium text-primary px-2.5 py-1 bg-primary/10 rounded-full">
+            {category}
+          </span>
+        </div>
+        <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
+          {title}
+        </h3>
+        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+          {description}
+        </p>
+        <div className="flex items-center text-sm text-muted-foreground">
+          <IconClock className="w-4 h-4 mr-1" />
+          <span>{timeToRead} min read</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const NewsGrid = () => {
+  const newsItems = [
+    {
+      category: 'Clinical Trial',
+      title: 'Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial',
+      description: 'Recent study demonstrates significant improvements in glycemic control and weight management in patients with type 2 diabetes.',
+      timeToRead: 8
+    },
+    {
+      category: 'Research',
+      title: 'Artificial Pancreas Technology: A Game-Changer in T1D Management',
+      description: 'Breakthrough in closed-loop insulin delivery systems shows improved outcomes in real-world settings.',
+      timeToRead: 6
+    },
+    {
+      category: 'Treatment',
+      title: 'New Guidelines for Managing Post-Meal Blood Sugar Spikes',
+      description: 'Updated recommendations focus on personalized approaches to postprandial glucose management.',
+      timeToRead: 5
+    },
+    {
+      category: 'Prevention',
+      title: 'Early Intervention Strategies in Prediabetes Show Long-term Benefits',
+      description: 'Longitudinal study reveals the importance of lifestyle modifications in preventing diabetes progression.',
+      timeToRead: 7
+    },
+    {
+      category: 'Technology',
+      title: 'Smart Contact Lenses for Continuous Glucose Monitoring',
+      description: 'Innovative wearable technology promises non-invasive glucose monitoring for diabetes patients.',
+      timeToRead: 4
+    },
+    {
+      category: 'Lifestyle',
+      title: 'Mediterranean Diet and Diabetes Management',
+      description: 'New research confirms the benefits of Mediterranean dietary patterns in glycemic control.',
+      timeToRead: 6
+    }
+  ];
+
+  return (
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {newsItems.map((item, index) => (
+          <NewsCard key={index} {...item} />
+        ))}
+      </div>
+      
+      {/* Pagination */}
+      <div className="flex justify-center items-center space-x-2 mt-12">
+        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+          Previous
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90">
+          1
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          2
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          3
+        </button>
+        <span className="px-3 py-2 text-sm text-muted-foreground">...</span>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          8
+        </button>
+        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          Next
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default NewsGrid;
