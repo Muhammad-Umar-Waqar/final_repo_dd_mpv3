@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileAnalytics, IconFileTextAi, IconClock } from '@tabler/icons-react';
+import { IconChevronUp, IconPhoto, IconFileTextAi, IconClock, IconBookmark, IconShare2 } from '@tabler/icons-react';
 import DiscussionsSection from '../DiscussionsSection.js';
 import RelatedPosts from './RelatedPosts';
 
 const BlogPost = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
+  publisher = "Diabetes Research Journal",
   publishDate = "January 31, 2025",
   readTime = "8 min read",
   summary = "baba baba baba",
@@ -74,34 +75,34 @@ const BlogPost = ({
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Article Header */}
         <header className="mb-16">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center">
-              <IconPhoto className="w-6 h-6 text-secondary" />
-            </div>
-            <div>
-              <h4 className="font-medium text-foreground">{author}</h4>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <time>{publishDate}</time>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <IconClock className="w-4 h-4" />
-                  {readTime}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             {title}
           </h1>
-
-          <div className="flex flex-wrap gap-2">
-            {studyDesign.interventions.map((tag, index) => (
-              <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                {tag}
-              </span>
-            ))}
+          <hr className="border-border mb-6" />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div>
+                <h4 className="font-medium text-foreground">{publisher}</h4>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <time>{publishDate}</time>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <IconClock className="w-4 h-4" />
+                    {readTime}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconBookmark className="w-6 h-6" />
+              </button>
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconShare2 className="w-6 h-6" />
+              </button>
+            </div>
           </div>
+          <hr className="border-border" />
         </header>
 
         {/* Featured Image */}
@@ -150,21 +151,17 @@ const BlogPost = ({
                 </div>
               </div>  
               <div>
-                <h3 className="font-medium mb-2">Duration</h3>
+                <h3 className="font-medium mb-2">Duration and Size</h3>
                 <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
                   {studyDesign.duration}
+                </span>
+                <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                  {studyDesign.size}
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
   
-              <div>
-                <h3 className="font-medium mb-2">Size</h3>
-                <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                  {studyDesign.size}
-                </span>
-              </div>
-
             </div>
           </div>
         </section>

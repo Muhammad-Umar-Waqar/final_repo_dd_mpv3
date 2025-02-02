@@ -1,3 +1,4 @@
+// pages/register.js
 import Head from 'next/head';
 import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
@@ -60,7 +61,7 @@ export default function Register() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showPassword ? (
                 <IconEyeOff className="w-5 h-5" />
@@ -80,7 +81,7 @@ export default function Register() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showConfirmPassword ? (
                 <IconEyeOff className="w-5 h-5" />
@@ -98,7 +99,7 @@ export default function Register() {
           </button>
 
           <p className="text-center text-gray-500">
-            Already have an account?{' '}
+            Already registered?{' '}
             <Link
               href="/login"
               className="text-red-600 hover:text-red-700 font-medium"

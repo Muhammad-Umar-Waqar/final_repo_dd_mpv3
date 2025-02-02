@@ -1,7 +1,7 @@
 import React from 'react';
-import { IconClock } from '@tabler/icons-react';
+import { IconClock,IconBookmark,IconShare2 } from '@tabler/icons-react';
 
-const NewsCard = ({ category, title, description, timeToRead }) => {
+const NewsCard = ({ category, title, description, publisher, publishDate,timeToRead }) => {
   return (
     <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="aspect-[16/9] bg-muted">
@@ -28,12 +28,29 @@ const NewsCard = ({ category, title, description, timeToRead }) => {
           {title}
         </h3>
         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-          {description}
+          {publisher}
         </p>
-        <div className="flex items-center text-sm text-muted-foreground">
-          <IconClock className="w-4 h-4 mr-1" />
-          <span>{timeToRead} min read</span>
-        </div>
+        <hr className="border-border mb-6" />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div>
+                <h4 className="font-medium text-foreground">{publisher}</h4>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <time>{publishDate}</time>
+                
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconBookmark className="w-6 h-6" />
+              </button>
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconShare2 className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+          <hr className="border-border" />
       </div>
     </div>
   );

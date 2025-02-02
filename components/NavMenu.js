@@ -1,17 +1,19 @@
+// components/NavMenu.js
 import React from 'react';
 import Link from 'next/link';
 import { 
-  Home,
-  Hands,
-  Heart,
-  Shield,
-  Smartphone,
-  Pills,
-  Microscope,
-  Timer,
-  Search,
-  LogIn
-} from 'lucide-react';
+  IconHome2,
+  IconHandRock,
+  IconHeartFilled,
+  IconShieldFilled,
+  IconDeviceMobile,
+  IconPills,
+  IconMicroscope,
+  IconClock,
+  IconSearch,
+  IconLogin,
+  IconCrown
+} from '@tabler/icons-react';
 
 const MenuItem = ({ icon: Icon, text, href = '/' }) => (
   <Link 
@@ -19,36 +21,39 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => (
     className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
   >
     <Icon className="w-5 h-5" />
-    <span className="text-lg">{text}</span>
+    <span className="text-lg whitespace-nowrap">{text}</span>
   </Link>
 );
 
 const NavMenu = ({ isOpen, onClose }) => {
   return (
-    <div 
-      className={`fixed inset-y-0 left-0 w-72 bg-background border-r border-border transform transition-transform duration-300 ease-in-out ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } z-50`}
-    >
-      <div className="h-full flex flex-col py-6">
-        <nav className="flex-1 space-y-1">
-          <MenuItem icon={Home} text="Home" href="/" />
-          <MenuItem icon={Hands} text="Behavioral Intervention" href="/behavioral" />
-          <MenuItem icon={Heart} text="Diabetes Complications" href="/complications" />
-          <MenuItem icon={Shield} text="Diabetes Prevention" href="/prevention" />
-          <MenuItem icon={Smartphone} text="Digital Health" href="/digital" />
-          <MenuItem icon={Pills} text="Pharmacology" href="/pharmacology" />
-          <MenuItem icon={Microscope} text="Precision Medicine" href="/precision" />
-          <MenuItem icon={Timer} text="T1D Cure Research" href="/t1d-research" />
-          <MenuItem icon={Search} text="Search" href="/search" />
-        </nav>
-        
-        {/* Divider */}
-        <div className="h-px bg-border my-4" />
-        
-        {/* Login/Sign-up at bottom */}
-        <div className="px-4">
-          <MenuItem icon={LogIn} text="Login / Sign-up" href="/auth" />
+    <>
+      <div 
+        className={`fixed inset-y-0 left-0 w-72 bg-background border-r border-border transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } z-50`}
+      >
+        <div className="h-full flex flex-col py-6">
+          <nav className="flex-1 space-y-1">
+            <MenuItem icon={IconHome2} text="Home" href="/" />
+            <MenuItem icon={IconHandRock} text="Behavioral Intervention" href="/behavioral" />
+            <MenuItem icon={IconHeartFilled} text="Diabetes Complications" href="/complications" />
+            <MenuItem icon={IconShieldFilled} text="Diabetes Prevention" href="/prevention" />
+            <MenuItem icon={IconDeviceMobile} text="Digital Health" href="/digital" />
+            <MenuItem icon={IconPills} text="Pharmacology" href="/pharmacology" />
+            <MenuItem icon={IconMicroscope} text="Precision Medicine" href="/precision" />
+            <MenuItem icon={IconClock} text="T1D Cure Research" href="/t1d-research" />
+            <MenuItem icon={IconSearch} text="Search" href="/search" />
+          </nav>
+          
+          {/* Divider */}
+          <div className="h-px bg-border my-4" />
+          
+          {/* Bottom menu items */}
+          <div className="px-4 space-y-1">
+            <MenuItem icon={IconCrown} text="Premium Membership" href="/premium" />
+            <MenuItem icon={IconLogin} text="Login / Sign-up" href="/auth" />
+          </div>
         </div>
       </div>
       
@@ -59,7 +64,7 @@ const NavMenu = ({ isOpen, onClose }) => {
           onClick={onClose}
         />
       )}
-    </div>
+    </>
   );
 };
 

@@ -181,6 +181,123 @@ const DiscussionsSection = ({
 export default DiscussionsSection;
 ```
 
+# components\FilterMenu.js
+
+```js
+import React from 'react';
+import { IconChevronDown, IconChevronUp, IconX } from '@tabler/icons-react';
+
+const FilterMenu = ({ isOpen, onClose }) => {
+  const [openSection, setOpenSection] = React.useState(null);
+
+  const menuItems = [
+    {
+      title: 'OUTCOMES',
+      children: ['Clinical Outcomes', 'Safety Outcomes', 'Patient-Reported Outcomes']
+    },
+    {
+      title: 'INTERVENTIONS',
+      children: ['Drug Interventions', 'Device Interventions', 'Behavioral Interventions']
+    },
+    {
+      title: 'PARTICIPANTS',
+      children: ['Inclusion Criteria', 'Exclusion Criteria', 'Demographics']
+    },
+    {
+      title: 'TRIAL TYPE',
+      children: ['Randomized', 'Non-Randomized', 'Observational']
+    },
+    {
+      title: 'TRIAL SIZE',
+      children: ['Small (<100)', 'Medium (100-500)', 'Large (>500)']
+    },
+    {
+      title: 'TRIAL DURATION',
+      children: ['Short-term', 'Medium-term', 'Long-term']
+    },
+    {
+      title: 'GEOGRAPHY',
+      children: ['North America', 'Europe', 'Asia', 'Other Regions']
+    },
+    {
+      title: 'YEAR',
+      children: ['2024', '2023', '2022', 'Earlier']
+    },
+    {
+      title: 'SPONSORSHIP',
+      children: ['Industry', 'Government', 'Academic', 'Other']
+    }
+  ];
+
+  const toggleSection = (index) => {
+    setOpenSection(openSection === index ? null : index);
+  };
+
+  return (
+    <div 
+      className={`fixed inset-y-0 right-0 w-64 bg-background border-l border-border transform transition-transform duration-300 ease-in-out ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      } z-50`}
+    >
+      <div className="h-full overflow-y-auto">
+        <div className="p-4 border-b border-border flex justify-between items-center">
+          <h2 className="font-semibold">Filters</h2>
+          <button
+            onClick={onClose}
+            className="p-1 hover:bg-secondary/10 rounded-full"
+            aria-label="Close menu"
+          >
+            <IconX className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="p-2">
+          {menuItems.map((item, index) => (
+            <div key={index} className="border-b border-border last:border-0">
+              <button
+                onClick={() => toggleSection(index)}
+                className="w-full px-3 py-2 flex justify-between items-center text-foreground hover:text-primary hover:bg-secondary/10"
+              >
+                <span>{item.title}</span>
+                {openSection === index ? (
+                  <IconChevronUp className="w-4 h-4" />
+                ) : (
+                  <IconChevronDown className="w-4 h-4" />
+                )}
+              </button>
+              
+              {openSection === index && (
+                <div className="pl-6 space-y-2 py-2 bg-secondary/10">
+                  {item.children.map((child, childIndex) => (
+                    <label
+                      key={childIndex}
+                      className="block px-3 py-1 text-sm text-muted-foreground hover:text-primary hover:bg-secondary/10"
+                    >
+                      <input
+                        type="checkbox"
+                        className="mr-2"
+                      />
+                      {child}
+                    </label>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+          <button
+            className="w-full mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+          >
+            Apply Filters
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FilterMenu;
+```
+
 # components\Hero.js
 
 ```js
@@ -258,158 +375,213 @@ import {
   IconMenu2, 
   IconSearch, 
   IconSun, 
-  IconMoon, 
-  IconX, 
-  IconChevronDown, 
-  IconChevronUp 
+  IconMoon,
+  IconHome2,
+  IconHandRock,
+  IconHeartFilled,
+  IconShieldFilled,
+  IconDeviceMobile,
+  IconPills,
+  IconMicroscope,
+  IconClock,
+  IconLogin,
+  IconX
 } from '@tabler/icons-react';
-import Image from 'next/image';
 
-const menuItems = [
-  {
-    title: 'OUTCOMES',
-    children: ['Clinical Outcomes', 'Safety Outcomes', 'Patient-Reported Outcomes']
-  },
-  {
-    title: 'INTERVENTIONS',
-    children: ['Drug Interventions', 'Device Interventions', 'Behavioral Interventions']
-  },
-  {
-    title: 'PARTICIPANTS',
-    children: ['Inclusion Criteria', 'Exclusion Criteria', 'Demographics']
-  },
-  {
-    title: 'TRIAL TYPE',
-    children: ['Randomized', 'Non-Randomized', 'Observational']
-  },
-  {
-    title: 'TRIAL SIZE',
-    children: ['Small (<100)', 'Medium (100-500)', 'Large (>500)']
-  },
-  {
-    title: 'TRIAL DURATION',
-    children: ['Short-term', 'Medium-term', 'Long-term']
-  },
-  {
-    title: 'GEOGRAPHY',
-    children: ['North America', 'Europe', 'Asia', 'Other Regions']
-  },
-  {
-    title: 'YEAR',
-    children: ['2024', '2023', '2022', 'Earlier']
-  },
-  {
-    title: 'SPONSORSHIP',
-    children: ['Industry', 'Government', 'Academic', 'Other']
-  }
-];
+const MenuItem = ({ icon: Icon, text, href = '/' }) => (
+  <a 
+    href={href}
+    className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
+  >
+    <Icon className="w-5 h-5" />
+    <span className="text-lg whitespace-nowrap">{text}</span>
+  </a>
+);
 
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [openSection, setOpenSection] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('EN');
 
-  const toggleSection = (index) => {
-    setOpenSection(openSection === index ? null : index);
+  const toggleLanguage = () => {
+    setCurrentLanguage(currentLanguage === 'EN' ? 'ES' : 'EN');
   };
 
-  return (
-    <nav className="border-b border-border bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Image
-              src="/logo1.png"
-              alt="DeXdiabetes Logo"
-              width={150}
-              height={40}
-              className="h-8 w-auto"
-              priority
-            />
-          </div>
-
-          {/* Navigation Icons */}
-          <div className="flex items-center gap-4">
-            <button 
-              className="p-2 rounded-full hover:bg-secondary text-foreground"
-              aria-label="Search"
-            >
-              <IconSearch className="w-5 h-5" />
-            </button>
-            <button 
-              className="p-2 rounded-full hover:bg-secondary text-foreground"
-              onClick={toggleDarkMode}
-              aria-label="Toggle theme"
-            >
-              {isDarkMode ? (
-                <IconSun className="w-5 h-5" />
-              ) : (
-                <IconMoon className="w-5 h-5" />
-              )}
-            </button>
-            <button 
-              className="p-2 rounded-full hover:bg-secondary text-foreground"
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
-            >
-              {isOpen ? (
-                <IconX className="w-5 h-5" />
-              ) : (
-                <IconMenu2 className="w-5 h-5" />
-              )}
-            </button>
-          </div>
+  // Navigation menu component
+  const NavigationMenu = () => (
+    <div 
+      className={`absolute top-0 right-12 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
+        isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+      } z-40 w-full sm:w-auto sm:min-w-[300px]`}
+    >
+      <div className="p-4">
+        <nav className="space-y-1">
+          <MenuItem icon={IconHome2} text="Home" href="/" />
+          <MenuItem icon={IconHandRock} text="Behavioral Intervention" href="/behavioral" />
+          <MenuItem icon={IconHeartFilled} text="Diabetes Complications" href="/complications" />
+          <MenuItem icon={IconShieldFilled} text="Diabetes Prevention" href="/prevention" />
+          <MenuItem icon={IconDeviceMobile} text="Digital Health" href="/digital" />
+          <MenuItem icon={IconPills} text="Pharmacology" href="/pharmacology" />
+          <MenuItem icon={IconMicroscope} text="Precision Medicine" href="/precision" />
+          <MenuItem icon={IconClock} text="T1D Cure Research" href="/t1d-research" />
+          <MenuItem icon={IconSearch} text="Search" href="/search" />
+        </nav>
+        
+        {/* Divider */}
+        <div className="h-px bg-border my-4" />
+        
+        {/* Login/Sign-up at bottom */}
+        <div>
+          <MenuItem icon={IconLogin} text="Login / Sign-up" href="/auth" />
         </div>
+      </div>
+    </div>
+  );
 
-        {/* Dropdown Menu */}
-        {isOpen && (
-          <div className="absolute right-0 w-full md:w-64 bg-background border-b border-l border-border shadow-lg">
-            <div className="p-2">
-              {menuItems.map((item, index) => (
-                <div key={index} className="border-b border-border last:border-0">
-                  <button
-                    onClick={() => toggleSection(index)}
-                    className="w-full px-3 py-2 flex justify-between items-center text-foreground hover:text-primary hover:bg-secondary/50"
-                  >
-                    <span>{item.title}</span>
-                    {openSection === index ? (
-                      <IconChevronUp className="w-4 h-4" />
-                    ) : (
-                      <IconChevronDown className="w-4 h-4" />
-                    )}
-                  </button>
-                  
-                  {openSection === index && (
-                    <div className="pl-6 space-y-2 py-2 bg-secondary/10">
-                      {item.children.map((child, childIndex) => (
-                        <a
-                          key={childIndex}
-                          href="#"
-                          className="block px-3 py-1 text-sm text-muted-foreground hover:text-primary hover:bg-secondary/50"
-                        >
-                          {child}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-              <a
-                href="#"
-                className="block px-3 py-2 text-foreground hover:text-primary hover:bg-secondary/50 font-semibold mt-2"
-              >
-                APPLY (#) →
+  return (
+    <>
+      <nav className="relative border-b border-border bg-background z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex items-center">
+              <a href="/" className="hover:opacity-90 transition-opacity">
+                <img
+                  src="/logo1.png"
+                  alt="DeXdiabetes Logo"
+                  className="h-8 w-auto"
+                />
               </a>
             </div>
+
+            {/* Navigation Icons */}
+            <div className="flex items-center gap-4">
+              {/* Language Selector */}
+              <button
+                onClick={toggleLanguage}
+                className="px-2 py-1 rounded-md border border-border hover:bg-secondary/10 text-foreground text-sm font-medium transition-colors"
+                aria-label="Toggle language"
+              >
+                {currentLanguage}
+              </button>
+              
+              <button 
+                className="p-2 rounded-full hover:bg-secondary text-foreground"
+                aria-label="Search"
+              >
+                <IconSearch className="w-5 h-5" />
+              </button>
+              <button 
+                className="p-2 rounded-full hover:bg-secondary text-foreground"
+                onClick={toggleDarkMode}
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? (
+                  <IconSun className="w-5 h-5" />
+                ) : (
+                  <IconMoon className="w-5 h-5" />
+                )}
+              </button>
+              <button 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-2 rounded-full hover:bg-secondary text-foreground relative"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? (
+                  <IconX className="w-5 h-5" />
+                ) : (
+                  <IconMenu2 className="w-5 h-5" />
+                )}
+                <NavigationMenu />
+              </button>
+            </div>
           </div>
-        )}
-      </div>
-    </nav>
+        </div>
+      </nav>
+      
+      {/* Overlay when menu is open (only on mobile) */}
+      {isMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 transition-opacity duration-300 z-30 sm:hidden"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+    </>
   );
 }
 ```
 
-# components\NewsGrid.js
+# components\NavMenu.js
+
+```js
+import React from 'react';
+import Link from 'next/link';
+import { 
+  Home,
+  Hands,
+  Heart,
+  Shield,
+  Smartphone,
+  Pills,
+  Microscope,
+  Timer,
+  Search,
+  LogIn
+} from 'lucide-react';
+
+const MenuItem = ({ icon: Icon, text, href = '/' }) => (
+  <Link 
+    href={href}
+    className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
+  >
+    <Icon className="w-5 h-5" />
+    <span className="text-lg">{text}</span>
+  </Link>
+);
+
+const NavMenu = ({ isOpen, onClose }) => {
+  return (
+    <div 
+      className={`fixed inset-y-0 left-0 w-72 bg-background border-r border-border transform transition-transform duration-300 ease-in-out ${
+        isOpen ? 'translate-x-0' : '-translate-x-full'
+      } z-50`}
+    >
+      <div className="h-full flex flex-col py-6">
+        <nav className="flex-1 space-y-1">
+          <MenuItem icon={Home} text="Home" href="/" />
+          <MenuItem icon={Hands} text="Behavioral Intervention" href="/behavioral" />
+          <MenuItem icon={Heart} text="Diabetes Complications" href="/complications" />
+          <MenuItem icon={Shield} text="Diabetes Prevention" href="/prevention" />
+          <MenuItem icon={Smartphone} text="Digital Health" href="/digital" />
+          <MenuItem icon={Pills} text="Pharmacology" href="/pharmacology" />
+          <MenuItem icon={Microscope} text="Precision Medicine" href="/precision" />
+          <MenuItem icon={Timer} text="T1D Cure Research" href="/t1d-research" />
+          <MenuItem icon={Search} text="Search" href="/search" />
+        </nav>
+        
+        {/* Divider */}
+        <div className="h-px bg-border my-4" />
+        
+        {/* Login/Sign-up at bottom */}
+        <div className="px-4">
+          <MenuItem icon={LogIn} text="Login / Sign-up" href="/auth" />
+        </div>
+      </div>
+      
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+          onClick={onClose}
+        />
+      )}
+    </div>
+  );
+};
+
+export default NavMenu;
+```
+
+# components\NewsCard.js
 
 ```js
 import React from 'react';
@@ -426,8 +598,8 @@ const NewsCard = ({ category, title, description, timeToRead }) => {
           <rect x="40" y="110" width="320" height="10" rx="2" fill="#e0e0e0"/>
           <rect x="40" y="135" width="200" height="10" rx="2" fill="#e0e0e0"/>
           <circle cx="200" cy="90" r="30" fill="#e0e0e0"/>
-          <path d="M190 90 h20 m-10 -10 v20" stroke="#f5f5f5" stroke-width="2"/>
-          <text x="200" y="180" font-family="Arial, sans-serif" font-size="12" fill="#cccccc" text-anchor="middle">
+          <path d="M190 90 h20 m-10 -10 v20" stroke="#f5f5f5" strokeWidth="2"/>
+          <text x="200" y="180" fontFamily="Arial, sans-serif" fontSize="12" fill="#cccccc" textAnchor="middle">
             Image placeholder
           </text>
         </svg>
@@ -452,6 +624,15 @@ const NewsCard = ({ category, title, description, timeToRead }) => {
     </div>
   );
 };
+
+export default NewsCard;
+```
+
+# components\NewsGrid.js
+
+```js
+import React from 'react';
+import NewsCard from './NewsCard';
 
 const NewsGrid = () => {
   const newsItems = [
@@ -771,7 +952,7 @@ const BlogPost = ({
         </section>
 
               {/* Bias Analysis Section - Now in its own centered row */}
-              <section className="mb-16">
+              <section>
           <div className="max-w-2xl mx-auto">
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
@@ -787,13 +968,11 @@ const BlogPost = ({
           </div>
         </section>
 
-        <section className="prose prose-lg max-w-none mb-16">
+        <section className="prose prose-lg max-w-none">
           <section>
-            <div classname="flex items-center gap-2 mb-4 justify-center">
-      
+            <div className="flex mb-4 ">
             <h2>Effectiveness Analysis</h2></div>
           
-            
             <div className="space-y-5 bg-secondary/5 rounded-lg p-6  ">
             
               <div className="flex items-center justify-between">
@@ -813,43 +992,12 @@ const BlogPost = ({
           </div>
           </section>
 
-          <section>
-            <h2>Interventions</h2>
-            <p>{interventions}</p>
-          </section>
-
-          <section>
-            <h2>Key Findings</h2>
-            <p>{keyFindings}</p>
-          </section>
-          <section>
-            <h2>Comparison with other Studies</h2>
-            <p>{comparison}</p>
-          </section>
         </section>
 
-        {/* Effectiveness Analysis Section */}
-        <section className="mb-16">
-        <div className="flex items-center gap-2 mb-4" >
-            
-            <h2 className="text-xl font-bold mb-4 gap-2">Effectiveness Analysis</h2>
-        </div>
-          
 
-        </section>
-
+              {/* Journal Reference section */}
         <section className="prose prose-lg max-w-none mb-16">
-          
 
-            
-
-        </section>
-        <section className="prose prose-lg max-w-none mb-16">
-        <section>
-
-            <h2>Interventions</h2>
-            <p>{interventions}</p>
-          </section>
 
           <section>
             <h2>Journal Reference</h2>
@@ -959,10 +1107,13 @@ export default RelatedPosts;
 # components\SearchSection.js
 
 ```js
-// components/SearchSection.js
+import React, { useState } from 'react';
 import { IconLock } from '@tabler/icons-react';
+import FilterMenu from './FilterMenu';
 
 const SearchSection = () => {
+  const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
+  
   const filters = [
     { id: 'all', label: 'All' },
     { id: 'behavioral', label: 'Behavioral' },
@@ -975,40 +1126,59 @@ const SearchSection = () => {
     { id: 'supplements', label: 'Supplements' }
   ];
 
-  return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-4xl font-bold text-center mb-8">Search Articles</h1>
-      
-      <div className="relative mb-6 max-w-[70%] mx-auto">
-        <input
-          type="text"
-          placeholder="Search for articles, topics, or keywords..."
-          className="w-full px-4 py-3 rounded-full border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-        />
-        <button
-          className="absolute right-2 top-1/2 -translate-y-1/2 px-8 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
-        >
-          Search
-        </button>
-      </div>
+  // Add overlay when filter menu is open
+  const Overlay = () => (
+    <div
+      className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ${
+        isFilterMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      } z-40`}
+      onClick={() => setIsFilterMenuOpen(false)}
+    />
+  );
 
-      <div className="flex flex-wrap gap-2 items-center max-w-[70%] mx-auto text-xs">
-        {filters.map((filter) => (
+  return (
+    <>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h1 className="text-4xl font-bold text-center mb-8">Search Articles</h1>
+        
+        <div className="relative mb-6 max-w-[70%] mx-auto">
+          <input
+            type="text"
+            placeholder="Search for articles, topics, or keywords..."
+            className="w-full px-4 py-3 rounded-full border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          />
           <button
-            key={filter.id}
-            className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs"
+            className="absolute right-2 top-1/2 -translate-y-1/2 px-8 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
           >
-            {filter.label}
+            Search
           </button>
-        ))}
-        <button
-          className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-2"
-        >
-          <IconLock className="w-4 h-4" />
-          FILTER
-        </button>
-      </div>
-    </section>
+        </div>
+
+        <div className="flex flex-wrap gap-2 items-center max-w-[70%] mx-auto text-xs">
+          {filters.map((filter) => (
+            <button
+              key={filter.id}
+              className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs"
+            >
+              {filter.label}
+            </button>
+          ))}
+          <button
+            onClick={() => setIsFilterMenuOpen(true)}
+            className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-2"
+          >
+            <IconLock className="w-4 h-4" />
+            FILTER
+          </button>
+        </div>
+      </section>
+
+      <Overlay />
+      <FilterMenu 
+        isOpen={isFilterMenuOpen} 
+        onClose={() => setIsFilterMenuOpen(false)} 
+      />
+    </>
   );
 };
 
@@ -1090,6 +1260,99 @@ export default function Home() {
       <IntroSection />
       <SearchSection />
       <NewsGrid />
+    </div>
+  );
+}
+```
+
+# pages\login.js
+
+```js
+import Head from 'next/head';
+import { useState } from 'react';
+import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import Navbar from '../components/Navbar';
+import Link from 'next/link';
+
+export default function Login() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Head>
+        <title>Login - dexdiabetes</title>
+        <meta name="description" content="Login to your dexdiabetes account" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+
+      <main className="max-w-md mx-auto px-4 py-16">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-red-600 mb-2">LOGIN NOW</h1>
+          <h2 className="text-4xl font-bold text-gray-700 dark:text-gray-200 mb-4">Welcome back</h2>
+          <p className="text-xl text-gray-500">Please enter your details</p>
+        </div>
+
+        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <div>
+            <input
+              type="email"
+              placeholder="Enter your email*"
+              className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password*"
+              className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? (
+                <IconEyeOff className="w-5 h-5" />
+              ) : (
+                <IconEye className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+
+          <Link
+            href="/forgot-password"
+            className="block text-center text-blue-500 hover:text-blue-600 transition-colors"
+          >
+            Forgot password
+          </Link>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-rose-100 text-black rounded-md hover:bg-rose-200 transition-colors text-lg font-medium"
+          >
+            Log in
+          </button>
+
+          <Link
+            href="/register"
+            className="block text-center py-3 border-2 border-red-600 text-red-600 rounded-md hover:bg-red-50 transition-colors text-lg font-medium"
+          >
+            Register now
+          </Link>
+        </form>
+      </main>
     </div>
   );
 }
@@ -1264,6 +1527,124 @@ export default function ArtificialPancreasTrialPost() {
         <article>
           <PostTemplate {...postData} />
         </article>
+      </main>
+    </div>
+  );
+}
+```
+
+# pages\register.js
+
+```js
+import Head from 'next/head';
+import { useState } from 'react';
+import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import Navbar from '../components/Navbar';
+import Link from 'next/link';
+
+export default function Register() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Head>
+        <title>Register - dexdiabetes</title>
+        <meta name="description" content="Create your dexdiabetes account" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+
+      <main className="max-w-md mx-auto px-4 py-16">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-bold text-red-600 mb-2">REGISTER NOW</h1>
+          <h2 className="text-4xl font-bold text-gray-700 dark:text-gray-200 mb-4">Create account</h2>
+          <p className="text-xl text-gray-500">Please enter your details</p>
+        </div>
+
+        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <div>
+            <input
+              type="text"
+              placeholder="Full name*"
+              className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div>
+            <input
+              type="email"
+              placeholder="Email address*"
+              className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              required
+            />
+          </div>
+
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Create password*"
+              className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+            >
+              {showPassword ? (
+                <IconEyeOff className="w-5 h-5" />
+              ) : (
+                <IconEye className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+
+          <div className="relative">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder="Confirm password*"
+              className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+            >
+              {showConfirmPassword ? (
+                <IconEyeOff className="w-5 h-5" />
+              ) : (
+                <IconEye className="w-5 h-5" />
+              )}
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-lg font-medium"
+          >
+            Create account
+          </button>
+
+          <p className="text-center text-gray-500">
+            Already have an account?{' '}
+            <Link
+              href="/login"
+              className="text-red-600 hover:text-red-700 font-medium"
+            >
+              Login here
+            </Link>
+          </p>
+        </form>
       </main>
     </div>
   );

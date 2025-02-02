@@ -1,3 +1,4 @@
+// components/Navbar.js
 import React, { useState } from 'react';
 import { 
   IconMenu2, 
@@ -13,7 +14,8 @@ import {
   IconMicroscope,
   IconClock,
   IconLogin,
-  IconX
+  IconX,
+  IconCrown
 } from '@tabler/icons-react';
 
 const MenuItem = ({ icon: Icon, text, href = '/' }) => (
@@ -34,12 +36,11 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
     setCurrentLanguage(currentLanguage === 'EN' ? 'ES' : 'EN');
   };
 
-  // Navigation menu component
   const NavigationMenu = () => (
     <div 
-      className={`absolute top-0 right-12 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
+      className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
         isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-      } z-40 w-full sm:w-auto sm:min-w-[300px]`}
+      } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
     >
       <div className="p-4">
         <nav className="space-y-1">
@@ -57,8 +58,9 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
         {/* Divider */}
         <div className="h-px bg-border my-4" />
         
-        {/* Login/Sign-up at bottom */}
+        {/* Login/Sign-up and Premium at bottom */}
         <div>
+          <MenuItem icon={IconCrown} text="Premium Membership" href="/premium" />
           <MenuItem icon={IconLogin} text="Login / Sign-up" href="/auth" />
         </div>
       </div>
@@ -119,11 +121,11 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                 ) : (
                   <IconMenu2 className="w-5 h-5" />
                 )}
-                <NavigationMenu />
               </button>
             </div>
           </div>
         </div>
+        <NavigationMenu />
       </nav>
       
       {/* Overlay when menu is open (only on mobile) */}
