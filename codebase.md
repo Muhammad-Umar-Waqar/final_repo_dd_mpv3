@@ -370,6 +370,7 @@ const IntroSection = () => {
 # components\Navbar.js
 
 ```js
+// components/Navbar.js
 import React, { useState } from 'react';
 import { 
   IconMenu2, 
@@ -385,7 +386,8 @@ import {
   IconMicroscope,
   IconClock,
   IconLogin,
-  IconX
+  IconX,
+  IconCrown
 } from '@tabler/icons-react';
 
 const MenuItem = ({ icon: Icon, text, href = '/' }) => (
@@ -406,12 +408,11 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
     setCurrentLanguage(currentLanguage === 'EN' ? 'ES' : 'EN');
   };
 
-  // Navigation menu component
   const NavigationMenu = () => (
     <div 
-      className={`absolute top-0 right-12 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
+      className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
         isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-      } z-40 w-full sm:w-auto sm:min-w-[300px]`}
+      } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
     >
       <div className="p-4">
         <nav className="space-y-1">
@@ -429,8 +430,9 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
         {/* Divider */}
         <div className="h-px bg-border my-4" />
         
-        {/* Login/Sign-up at bottom */}
+        {/* Login/Sign-up and Premium at bottom */}
         <div>
+          <MenuItem icon={IconCrown} text="Premium Membership" href="/premium" />
           <MenuItem icon={IconLogin} text="Login / Sign-up" href="/auth" />
         </div>
       </div>
@@ -491,11 +493,11 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                 ) : (
                   <IconMenu2 className="w-5 h-5" />
                 )}
-                <NavigationMenu />
               </button>
             </div>
           </div>
         </div>
+        <NavigationMenu />
       </nav>
       
       {/* Overlay when menu is open (only on mobile) */}
@@ -513,20 +515,22 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
 # components\NavMenu.js
 
 ```js
+// components/NavMenu.js
 import React from 'react';
 import Link from 'next/link';
 import { 
-  Home,
-  Hands,
-  Heart,
-  Shield,
-  Smartphone,
-  Pills,
-  Microscope,
-  Timer,
-  Search,
-  LogIn
-} from 'lucide-react';
+  IconHome2,
+  IconHandRock,
+  IconHeartFilled,
+  IconShieldFilled,
+  IconDeviceMobile,
+  IconPills,
+  IconMicroscope,
+  IconClock,
+  IconSearch,
+  IconLogin,
+  IconCrown
+} from '@tabler/icons-react';
 
 const MenuItem = ({ icon: Icon, text, href = '/' }) => (
   <Link 
@@ -534,36 +538,39 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => (
     className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
   >
     <Icon className="w-5 h-5" />
-    <span className="text-lg">{text}</span>
+    <span className="text-lg whitespace-nowrap">{text}</span>
   </Link>
 );
 
 const NavMenu = ({ isOpen, onClose }) => {
   return (
-    <div 
-      className={`fixed inset-y-0 left-0 w-72 bg-background border-r border-border transform transition-transform duration-300 ease-in-out ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } z-50`}
-    >
-      <div className="h-full flex flex-col py-6">
-        <nav className="flex-1 space-y-1">
-          <MenuItem icon={Home} text="Home" href="/" />
-          <MenuItem icon={Hands} text="Behavioral Intervention" href="/behavioral" />
-          <MenuItem icon={Heart} text="Diabetes Complications" href="/complications" />
-          <MenuItem icon={Shield} text="Diabetes Prevention" href="/prevention" />
-          <MenuItem icon={Smartphone} text="Digital Health" href="/digital" />
-          <MenuItem icon={Pills} text="Pharmacology" href="/pharmacology" />
-          <MenuItem icon={Microscope} text="Precision Medicine" href="/precision" />
-          <MenuItem icon={Timer} text="T1D Cure Research" href="/t1d-research" />
-          <MenuItem icon={Search} text="Search" href="/search" />
-        </nav>
-        
-        {/* Divider */}
-        <div className="h-px bg-border my-4" />
-        
-        {/* Login/Sign-up at bottom */}
-        <div className="px-4">
-          <MenuItem icon={LogIn} text="Login / Sign-up" href="/auth" />
+    <>
+      <div 
+        className={`fixed inset-y-0 left-0 w-72 bg-background border-r border-border transform transition-transform duration-300 ease-in-out ${
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        } z-50`}
+      >
+        <div className="h-full flex flex-col py-6">
+          <nav className="flex-1 space-y-1">
+            <MenuItem icon={IconHome2} text="Home" href="/" />
+            <MenuItem icon={IconHandRock} text="Behavioral Intervention" href="/behavioral" />
+            <MenuItem icon={IconHeartFilled} text="Diabetes Complications" href="/complications" />
+            <MenuItem icon={IconShieldFilled} text="Diabetes Prevention" href="/prevention" />
+            <MenuItem icon={IconDeviceMobile} text="Digital Health" href="/digital" />
+            <MenuItem icon={IconPills} text="Pharmacology" href="/pharmacology" />
+            <MenuItem icon={IconMicroscope} text="Precision Medicine" href="/precision" />
+            <MenuItem icon={IconClock} text="T1D Cure Research" href="/t1d-research" />
+            <MenuItem icon={IconSearch} text="Search" href="/search" />
+          </nav>
+          
+          {/* Divider */}
+          <div className="h-px bg-border my-4" />
+          
+          {/* Bottom menu items */}
+          <div className="px-4 space-y-1">
+            <MenuItem icon={IconCrown} text="Premium Membership" href="/premium" />
+            <MenuItem icon={IconLogin} text="Login / Sign-up" href="/auth" />
+          </div>
         </div>
       </div>
       
@@ -574,7 +581,7 @@ const NavMenu = ({ isOpen, onClose }) => {
           onClick={onClose}
         />
       )}
-    </div>
+    </>
   );
 };
 
@@ -585,9 +592,9 @@ export default NavMenu;
 
 ```js
 import React from 'react';
-import { IconClock } from '@tabler/icons-react';
+import { IconClock,IconBookmark,IconShare2 } from '@tabler/icons-react';
 
-const NewsCard = ({ category, title, description, timeToRead }) => {
+const NewsCard = ({ category, title, description, publisher, publishDate,timeToRead }) => {
   return (
     <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="aspect-[16/9] bg-muted">
@@ -614,12 +621,29 @@ const NewsCard = ({ category, title, description, timeToRead }) => {
           {title}
         </h3>
         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-          {description}
+          {publisher}
         </p>
-        <div className="flex items-center text-sm text-muted-foreground">
-          <IconClock className="w-4 h-4 mr-1" />
-          <span>{timeToRead} min read</span>
-        </div>
+        <hr className="border-border mb-6" />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div>
+                <h4 className="font-medium text-foreground">{publisher}</h4>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <time>{publishDate}</time>
+                
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconBookmark className="w-6 h-6" />
+              </button>
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconShare2 className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+          <hr className="border-border" />
       </div>
     </div>
   );
@@ -640,36 +664,47 @@ const NewsGrid = () => {
       category: 'Clinical Trial',
       title: 'Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial',
       description: 'Recent study demonstrates significant improvements in glycemic control and weight management in patients with type 2 diabetes.',
+      publisher: 'Diabetes Obesity & Metabolism',
+      publishDate: '2023-10-15',
       timeToRead: 8
     },
     {
       category: 'Research',
       title: 'Artificial Pancreas Technology: A Game-Changer in T1D Management',
       description: 'Breakthrough in closed-loop insulin delivery systems shows improved outcomes in real-world settings.',
+      publisher: 'Nature Medicine',
+      publishDate: '2023-10-10',
       timeToRead: 6
     },
     {
       category: 'Treatment',
       title: 'New Guidelines for Managing Post-Meal Blood Sugar Spikes',
       description: 'Updated recommendations focus on personalized approaches to postprandial glucose management.',
+      publisher: 'Diabetes Care',
+      publishDate: '2023-10-05',
       timeToRead: 5
     },
     {
       category: 'Prevention',
       title: 'Early Intervention Strategies in Prediabetes Show Long-term Benefits',
       description: 'Longitudinal study reveals the importance of lifestyle modifications in preventing diabetes progression.',
+      publisher: 'Diabetes',
+      publishDate: '2023-10-01',
       timeToRead: 7
     },
     {
       category: 'Technology',
       title: 'Smart Contact Lenses for Continuous Glucose Monitoring',
       description: 'Innovative wearable technology promises non-invasive glucose monitoring for diabetes patients.',
+      publisher: 'IEEE Spectrum',
+      publishDate: '2023-09-25',
       timeToRead: 4
     },
     {
       category: 'Lifestyle',
       title: 'Mediterranean Diet and Diabetes Management',
       description: 'New research confirms the benefits of Mediterranean dietary patterns in glycemic control.',
+      publisher: 'Journal of the American Medical Association',
       timeToRead: 6
     }
   ];
@@ -715,13 +750,14 @@ export default NewsGrid;
 
 ```js
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileAnalytics, IconFileTextAi, IconClock } from '@tabler/icons-react';
+import { IconChevronUp, IconPhoto, IconFileTextAi, IconClock, IconBookmark, IconShare2 } from '@tabler/icons-react';
 import DiscussionsSection from '../DiscussionsSection.js';
 import RelatedPosts from './RelatedPosts';
 
 const BlogPost = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
+  publisher = "Diabetes Research Journal",
   publishDate = "January 31, 2025",
   readTime = "8 min read",
   summary = "baba baba baba",
@@ -790,34 +826,34 @@ const BlogPost = ({
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Article Header */}
         <header className="mb-16">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center">
-              <IconPhoto className="w-6 h-6 text-secondary" />
-            </div>
-            <div>
-              <h4 className="font-medium text-foreground">{author}</h4>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <time>{publishDate}</time>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <IconClock className="w-4 h-4" />
-                  {readTime}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             {title}
           </h1>
-
-          <div className="flex flex-wrap gap-2">
-            {studyDesign.interventions.map((tag, index) => (
-              <span key={index} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm">
-                {tag}
-              </span>
-            ))}
+          <hr className="border-border mb-6" />
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-4">
+              <div>
+                <h4 className="font-medium text-foreground">{publisher}</h4>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <time>{publishDate}</time>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <IconClock className="w-4 h-4" />
+                    {readTime}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconBookmark className="w-6 h-6" />
+              </button>
+              <button className="p-2 hover:bg-secondary/10 rounded-full">
+                <IconShare2 className="w-6 h-6" />
+              </button>
+            </div>
           </div>
+          <hr className="border-border" />
         </header>
 
         {/* Featured Image */}
@@ -866,21 +902,17 @@ const BlogPost = ({
                 </div>
               </div>  
               <div>
-                <h3 className="font-medium mb-2">Duration</h3>
+                <h3 className="font-medium mb-2">Duration and Size</h3>
                 <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
                   {studyDesign.duration}
+                </span>
+                <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
+                  {studyDesign.size}
                 </span>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
   
-              <div>
-                <h3 className="font-medium mb-2">Size</h3>
-                <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                  {studyDesign.size}
-                </span>
-              </div>
-
             </div>
           </div>
         </section>
@@ -1536,6 +1568,7 @@ export default function ArtificialPancreasTrialPost() {
 # pages\register.js
 
 ```js
+// pages/register.js
 import Head from 'next/head';
 import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
@@ -1598,7 +1631,7 @@ export default function Register() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showPassword ? (
                 <IconEyeOff className="w-5 h-5" />
@@ -1618,7 +1651,7 @@ export default function Register() {
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
             >
               {showConfirmPassword ? (
                 <IconEyeOff className="w-5 h-5" />
@@ -1636,7 +1669,7 @@ export default function Register() {
           </button>
 
           <p className="text-center text-gray-500">
-            Already have an account?{' '}
+            Already registered?{' '}
             <Link
               href="/login"
               className="text-red-600 hover:text-red-700 font-medium"
