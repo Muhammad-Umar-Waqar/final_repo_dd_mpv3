@@ -236,7 +236,7 @@ const BlogPost = ({
         </section>
 
               {/* Bias Analysis Section - Now in its own centered row */}
-              <section className="mb-16">
+              <section>
           <div className="max-w-2xl mx-auto">
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
@@ -252,13 +252,11 @@ const BlogPost = ({
           </div>
         </section>
 
-        <section className="prose prose-lg max-w-none mb-16">
+        <section className="prose prose-lg max-w-none">
           <section>
-            <div className="flex items-center gap-2 mb-4 justify-center">
-      
+            <div className="flex mb-4 ">
             <h2>Effectiveness Analysis</h2></div>
           
-            
             <div className="space-y-5 bg-secondary/5 rounded-lg p-6  ">
             
               <div className="flex items-center justify-between">
@@ -278,43 +276,12 @@ const BlogPost = ({
           </div>
           </section>
 
-          <section>
-            <h2>Interventions</h2>
-            <p>{interventions}</p>
-          </section>
-
-          <section>
-            <h2>Key Findings</h2>
-            <p>{keyFindings}</p>
-          </section>
-          <section>
-            <h2>Comparison with other Studies</h2>
-            <p>{comparison}</p>
-          </section>
         </section>
 
-        {/* Effectiveness Analysis Section */}
-        <section className="mb-16">
-        <div className="flex items-center gap-2 mb-4" >
-            
-            <h2 className="text-xl font-bold mb-4 gap-2">Effectiveness Analysis</h2>
-        </div>
-          
 
-        </section>
-
+              {/* Journal Reference section */}
         <section className="prose prose-lg max-w-none mb-16">
-          
 
-            
-
-        </section>
-        <section className="prose prose-lg max-w-none mb-16">
-        <section>
-
-            <h2>Interventions</h2>
-            <p>{interventions}</p>
-          </section>
 
           <section>
             <h2>Journal Reference</h2>

@@ -28,6 +28,11 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => (
 
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState('EN');
+
+  const toggleLanguage = () => {
+    setCurrentLanguage(currentLanguage === 'EN' ? 'ES' : 'EN');
+  };
 
   // Navigation menu component
   const NavigationMenu = () => (
@@ -67,15 +72,26 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <img
-                src="/logo1.png"
-                alt="DeXdiabetes Logo"
-                className="h-8 w-auto"
-              />
+              <a href="/" className="hover:opacity-90 transition-opacity">
+                <img
+                  src="/logo1.png"
+                  alt="DeXdiabetes Logo"
+                  className="h-8 w-auto"
+                />
+              </a>
             </div>
 
             {/* Navigation Icons */}
             <div className="flex items-center gap-4">
+              {/* Language Selector */}
+              <button
+                onClick={toggleLanguage}
+                className="px-2 py-1 rounded-md border border-border hover:bg-secondary/10 text-foreground text-sm font-medium transition-colors"
+                aria-label="Toggle language"
+              >
+                {currentLanguage}
+              </button>
+              
               <button 
                 className="p-2 rounded-full hover:bg-secondary text-foreground"
                 aria-label="Search"
