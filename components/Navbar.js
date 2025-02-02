@@ -121,11 +121,12 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                 ) : (
                   <IconMenu2 className="w-5 h-5" />
                 )}
+                <NavigationMenu />
               </button>
             </div>
           </div>
         </div>
-        <NavigationMenu />
+        
       </nav>
       
       {/* Overlay when menu is open (only on mobile) */}
