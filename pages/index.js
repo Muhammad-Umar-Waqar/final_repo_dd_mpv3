@@ -1,14 +1,17 @@
 // pages/index.js
 import { useState } from 'react';
 import Head from 'next/head';
+import { useTranslations } from '../utils/i18n';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import IntroSection from '../components/IntroSection';
 import SearchSection from '../components/SearchSection';
 import NewsGrid from '../components/NewsGrid';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { t } = useTranslations();
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -18,8 +21,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>dexdiabetes - Stay Informed About Diabetes</title>
-        <meta name="description" content="Stay informed about the latest breakthroughs in diabetes care" />
+        <title>{`${t('siteName')} - ${t('homeTitle')}`}</title>
+        <meta name="description" content={t('homeDescription')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -28,6 +31,9 @@ export default function Home() {
       <IntroSection />
       <SearchSection />
       <NewsGrid />
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </div>
   );
 }

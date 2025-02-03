@@ -1,21 +1,19 @@
 // components/Navbar.js
 import React, { useState } from 'react';
+import { useTranslations } from '../utils/i18n';
 import { 
   IconMenu2, 
   IconSearch, 
   IconSun, 
   IconMoon,
   IconHome2,
-  IconHandRock,
+  IconClipboardHeart,
   IconHeartFilled,
-  IconShieldFilled,
-  IconDeviceMobile,
-  IconPills,
-  IconMicroscope,
-  IconClock,
+  IconVaccineBottle,
+  IconFeatherFilled,
+  IconCrown,
   IconLogin,
-  IconX,
-  IconCrown
+  IconX
 } from '@tabler/icons-react';
 
 const MenuItem = ({ icon: Icon, text, href = '/' }) => (
@@ -30,49 +28,18 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => (
 
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('EN');
+  const { t, locale, changeLanguage } = useTranslations();
 
   const toggleLanguage = () => {
-    setCurrentLanguage(currentLanguage === 'EN' ? 'ES' : 'EN');
+    const newLocale = locale === 'en' ? 'es' : 'en';
+    changeLanguage(newLocale);
   };
-
-  const NavigationMenu = () => (
-    <div 
-      className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
-        isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-      } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
-    >
-      <div className="p-4">
-        <nav className="space-y-1">
-          <MenuItem icon={IconHome2} text="Home" href="/" />
-          <MenuItem icon={IconHandRock} text="Behavioral Intervention" href="/behavioral" />
-          <MenuItem icon={IconHeartFilled} text="Diabetes Complications" href="/complications" />
-          <MenuItem icon={IconShieldFilled} text="Diabetes Prevention" href="/prevention" />
-          <MenuItem icon={IconDeviceMobile} text="Digital Health" href="/digital" />
-          <MenuItem icon={IconPills} text="Pharmacology" href="/pharmacology" />
-          <MenuItem icon={IconMicroscope} text="Precision Medicine" href="/precision" />
-          <MenuItem icon={IconClock} text="T1D Cure Research" href="/t1d-research" />
-          <MenuItem icon={IconSearch} text="Search" href="/search" />
-        </nav>
-        
-        {/* Divider */}
-        <div className="h-px bg-border my-4" />
-        
-        {/* Login/Sign-up and Premium at bottom */}
-        <div>
-          <MenuItem icon={IconCrown} text="Premium Membership" href="/premium" />
-          <MenuItem icon={IconLogin} text="Login / Sign-up" href="/auth" />
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <>
       <nav className="relative border-b border-border bg-background z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo */}
             <div className="flex items-center">
               <a href="/" className="hover:opacity-90 transition-opacity">
                 <img
@@ -83,15 +50,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
               </a>
             </div>
 
-            {/* Navigation Icons */}
             <div className="flex items-center gap-4">
-              {/* Language Selector */}
               <button
                 onClick={toggleLanguage}
                 className="px-2 py-1 rounded-md border border-border hover:bg-secondary/10 text-foreground text-sm font-medium transition-colors"
                 aria-label="Toggle language"
               >
-                {currentLanguage}
+                {locale?.toUpperCase()}
               </button>
               
               <button 
@@ -100,6 +65,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
               >
                 <IconSearch className="w-5 h-5" />
               </button>
+              
               <button 
                 className="p-2 rounded-full hover:bg-secondary text-foreground"
                 onClick={toggleDarkMode}
@@ -111,6 +77,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                   <IconMoon className="w-5 h-5" />
                 )}
               </button>
+              
               <button 
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-full hover:bg-secondary text-foreground relative"
@@ -121,12 +88,33 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                 ) : (
                   <IconMenu2 className="w-5 h-5" />
                 )}
-                <NavigationMenu />
+                {/* Navigation Menu */}
+                <div 
+                  className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
+                    isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                  } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
+                >
+                  <div className="p-4">
+                    <nav className="space-y-1">
+                      <MenuItem icon={IconHome2} text={t('nav.home')} href="/" />
+                      <MenuItem icon={IconClipboardHeart} text={t('nav.interventions')} href="/interventions" />
+                      <MenuItem icon={IconHeartFilled} text={t('nav.outcomes')} href="/outcomes" />
+                      <MenuItem icon={IconVaccineBottle} text={t('nav.medications')} href="/medications" />
+                      <MenuItem icon={IconFeatherFilled} text={t('nav.supplements')} href="/supplements" />
+                    </nav>
+                    
+                    <div className="h-px bg-border my-4" />
+                    
+                    <div>
+                      <MenuItem icon={IconCrown} text={t('nav.premium')} href="/premium" />
+                      <MenuItem icon={IconLogin} text={t('nav.login')} href="/auth" />
+                    </div>
+                  </div>
+                </div>
               </button>
             </div>
           </div>
         </div>
-        
       </nav>
       
       {/* Overlay when menu is open (only on mobile) */}

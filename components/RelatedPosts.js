@@ -1,4 +1,3 @@
-// Add this to components/post-template/RelatedPosts.js
 import React from 'react';
 import Link from 'next/link';
 
@@ -14,7 +13,7 @@ const PostCard = ({ title, date, description, slug }) => (
       </svg>
     </div>
     <div className="p-6">
-      <Link href={`/posts/${slug}`}>
+      <Link href={`/${slug}`}>
         <h3 className="text-xl font-semibold text-foreground mb-2 hover:text-primary transition-colors">
           {title}
         </h3>
@@ -32,7 +31,7 @@ const RelatedPosts = ({ posts }) => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <h2 className="text-4xl font-bold mb-8">Related Posts</h2>
+      <h2 className="text-4xl font-bold mb-8">You might also Like ...</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post, index) => (
           <PostCard key={index} {...post} />

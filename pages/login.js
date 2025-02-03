@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function Login() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -16,8 +17,8 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>Login - dexdiabetes</title>
-        <meta name="description" content="Login to your dexdiabetes account" />
+        <title>Login - deDiabetes</title>
+        <meta name="description" content="Login to your deDiabetes account" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -83,6 +84,7 @@ export default function Login() {
           </Link>
         </form>
       </main>
+      <Footer />
     </div>
   );
 }

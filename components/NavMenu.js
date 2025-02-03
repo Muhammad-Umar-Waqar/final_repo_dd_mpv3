@@ -7,7 +7,7 @@ import {
   IconHeartFilled,
   IconShieldFilled,
   IconDeviceMobile,
-  IconPills,
+  IconVaccineBottle,
   IconMicroscope,
   IconClock,
   IconSearch,
@@ -35,15 +35,12 @@ const NavMenu = ({ isOpen, onClose }) => {
       >
         <div className="h-full flex flex-col py-6">
           <nav className="flex-1 space-y-1">
-            <MenuItem icon={IconHome2} text="Home" href="/" />
-            <MenuItem icon={IconHandRock} text="Behavioral Intervention" href="/behavioral" />
-            <MenuItem icon={IconHeartFilled} text="Diabetes Complications" href="/complications" />
-            <MenuItem icon={IconShieldFilled} text="Diabetes Prevention" href="/prevention" />
-            <MenuItem icon={IconDeviceMobile} text="Digital Health" href="/digital" />
-            <MenuItem icon={IconPills} text="Pharmacology" href="/pharmacology" />
-            <MenuItem icon={IconMicroscope} text="Precision Medicine" href="/precision" />
-            <MenuItem icon={IconClock} text="T1D Cure Research" href="/t1d-research" />
-            <MenuItem icon={IconSearch} text="Search" href="/search" />
+          <MenuItem icon={IconHome2} text="Home" href="/" />
+          <MenuItem icon={IconClipboardHeart} text="Interventions" href="/interventions" />
+          <MenuItem icon={IconHeartFilled} text="Outcomes" href="/outcomes" />
+          <MenuItem icon={IconVaccineBottle} text="Medications" href="/medications" />
+          <MenuItem icon={IconFeatherFilled} text="Supplements" href="/supplements" />
+          <MenuItem icon={IconSearch} text="Search" href="/search" />
           </nav>
           
           {/* Divider */}

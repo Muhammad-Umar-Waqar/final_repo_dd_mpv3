@@ -9,12 +9,11 @@ const SearchSection = () => {
     { id: 'all', label: 'All' },
     { id: 'behavioral', label: 'Behavioral' },
     { id: 'complications', label: 'Complications' },
-    { id: 'prevention', label: 'Prevention' },
-    { id: 'pharmacology', label: 'Pharmacology' },
-    { id: 't1d', label: 'T1D' },
     { id: 'digital', label: 'Digital' },
-    { id: 'precision-medicine', label: 'Precision Medicine' },
-    { id: 'supplements', label: 'Supplements' }
+    { id: 'pharmacology', label: 'Pharmacology' },
+    { id: 'prevention', label: 'Prevention' },
+    { id: 'supplements', label: 'Supplements' },
+    { id: 't1d', label: 'T1D' },
   ];
 
   // Add overlay when filter menu is open
@@ -30,12 +29,12 @@ const SearchSection = () => {
   return (
     <>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-4xl font-bold text-center mb-8">Search Articles</h1>
+        <h2 className="text-4xl font-bold text-center mb-8">Search News</h2>
         
-        <div className="relative mb-6 max-w-[70%] mx-auto">
+        <div className="relative mb-6  max-w-[70%] mx-auto">
           <input
             type="text"
-            placeholder="Search for articles, topics, or keywords..."
+            placeholder="Search for news, topics, or keywords..."
             className="w-full px-4 py-3 rounded-full border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
           <button

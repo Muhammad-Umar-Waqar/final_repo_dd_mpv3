@@ -41,6 +41,168 @@ yarn-error.log*
 
 ```
 
+# components\ArticleTemplate.js
+
+```js
+import React from 'react';
+import { IconPhoto } from '@tabler/icons-react';
+import BlogPostHeader from './BlogPostHeader';
+import Footer from './Footer';
+import Navbar from './Navbar';
+import RelatedPosts from './RelatedPosts';
+
+const ArticleTemplate = ({
+  title = "Article Title",
+  subtitle = "",
+  author = "Author Name",
+  publisher = "Publisher Name",
+  publishDate = "Publication Date",
+  readTime = "5 min read",
+  content = "",
+  imageUrl = null,
+  imageCaption = "",
+  isDarkMode = false,
+  toggleDarkMode = () => {},
+  relatedPosts = []
+}) => {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main className="max-w-4xl mx-auto px-4 py-8">
+        {/* Article Header */}
+        <BlogPostHeader 
+          title={title}
+          publisher={publisher}
+          publishDate={publishDate}
+          readTime={readTime}
+        />
+
+        {/* Subtitle if present */}
+        {subtitle && (
+          <p className="text-xl text-muted-foreground mb-8">
+            {subtitle}
+          </p>
+        )}
+
+        {/* Featured Image */}
+        <figure className="mb-16">
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={imageCaption || title}
+              className="w-full rounded-lg"
+            />
+          ) : (
+            <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
+              <IconPhoto className="w-12 h-12 text-muted-foreground" />
+            </div>
+          )}
+          {imageCaption && (
+            <figcaption className="mt-2 text-sm text-muted-foreground text-center">
+              {imageCaption}
+            </figcaption>
+          )}
+        </figure>
+
+        {/* Author info */}
+        <div className="mb-8">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+              <span className="text-lg font-medium text-muted-foreground">
+                {author[0]}
+              </span>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">{author}</p>
+              <p className="text-sm text-muted-foreground">
+                {publishDate} · {readTime}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Article Content */}
+        <article className="prose prose-lg max-w-none mb-16">
+          {content}
+        </article>
+
+
+        {/* Newsletter Section */}
+        <section className="bg-secondary/5 rounded-lg p-8 mb-16">
+          <h2 className="text-2xl font-bold text-center mb-4">
+            Stay Updated with the Latest Articles
+          </h2>
+          <p className="text-center text-muted-foreground mb-6">
+            Subscribe to our newsletter for weekly updates on diabetes research and care.
+          </p>
+          <form onSubmit={(e) => e.preventDefault()} className="max-w-md mx-auto">
+            <div className="flex gap-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-2 rounded-md border border-input bg-background"
+              />
+              <button className="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                Subscribe
+              </button>
+            </div>
+          </form>
+        </section>
+        
+        {/* Related Posts Section */}
+        {relatedPosts.length > 0 && (
+          <RelatedPosts posts={relatedPosts} />
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default ArticleTemplate;
+```
+
+# components\BlogPostHeader.js
+
+```js
+import React from 'react';
+import { IconBookmark } from '@tabler/icons-react';
+import ShareMenu from './ShareMenu';
+
+const BlogPostHeader = ({ title, publisher, publishDate }) => {
+  return (
+    <header className="mb-16">
+      <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+        {title}
+      </h1>
+      <hr className="border-border mb-6" />
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-4">
+          <div>
+            <h4 className="font-medium text-foreground">{publisher}</h4>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <time>Published on {publishDate}</time>
+
+            </div>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <button className="p-2 hover:bg-secondary/10 rounded-full">
+            <IconBookmark className="w-6 h-6" />
+          </button>
+          <ShareMenu title={title} />
+        </div>
+      </div>
+      <hr className="border-border" />
+    </header>
+  );
+};
+
+export default BlogPostHeader;
+```
+
 # components\DiscussionsSection.js
 
 ```js
@@ -91,7 +253,7 @@ export const StudyCard = (props) => (
 );
 
 export const XCard = (props) => (
-  <BaseDiscussionCard {...props} icon={IconBrandX} type="x" />
+  <BaseDiscussionCard {...props} icon={IconBrandX} type="" />
 );
 
 export const YoutubeCard = (props) => (
@@ -171,7 +333,7 @@ const DiscussionsSection = ({
       </div>
 
       {/* Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
         {getDisplayCards().map(renderCard)}
       </div>
     </section>
@@ -184,58 +346,164 @@ export default DiscussionsSection;
 # components\FilterMenu.js
 
 ```js
-import React from 'react';
-import { IconChevronDown, IconChevronUp, IconX } from '@tabler/icons-react';
+import React, { useState } from 'react';
+import { IconChevronDown, IconChevronUp, IconX, IconSearch } from '@tabler/icons-react';
 
 const FilterMenu = ({ isOpen, onClose }) => {
-  const [openSection, setOpenSection] = React.useState(null);
+  const [openSection, setOpenSection] = useState(null);
+  const [searchOutcomes, setSearchOutcomes] = useState('');
+  const [searchInterventions, setSearchInterventions] = useState('');
+
+  const outcomes = [
+    "Clinical Outcomes", "Safety Outcomes",
+    "Treatment Success", "Mortality Rate",
+    "Side Effects", "Quality of Life",
+    "Recovery Time", "Complication Rate",
+    "Patient Satisfaction", "Cost Effectiveness"
+  ];
+
+  const interventions = [
+    "Drug Therapy", "Medical Device",
+    "Surgery", "Physical Therapy",
+    "Behavioral", "Dietary",
+    "Lifestyle", "Alternative Medicine",
+    "Preventive Care", "Emergency Care"
+  ];
+
+  const filteredOutcomes = outcomes.filter(outcome =>
+    outcome.toLowerCase().includes(searchOutcomes.toLowerCase())
+  );
+
+  const filteredInterventions = interventions.filter(intervention =>
+    intervention.toLowerCase().includes(searchInterventions.toLowerCase())
+  );
+
+  const SearchableGrid = ({ items, searchValue, onSearchChange, placeholder }) => (
+    <div className="space-y-4">
+      <div className="relative">
+        <input
+          type="text"
+          placeholder={placeholder || "Search..."}
+          value={searchValue}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className="w-full px-4 py-2 pl-10 border border-border rounded-md bg-background"
+        />
+        <IconSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+      </div>
+      <div className="grid grid-cols-2 border border-border">
+        {items.map((item, index) => (
+          <label
+            key={index}
+            className="contents"
+          >
+            <div className="flex items-start border-b border-r border-border p-3">
+              <input
+                type="checkbox"
+                className="mr-2 mt-1.5 flex-shrink-0"
+              />
+              <span className="text-sm whitespace-normal">{item}</span>
+            </div>
+          </label>
+        ))}
+      </div>
+    </div>
+  );
 
   const menuItems = [
     {
-      title: 'OUTCOMES',
-      children: ['Clinical Outcomes', 'Safety Outcomes', 'Patient-Reported Outcomes']
+      title: "OUTCOMES",
+      content: (
+        <SearchableGrid
+          items={filteredOutcomes}
+          searchValue={searchOutcomes}
+          onSearchChange={setSearchOutcomes}
+          placeholder="Search outcomes..."
+        />
+      )
     },
     {
-      title: 'INTERVENTIONS',
-      children: ['Drug Interventions', 'Device Interventions', 'Behavioral Interventions']
+      title: "INTERVENTIONS",
+      content: (
+        <SearchableGrid
+          items={filteredInterventions}
+          searchValue={searchInterventions}
+          onSearchChange={setSearchInterventions}
+          placeholder="Search interventions..."
+        />
+      )
     },
     {
-      title: 'PARTICIPANTS',
-      children: ['Inclusion Criteria', 'Exclusion Criteria', 'Demographics']
+      title: "PARTICIPANTS",
+      children: [
+        'Male',
+        'Female',
+        'Pregnant',
+        'Non-diabetics',
+        'T2 Diabetes',
+        'T1 Diabetes',
+        'Prediabetes',
+        'Insulin Resistance',
+        'Children (≤13)',
+        'Adolescent (13–18)',
+        'Young Adult (19–39)',
+        'Middle Aged (40-64)',
+        'Older Adults (65+)'
+      ]
     },
     {
-      title: 'TRIAL TYPE',
-      children: ['Randomized', 'Non-Randomized', 'Observational']
+      title: "TRIAL TYPE",
+      children: [
+        'Meta-Analysis',
+        'Systematic Review',
+        'RCTs',
+        'Non-randomized CT',
+        'Cohort',
+        'Case-Control',
+        'Cross-Sectional'
+      ]
     },
     {
-      title: 'TRIAL SIZE',
-      children: ['Small (<100)', 'Medium (100-500)', 'Large (>500)']
+      title: "TRIAL SIZE",
+      children: [
+        'Small size (≤100)',
+        'Medium size (100–500)',
+        'Large size (500–5000)',
+        'Mega size (5000+)'
+      ]
     },
     {
-      title: 'TRIAL DURATION',
-      children: ['Short-term', 'Medium-term', 'Long-term']
+      title: "TRIAL DURATION",
+      children: [
+        'Short-Term (≤3 mo)',
+        'Medium-Term (3–12 mo)',
+        'Long-Term (1–5 y)',
+        'Extended (5–20+ y)'
+      ]
     },
     {
-      title: 'GEOGRAPHY',
-      children: ['North America', 'Europe', 'Asia', 'Other Regions']
+      title: "GEOGRAPHY",
+      children: [
+        'North America',
+        'Europe (EU & UK)',
+        'Asia-Pacific (APAC)',
+        'Latin America (LATAM)',
+        'Middle East & North Africa (MENA)',
+        'Sub-Saharan Africa'
+      ]
     },
     {
-      title: 'YEAR',
+      title: "YEAR",
       children: ['2024', '2023', '2022', 'Earlier']
     },
     {
-      title: 'SPONSORSHIP',
-      children: ['Industry', 'Government', 'Academic', 'Other']
+      title: "SPONSORSHIP",
+      children: ['Industry sponsored', 'Non-sponsored']
     }
   ];
 
-  const toggleSection = (index) => {
-    setOpenSection(openSection === index ? null : index);
-  };
-
   return (
     <div 
-      className={`fixed inset-y-0 right-0 w-64 bg-background border-l border-border transform transition-transform duration-300 ease-in-out ${
+      className={`fixed inset-y-0 right-0 w-80 bg-background border-l border-border transform transition-transform duration-300 ease-in-out ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       } z-50`}
     >
@@ -255,7 +523,7 @@ const FilterMenu = ({ isOpen, onClose }) => {
           {menuItems.map((item, index) => (
             <div key={index} className="border-b border-border last:border-0">
               <button
-                onClick={() => toggleSection(index)}
+                onClick={() => setOpenSection(openSection === index ? null : index)}
                 className="w-full px-3 py-2 flex justify-between items-center text-foreground hover:text-primary hover:bg-secondary/10"
               >
                 <span>{item.title}</span>
@@ -267,19 +535,23 @@ const FilterMenu = ({ isOpen, onClose }) => {
               </button>
               
               {openSection === index && (
-                <div className="pl-6 space-y-2 py-2 bg-secondary/10">
-                  {item.children.map((child, childIndex) => (
-                    <label
-                      key={childIndex}
-                      className="block px-3 py-1 text-sm text-muted-foreground hover:text-primary hover:bg-secondary/10"
-                    >
-                      <input
-                        type="checkbox"
-                        className="mr-2"
-                      />
-                      {child}
-                    </label>
-                  ))}
+                <div className="px-3 py-2 bg-secondary/5">
+                  {item.content || (
+                    <div className="space-y-2">
+                      {item.children.map((child, childIndex) => (
+                        <label
+                          key={childIndex}
+                          className="flex items-center hover:bg-secondary/10 px-3 py-1 rounded"
+                        >
+                          <input
+                            type="checkbox"
+                            className="mr-2"
+                          />
+                          <span className="text-sm text-muted-foreground">{child}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -298,13 +570,79 @@ const FilterMenu = ({ isOpen, onClose }) => {
 export default FilterMenu;
 ```
 
+# components\Footer.js
+
+```js
+// components/Footer.js
+import Link from 'next/link';
+import { IconUsers, IconMail, IconArchive, IconMessageCircle } from '@tabler/icons-react';
+
+const Footer = () => {
+  return (
+    <footer className="border-t border-border bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="flex items-center justify-center md:justify-start">
+            <Link href="/" className="hover:opacity-90 transition-opacity">
+              <img
+                src="/logo1.png"
+                alt="deDiabetes Logo"
+                className="h-8 w-auto"
+              />
+            </Link>
+          </div>
+          
+          <div className="flex justify-center md:justify-end col-span-3">
+            <nav className="flex items-center space-x-8">
+              <Link 
+                href="/about"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <IconUsers className="w-5 h-5" />
+                <span>About us</span>
+              </Link>
+              
+              <Link 
+                href="/newsletter"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <IconMail className="w-5 h-5" />
+                <span>Newsletter</span>
+              </Link>
+              
+              <Link 
+                href="/archive"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <IconArchive className="w-5 h-5" />
+                <span>Archive</span>
+              </Link>
+              
+              <Link 
+                href="/contact"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <IconMessageCircle className="w-5 h-5" />
+                <span>Contact us</span>
+              </Link>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+```
+
 # components\Hero.js
 
 ```js
 // components/Hero.js
 const Hero = () => {
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <main className="max-w-7xl bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6">
           <span className="text-primary">Stay informed.</span>{' '}
@@ -312,8 +650,7 @@ const Hero = () => {
         </h1>
         
         <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-          Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates 
-          in diabetes care—delivered straight to your inbox.
+        Subscribe now for AI-powered insights, the latest breakthroughs, and expert updates in diabetes care—delivered straight to your inbox.
         </p>
 
         {/* Subscription Form */}
@@ -344,6 +681,225 @@ const Hero = () => {
 export default Hero;
 ```
 
+# components\InterventionsPage.js
+
+```js
+import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+
+const InterventionsPage = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [filterText, setFilterText] = useState('');
+  const [effectivenessFilter, setEffectivenessFilter] = useState('all');
+  const [biasFilter, setBiasFilter] = useState('all');
+  const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
+  const [showBiasDropdown, setBiasDropdown] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  // Same data structure and filtering logic as Medications page, just with interventions
+  const interventionsData = [
+    {
+      intervention: 'Intervention 1',
+      outcomes: [
+        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' },
+        { name: 'Outcome 3', effectiveness: 'Med', studies: 7, bias: 'Moderate' },
+      ]
+    },
+    {
+      intervention: 'Intervention 2',
+      outcomes: [
+        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' }
+      ]
+    },
+    {
+      intervention: 'Intervention 3',
+      outcomes: [
+        { name: 'Outcome 4', effectiveness: 'High', studies: 13, bias: 'Low' }
+      ]
+    },
+  ];
+
+  const filteredInterventions = interventionsData
+    .map(intervention => ({
+      ...intervention,
+      outcomes: intervention.outcomes.filter(outcome => {
+        const matchesSearch = intervention.intervention.toLowerCase().includes(filterText.toLowerCase()) ||
+                            outcome.name.toLowerCase().includes(filterText.toLowerCase());
+        const matchesEffectiveness = effectivenessFilter === 'all' || outcome.effectiveness === effectivenessFilter;
+        const matchesBias = biasFilter === 'all' || outcome.bias === biasFilter;
+        return matchesSearch && matchesEffectiveness && matchesBias;
+      })
+    }))
+    .filter(intervention => intervention.outcomes.length > 0);
+
+  const getEffectivenessColor = (effectiveness) => {
+    switch (effectiveness.toLowerCase()) {
+      case 'high':
+        return 'text-green-600';
+      case 'med':
+        return 'text-yellow-600';
+      case 'low':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
+    }
+  };
+
+  const effectivenessOptions = ['all', 'High', 'Med', 'Low'];
+  const biasOptions = ['all', 'Low', 'Medium', 'Moderate'];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">Interventions Analysis</h1>
+        
+        {/* Search and Filters Row */}
+        <div className="mb-6 flex flex-wrap gap-4 items-center">
+          {/* Search Input */}
+          <div className="flex-grow max-w-md">
+            <input
+              type="text"
+              placeholder="Filter interventions..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+
+          {/* Effectiveness Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setShowEffectivenessDropdown(!showEffectivenessDropdown);
+                setBiasDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Effectiveness
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showEffectivenessDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {effectivenessOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setEffectivenessFilter(option);
+                      setShowEffectivenessDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      effectivenessFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Effectiveness' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Bias Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setBiasDropdown(!showBiasDropdown);
+                setShowEffectivenessDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Bias
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showBiasDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {biasOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setBiasFilter(option);
+                      setBiasDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      biasFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Bias Levels' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Intervention</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Outcome</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Effectiveness</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Studies</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Bias</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredInterventions.map((item, index) => (
+                item.outcomes.map((outcome, outcomeIndex) => (
+                  <tr 
+                    key={`${index}-${outcomeIndex}`}
+                    className="border-b border-gray-200 hover:bg-gray-50"
+                  >
+                    {outcomeIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.outcomes.length}
+                      >
+                        {item.intervention}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{outcome.name}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(outcome.effectiveness)}`}>
+                      {outcome.effectiveness}
+                    </td>
+                    <td className="px-6 py-4">
+                      <a href="#" className="text-primary hover:underline">
+                        {outcome.studies}
+                      </a>
+                    </td>
+                    <td className="px-6 py-4">
+                      {outcome.bias}
+                    </td>
+                  </tr>
+                ))
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default InterventionsPage;
+```
+
 # components\IntroSection.js
 
 ```js
@@ -367,27 +923,245 @@ const IntroSection = () => {
   export default IntroSection;
 ```
 
+# components\MedicationsPage.js
+
+```js
+import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+
+const MedicationsPage = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [filterText, setFilterText] = useState('');
+  const [effectivenessFilter, setEffectivenessFilter] = useState('all');
+  const [biasFilter, setBiasFilter] = useState('all');
+  const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
+  const [showBiasDropdown, setBiasDropdown] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  const medicationsData = [
+    {
+      medication: 'Medication 1',
+      outcomes: [
+        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' },
+        { name: 'Outcome 3', effectiveness: 'Med', studies: 7, bias: 'Moderate' },
+      ]
+    },
+    {
+      medication: 'Medication 2',
+      outcomes: [
+        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' }
+      ]
+    },
+    {
+      medication: 'Medication 3',
+      outcomes: [
+        { name: 'Outcome 4', effectiveness: 'High', studies: 13, bias: 'Low' }
+      ]
+    },
+  ];
+
+  // Filter medications based on all criteria
+  const filteredMedications = medicationsData
+    .map(medication => ({
+      ...medication,
+      outcomes: medication.outcomes.filter(outcome => {
+        const matchesSearch = medication.medication.toLowerCase().includes(filterText.toLowerCase()) ||
+                            outcome.name.toLowerCase().includes(filterText.toLowerCase());
+        const matchesEffectiveness = effectivenessFilter === 'all' || outcome.effectiveness === effectivenessFilter;
+        const matchesBias = biasFilter === 'all' || outcome.bias === biasFilter;
+        return matchesSearch && matchesEffectiveness && matchesBias;
+      })
+    }))
+    .filter(medication => medication.outcomes.length > 0);
+
+  const getEffectivenessColor = (effectiveness) => {
+    switch (effectiveness.toLowerCase()) {
+      case 'high':
+        return 'text-green-600';
+      case 'med':
+        return 'text-yellow-600';
+      case 'low':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
+    }
+  };
+
+  // Filter options
+  const effectivenessOptions = ['all', 'High', 'Med', 'Low'];
+  const biasOptions = ['all', 'Low', 'Medium', 'Moderate'];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">Medications Analysis</h1>
+        
+        {/* Search and Filters Row */}
+        <div className="mb-6 flex flex-wrap gap-4 items-center">
+          {/* Search Input */}
+          <div className="flex-grow max-w-md">
+            <input
+              type="text"
+              placeholder="Filter medications..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+
+          {/* Effectiveness Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setShowEffectivenessDropdown(!showEffectivenessDropdown);
+                setBiasDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Effectiveness
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showEffectivenessDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {effectivenessOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setEffectivenessFilter(option);
+                      setShowEffectivenessDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      effectivenessFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Effectiveness' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Bias Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setBiasDropdown(!showBiasDropdown);
+                setShowEffectivenessDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Bias
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showBiasDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {biasOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setBiasFilter(option);
+                      setBiasDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      biasFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Bias Levels' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Medication</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Outcome</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Effectiveness</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Studies</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Bias</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredMedications.map((item, index) => (
+                item.outcomes.map((outcome, outcomeIndex) => (
+                  <tr 
+                    key={`${index}-${outcomeIndex}`}
+                    className="border-b border-gray-200 hover:bg-gray-50"
+                  >
+                    {outcomeIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.outcomes.length}
+                      >
+                        {item.medication}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{outcome.name}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(outcome.effectiveness)}`}>
+                      {outcome.effectiveness}
+                    </td>
+                    <td className="px-6 py-4">
+                      <a href="#" className="text-primary hover:underline">
+                        {outcome.studies}
+                      </a>
+                    </td>
+                    <td className="px-6 py-4">
+                      {outcome.bias}
+                    </td>
+                  </tr>
+                ))
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default MedicationsPage;
+```
+
 # components\Navbar.js
 
 ```js
 // components/Navbar.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useTranslations } from '../utils/i18n';
 import { 
   IconMenu2, 
   IconSearch, 
   IconSun, 
   IconMoon,
   IconHome2,
-  IconHandRock,
+  IconClipboardHeart,
   IconHeartFilled,
-  IconShieldFilled,
-  IconDeviceMobile,
-  IconPills,
-  IconMicroscope,
-  IconClock,
+  IconVaccineBottle,
+  IconFeatherFilled,
+  IconCrown,
   IconLogin,
-  IconX,
-  IconCrown
+  IconX
 } from '@tabler/icons-react';
 
 const MenuItem = ({ icon: Icon, text, href = '/' }) => (
@@ -402,49 +1176,42 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => (
 
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('EN');
+  const { locale, changeLanguage } = useTranslations();
+  const [translations, setTranslations] = useState({});
+
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const module = await import(`../locales/${locale}/common.json`);
+        setTranslations(module.default);
+      } catch (error) {
+        console.error('Failed to load translations:', error);
+      }
+    };
+    
+    loadTranslations();
+  }, [locale]);
 
   const toggleLanguage = () => {
-    setCurrentLanguage(currentLanguage === 'EN' ? 'ES' : 'EN');
+    const newLocale = locale === 'en' ? 'es' : 'en';
+    changeLanguage(newLocale);
   };
 
-  const NavigationMenu = () => (
-    <div 
-      className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
-        isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-      } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
-    >
-      <div className="p-4">
-        <nav className="space-y-1">
-          <MenuItem icon={IconHome2} text="Home" href="/" />
-          <MenuItem icon={IconHandRock} text="Behavioral Intervention" href="/behavioral" />
-          <MenuItem icon={IconHeartFilled} text="Diabetes Complications" href="/complications" />
-          <MenuItem icon={IconShieldFilled} text="Diabetes Prevention" href="/prevention" />
-          <MenuItem icon={IconDeviceMobile} text="Digital Health" href="/digital" />
-          <MenuItem icon={IconPills} text="Pharmacology" href="/pharmacology" />
-          <MenuItem icon={IconMicroscope} text="Precision Medicine" href="/precision" />
-          <MenuItem icon={IconClock} text="T1D Cure Research" href="/t1d-research" />
-          <MenuItem icon={IconSearch} text="Search" href="/search" />
-        </nav>
-        
-        {/* Divider */}
-        <div className="h-px bg-border my-4" />
-        
-        {/* Login/Sign-up and Premium at bottom */}
-        <div>
-          <MenuItem icon={IconCrown} text="Premium Membership" href="/premium" />
-          <MenuItem icon={IconLogin} text="Login / Sign-up" href="/auth" />
-        </div>
-      </div>
-    </div>
-  );
+  const t = (key) => {
+    const keys = key.split('.');
+    let result = translations;
+    for (const k of keys) {
+      result = result?.[k];
+      if (!result) break;
+    }
+    return result || key;
+  };
 
   return (
     <>
       <nav className="relative border-b border-border bg-background z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            {/* Logo */}
             <div className="flex items-center">
               <a href="/" className="hover:opacity-90 transition-opacity">
                 <img
@@ -455,15 +1222,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
               </a>
             </div>
 
-            {/* Navigation Icons */}
             <div className="flex items-center gap-4">
-              {/* Language Selector */}
               <button
                 onClick={toggleLanguage}
                 className="px-2 py-1 rounded-md border border-border hover:bg-secondary/10 text-foreground text-sm font-medium transition-colors"
                 aria-label="Toggle language"
               >
-                {currentLanguage}
+                {locale?.toUpperCase()}
               </button>
               
               <button 
@@ -472,6 +1237,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
               >
                 <IconSearch className="w-5 h-5" />
               </button>
+              
               <button 
                 className="p-2 rounded-full hover:bg-secondary text-foreground"
                 onClick={toggleDarkMode}
@@ -483,6 +1249,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                   <IconMoon className="w-5 h-5" />
                 )}
               </button>
+              
               <button 
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-full hover:bg-secondary text-foreground relative"
@@ -493,11 +1260,33 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                 ) : (
                   <IconMenu2 className="w-5 h-5" />
                 )}
+                {/* Navigation Menu */}
+                <div 
+                  className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
+                    isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                  } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
+                >
+                  <div className="p-4">
+                    <nav className="space-y-1">
+                      <MenuItem icon={IconHome2} text={t('nav.home')} href="/" />
+                      <MenuItem icon={IconClipboardHeart} text={t('nav.interventions')} href="/interventions" />
+                      <MenuItem icon={IconHeartFilled} text={t('nav.outcomes')} href="/outcomes" />
+                      <MenuItem icon={IconVaccineBottle} text={t('nav.medications')} href="/medications" />
+                      <MenuItem icon={IconFeatherFilled} text={t('nav.supplements')} href="/supplements" />
+                    </nav>
+                    
+                    <div className="h-px bg-border my-4" />
+                    
+                    <div>
+                      <MenuItem icon={IconCrown} text={t('nav.premium')} href="/premium" />
+                      <MenuItem icon={IconLogin} text={t('nav.login')} href="/auth" />
+                    </div>
+                  </div>
+                </div>
               </button>
             </div>
           </div>
         </div>
-        <NavigationMenu />
       </nav>
       
       {/* Overlay when menu is open (only on mobile) */}
@@ -524,7 +1313,7 @@ import {
   IconHeartFilled,
   IconShieldFilled,
   IconDeviceMobile,
-  IconPills,
+  IconVaccineBottle,
   IconMicroscope,
   IconClock,
   IconSearch,
@@ -552,15 +1341,12 @@ const NavMenu = ({ isOpen, onClose }) => {
       >
         <div className="h-full flex flex-col py-6">
           <nav className="flex-1 space-y-1">
-            <MenuItem icon={IconHome2} text="Home" href="/" />
-            <MenuItem icon={IconHandRock} text="Behavioral Intervention" href="/behavioral" />
-            <MenuItem icon={IconHeartFilled} text="Diabetes Complications" href="/complications" />
-            <MenuItem icon={IconShieldFilled} text="Diabetes Prevention" href="/prevention" />
-            <MenuItem icon={IconDeviceMobile} text="Digital Health" href="/digital" />
-            <MenuItem icon={IconPills} text="Pharmacology" href="/pharmacology" />
-            <MenuItem icon={IconMicroscope} text="Precision Medicine" href="/precision" />
-            <MenuItem icon={IconClock} text="T1D Cure Research" href="/t1d-research" />
-            <MenuItem icon={IconSearch} text="Search" href="/search" />
+          <MenuItem icon={IconHome2} text="Home" href="/" />
+          <MenuItem icon={IconClipboardHeart} text="Interventions" href="/interventions" />
+          <MenuItem icon={IconHeartFilled} text="Outcomes" href="/outcomes" />
+          <MenuItem icon={IconVaccineBottle} text="Medications" href="/medications" />
+          <MenuItem icon={IconFeatherFilled} text="Supplements" href="/supplements" />
+          <MenuItem icon={IconSearch} text="Search" href="/search" />
           </nav>
           
           {/* Divider */}
@@ -592,11 +1378,12 @@ export default NavMenu;
 
 ```js
 import React from 'react';
-import { IconClock,IconBookmark,IconShare2 } from '@tabler/icons-react';
+import { IconClock, IconBookmark } from '@tabler/icons-react';
+import ShareMenu from './ShareMenu';
 
-const NewsCard = ({ category, title, description, publisher, publishDate,timeToRead }) => {
+const NewsCard = ({ category, title, description, publisher, publishDate, timeToRead }) => {
   return (
-    <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-background border border-border rounded-lg overflow-visible hover:shadow-lg transition-shadow duration-300">
       <div className="aspect-[16/9] bg-muted">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" className="w-full h-full">
           <rect width="400" height="225" fill="#f5f5f5"/>
@@ -624,26 +1411,23 @@ const NewsCard = ({ category, title, description, publisher, publishDate,timeToR
           {publisher}
         </p>
         <hr className="border-border mb-6" />
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div>
-                <h4 className="font-medium text-foreground">{publisher}</h4>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <time>{publishDate}</time>
-                
-                </div>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <div>
+              <h4 className="font-medium text-foreground">{publisher}</h4>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <time>{publishDate}</time>
               </div>
             </div>
-            <div className="flex gap-2">
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconBookmark className="w-6 h-6" />
-              </button>
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconShare2 className="w-6 h-6" />
-              </button>
-            </div>
           </div>
-          <hr className="border-border" />
+          <div className="flex gap-2">
+            <button className="p-2 hover:bg-secondary/10 rounded-full">
+              <IconBookmark className="w-6 h-6" />
+            </button>
+            <ShareMenu title={title} />
+          </div>
+        </div>
+        <hr className="border-border" />
       </div>
     </div>
   );
@@ -746,49 +1530,265 @@ const NewsGrid = () => {
 export default NewsGrid;
 ```
 
-# components\post-template\index.js
+# components\OutcomesPage.js
 
 ```js
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileTextAi, IconClock, IconBookmark, IconShare2 } from '@tabler/icons-react';
-import DiscussionsSection from '../DiscussionsSection.js';
-import RelatedPosts from './RelatedPosts';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { IconChevronDown, IconFilter } from '@tabler/icons-react';
 
-const BlogPost = ({
+const OutcomesPage = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [filterText, setFilterText] = useState('');
+  const [effectivenessFilter, setEffectivenessFilter] = useState('all');
+  const [biasFilter, setBiasFilter] = useState('all');
+  const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
+  const [showBiasDropdown, setBiasDropdown] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  const outcomesData = [
+    {
+      outcome: 'Outcome 1',
+      interventions: [
+        { name: 'Intervention 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Intervention 2', effectiveness: 'Low', studies: 5, bias: 'Medium' },
+        { name: 'Intervention 3', effectiveness: 'Med', studies: 7, bias: 'Moderate' },
+      ]
+    },
+    {
+      outcome: 'Outcome 2',
+      interventions: [
+        { name: 'Intervention 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Intervention 2', effectiveness: 'Low', studies: 5, bias: 'Medium' }
+      ]
+    },
+    {
+      outcome: 'Outcome 3',
+      interventions: [
+        { name: 'Intervention 4', effectiveness: 'High', studies: 13, bias: 'Low' }
+      ]
+    },
+  ];
+
+  const filteredOutcomes = outcomesData
+    .map(outcome => ({
+      ...outcome,
+      interventions: outcome.interventions.filter(intervention => {
+        const matchesSearch = outcome.outcome.toLowerCase().includes(filterText.toLowerCase()) ||
+                            intervention.name.toLowerCase().includes(filterText.toLowerCase());
+        const matchesEffectiveness = effectivenessFilter === 'all' || intervention.effectiveness === effectivenessFilter;
+        const matchesBias = biasFilter === 'all' || intervention.bias === biasFilter;
+        return matchesSearch && matchesEffectiveness && matchesBias;
+      })
+    }))
+    .filter(outcome => outcome.interventions.length > 0);
+
+  const getEffectivenessColor = (effectiveness) => {
+    switch (effectiveness.toLowerCase()) {
+      case 'high':
+        return 'text-green-600';
+      case 'med':
+        return 'text-yellow-600';
+      case 'low':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
+    }
+  };
+
+  const effectivenessOptions = ['all', 'High', 'Med', 'Low'];
+  const biasOptions = ['all', 'Low', 'Medium', 'Moderate'];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">Outcomes Analysis</h1>
+        
+        {/* Search and Filters Row */}
+        <div className="mb-6 flex flex-wrap gap-4 items-center">
+          {/* Search Input */}
+          <div className="flex-grow max-w-md">
+            <input
+              type="text"
+              placeholder="Filter outcomes..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+
+          {/* Effectiveness Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setShowEffectivenessDropdown(!showEffectivenessDropdown);
+                setBiasDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Effectiveness
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showEffectivenessDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {effectivenessOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setEffectivenessFilter(option);
+                      setShowEffectivenessDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      effectivenessFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Effectiveness' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Bias Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setBiasDropdown(!showBiasDropdown);
+                setShowEffectivenessDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Bias
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showBiasDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {biasOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setBiasFilter(option);
+                      setBiasDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      biasFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Bias Levels' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Outcome</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Intervention</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Effectiveness</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Studies</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Bias</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredOutcomes.map((item, index) => (
+                item.interventions.map((intervention, interventionIndex) => (
+                  <tr 
+                    key={`${index}-${interventionIndex}`}
+                    className="border-b border-gray-200 hover:bg-gray-50"
+                  >
+                    {interventionIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.interventions.length}
+                      >
+                        {item.outcome}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{intervention.name}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(intervention.effectiveness)}`}>
+                      {intervention.effectiveness}
+                    </td>
+                    <td className="px-6 py-4">
+                      <a href="#" className="text-primary hover:underline">
+                        {intervention.studies}
+                      </a>
+                    </td>
+                    <td className="px-6 py-4">
+                      {intervention.bias}
+                    </td>
+                  </tr>
+                ))
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default OutcomesPage;
+```
+
+# components\PostTemplate.js
+
+```js
+import React, { useState } from 'react';
+import { IconChevronUp, IconPhoto, IconFileTextAi } from '@tabler/icons-react';
+import DiscussionsSection from './DiscussionsSection';
+import RelatedPosts from './RelatedPosts';
+import BlogPostHeader from './BlogPostHeader';
+import Footer from './Footer';
+
+const PostTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
   publisher = "Diabetes Research Journal",
   publishDate = "January 31, 2025",
   readTime = "8 min read",
-  summary = "baba baba baba",
+  summary = "",
   studyDesign = {
-    interventions: ["Continuous Monitoring", "Smart Insulin"],
-    outcomes:["outcome 1", "outcome 2"],
-    studyType: "Randomized Controlled Trial",
-    duration: "24 Months",
-    size: "500 Participants"
+    interventions: [],
+    outcomes: [],
+    studyType: "",
+    duration: "",
+    size: ""
   },
   studyPopulation = {
-    ageRange: "18-65 years",
-    sex: "All genders",
-    geography: ["Multi-center US", "Europe"],
-    others: ["Type 1 Diabetes", "5+ years diagnosed"]
+    ageRange: "",
+    sex: "",
+    geography: [],
+    others: []
   },
-  methodology = `The study employed a rigorous methodological framework to ensure data reliability and validity. 
-    Participants were randomly assigned to treatment groups using a computer-generated algorithm.`,
-  interventions = `The intervention protocol consisted of a multi-component diabetes management system integrating 
-    continuous glucose monitoring with automated insulin delivery.`,
-  keyFindings = `The study revealed significant improvements in glycemic control among intervention group 
-    participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
-    comparison = `The study revealed significant improvements in glycemic control among intervention group 
-    participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
-    biasScore = "Moderate",
+  methodology = "",
+  interventions = "",
+  keyFindings = "",
+  comparison = "",
+  biasScore = "",
   effectivenessAnalysis = {
-    intervention: "AI-Driven Monitoring",
-    effectiveness: "Moderate"
+    intervention: "",
+    effectiveness: ""
   },
   journalReference = {
-    full: "daba daba daba"
+    full: ""
   },
   expertCards = [],
   onlineCards = [],
@@ -798,10 +1798,8 @@ const BlogPost = ({
   youtubeCards = [],
   relatedPosts = []
 }) => {
-  // Back to top button visibility state
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  // Handle scroll
   React.useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -813,7 +1811,6 @@ const BlogPost = ({
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Back to top button */}
       {showBackToTop && (
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -824,39 +1821,13 @@ const BlogPost = ({
       )}
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Article Header */}
-        <header className="mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            {title}
-          </h1>
-          <hr className="border-border mb-6" />
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div>
-                <h4 className="font-medium text-foreground">{publisher}</h4>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <time>{publishDate}</time>
-                  <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <IconClock className="w-4 h-4" />
-                    {readTime}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconBookmark className="w-6 h-6" />
-              </button>
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconShare2 className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-          <hr className="border-border" />
-        </header>
+        <BlogPostHeader
+          title={title}
+          publisher={publisher}
+          publishDate={publishDate}
+          readTime={readTime}
+        />
 
-        {/* Featured Image */}
         <figure className="mb-16">
           <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
             <IconPhoto className="w-12 h-12 text-muted-foreground" />
@@ -865,14 +1836,14 @@ const BlogPost = ({
             Study visualization of the automated insulin delivery system
           </figcaption>
         </figure>
-        <section className="mb-16">
-            <h2 className="text-2xl font-bold mb-6">Summary</h2>
-            <p>{summary}</p>
-          </section>
 
-        {/* Study Design Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Study Design</h2>
+        <section className="prose prose-lg max-w-none mb-16">
+          <h2 className="mb-6">Summary</h2>
+          <p>{summary}</p>
+        </section>
+
+        <section className="prose prose-lg max-w-none mb-16">
+          <h2 className="mb-6">Study Design</h2>
           <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -900,10 +1871,10 @@ const BlogPost = ({
                     </span>
                   ))}
                 </div>
-              </div>  
+              </div>
               <div>
                 <h3 className="font-medium mb-2">Duration and Size</h3>
-                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm mr-2">
                   {studyDesign.duration}
                 </span>
                 <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
@@ -911,15 +1882,11 @@ const BlogPost = ({
                 </span>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  
-            </div>
           </div>
         </section>
 
-        {/* Study Population Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Study Population</h2>
+        <section className="prose prose-lg max-w-none mb-16">
+          <h2 className="mb-6">Study Population</h2>
           <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -934,34 +1901,30 @@ const BlogPost = ({
                   {studyPopulation.sex}
                 </span>
               </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h3 className="font-medium mb-2">Geography</h3>
-              <div className="flex flex-wrap gap-2">
-                {studyPopulation.geography.map((location, index) => (
-                  <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                    {location}
-                  </span>
-                ))}
+              <div>
+                <h3 className="font-medium mb-2">Geography</h3>
+                <div className="flex flex-wrap gap-2">
+                  {studyPopulation.geography.map((location, index) => (
+                    <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                      {location}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div>
-              <h3 className="font-medium mb-2">Other Criteria</h3>
-              <div className="flex flex-wrap gap-2">
-                {studyPopulation.others.map((criterion, index) => (
-                  <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
-                    {criterion}
-                  </span>
-                ))}
+              <div>
+                <h3 className="font-medium mb-2">Other Criteria</h3>
+                <div className="flex flex-wrap gap-2">
+                  {studyPopulation.others.map((criterion, index) => (
+                    <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                      {criterion}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-            
             </div>
           </div>
         </section>
 
-        {/* Content Sections */}
         <section className="prose prose-lg max-w-none mb-16">
           <section>
             <h2>Methodology</h2>
@@ -977,14 +1940,14 @@ const BlogPost = ({
             <h2>Key Findings</h2>
             <p>{keyFindings}</p>
           </section>
+          
           <section>
             <h2>Comparison with other Studies</h2>
             <p>{comparison}</p>
           </section>
         </section>
 
-              {/* Bias Analysis Section - Now in its own centered row */}
-              <section>
+        <section>
           <div className="max-w-2xl mx-auto">
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
@@ -1002,47 +1965,33 @@ const BlogPost = ({
 
         <section className="prose prose-lg max-w-none">
           <section>
-            <div className="flex mb-4 ">
-            <h2>Effectiveness Analysis</h2></div>
-          
-            <div className="space-y-5 bg-secondary/5 rounded-lg p-6  ">
-            
+            <div className="flex mb-4">
+              <h2>Effectiveness Analysis</h2>
+            </div>
+            <div className="space-y-5 bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Intervention:</span>
+                <span className="text-muted-foreground">Intervention:</span>
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                   {effectivenessAnalysis.intervention}
                 </span>
               </div>
-
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Effectiveness:</span>
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
                   {effectivenessAnalysis.effectiveness}
                 </span>
               </div>
-            
-          </div>
+            </div>
           </section>
-
         </section>
 
-
-              {/* Journal Reference section */}
         <section className="prose prose-lg max-w-none mb-16">
-
-
           <section>
             <h2>Journal Reference</h2>
             <p className="italic">{journalReference.full}</p>
           </section>
-
-
-
-          
         </section>
-        
 
-        {/* Discussions Section */}
         <DiscussionsSection
           expertCards={expertCards}
           onlineCards={onlineCards}
@@ -1051,11 +2000,11 @@ const BlogPost = ({
           xCards={xCards}
           youtubeCards={youtubeCards}
         />
-         {/* Newsletter Section */}
-         <section className="max-w-4xl mx-auto px-4 py-16 text-center">
+
+        <section className="max-w-4xl bg-gray-50 mx-auto px-4 py-16 text-center">
           <h2 className="text-4xl font-bold mb-6">Stay informed. Stay ahead.</h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-          Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.
+            Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.
           </p>
           <div className="max-w-2xl mx-auto">
             <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
@@ -1074,21 +2023,23 @@ const BlogPost = ({
             </form>
           </div>
         </section>
-        {/* Add this before the Newsletter section */}
-      <RelatedPosts posts={relatedPosts} />
+
+        <RelatedPosts posts={relatedPosts} />
       </main>
-      
+
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </div>
   );
 };
 
-export default BlogPost;
+export default PostTemplate;
 ```
 
-# components\post-template\RelatedPosts.js
+# components\RelatedPosts.js
 
 ```js
-// Add this to components/post-template/RelatedPosts.js
 import React from 'react';
 import Link from 'next/link';
 
@@ -1104,7 +2055,7 @@ const PostCard = ({ title, date, description, slug }) => (
       </svg>
     </div>
     <div className="p-6">
-      <Link href={`/posts/${slug}`}>
+      <Link href={`/${slug}`}>
         <h3 className="text-xl font-semibold text-foreground mb-2 hover:text-primary transition-colors">
           {title}
         </h3>
@@ -1122,7 +2073,7 @@ const RelatedPosts = ({ posts }) => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <h2 className="text-4xl font-bold mb-8">Related Posts</h2>
+      <h2 className="text-4xl font-bold mb-8">You might also Like ...</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.map((post, index) => (
           <PostCard key={index} {...post} />
@@ -1133,7 +2084,6 @@ const RelatedPosts = ({ posts }) => {
 };
 
 export default RelatedPosts;
-
 ```
 
 # components\SearchSection.js
@@ -1150,12 +2100,11 @@ const SearchSection = () => {
     { id: 'all', label: 'All' },
     { id: 'behavioral', label: 'Behavioral' },
     { id: 'complications', label: 'Complications' },
-    { id: 'prevention', label: 'Prevention' },
-    { id: 'pharmacology', label: 'Pharmacology' },
-    { id: 't1d', label: 'T1D' },
     { id: 'digital', label: 'Digital' },
-    { id: 'precision-medicine', label: 'Precision Medicine' },
-    { id: 'supplements', label: 'Supplements' }
+    { id: 'pharmacology', label: 'Pharmacology' },
+    { id: 'prevention', label: 'Prevention' },
+    { id: 'supplements', label: 'Supplements' },
+    { id: 't1d', label: 'T1D' },
   ];
 
   // Add overlay when filter menu is open
@@ -1171,12 +2120,12 @@ const SearchSection = () => {
   return (
     <>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-4xl font-bold text-center mb-8">Search Articles</h1>
+        <h2 className="text-4xl font-bold text-center mb-8">Search News</h2>
         
-        <div className="relative mb-6 max-w-[70%] mx-auto">
+        <div className="relative mb-6  max-w-[70%] mx-auto">
           <input
             type="text"
-            placeholder="Search for articles, topics, or keywords..."
+            placeholder="Search for news, topics, or keywords..."
             className="w-full px-4 py-3 rounded-full border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
           <button
@@ -1215,6 +2164,411 @@ const SearchSection = () => {
 };
 
 export default SearchSection;
+```
+
+# components\ShareMenu.js
+
+```js
+import React, { useState, useRef, useEffect } from 'react';
+import { IconShare2, IconLink, IconBrandX, IconBrandFacebook, IconBrandLinkedin } from '@tabler/icons-react';
+
+const ShareMenu = ({ title, className = "" }) => {
+  const [isShareMenuOpen, setIsShareMenuOpen] = useState(false);
+  const shareMenuRef = useRef(null);
+  const shareButtonRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        shareMenuRef.current && 
+        !shareMenuRef.current.contains(event.target) &&
+        !shareButtonRef.current.contains(event.target)
+      ) {
+        setIsShareMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleShare = (platform) => {
+    const shareUrl = encodeURIComponent(window.location.href);
+    const shareTitle = encodeURIComponent(title);
+    
+    const shareLinks = {
+      copyLink: () => {
+        navigator.clipboard.writeText(window.location.href);
+        // You might want to add a toast notification here
+      },
+      x: `https://twitter.com/intent/tweet?text=${shareTitle}&url=${shareUrl}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`
+    };
+
+    if (platform === 'copyLink') {
+      shareLinks.copyLink();
+    } else {
+      window.open(shareLinks[platform], '_blank');
+    }
+    
+    setIsShareMenuOpen(false);
+  };
+
+  return (
+    <div className={`relative ${className}`}>
+      <button 
+        ref={shareButtonRef}
+        className="p-2 hover:bg-secondary/10 rounded-full"
+        onClick={() => setIsShareMenuOpen(!isShareMenuOpen)}
+      >
+        <IconShare2 className="w-6 h-6" />
+      </button>
+      
+      {isShareMenuOpen && (
+        <div 
+          ref={shareMenuRef}
+          className="absolute right-0 mt-2 w-48 bg-background border border-border rounded-lg shadow-lg z-50"
+          style={{
+            position: 'absolute',
+            right: '0',
+            top: '100%',
+            transform: 'translateY(8px)'
+          }}
+        >
+          <div className="py-2">
+            <div className="ml-4"><p className="font-bold">Share on:</p></div>
+            
+            <button
+              onClick={() => handleShare('copyLink')}
+              className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
+            >
+              <IconLink className="w-4 h-4" />
+              Copy link
+            </button>
+            <button
+              onClick={() => handleShare('x')}
+              className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
+            >
+              <IconBrandX className="w-4 h-4" />
+              X (Twitter)
+            </button>
+            <button
+              onClick={() => handleShare('facebook')}
+              className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
+            >
+              <IconBrandFacebook className="w-4 h-4" />
+              Facebook
+            </button>
+            <button
+              onClick={() => handleShare('linkedin')}
+              className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
+            >
+              <IconBrandLinkedin className="w-4 h-4" />
+              LinkedIn
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ShareMenu;
+```
+
+# components\SupplementsPage.js
+
+```js
+import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+
+const SupplementsPage = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [filterText, setFilterText] = useState('');
+  const [effectivenessFilter, setEffectivenessFilter] = useState('all');
+  const [biasFilter, setBiasFilter] = useState('all');
+  const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
+  const [showBiasDropdown, setBiasDropdown] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  const supplementsData = [
+    {
+      supplement: 'Supplement 1',
+      outcomes: [
+        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' },
+        { name: 'Outcome 3', effectiveness: 'Med', studies: 7, bias: 'Moderate' },
+      ]
+    },
+    {
+      supplement: 'Supplement 2',
+      outcomes: [
+        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
+        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' }
+      ]
+    },
+    {
+      supplement: 'Supplement 3',
+      outcomes: [
+        { name: 'Outcome 4', effectiveness: 'High', studies: 13, bias: 'Low' }
+      ]
+    },
+  ];
+
+  const filteredSupplements = supplementsData
+    .map(supplement => ({
+      ...supplement,
+      outcomes: supplement.outcomes.filter(outcome => {
+        const matchesSearch = supplement.supplement.toLowerCase().includes(filterText.toLowerCase()) ||
+                            outcome.name.toLowerCase().includes(filterText.toLowerCase());
+        const matchesEffectiveness = effectivenessFilter === 'all' || outcome.effectiveness === effectivenessFilter;
+        const matchesBias = biasFilter === 'all' || outcome.bias === biasFilter;
+        return matchesSearch && matchesEffectiveness && matchesBias;
+      })
+    }))
+    .filter(supplement => supplement.outcomes.length > 0);
+
+  const getEffectivenessColor = (effectiveness) => {
+    switch (effectiveness.toLowerCase()) {
+      case 'high':
+        return 'text-green-600';
+      case 'med':
+        return 'text-yellow-600';
+      case 'low':
+        return 'text-red-600';
+      default:
+        return 'text-gray-600';
+    }
+  };
+
+  const effectivenessOptions = ['all', 'High', 'Med', 'Low'];
+  const biasOptions = ['all', 'Low', 'Medium', 'Moderate'];
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-8">Supplements Analysis</h1>
+        
+        {/* Search and Filters Row */}
+        <div className="mb-6 flex flex-wrap gap-4 items-center">
+          {/* Search Input */}
+          <div className="flex-grow max-w-md">
+            <input
+              type="text"
+              placeholder="Filter supplements..."
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              value={filterText}
+              onChange={(e) => setFilterText(e.target.value)}
+            />
+          </div>
+
+          {/* Effectiveness Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setShowEffectivenessDropdown(!showEffectivenessDropdown);
+                setBiasDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Effectiveness
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showEffectivenessDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {effectivenessOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setEffectivenessFilter(option);
+                      setShowEffectivenessDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      effectivenessFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Effectiveness' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Bias Filter */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setBiasDropdown(!showBiasDropdown);
+                setShowEffectivenessDropdown(false);
+              }}
+              className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
+            >
+              <IconFilter className="w-4 h-4" />
+              Bias
+              <IconChevronDown className="w-4 h-4" />
+            </button>
+            
+            {showBiasDropdown && (
+              <div className="absolute top-full mt-1 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                {biasOptions.map((option) => (
+                  <button
+                    key={option}
+                    onClick={() => {
+                      setBiasFilter(option);
+                      setBiasDropdown(false);
+                    }}
+                    className={`w-full text-left px-4 py-2 hover:bg-gray-50 ${
+                      biasFilter === option ? 'bg-gray-100' : ''
+                    }`}
+                  >
+                    {option === 'all' ? 'All Bias Levels' : option}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Supplement</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Outcome</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Effectiveness</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Studies</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Bias</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredSupplements.map((item, index) => (
+                item.outcomes.map((outcome, outcomeIndex) => (
+                  <tr 
+                    key={`${index}-${outcomeIndex}`}
+                    className="border-b border-gray-200 hover:bg-gray-50"
+                  >
+                    {outcomeIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.outcomes.length}
+                      >
+                        {item.supplement}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{outcome.name}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(outcome.effectiveness)}`}>
+                      {outcome.effectiveness}
+                    </td>
+                    <td className="px-6 py-4">
+                      <a href="#" className="text-primary hover:underline">
+                        {outcome.studies}
+                      </a>
+                    </td>
+                    <td className="px-6 py-4">
+                      {outcome.bias}
+                    </td>
+                  </tr>
+                ))
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default SupplementsPage;
+```
+
+# Locales\en\common.json
+
+```json
+{
+    "nav": {
+      "home": "Home",
+      "interventions": "Interventions",
+      "outcomes": "Outcomes",
+      "medications": "Medications",
+      "supplements": "Supplements",
+      "search": "Search",
+      "premium": "Premium Membership",
+      "login": "Login / Sign-up"
+    },
+    "footer": {
+      "about": "About us",
+      "newsletter": "Newsletter",
+      "archive": "Archive",
+      "contact": "Contact us"
+    }
+  }
+```
+
+# Locales\es\common.json
+
+```json
+{
+    "nav": {
+      "home": "Inicio",
+      "interventions": "Intervenciones",
+      "outcomes": "Resultados",
+      "medications": "Medicamentos",
+      "supplements": "Suplementos",
+      "search": "Buscar",
+      "premium": "Membresía Premium",
+      "login": "Iniciar sesión / Registrarse"
+    },
+    "footer": {
+      "about": "Sobre nosotros",
+      "newsletter": "Boletín",
+      "archive": "Archivo",
+      "contact": "Contáctenos"
+    }
+  }
+  
+```
+
+# next.config.js
+
+```js
+// next.config.js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  i18n: {
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
+    localeDetection: false,
+  },
+  webpack: (config, { isServer }) => {
+    // Add support for importing JSON files
+    config.module.rules.push({
+      test: /\.json$/,
+      type: 'javascript/auto',
+      resolve: {
+        fullySpecified: false
+      }
+    });
+
+    return config;
+  }
+}
+
+module.exports = nextConfig
 ```
 
 # package.json
@@ -1270,6 +2624,7 @@ import Hero from '../components/Hero';
 import IntroSection from '../components/IntroSection';
 import SearchSection from '../components/SearchSection';
 import NewsGrid from '../components/NewsGrid';
+import Footer from '../components/Footer';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -1282,7 +2637,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>dexdiabetes - Stay Informed About Diabetes</title>
+        <title>deDiabetes - Stay Informed About Diabetes</title>
         <meta name="description" content="Stay informed about the latest breakthroughs in diabetes care" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -1292,7 +2647,31 @@ export default function Home() {
       <IntroSection />
       <SearchSection />
       <NewsGrid />
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </div>
+  );
+}
+```
+
+# pages\interventions.js
+
+```js
+import Head from 'next/head';
+import InterventionsPage from '../components/InterventionsPage';
+
+export default function Interventions() {
+  return (
+    <>
+      <Head>
+        <title>Interventions Analysis - deDiabetes</title>
+        <meta name="description" content="Analysis of diabetes interventions, their outcomes, effectiveness, and potential bias" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
+      <InterventionsPage />
+    </>
   );
 }
 ```
@@ -1305,6 +2684,7 @@ import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function Login() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -1318,8 +2698,8 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>Login - dexdiabetes</title>
-        <meta name="description" content="Login to your dexdiabetes account" />
+        <title>Login - deDiabetes</title>
+        <meta name="description" content="Login to your deDiabetes account" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -1385,34 +2765,275 @@ export default function Login() {
           </Link>
         </form>
       </main>
+      <Footer />
     </div>
   );
 }
 ```
 
-# pages\posts\artificial-pancreas-trial.js
+# pages\medications.js
 
 ```js
-// pages/posts/artificial-pancreas-trial.js
-import React from 'react';
 import Head from 'next/head';
-import Navbar from '../../components/Navbar';
-import PostTemplate from '../../components/post-template';
+import MedicationsPage from '../components/MedicationsPage';
 
-export default function ArtificialPancreasTrialPost() {
-  const [isDarkMode, setIsDarkMode] = React.useState(false);
+export default function Medications() {
+  return (
+    <>
+      <Head>
+        <title>Medications Analysis - deDiabetes</title>
+        <meta name="description" content="Analysis of diabetes medications and their outcomes, effectiveness, and potential bias" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
+      <MedicationsPage />
+    </>
+  );
+}
+```
+
+# pages\memberpage.js
+
+```js
+import React, { useState } from 'react';
+import { IconFiles, IconSearch } from '@tabler/icons-react';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+
+const MemberPage = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark');
   };
 
-  const postData = {
+  const savedArticles = [
+    {
+      title: "Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial",
+      publisher: "Diabetes Obesity & Metabolism",
+      id: 1
+    },
+    {
+      title: "Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial",
+      publisher: "Diabetes Obesity & Metabolism",
+      id: 2
+    },
+    {
+      title: "Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial",
+      publisher: "Diabetes Obesity & Metabolism",
+      id: 3
+    },
+    {
+      title: "Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial",
+      publisher: "Diabetes Obesity & Metabolism",
+      id: 4
+    }
+  ];
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Header Section */}
+      
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-medium text-foreground">Member Page</h1>
+        <div><div className="text-xl text-gray-600">[Plan Name]</div>  <div>
+        
+        <div className="text-xl text-red-600 underline">upgrade/cancel</div>
+      </div></div>
+        
+      </div>
+    
+      
+      {/* Saved Articles Header */}
+      <hr className="border-border" />
+
+      <h2 className="text-4xl font-bold text-center m-8">Saved Articles</h2>
+      {/* Search Bar */}
+      <div className="relative mb-8">
+        <input
+          type="text"
+          placeholder="Search for news, topics, or keywords..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="w-full px-4 py-3 pl-12 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+        />
+        <IconSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+        <button className="absolute right-2 top-1/2 transform -translate-y-1/2 px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90">
+          Search
+        </button>
+      </div>
+
+      {/* Articles Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {savedArticles.map((article) => (
+          <div 
+            key={article.id}
+            className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          >
+            <h3 className="text-xl font-medium mb-2">{article.title}</h3>
+            <p className="text-gray-600 mb-4">{article.publisher}</p>
+            <button className="text-primary hover:text-primary/80 font-medium">
+              View
+            </button>
+          </div>
+        ))}
+      </div>
+      {/* Pagination */}
+      <div className="flex justify-center items-center space-x-2 mt-12">
+        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+          Previous
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90">
+          1
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          2
+        </button>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          3
+        </button>
+        <span className="px-3 py-2 text-sm text-muted-foreground">...</span>
+        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          8
+        </button>
+        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
+          Next
+        </button>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default MemberPage;
+```
+
+# pages\outcomes.js
+
+```js
+import Head from 'next/head';
+import OutcomesPage from '../components/OutcomesPage';
+
+export default function Outcomes() {
+  return (
+    <>
+      <Head>
+        <title>Outcomes Analysis - deDiabetes</title>
+        <meta name="description" content="Analysis of diabetes outcomes and their related interventions, effectiveness, and potential bias" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
+      <OutcomesPage />
+    </>
+  );
+}
+```
+
+# pages\postprismic.js
+
+```js
+import React, { useState } from 'react';
+import Head from 'next/head';
+import Navbar from '../components/Navbar';
+import PostTemplate from '../components/PostTemplate';
+import ArticleTemplate from '../components/ArticleTemplate';
+
+export default function ArtificialPancreasTrialPage() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  // Common data used by both templates
+  const commonData = {
     title: "Long-term Outcomes of Artificial Pancreas Systems: A 24-Month Multi-Center Trial",
-    summary: `esto si viene del blog post and diabetes 
-      duration before being randomly assigned to either the intervention group (artificial pancreas system) 
-      or the control group (standard insulin pump therapy) using a computer-generated algorithm.`,
     publishDate: "January 31, 2025",
+    publisher: "Diabetes Care Journal",
+    author: "Dr. Sarah Johnson",
+    readTime: "8 min read",
+  };
+
+  // Related posts data used by both templates
+  const relatedPosts = [
+    {
+      title: "Impact of CGM Systems on Quality of Life: A 12-Month Study",
+      date: "January 25, 2025",
+      description: "A comprehensive analysis of how continuous glucose monitoring systems affect daily living, stress levels, and overall patient satisfaction in type 1 diabetes management.",
+      slug: "cgm-quality-of-life-study"
+    },
+    {
+      title: "Comparing Smart Insulin Pens vs Traditional Insulin Delivery",
+      date: "January 28, 2025",
+      description: "New research evaluates the effectiveness of smart insulin pens against conventional methods, examining glycemic control and user experience outcomes.",
+      slug: "smart-insulin-pens-comparison"
+    },
+    {
+      title: "Machine Learning in Diabetes Care: Predictive Analytics",
+      date: "January 30, 2025",
+      description: "How artificial intelligence and machine learning algorithms are revolutionizing blood glucose prediction and personalized treatment recommendations.",
+      slug: "ml-diabetes-predictive-analytics"
+    }
+  ];
+
+  // Specify the source type: 'article' or 'post'
+  const source_type = 'article'; // You can change this to 'post' to switch templates
+
+  // Template-specific data
+  const articleData = {
+    ...commonData,
+    subtitle: "A comprehensive analysis of automated insulin delivery systems",
+    imageUrl: null,
+    imageCaption: "Artificial Pancreas System Components Diagram",
+    relatedPosts,
+    content: (
+      <>
+        <h2>Abstract</h2>
+        <p>
+          This groundbreaking study examines the long-term efficacy and safety of artificial 
+          pancreas systems in managing type 1 diabetes over a 24-month period. The research 
+          demonstrates significant improvements in glycemic control and quality of life for 
+          participants.
+        </p>
+
+        <h2>Introduction</h2>
+        <p>
+          Artificial pancreas systems represent a significant advancement in diabetes 
+          management, combining continuous glucose monitoring with automated insulin delivery. 
+          This study provides crucial long-term data on their effectiveness in real-world 
+          settings.
+        </p>
+
+        <h2>Methodology</h2>
+        <p>
+          The study employed a rigorous methodological framework to ensure data reliability and validity. 
+          Participants were randomly assigned to treatment groups using a computer-generated algorithm.
+        </p>
+
+        <h2>Results and Discussion</h2>
+        <p>
+          The 24-month trial demonstrated significant clinical benefits of the artificial 
+          pancreas system. Key findings include a 35% reduction in hypoglycemic events and 
+          a 28% improvement in time-in-range glucose levels compared to the control group.
+        </p>
+
+        <h2>Conclusion</h2>
+        <p>
+          Our findings provide strong evidence supporting the long-term efficacy of artificial 
+          pancreas systems in improving glycemic control and reducing the burden of diabetes 
+          management for patients with type 1 diabetes.
+        </p>
+      </>
+    )
+  };
+
+  const postData = {
+    ...commonData,
+    summary: "A comprehensive 24-month trial evaluating artificial pancreas systems shows promising results for type 1 diabetes management.",
     studyDesign: {
       interventions: ["Continuous Glucose Monitor", "Automated Insulin Pump"],
       outcomes: ["Improved Glycemic Control", "Reduced Hypoglycemic Events", "Quality of Life"],
@@ -1426,140 +3047,212 @@ export default function ArtificialPancreasTrialPost() {
       geography: ["Multi-center US", "Europe"],
       others: ["Type 1 Diabetes", "5+ years diagnosed"]
     },
-    methodology: `This landmark study implemented a comprehensive methodological framework to evaluate the 
-      long-term efficacy of artificial pancreas systems. Participants were stratified by age and diabetes 
-      duration before being randomly assigned to either the intervention group (artificial pancreas system) 
-      or the control group (standard insulin pump therapy) using a computer-generated algorithm.`,
-    interventions: `The artificial pancreas system utilized in this study combined next-generation continuous 
-      glucose monitoring technology with an advanced automated insulin delivery algorithm. The system 
-      featured predictive hypoglycemia prevention, adaptive basal rate adjustment, and automated correction 
-      boluses. Control group participants used standard insulin pump therapy with manual adjustments based 
-      on CGM data.`,
-    keyFindings: `The 24-month trial demonstrated significant clinical benefits of the artificial pancreas 
-      system. Intervention group participants experienced a 35% reduction in hypoglycemic events and a 28% 
-      improvement in time-in-range glucose levels compared to the control group. Additionally, HbA1c levels 
-      showed a sustained reduction of 0.8% (9 mmol/mol) from baseline in the intervention group versus 0.3% 
-      (3 mmol/mol) in the control group.`,
+    methodology: "This landmark study implemented a comprehensive methodological framework...",
+    interventions: "The artificial pancreas system utilized in this study combined...",
+    keyFindings: "The 24-month trial demonstrated significant clinical benefits...",
+    comparison: "Compared to previous studies, our findings show...",
     biasScore: "Moderate",
     effectivenessAnalysis: {
       intervention: "AI-Driven Monitoring",
       effectiveness: "Moderate"
     },
     journalReference: {
-      full: "Smith J, Johnson M, Williams R. Recent Advances in Diabetes Management: A Comprehensive Review. J Diabetes Res. 2024;15(3):125-140. doi:10.1234/jdr.2024.15.3.125"
+      full: "Smith J, et al. Long-term Outcomes of Artificial Pancreas Systems. Diabetes Care. 2025;15(3):125-140."
     },
-    // Discussion cards - all types included with dummy data
     expertCards: [
       {
         title: "Expert Analysis of AID Systems",
         outboundLink: "https://example.com/expert-analysis",
         author: "Dr. Sarah Chen"
-      },
-      {
-        title: "Clinical Perspective on Trial Results",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "Prof. Michael Roberts"
       }
     ],
-    onlineCards: [
-      {
-        title: "Patient Experience Forum",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "T1D Support Network"
-      },
-      {
-        title: "Healthcare Provider Discussion",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "Diabetes Care Community"
-      }
-    ],
-    redditCards: [
-      {
-        title: "r/diabetes Tech Discussion",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "r/diabetes"
-      },
-      {
-        title: "Patient AMA Thread",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "r/T1D"
-      }
-    ],
-    studyCards: [
-      {
-        title: "Comparative Analysis",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "Diabetes Research Institute"
-      },
-      {
-        title: "Meta-analysis Update",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "Clinical Trials Database"
-      }
-    ],
-    xCards: [
-      {
-        title: "Research Impact Thread",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "@DiabetesExperts"
-      },
-      {
-        title: "Healthcare Policy Discussion",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "@HealthPolicy"
-      }
-    ],
-    youtubeCards: [
-      {
-        title: "Trial Results Explained",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "DiabetesEd Channel"
-      },
-      {
-        title: "Patient Success Stories",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "Medical Tech Reviews"
-      }
-    ],
-    relatedPosts: [
-      {
-        title: "Impact of CGM Systems on Quality of Life: A 12-Month Study",
-        date: "January 25, 2025",
-        description: "A comprehensive analysis of how continuous glucose monitoring systems affect daily living, stress levels, and overall patient satisfaction in type 1 diabetes management.",
-        slug: "cgm-quality-of-life-study"
-      },
-      {
-        title: "Comparing Smart Insulin Pens vs Traditional Insulin Delivery",
-        date: "January 28, 2025",
-        description: "New research evaluates the effectiveness of smart insulin pens against conventional methods, examining glycemic control and user experience outcomes.",
-        slug: "smart-insulin-pens-comparison"
-      },
-      {
-        title: "Machine Learning in Diabetes Care: Predictive Analytics",
-        date: "January 30, 2025",
-        description: "How artificial intelligence and machine learning algorithms are revolutionizing blood glucose prediction and personalized treatment recommendations.",
-        slug: "ml-diabetes-predictive-analytics"
-      }
-    ]
+    onlineCards: [],
+    redditCards: [],
+    studyCards: [],
+    xCards: [],
+    youtubeCards: [],
+    relatedPosts
   };
 
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>{`${postData.title} - Dexdiabetes`}</title>
+        <title>{commonData.title} - Dexdiabetes</title>
         <meta 
           name="description" 
           content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control." 
         />
       </Head>
 
+      {source_type === 'article' ? (
+        <ArticleTemplate 
+          {...articleData}
+          isDarkMode={isDarkMode}
+          toggleDarkMode={toggleDarkMode}
+        />
+      ) : (
+        <>
+          <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+          <main>
+            <article>
+              <PostTemplate {...postData} />
+            </article>
+          </main>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+# pages\premium.js
+
+```js
+// pages/premium.js
+import Head from 'next/head';
+import { useState } from 'react';
+import Navbar from '../components/Navbar';
+import { IconCrown, IconCheck,IconBackground } from '@tabler/icons-react';
+import Footer from '../components/Footer';
+
+export default function Premium() {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [billingCycle, setBillingCycle] = useState('yearly'); // yearly or monthly
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  const basicFeatures = [
+    { name: 'Zero Advertisement', included: true },
+    { name: 'No tracking', included: true },
+    { name: 'Bookmark content', included: true },
+    { name: 'Research news summaries', included: true },
+    { name: 'Related curated online content', included: true },
+  ];
+
+  const premiumFeatures = [
+    { name: 'Advanced search and filter functionality', included: true },
+    { name: 'Dark mode', included: true },
+    { name: 'Expanded research information', included: true },
+    { name: 'Interventions effectiveness score', included: true },
+    { name: 'Bias analysis using applicable Cochrane Collaboration tools', included: true },
+  ];
+
+  const monthlyPrice = 3.0;
+  const yearlyDiscount = 0.25; // 25% discount
+  const yearlyPrice = monthlyPrice * 12 * (1 - yearlyDiscount);
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Head>
+        <title>Premium Membership - deDiabetes</title>
+        <meta name="description" content="Upgrade to Premium - Access advanced features and comprehensive diabetes research" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      
-      <main>
-        <article>
-          <PostTemplate {...postData} />
-        </article>
+
+      <main className="max-w-7xl mx-auto px-4 py-16">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl font-bold text-foreground mb-4">
+            Upgrade to Premium
+          </h1>
+          <p className="text-xl text-muted-foreground mb-4">
+            Easy, smart, and always the right choice
+          </p>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            One plan for full access and advanced search, empowering evidence-based diabetes care
+          </p>
+        </div>
+
+        {/* Billing Cycle Toggle */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex items-center bg-secondary/10 rounded-full p-1">
+            <button
+              onClick={() => setBillingCycle('monthly')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                billingCycle === 'monthly'
+                  ? 'bg-primary text-white'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => setBillingCycle('yearly')}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                billingCycle === 'yearly'
+                  ? 'bg-primary text-white'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Yearly
+            </button>
+          </div>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          {/* Basic Plan */}
+          <div className="border border-border rounded-lg p-8 bg-background">
+            <div className="flex items-center gap-2 mb-4">
+              <IconBackground className="w-6 h-6" />
+              <h2 className="text-2xl font-bold">Basic</h2>
+            </div>
+            <p className="text-muted-foreground mb-4">A clean experience</p>
+            <div className="mb-8">
+              <span className="text-4xl font-bold">Free</span>
+            </div>
+            <div className="space-y-4 mb-8">
+              <p className="font-medium">Basic includes...</p>
+              {basicFeatures.map((feature, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>{feature.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Premium Plan */}
+          <div className="border-2 border-primary rounded-lg p-8 bg-background relative">
+            <div className="absolute -top-4 left-4 bg-primary text-white px-4 py-1 rounded-full text-sm">
+              Yearly -25%
+            </div>
+            <div className="flex items-center gap-2 mb-4">
+              <IconCrown className="w-6 h-6 text-primary" />
+              <h2 className="text-2xl font-bold">Premium</h2>
+            </div>
+            <p className="text-muted-foreground mb-4">Full features</p>
+            <div className="mb-8">
+              <span className="text-4xl font-bold">
+                ${billingCycle === 'yearly' ? (yearlyPrice / 12).toFixed(2) : monthlyPrice.toFixed(2)}
+              </span>
+              <span className="text-muted-foreground">/month</span>
+              <p className="text-sm text-muted-foreground">
+                (billed {billingCycle === 'yearly' ? 'yearly' : 'monthly'})
+              </p>
+            </div>
+            <div className="space-y-4 mb-8">
+              <p className="font-medium">Everything in Basic plus...</p>
+              {premiumFeatures.map((feature, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>{feature.name}</span>
+                </div>
+              ))}
+            </div>
+            <button
+              className="w-full py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Subscribe and pay
+            </button>
+          </div>
+        </div>
       </main>
+      <Footer />
     </div>
   );
 }
@@ -1574,6 +3267,7 @@ import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function Register() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -1588,8 +3282,8 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>Register - dexdiabetes</title>
-        <meta name="description" content="Create your dexdiabetes account" />
+        <title>Register - deDiabetes</title>
+        <meta name="description" content="Create your deDiabetes account" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -1679,7 +3373,383 @@ export default function Register() {
           </p>
         </form>
       </main>
+      <Footer />
     </div>
+  );
+}
+```
+
+# pages\subandpay_m.js
+
+```js
+import React, { useState } from 'react';
+import { IconCrown, IconCheck } from '@tabler/icons-react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
+const SubandPay = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('card');
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Left Column - Subscription Details */}
+          <div className="bg-rose-50 p-8 rounded-lg">
+            <div className="mb-6">
+              <h1 className="text-4xl font-bold mb-4">Subscribe to Premium</h1>
+              <div className="text-3xl font-bold mb-2">
+                $3.00 <span className="text-lg font-normal text-gray-600">per month</span>
+              </div>
+              <a href="/subandpay_y" className="text-rose-600 underline font-medium hover:text-rose-700 transition-colors">Save 25% with yearly billing</a>
+            </div>
+
+            <div className="space-y-4 mb-8">
+              <h2 className="font-semibold text-lg">Premium features include:</h2>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Advanced search and filter functionality</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Dark mode</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Expanded research information</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Interventions effectiveness score</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Bias analysis using Cochrane tools</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Payment Form */}
+          <div className="bg-white p-8 rounded-lg border border-gray-200">
+            <h2 className="text-xl font-semibold mb-6">Contact information</h2>
+            
+            <form className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                  required
+                />
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-medium">Payment Method</h3>
+                <div className="space-y-4">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('paypal')}
+                    className="w-full bg-[#ffc439] text-[#003087] py-3 rounded-md font-bold flex items-center justify-center"
+                  >
+                    <span>Pay with PayPal</span>
+                  </button>
+                  
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-300" />
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-2 bg-white text-gray-500">or</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          First name
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Last name
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Card number
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Expiration
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="MM/YY"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          CVV
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors font-medium"
+              >
+                Place Order
+              </button>
+
+              <p className="text-sm text-gray-500 text-center">
+                By clicking Place Order you agree to the Terms & Conditions.
+                All payments for Paid Services are final and non-refundable.
+              </p>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default SubandPay;
+```
+
+# pages\subandpay_y.js
+
+```js
+import React, { useState } from 'react';
+import { IconCrown, IconCheck } from '@tabler/icons-react';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
+const SubandPay = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('card');
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Left Column - Subscription Details */}
+          <div className="bg-rose-50 p-8 rounded-lg">
+            <div className="mb-6">
+              <h1 className="text-4xl font-bold mb-4">Subscribe to Premium</h1>
+              <div className="text-3xl font-bold mb-2">
+                $36.00 <span className="text-lg font-normal text-gray-600">per year</span>
+              </div>
+              <div className="text-rose-600 font-medium">Save 25% with yearly billing</div>
+            </div>
+
+            <div className="space-y-4 mb-8">
+              <h2 className="font-semibold text-lg">Premium features include:</h2>
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Advanced search and filter functionality</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Dark mode</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Expanded research information</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Interventions effectiveness score</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <IconCheck className="w-5 h-5 text-green-500" />
+                  <span>Bias analysis using Cochrane tools</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Payment Form */}
+          <div className="bg-white p-8 rounded-lg border border-gray-200">
+            <h2 className="text-xl font-semibold mb-6">Contact information</h2>
+            
+            <form className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                  required
+                />
+              </div>
+
+              <div className="space-y-4">
+                <h3 className="font-medium">Payment Method</h3>
+                <div className="space-y-4">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('paypal')}
+                    className="w-full bg-[#ffc439] text-[#003087] py-3 rounded-md font-bold flex items-center justify-center"
+                  >
+                    <span>Pay with PayPal</span>
+                  </button>
+                  
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <div className="w-full border-t border-gray-300" />
+                    </div>
+                    <div className="relative flex justify-center text-sm">
+                      <span className="px-2 bg-white text-gray-500">or</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          First name
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Last name
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Card number
+                      </label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Expiration
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="MM/YY"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          CVV
+                        </label>
+                        <input
+                          type="text"
+                          className="w-full px-4 py-3 rounded-md border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors font-medium"
+              >
+                Place Order
+              </button>
+
+              <p className="text-sm text-gray-500 text-center">
+                By clicking Place Order you agree to the Terms & Conditions.
+                All payments for Paid Services are final and non-refundable.
+              </p>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default SubandPay;
+```
+
+# pages\supplements.js
+
+```js
+import Head from 'next/head';
+import SupplementsPage from '../components/SupplementsPage';
+
+export default function Supplements() {
+  return (
+    <>
+      <Head>
+        <title>Supplements Analysis - deDiabetes</title>
+        <meta name="description" content="Analysis of diabetes supplements and their outcomes, effectiveness, and potential bias" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
+      <SupplementsPage />
+    </>
   );
 }
 ```
@@ -1990,5 +4060,50 @@ module.exports = {
     require("@tailwindcss/typography")
   ],
 }
+```
+
+# utils\i18n.js
+
+```js
+import { useRouter } from 'next/router';
+
+const loadTranslations = async (locale) => {
+  try {
+    const translations = await import(`../locales/${locale}/common.json`);
+    return translations.default;
+  } catch (error) {
+    console.error(`Failed to load translations for ${locale}:`, error);
+    return {};
+  }
+};
+
+export const useTranslations = () => {
+    const router = useRouter();
+    const { locale, defaultLocale = 'en' } = router;
+  
+    const translate = async (key) => {
+      const translations = await loadTranslations(locale || defaultLocale);
+      const keys = key.split('.');
+      let result = translations;
+      
+      for (const k of keys) {
+        result = result?.[k];
+        if (!result) break;
+      }
+  
+      return result || key;
+    };
+  
+    const changeLanguage = (newLocale) => {
+      const { pathname, asPath, query } = router;
+      router.push({ pathname, query }, asPath, { locale: newLocale });
+    };
+  
+    return {
+      t: translate,
+      locale,
+      changeLanguage
+    };
+  };
 ```
 

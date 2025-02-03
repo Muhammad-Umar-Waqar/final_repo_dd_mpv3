@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
+import Footer from '../components/Footer';
 
 export default function Register() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -18,8 +19,8 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>Register - dexdiabetes</title>
-        <meta name="description" content="Create your dexdiabetes account" />
+        <title>Register - deDiabetes</title>
+        <meta name="description" content="Create your deDiabetes account" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -109,6 +110,7 @@ export default function Register() {
           </p>
         </form>
       </main>
+      <Footer />
     </div>
   );
 }

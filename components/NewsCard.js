@@ -1,9 +1,10 @@
 import React from 'react';
-import { IconClock,IconBookmark,IconShare2 } from '@tabler/icons-react';
+import { IconClock, IconBookmark } from '@tabler/icons-react';
+import ShareMenu from './ShareMenu';
 
-const NewsCard = ({ category, title, description, publisher, publishDate,timeToRead }) => {
+const NewsCard = ({ category, title, description, publisher, publishDate, timeToRead }) => {
   return (
-    <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-background border border-border rounded-lg overflow-visible hover:shadow-lg transition-shadow duration-300">
       <div className="aspect-[16/9] bg-muted">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" className="w-full h-full">
           <rect width="400" height="225" fill="#f5f5f5"/>
@@ -31,26 +32,23 @@ const NewsCard = ({ category, title, description, publisher, publishDate,timeToR
           {publisher}
         </p>
         <hr className="border-border mb-6" />
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div>
-                <h4 className="font-medium text-foreground">{publisher}</h4>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <time>{publishDate}</time>
-                
-                </div>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <div>
+              <h4 className="font-medium text-foreground">{publisher}</h4>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <time>{publishDate}</time>
               </div>
             </div>
-            <div className="flex gap-2">
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconBookmark className="w-6 h-6" />
-              </button>
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconShare2 className="w-6 h-6" />
-              </button>
-            </div>
           </div>
-          <hr className="border-border" />
+          <div className="flex gap-2">
+            <button className="p-2 hover:bg-secondary/10 rounded-full">
+              <IconBookmark className="w-6 h-6" />
+            </button>
+            <ShareMenu title={title} />
+          </div>
+        </div>
+        <hr className="border-border" />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { IconCrown, IconCheck,IconBackground } from '@tabler/icons-react';
+import Footer from '../components/Footer';
 
 export default function Premium() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -36,7 +37,7 @@ export default function Premium() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>Premium Membership - dexdiabetes</title>
+        <title>Premium Membership - deDiabetes</title>
         <meta name="description" content="Upgrade to Premium - Access advanced features and comprehensive diabetes research" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -141,6 +142,7 @@ export default function Premium() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

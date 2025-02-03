@@ -1,43 +1,41 @@
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileTextAi, IconClock, IconBookmark, IconShare2 } from '@tabler/icons-react';
-import DiscussionsSection from '../DiscussionsSection.js';
+import { IconChevronUp, IconPhoto, IconFileTextAi } from '@tabler/icons-react';
+import DiscussionsSection from './DiscussionsSection';
 import RelatedPosts from './RelatedPosts';
+import BlogPostHeader from './BlogPostHeader';
+import Footer from './Footer';
 
-const BlogPost = ({
+const PostTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
   publisher = "Diabetes Research Journal",
   publishDate = "January 31, 2025",
   readTime = "8 min read",
-  summary = "baba baba baba",
+  summary = "",
   studyDesign = {
-    interventions: ["Continuous Monitoring", "Smart Insulin"],
-    outcomes:["outcome 1", "outcome 2"],
-    studyType: "Randomized Controlled Trial",
-    duration: "24 Months",
-    size: "500 Participants"
+    interventions: [],
+    outcomes: [],
+    studyType: "",
+    duration: "",
+    size: ""
   },
   studyPopulation = {
-    ageRange: "18-65 years",
-    sex: "All genders",
-    geography: ["Multi-center US", "Europe"],
-    others: ["Type 1 Diabetes", "5+ years diagnosed"]
+    ageRange: "",
+    sex: "",
+    geography: [],
+    others: []
   },
-  methodology = `The study employed a rigorous methodological framework to ensure data reliability and validity. 
-    Participants were randomly assigned to treatment groups using a computer-generated algorithm.`,
-  interventions = `The intervention protocol consisted of a multi-component diabetes management system integrating 
-    continuous glucose monitoring with automated insulin delivery.`,
-  keyFindings = `The study revealed significant improvements in glycemic control among intervention group 
-    participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
-    comparison = `The study revealed significant improvements in glycemic control among intervention group 
-    participants. Key outcomes included a 35% reduction in hypoglycemic events.`,
-    biasScore = "Moderate",
+  methodology = "",
+  interventions = "",
+  keyFindings = "",
+  comparison = "",
+  biasScore = "",
   effectivenessAnalysis = {
-    intervention: "AI-Driven Monitoring",
-    effectiveness: "Moderate"
+    intervention: "",
+    effectiveness: ""
   },
   journalReference = {
-    full: "daba daba daba"
+    full: ""
   },
   expertCards = [],
   onlineCards = [],
@@ -47,10 +45,8 @@ const BlogPost = ({
   youtubeCards = [],
   relatedPosts = []
 }) => {
-  // Back to top button visibility state
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  // Handle scroll
   React.useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -62,7 +58,6 @@ const BlogPost = ({
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Back to top button */}
       {showBackToTop && (
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
@@ -73,39 +68,13 @@ const BlogPost = ({
       )}
 
       <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Article Header */}
-        <header className="mb-16">
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            {title}
-          </h1>
-          <hr className="border-border mb-6" />
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-4">
-              <div>
-                <h4 className="font-medium text-foreground">{publisher}</h4>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <time>{publishDate}</time>
-                  <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <IconClock className="w-4 h-4" />
-                    {readTime}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconBookmark className="w-6 h-6" />
-              </button>
-              <button className="p-2 hover:bg-secondary/10 rounded-full">
-                <IconShare2 className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-          <hr className="border-border" />
-        </header>
+        <BlogPostHeader
+          title={title}
+          publisher={publisher}
+          publishDate={publishDate}
+          readTime={readTime}
+        />
 
-        {/* Featured Image */}
         <figure className="mb-16">
           <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
             <IconPhoto className="w-12 h-12 text-muted-foreground" />
@@ -114,14 +83,14 @@ const BlogPost = ({
             Study visualization of the automated insulin delivery system
           </figcaption>
         </figure>
-        <section className="mb-16">
-            <h2 className="text-2xl font-bold mb-6">Summary</h2>
-            <p>{summary}</p>
-          </section>
 
-        {/* Study Design Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Study Design</h2>
+        <section className="prose prose-lg max-w-none mb-16">
+          <h2 className="mb-6">Summary</h2>
+          <p>{summary}</p>
+        </section>
+
+        <section className="prose prose-lg max-w-none mb-16">
+          <h2 className="mb-6">Study Design</h2>
           <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -149,10 +118,10 @@ const BlogPost = ({
                     </span>
                   ))}
                 </div>
-              </div>  
+              </div>
               <div>
                 <h3 className="font-medium mb-2">Duration and Size</h3>
-                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">
+                <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm mr-2">
                   {studyDesign.duration}
                 </span>
                 <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
@@ -160,15 +129,11 @@ const BlogPost = ({
                 </span>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  
-            </div>
           </div>
         </section>
 
-        {/* Study Population Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Study Population</h2>
+        <section className="prose prose-lg max-w-none mb-16">
+          <h2 className="mb-6">Study Population</h2>
           <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -183,34 +148,30 @@ const BlogPost = ({
                   {studyPopulation.sex}
                 </span>
               </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h3 className="font-medium mb-2">Geography</h3>
-              <div className="flex flex-wrap gap-2">
-                {studyPopulation.geography.map((location, index) => (
-                  <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-                    {location}
-                  </span>
-                ))}
+              <div>
+                <h3 className="font-medium mb-2">Geography</h3>
+                <div className="flex flex-wrap gap-2">
+                  {studyPopulation.geography.map((location, index) => (
+                    <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                      {location}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div>
-              <h3 className="font-medium mb-2">Other Criteria</h3>
-              <div className="flex flex-wrap gap-2">
-                {studyPopulation.others.map((criterion, index) => (
-                  <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
-                    {criterion}
-                  </span>
-                ))}
+              <div>
+                <h3 className="font-medium mb-2">Other Criteria</h3>
+                <div className="flex flex-wrap gap-2">
+                  {studyPopulation.others.map((criterion, index) => (
+                    <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                      {criterion}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-            
             </div>
           </div>
         </section>
 
-        {/* Content Sections */}
         <section className="prose prose-lg max-w-none mb-16">
           <section>
             <h2>Methodology</h2>
@@ -226,14 +187,14 @@ const BlogPost = ({
             <h2>Key Findings</h2>
             <p>{keyFindings}</p>
           </section>
+          
           <section>
             <h2>Comparison with other Studies</h2>
             <p>{comparison}</p>
           </section>
         </section>
 
-              {/* Bias Analysis Section - Now in its own centered row */}
-              <section>
+        <section>
           <div className="max-w-2xl mx-auto">
             <div className="bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center gap-2 mb-4 justify-center">
@@ -251,47 +212,33 @@ const BlogPost = ({
 
         <section className="prose prose-lg max-w-none">
           <section>
-            <div className="flex mb-4 ">
-            <h2>Effectiveness Analysis</h2></div>
-          
-            <div className="space-y-5 bg-secondary/5 rounded-lg p-6  ">
-            
+            <div className="flex mb-4">
+              <h2>Effectiveness Analysis</h2>
+            </div>
+            <div className="space-y-5 bg-secondary/5 rounded-lg p-6">
               <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Intervention:</span>
+                <span className="text-muted-foreground">Intervention:</span>
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                   {effectivenessAnalysis.intervention}
                 </span>
               </div>
-
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Effectiveness:</span>
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
                   {effectivenessAnalysis.effectiveness}
                 </span>
               </div>
-            
-          </div>
+            </div>
           </section>
-
         </section>
 
-
-              {/* Journal Reference section */}
         <section className="prose prose-lg max-w-none mb-16">
-
-
           <section>
             <h2>Journal Reference</h2>
             <p className="italic">{journalReference.full}</p>
           </section>
-
-
-
-          
         </section>
-        
 
-        {/* Discussions Section */}
         <DiscussionsSection
           expertCards={expertCards}
           onlineCards={onlineCards}
@@ -300,11 +247,11 @@ const BlogPost = ({
           xCards={xCards}
           youtubeCards={youtubeCards}
         />
-         {/* Newsletter Section */}
-         <section className="max-w-4xl mx-auto px-4 py-16 text-center">
+
+        <section className="max-w-4xl bg-gray-50 mx-auto px-4 py-16 text-center">
           <h2 className="text-4xl font-bold mb-6">Stay informed. Stay ahead.</h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-          Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.
+            Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.
           </p>
           <div className="max-w-2xl mx-auto">
             <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
@@ -323,12 +270,15 @@ const BlogPost = ({
             </form>
           </div>
         </section>
-        {/* Add this before the Newsletter section */}
-      <RelatedPosts posts={relatedPosts} />
+
+        <RelatedPosts posts={relatedPosts} />
       </main>
-      
+
+      <div className="mt-auto">
+        <Footer />
+      </div>
     </div>
   );
 };
 
-export default BlogPost;
+export default PostTemplate;
