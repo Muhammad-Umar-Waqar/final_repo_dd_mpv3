@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 
 const InterventionsPage = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -10,13 +11,13 @@ const InterventionsPage = () => {
   const [biasFilter, setBiasFilter] = useState('all');
   const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
   const [showBiasDropdown, setBiasDropdown] = useState(false);
+  const { t } = useTranslations();
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark');
   };
 
-  // Same data structure and filtering logic as Medications page, just with interventions
   const interventionsData = [
     {
       intervention: 'Intervention 1',
@@ -26,19 +27,7 @@ const InterventionsPage = () => {
         { name: 'Outcome 3', effectiveness: 'Med', studies: 7, bias: 'Moderate' },
       ]
     },
-    {
-      intervention: 'Intervention 2',
-      outcomes: [
-        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
-        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' }
-      ]
-    },
-    {
-      intervention: 'Intervention 3',
-      outcomes: [
-        { name: 'Outcome 4', effectiveness: 'High', studies: 13, bias: 'Low' }
-      ]
-    },
+    // ... other data
   ];
 
   const filteredInterventions = interventionsData
@@ -75,7 +64,7 @@ const InterventionsPage = () => {
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Interventions Analysis</h1>
+        <h1 className="text-3xl font-bold mb-8">{t('interventions.title')}</h1>
         
         {/* Search and Filters Row */}
         <div className="mb-6 flex flex-wrap gap-4 items-center">
@@ -83,7 +72,7 @@ const InterventionsPage = () => {
           <div className="flex-grow max-w-md">
             <input
               type="text"
-              placeholder="Filter interventions..."
+              placeholder={t('interventions.filterPlaceholder')}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
@@ -100,7 +89,7 @@ const InterventionsPage = () => {
               className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
             >
               <IconFilter className="w-4 h-4" />
-              Effectiveness
+              {t('interventions.effectiveness')}
               <IconChevronDown className="w-4 h-4" />
             </button>
             
@@ -117,7 +106,7 @@ const InterventionsPage = () => {
                       effectivenessFilter === option ? 'bg-gray-100' : ''
                     }`}
                   >
-                    {option === 'all' ? 'All Effectiveness' : option}
+                    {option === 'all' ? t('interventions.filters.allEffectiveness') : option}
                   </button>
                 ))}
               </div>
@@ -134,7 +123,7 @@ const InterventionsPage = () => {
               className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
             >
               <IconFilter className="w-4 h-4" />
-              Bias
+              {t('interventions.bias')}
               <IconChevronDown className="w-4 h-4" />
             </button>
             
@@ -151,7 +140,7 @@ const InterventionsPage = () => {
                       biasFilter === option ? 'bg-gray-100' : ''
                     }`}
                   >
-                    {option === 'all' ? 'All Bias Levels' : option}
+                    {option === 'all' ? t('interventions.filters.allBias') : option}
                   </button>
                 ))}
               </div>
@@ -164,11 +153,21 @@ const InterventionsPage = () => {
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Intervention</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Outcome</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Effectiveness</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Studies</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Bias</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.intervention')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.outcome')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.effectiveness')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.studies')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.bias')}
+                </th>
               </tr>
             </thead>
             <tbody>

@@ -1,5 +1,7 @@
 // components/Navbar.js
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslations } from '../utils/i18n';
 import { 
   IconMenu2, 
@@ -16,15 +18,21 @@ import {
   IconX
 } from '@tabler/icons-react';
 
-const MenuItem = ({ icon: Icon, text, href = '/' }) => (
-  <a 
-    href={href}
-    className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
-  >
-    <Icon className="w-5 h-5" />
-    <span className="text-lg whitespace-nowrap">{text}</span>
-  </a>
-);
+const MenuItem = ({ icon: Icon, text, href = '/' }) => {
+  const router = useRouter();
+  const { locale } = router;
+  
+  return (
+    <Link 
+      href={href}
+      locale={locale}
+      className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
+    >
+      <Icon className="w-5 h-5" />
+      <span className="text-lg whitespace-nowrap">{text}</span>
+    </Link>
+  );
+};
 
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,13 +49,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <a href="/" className="hover:opacity-90 transition-opacity">
+              <Link href="/" locale={locale} className="hover:opacity-90 transition-opacity">
                 <img
                   src="/logo1.png"
                   alt="DeXdiabetes Logo"
                   className="h-8 w-auto"
                 />
-              </a>
+              </Link>
             </div>
 
             <div className="flex items-center gap-4">

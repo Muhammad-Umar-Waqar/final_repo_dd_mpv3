@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslations } from '../utils/i18n';
 import NewsCard from './NewsCard';
 
 const NewsGrid = () => {
+  const { t } = useTranslations();
+
   const newsItems = [
     {
       category: 'Clinical Trial',
@@ -62,8 +65,11 @@ const NewsGrid = () => {
       
       {/* Pagination */}
       <div className="flex justify-center items-center space-x-2 mt-12">
-        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-          Previous
+        <button 
+          className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" 
+          disabled
+        >
+          {t('newsGrid.pagination.previous')}
         </button>
         <button className="px-3 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90">
           1
@@ -79,7 +85,7 @@ const NewsGrid = () => {
           8
         </button>
         <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
-          Next
+          {t('newsGrid.pagination.next')}
         </button>
       </div>
     </section>
