@@ -21,7 +21,7 @@ export const esTranslations = {
   },
   // Hero
   hero: {
-    stayInformed: "Manténgase informado.",
+    stayInformed: "Mantente informado.",
     stayAhead: "Se proactivo.",
     subtitle: "Suscríbase ahora para obtener información impulsada por IA, los últimos avances y actualizaciones de expertos en el cuidado de la diabetes, entregadas directamente a su bandeja de entrada.",
     emailPlaceholder: "Ingrese su correo electrónico",
