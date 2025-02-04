@@ -2,12 +2,14 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { IconCrown, IconCheck,IconBackground } from '@tabler/icons-react';
+import { IconCrown, IconCheck, IconBackground } from '@tabler/icons-react';
 import Footer from '../components/Footer';
+import { useTranslations } from '../utils/i18n';
 
 export default function Premium() {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [billingCycle, setBillingCycle] = useState('yearly'); // yearly or monthly
+  const [billingCycle, setBillingCycle] = useState('yearly');
+  const { t } = useTranslations();
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -15,30 +17,30 @@ export default function Premium() {
   };
 
   const basicFeatures = [
-    { name: 'Zero Advertisement', included: true },
-    { name: 'No tracking', included: true },
-    { name: 'Bookmark content', included: true },
-    { name: 'Research news summaries', included: true },
-    { name: 'Related curated online content', included: true },
+    { name: t('premium.features.zeroAds'), included: true },
+    { name: t('premium.features.noTracking'), included: true },
+    { name: t('premium.features.bookmarkContent'), included: true },
+    { name: t('premium.features.newsSummaries'), included: true },
+    { name: t('premium.features.curatedContent'), included: true },
   ];
 
   const premiumFeatures = [
-    { name: 'Advanced search and filter functionality', included: true },
-    { name: 'Dark mode', included: true },
-    { name: 'Expanded research information', included: true },
-    { name: 'Interventions effectiveness score', included: true },
-    { name: 'Bias analysis using applicable Cochrane Collaboration tools', included: true },
+    { name: t('premium.features.advancedSearch'), included: true },
+    { name: t('premium.features.darkMode'), included: true },
+    { name: t('premium.features.expandedResearch'), included: true },
+    { name: t('premium.features.effectivenessScore'), included: true },
+    { name: t('premium.features.biasAnalysis'), included: true },
   ];
 
   const monthlyPrice = 3.0;
-  const yearlyDiscount = 0.25; // 25% discount
+  const yearlyDiscount = 0.25;
   const yearlyPrice = monthlyPrice * 12 * (1 - yearlyDiscount);
 
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>Premium Membership - deDiabetes</title>
-        <meta name="description" content="Upgrade to Premium - Access advanced features and comprehensive diabetes research" />
+        <title>{`${t('premium.title')} - deDiabetes`}</title>
+        <meta name="description" content={t('premium.description')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -47,13 +49,13 @@ export default function Premium() {
       <main className="max-w-7xl mx-auto px-4 py-16">
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-foreground mb-4">
-            Upgrade to Premium
+            {t('premium.title')}
           </h1>
           <p className="text-xl text-muted-foreground mb-4">
-            Easy, smart, and always the right choice
+            {t('premium.subtitle')}
           </p>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            One plan for full access and advanced search, empowering evidence-based diabetes care
+            {t('premium.description')}
           </p>
         </div>
 
@@ -68,7 +70,7 @@ export default function Premium() {
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              Monthly
+              {t('premium.billing.monthly')}
             </button>
             <button
               onClick={() => setBillingCycle('yearly')}
@@ -78,7 +80,7 @@ export default function Premium() {
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
-              Yearly
+              {t('premium.billing.yearly')}
             </button>
           </div>
         </div>
@@ -89,14 +91,14 @@ export default function Premium() {
           <div className="border border-border rounded-lg p-8 bg-background">
             <div className="flex items-center gap-2 mb-4">
               <IconBackground className="w-6 h-6" />
-              <h2 className="text-2xl font-bold">Basic</h2>
+              <h2 className="text-2xl font-bold">{t('premium.basic.title')}</h2>
             </div>
-            <p className="text-muted-foreground mb-4">A clean experience</p>
+            <p className="text-muted-foreground mb-4">{t('premium.basic.subtitle')}</p>
             <div className="mb-8">
-              <span className="text-4xl font-bold">Free</span>
+              <span className="text-4xl font-bold">{t('premium.billing.free')}</span>
             </div>
             <div className="space-y-4 mb-8">
-              <p className="font-medium">Basic includes...</p>
+              <p className="font-medium">{t('premium.basic.includes')}</p>
               {basicFeatures.map((feature, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <IconCheck className="w-5 h-5 text-green-500" />
@@ -109,24 +111,26 @@ export default function Premium() {
           {/* Premium Plan */}
           <div className="border-2 border-primary rounded-lg p-8 bg-background relative">
             <div className="absolute -top-4 left-4 bg-primary text-white px-4 py-1 rounded-full text-sm">
-              Yearly -25%
+              {t('premium.billing.yearlyDiscount')}
             </div>
             <div className="flex items-center gap-2 mb-4">
               <IconCrown className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-bold">Premium</h2>
+              <h2 className="text-2xl font-bold">{t('premium.premium.title')}</h2>
             </div>
-            <p className="text-muted-foreground mb-4">Full features</p>
+            <p className="text-muted-foreground mb-4">{t('premium.premium.subtitle')}</p>
             <div className="mb-8">
               <span className="text-4xl font-bold">
                 ${billingCycle === 'yearly' ? (yearlyPrice / 12).toFixed(2) : monthlyPrice.toFixed(2)}
               </span>
-              <span className="text-muted-foreground">/month</span>
+              <span className="text-muted-foreground">{t('premium.billing.month')}</span>
               <p className="text-sm text-muted-foreground">
-                (billed {billingCycle === 'yearly' ? 'yearly' : 'monthly'})
+                {billingCycle === 'yearly' 
+                  ? t('premium.billing.billedYearly')
+                  : t('premium.billing.billedMonthly')}
               </p>
             </div>
             <div className="space-y-4 mb-8">
-              <p className="font-medium">Everything in Basic plus...</p>
+              <p className="font-medium">{t('premium.premium.includes')}</p>
               {premiumFeatures.map((feature, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <IconCheck className="w-5 h-5 text-green-500" />
@@ -137,7 +141,7 @@ export default function Premium() {
             <button
               className="w-full py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
             >
-              Subscribe and pay
+              {t('premium.premium.subscribeButton')}
             </button>
           </div>
         </div>

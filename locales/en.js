@@ -97,4 +97,42 @@ export const enTranslations = {
       next: "Next"
     }
   },
+  // Add to enTranslations object
+premium: {
+  title: "Upgrade to Premium",
+  subtitle: "Easy, smart, and always the right choice",
+  description: "One plan for full access and advanced search, empowering evidence-based diabetes care",
+  billing: {
+    monthly: "Monthly",
+    yearly: "Yearly",
+    yearlyDiscount: "Yearly -25%",
+    free: "Free",
+    month: "/month",
+    billedYearly: "(billed yearly)",
+    billedMonthly: "(billed monthly)"
+  },
+  basic: {
+    title: "Basic",
+    subtitle: "A clean experience",
+    includes: "Basic includes..."
+  },
+  premium: {
+    title: "Premium",
+    subtitle: "Full features",
+    includes: "Everything in Basic plus...",
+    subscribeButton: "Subscribe and pay"
+  },
+  features: {
+    zeroAds: "Zero Advertisement",
+    noTracking: "No tracking",
+    bookmarkContent: "Bookmark content",
+    newsSummaries: "Research news summaries",
+    curatedContent: "Related curated online content",
+    advancedSearch: "Advanced search and filter functionality",
+    darkMode: "Dark mode",
+    expandedResearch: "Expanded research information",
+    effectivenessScore: "Interventions effectiveness score",
+    biasAnalysis: "Bias analysis using applicable Cochrane Collaboration tools"
+  }
+},
 };

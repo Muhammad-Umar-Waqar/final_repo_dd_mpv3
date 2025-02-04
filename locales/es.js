@@ -100,4 +100,42 @@ memberPage: {
     next: "Siguiente"
   }
 },
+// Add to esTranslations object
+premium: {
+  title: "Actualizar a Premium",
+  subtitle: "Fácil, inteligente y siempre la mejor opción",
+  description: "Un plan para acceso completo y búsqueda avanzada, potenciando el cuidado de la diabetes basado en evidencia",
+  billing: {
+    monthly: "Mensual",
+    yearly: "Anual",
+    yearlyDiscount: "Anual -25%",
+    free: "Gratis",
+    month: "/mes",
+    billedYearly: "(facturado anualmente)",
+    billedMonthly: "(facturado mensualmente)"
+  },
+  basic: {
+    title: "Básico",
+    subtitle: "Una experiencia limpia",
+    includes: "Básico incluye..."
+  },
+  premium: {
+    title: "Premium",
+    subtitle: "Todas las funciones",
+    includes: "Todo lo de Básico más...",
+    subscribeButton: "Suscribirse y pagar"
+  },
+  features: {
+    zeroAds: "Cero publicidad",
+    noTracking: "Sin rastreo",
+    bookmarkContent: "Guardar contenido",
+    newsSummaries: "Resúmenes de noticias de investigación",
+    curatedContent: "Contenido en línea relacionado y curado",
+    advancedSearch: "Funcionalidad de búsqueda y filtrado avanzada",
+    darkMode: "Modo oscuro",
+    expandedResearch: "Información de investigación expandida",
+    effectivenessScore: "Puntuación de efectividad de intervenciones",
+    biasAnalysis: "Análisis de sesgo usando herramientas aplicables de Cochrane"
+  }
+},
 };
