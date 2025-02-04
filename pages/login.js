@@ -1,24 +1,38 @@
+// pages/login.js
 import Head from 'next/head';
 import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import Navbar from '../components/Navbar';
 import Link from 'next/link';
 import Footer from '../components/Footer';
+import { useTranslations } from '../utils/i18n';
 
 export default function Login() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const { locale } = useTranslations();
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark');
   };
 
+  const translations = {
+    title: locale === 'es' ? 'INICIAR SESIÓN' : 'LOGIN NOW',
+    welcome: locale === 'es' ? 'Bienvenido de nuevo' : 'Welcome back',
+    enterDetails: locale === 'es' ? 'Por favor ingresa tus datos' : 'Please enter your details',
+    emailPlaceholder: locale === 'es' ? 'Ingresa tu correo*' : 'Enter your email*',
+    passwordPlaceholder: locale === 'es' ? 'Ingresa tu contraseña*' : 'Enter your password*',
+    forgotPassword: locale === 'es' ? '¿Olvidaste tu contraseña?' : 'Forgot password',
+    loginButton: locale === 'es' ? 'Iniciar sesión' : 'Log in',
+    registerButton: locale === 'es' ? 'Registrarse ahora' : 'Register now',
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>Login - deDiabetes</title>
-        <meta name="description" content="Login to your deDiabetes account" />
+        <title>{translations.title} - deDiabetes</title>
+        <meta name="description" content={locale === 'es' ? 'Inicia sesión en tu cuenta deDiabetes' : 'Login to your deDiabetes account'} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -26,16 +40,16 @@ export default function Login() {
 
       <main className="max-w-md mx-auto px-4 py-16">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-red-600 mb-2">LOGIN NOW</h1>
-          <h2 className="text-4xl font-bold text-gray-700 dark:text-gray-200 mb-4">Welcome back</h2>
-          <p className="text-xl text-gray-500">Please enter your details</p>
+          <h1 className="text-2xl font-bold text-red-600 mb-2">{translations.title}</h1>
+          <h2 className="text-4xl font-bold text-gray-700 dark:text-gray-200 mb-4">{translations.welcome}</h2>
+          <p className="text-xl text-gray-500">{translations.enterDetails}</p>
         </div>
 
         <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div>
             <input
               type="email"
-              placeholder="Enter your email*"
+              placeholder={translations.emailPlaceholder}
               className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               required
             />
@@ -44,7 +58,7 @@ export default function Login() {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              placeholder="Enter your password*"
+              placeholder={translations.passwordPlaceholder}
               className="w-full px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               required
             />
@@ -66,21 +80,21 @@ export default function Login() {
             href="/forgot-password"
             className="block text-center text-blue-500 hover:text-blue-600 transition-colors"
           >
-            Forgot password
+            {translations.forgotPassword}
           </Link>
 
           <button
             type="submit"
             className="w-full py-3 bg-rose-100 text-black rounded-md hover:bg-rose-200 transition-colors text-lg font-medium"
           >
-            Log in
+            {translations.loginButton}
           </button>
 
           <Link
             href="/register"
             className="block text-center py-3 border-2 border-red-600 text-red-600 rounded-md hover:bg-red-50 transition-colors text-lg font-medium"
           >
-            Register now
+            {translations.registerButton}
           </Link>
         </form>
       </main>
