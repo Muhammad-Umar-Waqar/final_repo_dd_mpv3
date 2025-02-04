@@ -8,7 +8,7 @@ export default function Interventions() {
   return (
     <>
       <Head>
-        <title>{t('interventions.title')} - deDiabetes</title>
+        <title>{`${t('interventions.title')} - deDiabetes`}</title>
         <meta 
           name="description" 
           content={t('interventions.filterPlaceholder')} 

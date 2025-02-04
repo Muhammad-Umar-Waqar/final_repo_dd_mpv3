@@ -1,16 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
-import Navbar from '../components/Navbar';
 import PostTemplate from '../components/PostTemplate';
 import ArticleTemplate from '../components/ArticleTemplate';
 
 export default function ArtificialPancreasTrialPage() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
 
   // Common data used by both templates
   const commonData = {
@@ -140,7 +133,7 @@ export default function ArtificialPancreasTrialPage() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>{commonData.title} - Dexdiabetes</title>
+        <title>{`${commonData.title} - Dexdiabetes`}</title>
         <meta 
           name="description" 
           content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control." 
@@ -148,21 +141,14 @@ export default function ArtificialPancreasTrialPage() {
       </Head>
 
       {source_type === 'article' ? (
-        <ArticleTemplate 
-          {...articleData}
-          isDarkMode={isDarkMode}
-          toggleDarkMode={toggleDarkMode}
-        />
-      ) : (
-        <>
-          <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-          <main>
-            <article>
-              <PostTemplate {...postData} />
-            </article>
-          </main>
-        </>
-      )}
+       <ArticleTemplate {...articleData} />
+     ) : (
+       <main>
+         <article>
+           <PostTemplate {...postData} />
+         </article>
+       </main>
+     )}
     </div>
   );
 }

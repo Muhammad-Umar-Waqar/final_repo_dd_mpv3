@@ -2,21 +2,14 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
-import Navbar from '../components/Navbar';
 import Link from 'next/link';
 import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
 
 export default function Register() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { locale } = useTranslations();
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
 
   const translations = {
     title: locale === 'es' ? 'REGISTRARSE' : 'REGISTER NOW',
@@ -34,12 +27,10 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>{translations.title} - deDiabetes</title>
+        <title>{`${translations.title} - deDiabetes`}</title>
         <meta name="description" content={locale === 'es' ? 'Crea tu cuenta deDiabetes' : 'Create your deDiabetes account'} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
 
       <main className="max-w-md mx-auto px-4 py-16">
         <div className="text-center mb-8">

@@ -2,7 +2,7 @@ import React from 'react';
 import { IconPhoto } from '@tabler/icons-react';
 import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
-import Navbar from './Navbar';
+
 import RelatedPosts from './RelatedPosts';
 
 const ArticleTemplate = ({
@@ -21,7 +21,7 @@ const ArticleTemplate = ({
 }) => {
   return (
     <div className="min-h-screen bg-background">
-      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      
       
       <main className="max-w-4xl mx-auto px-4 py-8">
         {/* Article Header */}

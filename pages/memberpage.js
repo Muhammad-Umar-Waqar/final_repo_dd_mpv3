@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
 import { IconFiles, IconSearch } from '@tabler/icons-react';
 import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
 import { useTranslations } from '../utils/i18n';
 
 const MemberPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const { t } = useTranslations();
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
 
   const savedArticles = [
     {
@@ -39,7 +32,6 @@ const MemberPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-medium text-foreground">{t('memberPage.title')}</h1>
         <div>

@@ -1,20 +1,13 @@
 // pages/premium.js
 import Head from 'next/head';
 import { useState } from 'react';
-import Navbar from '../components/Navbar';
 import { IconCrown, IconCheck, IconBackground } from '@tabler/icons-react';
 import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
 
 export default function Premium() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [billingCycle, setBillingCycle] = useState('yearly');
   const { t } = useTranslations();
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
 
   const basicFeatures = [
     { name: t('premium.features.zeroAds'), included: true },
@@ -43,8 +36,6 @@ export default function Premium() {
         <meta name="description" content={t('premium.description')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
 
       <main className="max-w-7xl mx-auto px-4 py-16">
         <div className="text-center mb-16">

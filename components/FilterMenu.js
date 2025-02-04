@@ -1,26 +1,15 @@
 import React, { useState } from 'react';
 import { IconChevronDown, IconChevronUp, IconX, IconSearch } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 
 const FilterMenu = ({ isOpen, onClose }) => {
+  const { t } = useTranslations();
   const [openSection, setOpenSection] = useState(null);
   const [searchOutcomes, setSearchOutcomes] = useState('');
   const [searchInterventions, setSearchInterventions] = useState('');
 
-  const outcomes = [
-    "Clinical Outcomes", "Safety Outcomes",
-    "Treatment Success", "Mortality Rate",
-    "Side Effects", "Quality of Life",
-    "Recovery Time", "Complication Rate",
-    "Patient Satisfaction", "Cost Effectiveness"
-  ];
-
-  const interventions = [
-    "Drug Therapy", "Medical Device",
-    "Surgery", "Physical Therapy",
-    "Behavioral", "Dietary",
-    "Lifestyle", "Alternative Medicine",
-    "Preventive Care", "Emergency Care"
-  ];
+  const outcomes = t('filterMenu.sections.outcomes.items');
+  const interventions = t('filterMenu.sections.interventions.items');
 
   const filteredOutcomes = outcomes.filter(outcome =>
     outcome.toLowerCase().includes(searchOutcomes.toLowerCase())
@@ -35,7 +24,7 @@ const FilterMenu = ({ isOpen, onClose }) => {
       <div className="relative">
         <input
           type="text"
-          placeholder={placeholder || "Search..."}
+          placeholder={placeholder}
           value={searchValue}
           onChange={(e) => onSearchChange(e.target.value)}
           className="w-full px-4 py-2 pl-10 border border-border rounded-md bg-background"
@@ -63,93 +52,54 @@ const FilterMenu = ({ isOpen, onClose }) => {
 
   const menuItems = [
     {
-      title: "OUTCOMES",
+      title: t('filterMenu.sections.outcomes.title'),
       content: (
         <SearchableGrid
           items={filteredOutcomes}
           searchValue={searchOutcomes}
           onSearchChange={setSearchOutcomes}
-          placeholder="Search outcomes..."
+          placeholder={t('filterMenu.searchPlaceholders.outcomes')}
         />
       )
     },
     {
-      title: "INTERVENTIONS",
+      title: t('filterMenu.sections.interventions.title'),
       content: (
         <SearchableGrid
           items={filteredInterventions}
           searchValue={searchInterventions}
           onSearchChange={setSearchInterventions}
-          placeholder="Search interventions..."
+          placeholder={t('filterMenu.searchPlaceholders.interventions')}
         />
       )
     },
     {
-      title: "PARTICIPANTS",
-      children: [
-        'Male',
-        'Female',
-        'Pregnant',
-        'Non-diabetics',
-        'T2 Diabetes',
-        'T1 Diabetes',
-        'Prediabetes',
-        'Insulin Resistance',
-        'Children (≤13)',
-        'Adolescent (13–18)',
-        'Young Adult (19–39)',
-        'Middle Aged (40-64)',
-        'Older Adults (65+)'
-      ]
+      title: t('filterMenu.sections.participants.title'),
+      children: t('filterMenu.sections.participants.items')
     },
     {
-      title: "TRIAL TYPE",
-      children: [
-        'Meta-Analysis',
-        'Systematic Review',
-        'RCTs',
-        'Non-randomized CT',
-        'Cohort',
-        'Case-Control',
-        'Cross-Sectional'
-      ]
+      title: t('filterMenu.sections.trialType.title'),
+      children: t('filterMenu.sections.trialType.items')
     },
     {
-      title: "TRIAL SIZE",
-      children: [
-        'Small size (≤100)',
-        'Medium size (100–500)',
-        'Large size (500–5000)',
-        'Mega size (5000+)'
-      ]
+      title: t('filterMenu.sections.trialSize.title'),
+      children: t('filterMenu.sections.trialSize.items')
     },
     {
-      title: "TRIAL DURATION",
-      children: [
-        'Short-Term (≤3 mo)',
-        'Medium-Term (3–12 mo)',
-        'Long-Term (1–5 y)',
-        'Extended (5–20+ y)'
-      ]
+      title: t('filterMenu.sections.trialDuration.title'),
+      children: t('filterMenu.sections.trialDuration.items')
     },
     {
-      title: "GEOGRAPHY",
-      children: [
-        'North America',
-        'Europe (EU & UK)',
-        'Asia-Pacific (APAC)',
-        'Latin America (LATAM)',
-        'Middle East & North Africa (MENA)',
-        'Sub-Saharan Africa'
-      ]
+      title: t('filterMenu.sections.geography.title'),
+      children: t('filterMenu.sections.geography.items')
     },
     {
-      title: "YEAR",
-      children: ['2024', '2023', '2022', 'Earlier']
+      title: t('filterMenu.sections.year.title'),
+      children: t('filterMenu.sections.year.items')
     },
     {
-      title: "SPONSORSHIP",
-      children: ['Industry sponsored', 'Non-sponsored']
+      title: t('filterMenu.sections.sponsorship.title'),
+      children: t('filterMenu.sections.sponsorship.items')
     }
   ];
 
@@ -161,11 +111,11 @@ const FilterMenu = ({ isOpen, onClose }) => {
     >
       <div className="h-full overflow-y-auto">
         <div className="p-4 border-b border-border flex justify-between items-center">
-          <h2 className="font-semibold">Filters</h2>
+          <h2 className="font-semibold">{t('filterMenu.title')}</h2>
           <button
             onClick={onClose}
             className="p-1 hover:bg-secondary/10 rounded-full"
-            aria-label="Close menu"
+            aria-label={t('filterMenu.closeMenu')}
           >
             <IconX className="w-5 h-5" />
           </button>
@@ -211,7 +161,7 @@ const FilterMenu = ({ isOpen, onClose }) => {
           <button
             className="w-full mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
           >
-            Apply Filters
+            {t('filterMenu.applyFilters')}
           </button>
         </div>
       </div>

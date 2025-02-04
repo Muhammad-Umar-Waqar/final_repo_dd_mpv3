@@ -7,14 +7,21 @@ const nextConfig = {
     defaultLocale: 'en',
     localeDetection: false,
   },
-
-  webpack: (config, { isServer }) => {
+  webpack: (config, { dev, isServer }) => {
     // Add rule for handling SVG files
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack']
     });
-    return config
-}
-}
-module.exports = nextConfig
+
+    // Optimize Fast Refresh
+    if (dev && !isServer) {
+      config.optimization.moduleIds = 'named';
+      config.optimization.chunkIds = 'named';
+    }
+
+    return config;
+  }
+};
+
+module.exports = nextConfig;

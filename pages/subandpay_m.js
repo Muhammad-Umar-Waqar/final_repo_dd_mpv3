@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
 import { IconCrown, IconCheck } from '@tabler/icons-react';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const SubandPay = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('card');
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-      
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-2 gap-8">
           {/* Left Column - Subscription Details */}

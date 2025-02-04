@@ -2,20 +2,13 @@
 import Head from 'next/head';
 import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
-import Navbar from '../components/Navbar';
 import Link from 'next/link';
 import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
 
 export default function Login() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { locale } = useTranslations();
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle('dark');
-  };
 
   const translations = {
     title: locale === 'es' ? 'INICIAR SESIÓN' : 'LOGIN NOW',
@@ -31,12 +24,10 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>{translations.title} - deDiabetes</title>
+        <title>{`${translations.title} - deDiabetes`}</title>
         <meta name="description" content={locale === 'es' ? 'Inicia sesión en tu cuenta deDiabetes' : 'Login to your deDiabetes account'} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
 
       <main className="max-w-md mx-auto px-4 py-16">
         <div className="text-center mb-8">

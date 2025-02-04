@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from '../utils/i18n';
+import { useDarkMode } from '../utils/DarkModeContext';
 import { 
   IconMenu2, 
   IconSearch, 
@@ -34,9 +35,10 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => {
   );
 };
 
-export default function Navbar({ isDarkMode, toggleDarkMode }) {
+export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, locale, changeLanguage } = useTranslations();
+  const { isDarkMode, toggleDarkMode, mounted } = useDarkMode();
 
   const toggleLanguage = () => {
     const newLocale = locale === 'en' ? 'es' : 'en';
@@ -74,17 +76,19 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                 <IconSearch className="w-5 h-5" />
               </button>
               
-              <button 
-                className="p-2 rounded-full hover:bg-secondary text-foreground"
-                onClick={toggleDarkMode}
-                aria-label="Toggle theme"
-              >
-                {isDarkMode ? (
-                  <IconSun className="w-5 h-5" />
-                ) : (
-                  <IconMoon className="w-5 h-5" />
-                )}
-              </button>
+              {mounted && (
+                <button 
+                  className="p-2 rounded-full hover:bg-secondary text-foreground"
+                  onClick={toggleDarkMode}
+                  aria-label="Toggle theme"
+                >
+                  {isDarkMode ? (
+                    <IconSun className="w-5 h-5" />
+                  ) : (
+                    <IconMoon className="w-5 h-5" />
+                  )}
+                </button>
+              )}
               
               <button 
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -115,7 +119,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
                     
                     <div>
                       <MenuItem icon={IconCrown} text={t('nav.premium')} href="/premium" />
-                      <MenuItem icon={IconLogin} text={t('nav.login')} href="/auth" />
+                      <MenuItem icon={IconLogin} text={t('nav.login')} href="/login" />
                     </div>
                   </div>
                 </div>
