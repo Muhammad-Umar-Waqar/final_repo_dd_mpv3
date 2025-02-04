@@ -575,9 +575,12 @@ export default FilterMenu;
 ```js
 // components/Footer.js
 import Link from 'next/link';
+import { useTranslations } from '../utils/i18n';
 import { IconUsers, IconMail, IconArchive, IconMessageCircle } from '@tabler/icons-react';
 
 const Footer = () => {
+  const { t } = useTranslations();
+
   return (
     <footer className="border-t border-border bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -586,7 +589,7 @@ const Footer = () => {
             <Link href="/" className="hover:opacity-90 transition-opacity">
               <img
                 src="/logo1.png"
-                alt="deDiabetes Logo"
+                alt={t('footer.logoAlt')}
                 className="h-8 w-auto"
               />
             </Link>
@@ -599,7 +602,7 @@ const Footer = () => {
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <IconUsers className="w-5 h-5" />
-                <span>About us</span>
+                <span>{t('footer.about')}</span>
               </Link>
               
               <Link 
@@ -607,7 +610,7 @@ const Footer = () => {
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <IconMail className="w-5 h-5" />
-                <span>Newsletter</span>
+                <span>{t('footer.newsletter')}</span>
               </Link>
               
               <Link 
@@ -615,7 +618,7 @@ const Footer = () => {
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <IconArchive className="w-5 h-5" />
-                <span>Archive</span>
+                <span>{t('footer.archive')}</span>
               </Link>
               
               <Link 
@@ -623,7 +626,7 @@ const Footer = () => {
                 className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
               >
                 <IconMessageCircle className="w-5 h-5" />
-                <span>Contact us</span>
+                <span>{t('footer.contact')}</span>
               </Link>
             </nav>
           </div>
@@ -640,17 +643,21 @@ export default Footer;
 
 ```js
 // components/Hero.js
+import { useTranslations } from '../utils/i18n';
+
 const Hero = () => {
+  const { t } = useTranslations();
+
   return (
     <main className="max-w-7xl bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6">
-          <span className="text-primary">Stay informed.</span>{' '}
-          <span className="text-primary">Stay ahead.</span>
+          <span className="text-primary">{t('hero.stayInformed')}</span>{' '}
+          <span className="text-primary">{t('hero.stayAhead')}</span>
         </h1>
         
         <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto mb-12">
-        Subscribe now for AI-powered insights, the latest breakthroughs, and expert updates in diabetes care—delivered straight to your inbox.
+          {t('hero.subtitle')}
         </p>
 
         {/* Subscription Form */}
@@ -658,7 +665,7 @@ const Hero = () => {
           <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
             <input
               type="email"
-              placeholder="Enter your email"
+              placeholder={t('hero.emailPlaceholder')}
               className="flex-1 px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
               required
             />
@@ -666,11 +673,11 @@ const Hero = () => {
               type="submit"
               className="px-8 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
-              Subscribe
+              {t('hero.subscribeButton')}
             </button>
           </form>
           <p className="mt-4 text-sm text-muted-foreground">
-            We respect your privacy. Unsubscribe at any time.
+            {t('hero.privacyNote')}
           </p>
         </div>
       </div>
@@ -688,6 +695,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 
 const InterventionsPage = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -696,13 +704,13 @@ const InterventionsPage = () => {
   const [biasFilter, setBiasFilter] = useState('all');
   const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
   const [showBiasDropdown, setBiasDropdown] = useState(false);
+  const { t } = useTranslations();
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     document.documentElement.classList.toggle('dark');
   };
 
-  // Same data structure and filtering logic as Medications page, just with interventions
   const interventionsData = [
     {
       intervention: 'Intervention 1',
@@ -712,19 +720,7 @@ const InterventionsPage = () => {
         { name: 'Outcome 3', effectiveness: 'Med', studies: 7, bias: 'Moderate' },
       ]
     },
-    {
-      intervention: 'Intervention 2',
-      outcomes: [
-        { name: 'Outcome 1', effectiveness: 'High', studies: 13, bias: 'Low' },
-        { name: 'Outcome 2', effectiveness: 'Low', studies: 5, bias: 'Medium' }
-      ]
-    },
-    {
-      intervention: 'Intervention 3',
-      outcomes: [
-        { name: 'Outcome 4', effectiveness: 'High', studies: 13, bias: 'Low' }
-      ]
-    },
+    // ... other data
   ];
 
   const filteredInterventions = interventionsData
@@ -761,7 +757,7 @@ const InterventionsPage = () => {
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Interventions Analysis</h1>
+        <h1 className="text-3xl font-bold mb-8">{t('interventions.title')}</h1>
         
         {/* Search and Filters Row */}
         <div className="mb-6 flex flex-wrap gap-4 items-center">
@@ -769,7 +765,7 @@ const InterventionsPage = () => {
           <div className="flex-grow max-w-md">
             <input
               type="text"
-              placeholder="Filter interventions..."
+              placeholder={t('interventions.filterPlaceholder')}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
@@ -786,7 +782,7 @@ const InterventionsPage = () => {
               className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
             >
               <IconFilter className="w-4 h-4" />
-              Effectiveness
+              {t('interventions.effectiveness')}
               <IconChevronDown className="w-4 h-4" />
             </button>
             
@@ -803,7 +799,7 @@ const InterventionsPage = () => {
                       effectivenessFilter === option ? 'bg-gray-100' : ''
                     }`}
                   >
-                    {option === 'all' ? 'All Effectiveness' : option}
+                    {option === 'all' ? t('interventions.filters.allEffectiveness') : option}
                   </button>
                 ))}
               </div>
@@ -820,7 +816,7 @@ const InterventionsPage = () => {
               className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
             >
               <IconFilter className="w-4 h-4" />
-              Bias
+              {t('interventions.bias')}
               <IconChevronDown className="w-4 h-4" />
             </button>
             
@@ -837,7 +833,7 @@ const InterventionsPage = () => {
                       biasFilter === option ? 'bg-gray-100' : ''
                     }`}
                   >
-                    {option === 'all' ? 'All Bias Levels' : option}
+                    {option === 'all' ? t('interventions.filters.allBias') : option}
                   </button>
                 ))}
               </div>
@@ -850,11 +846,21 @@ const InterventionsPage = () => {
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Intervention</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Outcome</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Effectiveness</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Studies</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Bias</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.intervention')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.outcome')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.effectiveness')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.studies')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('interventions.tableHeaders.bias')}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -904,16 +910,20 @@ export default InterventionsPage;
 
 ```js
 // components/IntroSection.js
+import { useTranslations } from '../utils/i18n';
+
 const IntroSection = () => {
+    const { t } = useTranslations();
+
     return (
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="text-center">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-8">
-            Bringing you the latest advancements in diabetes care and research.
+            {t('introSection.headline')}
           </h2>
           
           <p className="text-xl sm:text-2xl text-muted-foreground max-w-4xl mx-auto">
-            Find the latest research, treatments, and insights—all in one place.
+            {t('introSection.subheadline')}
           </p>
         </div>
       </section>
@@ -1147,7 +1157,9 @@ export default MedicationsPage;
 
 ```js
 // components/Navbar.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useTranslations } from '../utils/i18n';
 import { 
   IconMenu2, 
@@ -1164,47 +1176,29 @@ import {
   IconX
 } from '@tabler/icons-react';
 
-const MenuItem = ({ icon: Icon, text, href = '/' }) => (
-  <a 
-    href={href}
-    className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
-  >
-    <Icon className="w-5 h-5" />
-    <span className="text-lg whitespace-nowrap">{text}</span>
-  </a>
-);
+const MenuItem = ({ icon: Icon, text, href = '/' }) => {
+  const router = useRouter();
+  const { locale } = router;
+  
+  return (
+    <Link 
+      href={href}
+      locale={locale}
+      className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
+    >
+      <Icon className="w-5 h-5" />
+      <span className="text-lg whitespace-nowrap">{text}</span>
+    </Link>
+  );
+};
 
 export default function Navbar({ isDarkMode, toggleDarkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { locale, changeLanguage } = useTranslations();
-  const [translations, setTranslations] = useState({});
-
-  useEffect(() => {
-    const loadTranslations = async () => {
-      try {
-        const module = await import(`../locales/${locale}/common.json`);
-        setTranslations(module.default);
-      } catch (error) {
-        console.error('Failed to load translations:', error);
-      }
-    };
-    
-    loadTranslations();
-  }, [locale]);
+  const { t, locale, changeLanguage } = useTranslations();
 
   const toggleLanguage = () => {
     const newLocale = locale === 'en' ? 'es' : 'en';
     changeLanguage(newLocale);
-  };
-
-  const t = (key) => {
-    const keys = key.split('.');
-    let result = translations;
-    for (const k of keys) {
-      result = result?.[k];
-      if (!result) break;
-    }
-    return result || key;
   };
 
   return (
@@ -1213,13 +1207,13 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <a href="/" className="hover:opacity-90 transition-opacity">
+              <Link href="/" locale={locale} className="hover:opacity-90 transition-opacity">
                 <img
                   src="/logo1.png"
                   alt="DeXdiabetes Logo"
                   className="h-8 w-auto"
                 />
-              </a>
+              </Link>
             </div>
 
             <div className="flex items-center gap-4">
@@ -1440,9 +1434,12 @@ export default NewsCard;
 
 ```js
 import React from 'react';
+import { useTranslations } from '../utils/i18n';
 import NewsCard from './NewsCard';
 
 const NewsGrid = () => {
+  const { t } = useTranslations();
+
   const newsItems = [
     {
       category: 'Clinical Trial',
@@ -1503,8 +1500,11 @@ const NewsGrid = () => {
       
       {/* Pagination */}
       <div className="flex justify-center items-center space-x-2 mt-12">
-        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-          Previous
+        <button 
+          className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" 
+          disabled
+        >
+          {t('newsGrid.pagination.previous')}
         </button>
         <button className="px-3 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90">
           1
@@ -1520,7 +1520,7 @@ const NewsGrid = () => {
           8
         </button>
         <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
-          Next
+          {t('newsGrid.pagination.next')}
         </button>
       </div>
     </section>
@@ -2091,20 +2091,22 @@ export default RelatedPosts;
 ```js
 import React, { useState } from 'react';
 import { IconLock } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 import FilterMenu from './FilterMenu';
 
 const SearchSection = () => {
+  const { t } = useTranslations();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   
   const filters = [
-    { id: 'all', label: 'All' },
-    { id: 'behavioral', label: 'Behavioral' },
-    { id: 'complications', label: 'Complications' },
-    { id: 'digital', label: 'Digital' },
-    { id: 'pharmacology', label: 'Pharmacology' },
-    { id: 'prevention', label: 'Prevention' },
-    { id: 'supplements', label: 'Supplements' },
-    { id: 't1d', label: 'T1D' },
+    { id: 'all', labelKey: 'searchSection.filters.all' },
+    { id: 'behavioral', labelKey: 'searchSection.filters.behavioral' },
+    { id: 'complications', labelKey: 'searchSection.filters.complications' },
+    { id: 'digital', labelKey: 'searchSection.filters.digital' },
+    { id: 'pharmacology', labelKey: 'searchSection.filters.pharmacology' },
+    { id: 'prevention', labelKey: 'searchSection.filters.prevention' },
+    { id: 'supplements', labelKey: 'searchSection.filters.supplements' },
+    { id: 't1d', labelKey: 'searchSection.filters.t1d' },
   ];
 
   // Add overlay when filter menu is open
@@ -2120,18 +2122,20 @@ const SearchSection = () => {
   return (
     <>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-4xl font-bold text-center mb-8">Search News</h2>
+        <h2 className="text-4xl font-bold text-center mb-8">
+          {t('searchSection.title')}
+        </h2>
         
-        <div className="relative mb-6  max-w-[70%] mx-auto">
+        <div className="relative mb-6 max-w-[70%] mx-auto">
           <input
             type="text"
-            placeholder="Search for news, topics, or keywords..."
+            placeholder={t('searchSection.searchPlaceholder')}
             className="w-full px-4 py-3 rounded-full border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
           <button
             className="absolute right-2 top-1/2 -translate-y-1/2 px-8 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
           >
-            Search
+            {t('searchSection.searchButton')}
           </button>
         </div>
 
@@ -2141,7 +2145,7 @@ const SearchSection = () => {
               key={filter.id}
               className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs"
             >
-              {filter.label}
+              {t(filter.labelKey)}
             </button>
           ))}
           <button
@@ -2149,7 +2153,7 @@ const SearchSection = () => {
             className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-2"
           >
             <IconLock className="w-4 h-4" />
-            FILTER
+            {t('searchSection.filterButton')}
           </button>
         </div>
       </section>
@@ -2495,51 +2499,185 @@ const SupplementsPage = () => {
 export default SupplementsPage;
 ```
 
-# Locales\en\common.json
+# locales\en.js
 
-```json
-{
-    "nav": {
-      "home": "Home",
-      "interventions": "Interventions",
-      "outcomes": "Outcomes",
-      "medications": "Medications",
-      "supplements": "Supplements",
-      "search": "Search",
-      "premium": "Premium Membership",
-      "login": "Login / Sign-up"
+```js
+// locales/en.js
+export const enTranslations = {
+  siteName: "deDiabetes",
+  homeTitle: "Stay Informed About Diabetes",
+  homeDescription: "Stay informed about the latest breakthroughs in diabetes care",
+  nav: {
+    home: "Home",
+    interventions: "Interventions",
+    outcomes: "Outcomes",
+    medications: "Medications",
+    supplements: "Supplements",
+    premium: "Premium Membership",
+    login: "Login / Sign-up",
+    search: "Search"
+  },
+  footer: {
+    about: "About us",
+    newsletter: "Newsletter",
+    archive: "Archive",
+    contact: "Contact us"
+  },
+  // Hero
+  hero: {
+    stayInformed: "Stay informed.",
+    stayAhead: "Stay ahead.",
+    subtitle: "Subscribe now for AI-powered insights, the latest breakthroughs, and expert updates in diabetes care—delivered straight to your inbox.",
+    emailPlaceholder: "Enter your email",
+    subscribeButton: "Subscribe",
+    privacyNote: "We respect your privacy. Unsubscribe at any time."
+  },
+  // introsection homepage
+  introSection: {
+    headline: "Bringing you the latest advancements in diabetes care and research.",
+    subheadline: "Find the latest research, treatments, and insights—all in one place."
+  },
+  // New interventions translations
+  interventions: {
+    title: "Interventions Analysis",
+    filterPlaceholder: "Filter interventions...",
+    effectiveness: "Effectiveness",
+    bias: "Bias",
+    tableHeaders: {
+      intervention: "Intervention",
+      outcome: "Outcome",
+      effectiveness: "Effectiveness",
+      studies: "Studies",
+      bias: "Bias"
     },
-    "footer": {
-      "about": "About us",
-      "newsletter": "Newsletter",
-      "archive": "Archive",
-      "contact": "Contact us"
+    filters: {
+      allEffectiveness: "All Effectiveness",
+      allBias: "All Bias Levels"
     }
-  }
+  },
+  // SearchSection
+  searchSection: {
+    title: "Search News",
+    searchPlaceholder: "Search for news, topics, or keywords...",
+    searchButton: "Search",
+    filterButton: "FILTER",
+    filters: {
+      all: "All",
+      behavioral: "Behavioral",
+      complications: "Complications", 
+      digital: "Digital",
+      pharmacology: "Pharmacology",
+      prevention: "Prevention",
+      supplements: "Supplements",
+      t1d: "T1D"
+    }
+  },
+  newsGrid: {
+    pagination: {
+      previous: "Previous",
+      next: "Next"
+    }
+  },
+  footer: {
+    logoAlt: "deDiabetes Logo",
+    about: "About us",
+    newsletter: "Newsletter",
+    archive: "Archive",
+    contact: "Contact us"
+  },
+};
+
 ```
 
-# Locales\es\common.json
+# locales\es.js
 
-```json
-{
-    "nav": {
-      "home": "Inicio",
-      "interventions": "Intervenciones",
-      "outcomes": "Resultados",
-      "medications": "Medicamentos",
-      "supplements": "Suplementos",
-      "search": "Buscar",
-      "premium": "Membresía Premium",
-      "login": "Iniciar sesión / Registrarse"
+```js
+
+// locales/es.js
+export const esTranslations = {
+  siteName: "deDiabetes",
+  homeTitle: "Manténgase Informado Sobre la Diabetes",
+  homeDescription: "Manténgase informado sobre los últimos avances en el cuidado de la diabetes",
+  nav: {
+    home: "Inicio",
+    interventions: "Intervenciones",
+    outcomes: "Resultados",
+    medications: "Medicamentos",
+    supplements: "Suplementos",
+    premium: "Membresía Premium",
+    login: "Iniciar sesión / Registrarse",
+    search: "Buscar"
+  },
+  footer: {
+    about: "Sobre nosotros",
+    newsletter: "Boletín",
+    archive: "Archivo",
+    contact: "Contáctenos"
+  },
+// Hero
+hero: {
+  stayInformed: "Manténgase informado.",
+  stayAhead: "Manténgase adelante.",
+  subtitle: "Suscríbase ahora para obtener información impulsada por IA, los últimos avances y actualizaciones de expertos en el cuidado de la diabetes, entregadas directamente a su bandeja de entrada.",
+  emailPlaceholder: "Ingrese su correo electrónico",
+  subscribeButton: "Suscribirse",
+  privacyNote: "Respetamos su privacidad. Puede cancelar la suscripción en cualquier momento."
+},
+// intro section homepage
+introSection: {
+  headline: "Trayendo los últimos avances en el cuidado e investigación de la diabetes.",
+  subheadline: "Encuentre la investigación más reciente, tratamientos e ideas, todo en un solo lugar."
+},
+
+  // New interventions translations
+  interventions: {
+    title: "Análisis de Intervenciones",
+    filterPlaceholder: "Filtrar intervenciones...",
+    effectiveness: "Efectividad",
+    bias: "Sesgo",
+    tableHeaders: {
+      intervention: "Intervención",
+      outcome: "Resultado",
+      effectiveness: "Efectividad", 
+      studies: "Estudios",
+      bias: "Sesgo"
     },
-    "footer": {
-      "about": "Sobre nosotros",
-      "newsletter": "Boletín",
-      "archive": "Archivo",
-      "contact": "Contáctenos"
+    filters: {
+      allEffectiveness: "Toda Efectividad",
+      allBias: "Todos los Niveles de Sesgo"
     }
-  }
-  
+  },
+  // SearchSection
+  searchSection: {
+    title: "Buscar Noticias",
+    searchPlaceholder: "Buscar noticias, temas o palabras clave...",
+    searchButton: "Buscar",
+    filterButton: "FILTRO",
+    filters: {
+      all: "Todos",
+      behavioral: "Conductual",
+      complications: "Complicaciones",
+      digital: "Digital",
+      pharmacology: "Farmacología",
+      prevention: "Prevención",
+      supplements: "Suplementos",
+      t1d: "T1D"
+    }
+  },
+  newsGrid: {
+    pagination: {
+      previous: "Anterior",
+      next: "Siguiente"
+    }
+  },
+  footer: {
+    logoAlt: "Logo de deDiabetes",
+    about: "Sobre nosotros",
+    newsletter: "Boletín",
+    archive: "Archivo",
+    contact: "Contáctenos"
+  },
+};
 ```
 
 # next.config.js
@@ -2553,18 +2691,6 @@ const nextConfig = {
     locales: ['en', 'es'],
     defaultLocale: 'en',
     localeDetection: false,
-  },
-  webpack: (config, { isServer }) => {
-    // Add support for importing JSON files
-    config.module.rules.push({
-      test: /\.json$/,
-      type: 'javascript/auto',
-      resolve: {
-        fullySpecified: false
-      }
-    });
-
-    return config;
   }
 }
 
@@ -2577,9 +2703,10 @@ module.exports = nextConfig
 {
   "private": true,
   "scripts": {
-    "build": "next build",
     "dev": "next dev",
-    "start": "next start"
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.29.0",
@@ -2598,7 +2725,6 @@ module.exports = nextConfig
     "node": ">=18"
   }
 }
-
 ```
 
 # pages\_app.js
@@ -2619,6 +2745,7 @@ export default MyApp
 // pages/index.js
 import { useState } from 'react';
 import Head from 'next/head';
+import { useTranslations } from '../utils/i18n';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import IntroSection from '../components/IntroSection';
@@ -2628,6 +2755,7 @@ import Footer from '../components/Footer';
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const { t } = useTranslations();
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -2637,8 +2765,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>deDiabetes - Stay Informed About Diabetes</title>
-        <meta name="description" content="Stay informed about the latest breakthroughs in diabetes care" />
+        <title>{`${t('siteName')} - ${t('homeTitle')}`}</title>
+        <meta name="description" content={t('homeDescription')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -2660,13 +2788,19 @@ export default function Home() {
 ```js
 import Head from 'next/head';
 import InterventionsPage from '../components/InterventionsPage';
+import { useTranslations } from '../utils/i18n';
 
 export default function Interventions() {
+  const { t } = useTranslations();
+  
   return (
     <>
       <Head>
-        <title>Interventions Analysis - deDiabetes</title>
-        <meta name="description" content="Analysis of diabetes interventions, their outcomes, effectiveness, and potential bias" />
+        <title>{t('interventions.title')} - deDiabetes</title>
+        <meta 
+          name="description" 
+          content={t('interventions.filterPlaceholder')} 
+        />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
@@ -4065,45 +4199,46 @@ module.exports = {
 # utils\i18n.js
 
 ```js
+// utils/i18n.js
 import { useRouter } from 'next/router';
+import { enTranslations } from '../locales/en';
+import { esTranslations } from '../locales/es';
 
-const loadTranslations = async (locale) => {
-  try {
-    const translations = await import(`../locales/${locale}/common.json`);
-    return translations.default;
-  } catch (error) {
-    console.error(`Failed to load translations for ${locale}:`, error);
-    return {};
-  }
+const translations = {
+  en: enTranslations,
+  es: esTranslations
 };
 
 export const useTranslations = () => {
-    const router = useRouter();
-    const { locale, defaultLocale = 'en' } = router;
-  
-    const translate = async (key) => {
-      const translations = await loadTranslations(locale || defaultLocale);
-      const keys = key.split('.');
-      let result = translations;
-      
-      for (const k of keys) {
-        result = result?.[k];
-        if (!result) break;
+  const router = useRouter();
+  const { locale = 'en', defaultLocale = 'en' } = router;
+
+  const t = (key) => {
+    const currentTranslations = translations[locale] || translations[defaultLocale];
+    const keys = key.split('.');
+    let result = currentTranslations;
+    
+    for (const k of keys) {
+      result = result?.[k];
+      if (!result) {
+        // If translation is not found, return last part of the key
+        return keys[keys.length - 1];
       }
-  
-      return result || key;
-    };
-  
-    const changeLanguage = (newLocale) => {
-      const { pathname, asPath, query } = router;
-      router.push({ pathname, query }, asPath, { locale: newLocale });
-    };
-  
-    return {
-      t: translate,
-      locale,
-      changeLanguage
-    };
+    }
+
+    return result;
   };
+
+  const changeLanguage = (newLocale) => {
+    const { pathname, asPath, query } = router;
+    router.push({ pathname, query }, asPath, { locale: newLocale });
+  };
+
+  return {
+    t,
+    locale,
+    changeLanguage
+  };
+};
 ```
 
