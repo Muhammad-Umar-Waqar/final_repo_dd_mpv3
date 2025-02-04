@@ -83,4 +83,21 @@ introSection: {
     archive: "Archivo",
     contact: "Contáctenos"
   },
+  // Add to esTranslations object in locales/es.js
+memberPage: {
+  title: "Página de Miembro",
+  planSection: {
+    upgrade: "actualizar/cancelar"
+  },
+  savedArticles: {
+    title: "Artículos Guardados",
+    searchPlaceholder: "Buscar noticias, temas o palabras clave...",
+    searchButton: "Buscar",
+    viewButton: "Ver"
+  },
+  pagination: {
+    previous: "Anterior",
+    next: "Siguiente"
+  }
+},
 };

@@ -81,4 +81,20 @@ export const enTranslations = {
     archive: "Archive",
     contact: "Contact us"
   },
+  memberPage: {
+    title: "Member Page",
+    planSection: {
+      upgrade: "upgrade/cancel"
+    },
+    savedArticles: {
+      title: "Saved Articles",
+      searchPlaceholder: "Search for news, topics, or keywords...",
+      searchButton: "Search",
+      viewButton: "View"
+    },
+    pagination: {
+      previous: "Previous",
+      next: "Next"
+    }
+  },
 };
