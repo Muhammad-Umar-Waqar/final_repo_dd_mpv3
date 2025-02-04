@@ -53,6 +53,24 @@ introSection: {
       allBias: "Todos los Niveles de Sesgo"
     }
   },
+  // New outcomes translations
+  outcomes: {
+    title: "Análisis de Resultados",
+    filterPlaceholder: "Filtrar resultados...",
+    effectiveness: "Efectividad",
+    bias: "Sesgo",
+    tableHeaders: {
+      outcome: "Resultado",
+      intervention: "Intervención",
+      effectiveness: "Efectividad",
+      studies: "Estudios",
+      bias: "Sesgo"
+    },
+    filters: {
+      allEffectiveness: "Toda Efectividad",
+      allBias: "Todos los Niveles de Sesgo"
+    }
+  },
   // SearchSection
   searchSection: {
     title: "Buscar Noticias",

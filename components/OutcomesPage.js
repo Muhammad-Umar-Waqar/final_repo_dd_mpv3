@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { IconChevronDown, IconFilter } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 
 const OutcomesPage = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -10,6 +11,7 @@ const OutcomesPage = () => {
   const [biasFilter, setBiasFilter] = useState('all');
   const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
   const [showBiasDropdown, setBiasDropdown] = useState(false);
+  const { t } = useTranslations();
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
@@ -25,19 +27,7 @@ const OutcomesPage = () => {
         { name: 'Intervention 3', effectiveness: 'Med', studies: 7, bias: 'Moderate' },
       ]
     },
-    {
-      outcome: 'Outcome 2',
-      interventions: [
-        { name: 'Intervention 1', effectiveness: 'High', studies: 13, bias: 'Low' },
-        { name: 'Intervention 2', effectiveness: 'Low', studies: 5, bias: 'Medium' }
-      ]
-    },
-    {
-      outcome: 'Outcome 3',
-      interventions: [
-        { name: 'Intervention 4', effectiveness: 'High', studies: 13, bias: 'Low' }
-      ]
-    },
+    // ... other data
   ];
 
   const filteredOutcomes = outcomesData
@@ -74,7 +64,7 @@ const OutcomesPage = () => {
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
       
       <main className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-8">Outcomes Analysis</h1>
+        <h1 className="text-3xl font-bold mb-8">{t('outcomes.title')}</h1>
         
         {/* Search and Filters Row */}
         <div className="mb-6 flex flex-wrap gap-4 items-center">
@@ -82,7 +72,7 @@ const OutcomesPage = () => {
           <div className="flex-grow max-w-md">
             <input
               type="text"
-              placeholder="Filter outcomes..."
+              placeholder={t('outcomes.filterPlaceholder')}
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               value={filterText}
               onChange={(e) => setFilterText(e.target.value)}
@@ -99,7 +89,7 @@ const OutcomesPage = () => {
               className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
             >
               <IconFilter className="w-4 h-4" />
-              Effectiveness
+              {t('outcomes.effectiveness')}
               <IconChevronDown className="w-4 h-4" />
             </button>
             
@@ -116,7 +106,7 @@ const OutcomesPage = () => {
                       effectivenessFilter === option ? 'bg-gray-100' : ''
                     }`}
                   >
-                    {option === 'all' ? 'All Effectiveness' : option}
+                    {option === 'all' ? t('outcomes.filters.allEffectiveness') : option}
                   </button>
                 ))}
               </div>
@@ -133,7 +123,7 @@ const OutcomesPage = () => {
               className="px-4 py-2 border border-gray-300 rounded-md flex items-center gap-2 hover:bg-gray-50"
             >
               <IconFilter className="w-4 h-4" />
-              Bias
+              {t('outcomes.bias')}
               <IconChevronDown className="w-4 h-4" />
             </button>
             
@@ -150,7 +140,7 @@ const OutcomesPage = () => {
                       biasFilter === option ? 'bg-gray-100' : ''
                     }`}
                   >
-                    {option === 'all' ? 'All Bias Levels' : option}
+                    {option === 'all' ? t('outcomes.filters.allBias') : option}
                   </button>
                 ))}
               </div>
@@ -163,11 +153,21 @@ const OutcomesPage = () => {
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Outcome</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Intervention</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Effectiveness</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Studies</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">Bias</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('outcomes.tableHeaders.outcome')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('outcomes.tableHeaders.intervention')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('outcomes.tableHeaders.effectiveness')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('outcomes.tableHeaders.studies')}
+                </th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-gray-600">
+                  {t('outcomes.tableHeaders.bias')}
+                </th>
               </tr>
             </thead>
             <tbody>

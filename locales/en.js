@@ -51,6 +51,24 @@ export const enTranslations = {
       allBias: "All Bias Levels"
     }
   },
+  // New outcomes translations
+  outcomes: {
+    title: "Outcomes Analysis",
+    filterPlaceholder: "Filter outcomes...",
+    effectiveness: "Effectiveness",
+    bias: "Bias",
+    tableHeaders: {
+      outcome: "Outcome",
+      intervention: "Intervention",
+      effectiveness: "Effectiveness",
+      studies: "Studies",
+      bias: "Bias"
+    },
+    filters: {
+      allEffectiveness: "All Effectiveness",
+      allBias: "All Bias Levels"
+    }
+  },
   // SearchSection
   searchSection: {
     title: "Search News",

@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import OutcomesPage from '../components/OutcomesPage';
+import { useTranslations } from '../utils/i18n';
 
 export default function Outcomes() {
   return (
