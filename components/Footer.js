@@ -1,7 +1,7 @@
 // components/Footer.js
 import Link from 'next/link';
 import { useTranslations } from '../utils/i18n';
-import { IconUsers, IconMail, IconArchive, IconMessageCircle } from '@tabler/icons-react';
+import { IconUsers, IconMail, IconArchive, IconMessageCircle, IconRss } from '@tabler/icons-react';
 
 const Footer = () => {
   const { t } = useTranslations();
@@ -52,6 +52,14 @@ const Footer = () => {
               >
                 <IconMessageCircle className="w-5 h-5" />
                 <span>{t('footer.contact')}</span>
+              </Link>
+
+              <Link
+                href="/feed.xml"
+                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <IconRss className="w-5 h-5" />
+                <span>RSS</span>
               </Link>
             </nav>
           </div>
