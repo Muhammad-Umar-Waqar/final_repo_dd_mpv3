@@ -33,6 +33,18 @@ export const esTranslations = {
     headline: "Trayendo los últimos avances en el cuidado e investigación de la diabetes.",
     subheadline: "Encuentre la investigación más reciente, tratamientos e ideas, todo en un solo lugar."
   },
+  // Contact page translations
+  contact: {
+    title: "Contáctenos",
+    subtitle: "Nos encantaría saber de usted. Envíenos un mensaje usando el formulario a continuación.",
+    form: {
+      name: "Nombre",
+      email: "Correo electrónico",
+      message: "Mensaje",
+      submit: "Enviar Mensaje"
+    },
+    success: "¡Gracias por su mensaje! Nos pondremos en contacto pronto."
+  },
   // FilterMenu translations
   filterMenu: {
     title: "Filtros",
@@ -265,15 +277,15 @@ export const esTranslations = {
     title: "Sobre deDiabetes",
     mission: {
       title: "Nuestra Misión",
-      content: "En deDiabetes, estamos comprometidos con la transformación del cuidado de la diabetes a través de la investigación basada en evidencia y tecnología de vanguardia. Nuestra misión es empoderar a los profesionales de la salud y pacientes con información completa y actualizada sobre el manejo y las opciones de tratamiento de la diabetes."
+      content: "En deDiabetes, nos dedicamos a transformar el cuidado de la diabetes a través de la investigación basada en evidencia y el análisis impulsado por IA. Nuestra misión es empoderar a los profesionales de la salud, investigadores e individuos afectados por la diabetes con información completa y actualizada. Al aprovechar la tecnología de vanguardia y los conocimientos científicos, buscamos arrojar luz sobre las complejidades de la diabetes: sus causas, estrategias de manejo y los últimos avances en el tratamiento.\n\nLa diabetes es una condición multifacética moldeada por la genética, el estilo de vida y las innovaciones médicas emergentes. Nuevos tratamientos, avances tecnológicos y enfoques dietéticos redefinen continuamente nuestra comprensión de su manejo. En deDiabetes, tendemos un puente entre la investigación y la aplicación en el mundo real, haciendo que los hallazgos científicos sean accesibles para todos."
     },
-    vision: {
-      title: "Nuestra Visión",
-      content: "Visualizamos un mundo donde todos los afectados por la diabetes tengan acceso a las últimas investigaciones, tratamientos e innovaciones. A través de nuestra plataforma, buscamos cerrar la brecha entre la investigación médica compleja y las ideas prácticas y accionables."
+    goal: {
+      title: "Nuestro Objetivo",
+      content: "En deDiabetes, nuestro propósito no es dictar elecciones sino presentar hechos. No ofrecemos consejos médicos ni abogamos por tratamientos, dietas o intervenciones específicas. Nos mantenemos neutrales, sin respaldar ni descartar ningún enfoque, ya sea farmacéutico, tecnológico o basado en el estilo de vida. Nuestro papel es analizar los datos, destilar los hallazgos y reportar los hechos objetivamente.\n\nSomos una plataforma de noticias e investigación, no una autoridad en verdades absolutas. Si un estudio sugiere que una dieta baja en carbohidratos puede mejorar el control del azúcar en sangre, no lo declaramos como una solución única para todos. Si la investigación cuestiona la seguridad a largo plazo de un nuevo medicamento, no lo etiquetamos como inherentemente dañino. En cambio, proporcionamos el contexto necesario para que individuos y profesionales formen sus propias conclusiones."
     },
     approach: {
       title: "Nuestro Enfoque",
-      content: "Combinamos la inteligencia artificial con el análisis experto humano para curar y evaluar la investigación más relevante sobre diabetes. Nuestro equipo de profesionales médicos, investigadores y expertos en tecnología trabaja incansablemente para asegurar la más alta calidad de información."
+      content: "deDiabetes está comprometido con el reportaje imparcial. No impulsamos agendas ni confirmamos sesgos. El mundo ya está lleno de voces que afirman tener la última palabra sobre la diabetes. Tomamos una postura diferente: una que valora la investigación con mente abierta y la búsqueda del conocimiento.\n\nCreemos en empoderar a los individuos con las herramientas para evaluar críticamente la investigación emergente, desafiar suposiciones y tomar decisiones informadas. En deDiabetes, nuestro enfoque está en brindar claridad en un campo en constante evolución, asegurando que el conocimiento siga siendo un recurso poderoso para todos."
     },
     values: {
       title: "Nuestros Valores",
@@ -296,14 +308,27 @@ export const esTranslations = {
         }
       ]
     },
-    team: {
-      title: "Nuestro Equipo",
-      content: "Nuestro diverso equipo incluye endocrinólogos, educadores en diabetes, analistas de investigación y expertos en tecnología. Juntos, aportamos décadas de experiencia en el cuidado de la diabetes y análisis de investigación."
-    },
     contact: {
       title: "Contáctenos",
       content: "Valoramos sus comentarios y siempre buscamos mejorar nuestros servicios. Contáctenos para compartir sus opiniones o aprender más sobre cómo podemos ayudarle a mantenerse informado sobre el cuidado de la diabetes."
     }
+  },
+  newsletter: {
+    title: "Boletín de deDiabetes - Manténgase Informado Sobre la Investigación de la Diabetes",
+    description: "Suscríbase al Boletín de deDiabetes para obtener información impulsada por IA, los últimos avances y actualizaciones de expertos en el cuidado de la diabetes.",
+    heading: "Suscríbase al Boletín de deDiabetes",
+    subheading: "Manténgase Informado. Manténgase Adelante.",
+    mainText: "La investigación sobre la diabetes evoluciona rápidamente, y mantenerse al día con los últimos hallazgos puede ser abrumador. Ahí es donde entramos nosotros. El Boletín de deDiabetes ofrece información impulsada por IA, los últimos avances y actualizaciones de expertos en el cuidado de la diabetes, directamente en su bandeja de entrada.",
+    benefitsTitle: "Al suscribirse, obtiene acceso a:",
+    benefits: {
+      research: "Investigación de vanguardia – Manténgase adelante con los estudios y hallazgos más recientes en el tratamiento y manejo de la diabetes.",
+      aiAnalysis: "Análisis impulsado por IA – Desglosamos datos complejos en ideas claras y accionables.",
+      facts: "Solo hechos, sin ruido – Sin publicidad, sin trucos de marketing, solo reportes imparciales.",
+      privacy: "Enfoque centrado en la privacidad – No lo rastreamos y no compartimos sus datos."
+    },
+    noSpam: "Sin spam. Sin relleno. Solo la información que necesita para mantenerse informado y empoderado.",
+    emailPlaceholder: "Ingrese su correo electrónico",
+    subscribeButton: "Suscríbase ahora y no se pierda ninguna actualización"
   },
   premium: {
     title: "Actualizar a Premium",
@@ -341,5 +366,5 @@ export const esTranslations = {
       effectivenessScore: "Puntuación de efectividad de intervenciones",
       biasAnalysis: "Análisis de sesgo usando herramientas aplicables de Cochrane"
     }
-  },
+  }
 };

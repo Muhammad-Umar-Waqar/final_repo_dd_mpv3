@@ -1,4 +1,4 @@
-// utils/i18n.js
+import React from 'react';
 import { useRouter } from 'next/router';
 import { enTranslations } from '../locales/en';
 import { esTranslations } from '../locales/es';
@@ -12,7 +12,7 @@ export const useTranslations = () => {
   const router = useRouter();
   const { locale = 'en', defaultLocale = 'en' } = router;
 
-  const t = (key) => {
+  const t = React.useCallback((key) => {
     const currentTranslations = translations[locale] || translations[defaultLocale];
     const keys = key.split('.');
     let result = currentTranslations;
@@ -26,12 +26,12 @@ export const useTranslations = () => {
     }
 
     return result;
-  };
+  }, [locale, defaultLocale]);
 
-  const changeLanguage = (newLocale) => {
+  const changeLanguage = React.useCallback((newLocale) => {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
-  };
+  }, [router]);
 
   return {
     t,

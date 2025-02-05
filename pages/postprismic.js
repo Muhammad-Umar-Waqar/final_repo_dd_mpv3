@@ -37,7 +37,7 @@ export default function ArtificialPancreasTrialPage() {
   ];
 
   // Specify the source type: 'article' or 'post'
-  const source_type = 'article'; // You can change this to 'post' to switch templates
+  const source_type = 'post'; // You can change this to 'post' to switch templates
 
   // Template-specific data
   const articleData = {

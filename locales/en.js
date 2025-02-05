@@ -33,6 +33,18 @@ export const enTranslations = {
     headline: "Bringing you the latest advancements in diabetes care and research.",
     subheadline: "Find the latest research, treatments, and insights—all in one place."
   },
+  // Contact page translations
+  contact: {
+    title: "Contact Us",
+    subtitle: "We'd love to hear from you. Send us a message using the form below.",
+    form: {
+      name: "Name",
+      email: "Email",
+      message: "Message",
+      submit: "Send Message"
+    },
+    success: "Thank you for your message! We'll get back to you soon."
+  },
   // FilterMenu translations
   filterMenu: {
     title: "Filters",
@@ -260,21 +272,20 @@ export const enTranslations = {
       allBias: "All Bias Levels"
     }
   },
-  // Add to enTranslations object
   // About Us page
   aboutUs: {
     title: "About deDiabetes",
     mission: {
       title: "Our Mission",
-      content: "At deDiabetes, we are committed to transforming diabetes care through evidence-based research and cutting-edge technology. Our mission is to empower healthcare professionals and patients with comprehensive, up-to-date information about diabetes management and treatment options."
+      content: "At deDiabetes, we are dedicated to transforming diabetes care through evidence-based research and AI-driven analysis. Our mission is to empower healthcare professionals, researchers, and individuals affected by diabetes with comprehensive, up-to-date information. By leveraging cutting-edge technology and scientific insights, we aim to shed light on the complexities of diabetes—its causes, management strategies, and the latest advancements in treatment.\n\nDiabetes is a multifaceted condition shaped by genetics, lifestyle, and emerging medical innovations. New treatments, technological breakthroughs, and dietary approaches continually redefine our understanding of its management. At deDiabetes, we bridge the gap between research and real-world application, making scientific findings accessible to all."
     },
-    vision: {
-      title: "Our Vision",
-      content: "We envision a world where everyone affected by diabetes has access to the latest research, treatments, and innovations. Through our platform, we aim to bridge the gap between complex medical research and practical, actionable insights."
+    goal: {
+      title: "Our Goal",
+      content: "At deDiabetes, our purpose is not to dictate choices but to present facts. We do not offer medical advice or advocate for specific treatments, diets, or interventions. We remain neutral—neither endorsing nor dismissing any approach, whether pharmaceutical, technological, or lifestyle-based. Our role is to analyze the data, distill the findings, and report the facts objectively.\n\nWe are a news and research platform, not an authority on absolute truths. If a study suggests that a low-carb diet may improve blood sugar control, we do not declare it a one-size-fits-all solution. If research questions the long-term safety of a new medication, we do not label it inherently harmful. Instead, we provide the context necessary for individuals and professionals to form their own conclusions."
     },
     approach: {
       title: "Our Approach",
-      content: "We combine artificial intelligence with expert human analysis to curate and evaluate the most relevant diabetes research. Our team of medical professionals, researchers, and technology experts works tirelessly to ensure the highest quality of information."
+      content: "deDiabetes is committed to unbiased reporting. We do not push agendas or confirm biases. The world is already full of voices claiming to have the final word on diabetes. We take a different stance—one that values open-minded inquiry and the pursuit of knowledge.\n\nWe believe in empowering individuals with the tools to critically evaluate emerging research, challenge assumptions, and make informed decisions. At deDiabetes, our focus is on delivering clarity in an ever-evolving field, ensuring that knowledge remains a powerful resource for all."
     },
     values: {
       title: "Our Values",
@@ -297,14 +308,27 @@ export const enTranslations = {
         }
       ]
     },
-    team: {
-      title: "Our Team",
-      content: "Our diverse team includes endocrinologists, diabetes educators, research analysts, and technology experts. Together, we bring decades of experience in diabetes care and research analysis."
-    },
     contact: {
       title: "Get in Touch",
       content: "We value your feedback and are always looking to improve our services. Contact us to share your thoughts or learn more about how we can help you stay informed about diabetes care."
     }
+  },
+  newsletter: {
+    title: "deDiabetes Newsletter - Stay Informed About Diabetes Research",
+    description: "Subscribe to the deDiabetes Newsletter for AI-powered insights, latest breakthroughs, and expert updates in diabetes care.",
+    heading: "Subscribe to the deDiabetes Newsletter",
+    subheading: "Stay Informed. Stay Ahead.",
+    mainText: "Diabetes research is evolving rapidly, and staying up to date with the latest findings can be overwhelming. That's where we come in. The deDiabetes Newsletter delivers AI-powered insights, the latest breakthroughs, and expert updates in diabetes care—straight to your inbox.",
+    benefitsTitle: "By subscribing, you gain access to:",
+    benefits: {
+      research: "Cutting-edge research – Stay ahead with the newest studies and findings in diabetes treatment and management.",
+      aiAnalysis: "AI-driven analysis – We break down complex data into clear, actionable insights.",
+      facts: "No noise, just facts – No advertisements, no marketing gimmicks—just unbiased reporting.",
+      privacy: "Privacy-first approach – We don't track you, and we don't share your data."
+    },
+    noSpam: "No spam. No fluff. Just the information you need to stay informed and empowered.",
+    emailPlaceholder: "Enter your email address",
+    subscribeButton: "Subscribe now and never miss an update"
   },
   premium: {
     title: "Upgrade to Premium",
@@ -342,5 +366,5 @@ export const enTranslations = {
       effectivenessScore: "Interventions effectiveness score",
       biasAnalysis: "Bias analysis using applicable Cochrane Collaboration tools"
     }
-  },
+  }
 };
