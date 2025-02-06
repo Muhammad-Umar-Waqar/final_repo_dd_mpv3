@@ -37,14 +37,13 @@ export default function ArtificialPancreasTrialPage() {
   ];
 
   // Specify the source type: 'article' or 'post'
-  const source_type = 'article'; // You can change this to 'post' to switch templates
+  const source_type = 'article'; // Changed to 'article' to show the new layout
 
   // Template-specific data
   const articleData = {
     ...commonData,
-    subtitle: "A comprehensive analysis of automated insulin delivery systems",
     imageUrl: null,
-    imageCaption: "Artificial Pancreas System Components Diagram",
+    categories: ["Clinical Trial", "Treatment"],
     relatedPosts,
     content: (
       <>
@@ -142,13 +141,13 @@ export default function ArtificialPancreasTrialPage() {
 
       {source_type === 'article' ? (
        <ArticleTemplate {...articleData} />
-     ) : (
+      ) : (
        <main>
          <article>
            <PostTemplate {...postData} />
          </article>
        </main>
-     )}
+      )}
     </div>
   );
 }

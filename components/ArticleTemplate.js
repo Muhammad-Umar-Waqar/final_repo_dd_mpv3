@@ -2,49 +2,54 @@ import React from 'react';
 import { IconPhoto } from '@tabler/icons-react';
 import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
-
 import RelatedPosts from './RelatedPosts';
 
 const ArticleTemplate = ({
   title = "Article Title",
-  subtitle = "",
   author = "Author Name",
   publisher = "Publisher Name",
   publishDate = "Publication Date",
   readTime = "5 min read",
   content = "",
   imageUrl = null,
-  imageCaption = "",
   isDarkMode = false,
   toggleDarkMode = () => {},
-  relatedPosts = []
+  relatedPosts = [],
+  categories = []
 }) => {
   return (
     <div className="min-h-screen bg-background">
-      
-      
       <main className="max-w-4xl mx-auto px-4 py-8">
+        {/* Category Tags */}
+        {categories && categories.length > 0 && (
+          <div className="flex gap-2 mb-6">
+            {categories.map((category, index) => (
+              <span
+                key={index}
+                className="inline-block px-3 py-1 text-sm font-medium text-red-700 bg-red-50 rounded-md"
+              >
+                {category}
+              </span>
+            ))}
+          </div>
+        )}
+
         {/* Article Header */}
-        <BlogPostHeader 
+        <BlogPostHeader
           title={title}
           publisher={publisher}
           publishDate={publishDate}
           readTime={readTime}
+          type="article"
+          author={author}
         />
-
-        {/* Subtitle if present */}
-        {subtitle && (
-          <p className="text-xl text-muted-foreground mb-8">
-            {subtitle}
-          </p>
-        )}
 
         {/* Featured Image */}
         <figure className="mb-16">
           {imageUrl ? (
             <img
               src={imageUrl}
-              alt={imageCaption || title}
+              alt={title}
               className="w-full rounded-lg"
             />
           ) : (
@@ -52,35 +57,14 @@ const ArticleTemplate = ({
               <IconPhoto className="w-12 h-12 text-muted-foreground" />
             </div>
           )}
-          {imageCaption && (
-            <figcaption className="mt-2 text-sm text-muted-foreground text-center">
-              {imageCaption}
-            </figcaption>
-          )}
         </figure>
 
-        {/* Author info */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-              <span className="text-lg font-medium text-muted-foreground">
-                {author[0]}
-              </span>
-            </div>
-            <div>
-              <p className="font-medium text-foreground">{author}</p>
-              <p className="text-sm text-muted-foreground">
-                {publishDate} · {readTime}
-              </p>
-            </div>
-          </div>
-        </div>
+
 
         {/* Article Content */}
         <article className="prose prose-lg max-w-none mb-16">
           {content}
         </article>
-
 
         {/* Newsletter Section */}
         <section className="bg-secondary/5 rounded-lg p-8 mb-16">
