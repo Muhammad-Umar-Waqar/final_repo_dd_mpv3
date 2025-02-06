@@ -3,6 +3,12 @@ export const esTranslations = {
   siteName: "deDiabetes",
   homeTitle: "Manténgase Informado Sobre la Diabetes",
   homeDescription: "Manténgase informado sobre los últimos avances en el cuidado de la diabetes",
+  articles: {
+    pageTitle: "Articulos",
+    title: "Articulos de Investigación",
+    subtitle: "Nuestro equipo de expertos brinda información valiosa y enriquecedora para ayudarte a tomar decisiones informadas sobre tu salud y bienestar.",
+    description: "Browse and search through our curated collection of diabetes articles."
+  },
   nav: {
     home: "Inicio",
     interventions: "Intervenciones",
@@ -192,7 +198,6 @@ export const esTranslations = {
   },
   // SearchSection
   searchSection: {
-    title: "Buscar Noticias",
     searchPlaceholder: "Buscar noticias, temas o palabras clave...",
     searchButton: "Buscar",
     filterButton: "FILTRO",

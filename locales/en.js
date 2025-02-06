@@ -6,8 +6,8 @@ export const enTranslations = {
   articles: {
     pageTitle: "Articles",
     title: "Research Articles",
-    subtitle: "Explore our comprehensive collection of diabetes research articles, clinical trials, and expert insights.",
-    description: "Browse and search through our curated collection of diabetes research articles and clinical studies."
+    subtitle: "Our team of experts delivers insightful and valuable information to help you make informed decisions about your health and wellness.",
+    description: "Browse and search through our curated collection of diabetes articles."
   },
   nav: {
     home: "Home",
@@ -199,7 +199,7 @@ export const enTranslations = {
   },
   // SearchSection
   searchSection: {
-    title: "Search News",
+    
     searchPlaceholder: "Search for news, topics, or keywords...",
     searchButton: "Search",
     filterButton: "FILTER",

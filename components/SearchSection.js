@@ -30,11 +30,7 @@ const SearchSection = ({ showFilterButton = true }) => {
 
   return (
     <>
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 className="text-4xl font-bold text-center mb-8">
-          {t('searchSection.title')}
-        </h2>
-        
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative mb-6 max-w-[70%] mx-auto">
           <input
             type="text"

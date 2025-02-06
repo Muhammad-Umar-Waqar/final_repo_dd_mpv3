@@ -33,7 +33,10 @@ export default function Articles() {
       </Head>
 
       <ArticlesHero />
+      <div className="py-8">
       <SearchSection showFilterButton={false} />
+      </div>
+
       <NewsGrid />
       <div className="mt-auto">
         <Footer />

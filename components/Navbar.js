@@ -16,7 +16,8 @@ import {
   IconFeatherFilled,
   IconCrown,
   IconLogin,
-  IconX
+  IconX,
+  IconArticleFilled
 } from '@tabler/icons-react';
 
 const MenuItem = ({ icon: Icon, text, href = '/' }) => {
@@ -111,9 +112,9 @@ export default function Navbar() {
                       <MenuItem icon={IconHome2} text={t('nav.home')} href="/" />
                       <MenuItem icon={IconClipboardHeart} text={t('nav.interventions')} href="/interventions" />
                       <MenuItem icon={IconHeartFilled} text={t('nav.outcomes')} href="/outcomes" />
-                      <MenuItem icon={IconClipboardHeart} text={t('nav.articles')} href="/articles" />
                       <MenuItem icon={IconVaccineBottle} text={t('nav.medications')} href="/medications" />
                       <MenuItem icon={IconFeatherFilled} text={t('nav.supplements')} href="/supplements" />
+                      <MenuItem icon={IconArticleFilled} text={t('nav.articles')} href="/articles" />
                     </nav>
                     
                     <div className="h-px bg-border my-4" />
