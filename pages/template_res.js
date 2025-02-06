@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import PostTemplate from '../components/PostTemplate';
+import ResearchTemplate from '../components/ResearchTemplate';
 import ArticleTemplate from '../components/ArticleTemplate';
 
 export default function ArtificialPancreasTrialPage() {
@@ -36,15 +36,14 @@ export default function ArtificialPancreasTrialPage() {
     }
   ];
 
-  // Specify the source type: 'article' or 'post'
-  const source_type = 'post'; // You can change this to 'post' to switch templates
+  // Specify the source type: 'article' or 'research'
+  const source_type = 'research'; // Changed from 'post' to 'research'
 
   // Template-specific data
   const articleData = {
     ...commonData,
-    subtitle: "A comprehensive analysis of automated insulin delivery systems",
     imageUrl: null,
-    imageCaption: "Artificial Pancreas System Components Diagram",
+    categories: ["Clinical Trial", "Treatment"],
     relatedPosts,
     content: (
       <>
@@ -87,7 +86,7 @@ export default function ArtificialPancreasTrialPage() {
     )
   };
 
-  const postData = {
+  const researchData = {  // Changed from postData to researchData
     ...commonData,
     summary: "A comprehensive 24-month trial evaluating artificial pancreas systems shows promising results for type 1 diabetes management.",
     studyDesign: {
@@ -142,13 +141,13 @@ export default function ArtificialPancreasTrialPage() {
 
       {source_type === 'article' ? (
        <ArticleTemplate {...articleData} />
-     ) : (
+      ) : (
        <main>
          <article>
-           <PostTemplate {...postData} />
+           <ResearchTemplate {...researchData} />
          </article>
        </main>
-     )}
+      )}
     </div>
   );
 }

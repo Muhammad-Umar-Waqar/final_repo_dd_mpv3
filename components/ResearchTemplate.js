@@ -5,7 +5,7 @@ import RelatedPosts from './RelatedPosts';
 import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
 
-const PostTemplate = ({
+const ResearchTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
   publisher = "Diabetes Research Journal",
@@ -79,7 +79,6 @@ const PostTemplate = ({
           <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
             <IconPhoto className="w-12 h-12 text-muted-foreground" />
           </div>
-
         </figure>
 
         <section className="prose prose-lg max-w-none mb-16">
@@ -279,4 +278,4 @@ const PostTemplate = ({
   );
 };
 
-export default PostTemplate;
+export default ResearchTemplate;

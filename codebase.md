@@ -98,11 +98,6 @@ const ArticleTemplate = ({
               <IconPhoto className="w-12 h-12 text-muted-foreground" />
             </div>
           )}
-          {imageCaption && (
-            <figcaption className="mt-2 text-sm text-muted-foreground text-center">
-              {imageCaption}
-            </figcaption>
-          )}
         </figure>
 
         {/* Author info */}
@@ -1832,9 +1827,6 @@ const PostTemplate = ({
           <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
             <IconPhoto className="w-12 h-12 text-muted-foreground" />
           </div>
-          <figcaption className="mt-2 text-sm text-muted-foreground text-center">
-            Study visualization of the automated insulin delivery system
-          </figcaption>
         </figure>
 
         <section className="prose prose-lg max-w-none mb-16">

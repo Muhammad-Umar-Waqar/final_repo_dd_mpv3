@@ -15,6 +15,7 @@ export const esTranslations = {
     outcomes: "Resultados",
     medications: "Medicamentos",
     supplements: "Suplementos",
+    articles: "Articulos",
     premium: "Membresía Premium",
     login: "Iniciar sesión / Registrarse",
     search: "Buscar"
