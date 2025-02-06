@@ -1,154 +1,214 @@
-import React from 'react';
-import Head from 'next/head';
-import PostTemplate from '../components/PostTemplate';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { useTranslations } from '../utils/i18n';
 import ArticleTemplate from '../components/ArticleTemplate';
+import { getAllDocuments } from '../lib/mongodb';
+import { syncAllContent } from '../lib/sync-prismic';
 
-export default function ArtificialPancreasTrialPage() {
+// This function gets called at build time
+export async function getStaticProps({ locale, previewData }) {
+  try {
+    // Get all blog posts for the current language from MongoDB
+    const posts = await getAllDocuments('blog_post', locale);
 
-  // Common data used by both templates
-  const commonData = {
-    title: "Long-term Outcomes of Artificial Pancreas Systems: A 24-Month Multi-Center Trial",
-    publishDate: "January 31, 2025",
-    publisher: "Diabetes Care Journal",
-    author: "Dr. Sarah Johnson",
-    readTime: "8 min read",
-  };
+    return {
+      props: {
+        posts: posts.map(post => ({
+          uid: post.uid,
+          title: post.data.title,
+          excerpt: post.data.excerpt,
+          publishedAt: post.first_publication_date,
+        })),
+        isAdmin: process.env.NODE_ENV === 'development', // Only show sync button in development
+      },
+      revalidate: 60, // Revalidate every minute
+    };
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return {
+      props: {
+        posts: [],
+        isAdmin: process.env.NODE_ENV === 'development',
+      },
+      revalidate: 60,
+    };
+  }
+}
 
-  // Related posts data used by both templates
-  const relatedPosts = [
-    {
-      title: "Impact of CGM Systems on Quality of Life: A 12-Month Study",
-      date: "January 25, 2025",
-      description: "A comprehensive analysis of how continuous glucose monitoring systems affect daily living, stress levels, and overall patient satisfaction in type 1 diabetes management.",
-      slug: "cgm-quality-of-life-study"
-    },
-    {
-      title: "Comparing Smart Insulin Pens vs Traditional Insulin Delivery",
-      date: "January 28, 2025",
-      description: "New research evaluates the effectiveness of smart insulin pens against conventional methods, examining glycemic control and user experience outcomes.",
-      slug: "smart-insulin-pens-comparison"
-    },
-    {
-      title: "Machine Learning in Diabetes Care: Predictive Analytics",
-      date: "January 30, 2025",
-      description: "How artificial intelligence and machine learning algorithms are revolutionizing blood glucose prediction and personalized treatment recommendations.",
-      slug: "ml-diabetes-predictive-analytics"
+export default function BlogPosts({ posts, isAdmin }) {
+  const router = useRouter();
+  const { t, locale } = useTranslations();
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncError, setSyncError] = useState(null);
+
+  useEffect(() => {
+    // Fetch comments when a post is selected
+    if (selectedPost) {
+      fetch(`/api/posts/${selectedPost.uid}?locale=${locale}`)
+        .then(res => res.json())
+        .then(data => {
+          setComments(data.comments);
+        })
+        .catch(error => {
+          console.error('Error fetching comments:', error);
+        });
     }
-  ];
+  }, [selectedPost, locale]);
 
-  // Specify the source type: 'article' or 'post'
-  const source_type = 'post'; // You can change this to 'post' to switch templates
-
-  // Template-specific data
-  const articleData = {
-    ...commonData,
-    subtitle: "A comprehensive analysis of automated insulin delivery systems",
-    imageUrl: null,
-    imageCaption: "Artificial Pancreas System Components Diagram",
-    relatedPosts,
-    content: (
-      <>
-        <h2>Abstract</h2>
-        <p>
-          This groundbreaking study examines the long-term efficacy and safety of artificial 
-          pancreas systems in managing type 1 diabetes over a 24-month period. The research 
-          demonstrates significant improvements in glycemic control and quality of life for 
-          participants.
-        </p>
-
-        <h2>Introduction</h2>
-        <p>
-          Artificial pancreas systems represent a significant advancement in diabetes 
-          management, combining continuous glucose monitoring with automated insulin delivery. 
-          This study provides crucial long-term data on their effectiveness in real-world 
-          settings.
-        </p>
-
-        <h2>Methodology</h2>
-        <p>
-          The study employed a rigorous methodological framework to ensure data reliability and validity. 
-          Participants were randomly assigned to treatment groups using a computer-generated algorithm.
-        </p>
-
-        <h2>Results and Discussion</h2>
-        <p>
-          The 24-month trial demonstrated significant clinical benefits of the artificial 
-          pancreas system. Key findings include a 35% reduction in hypoglycemic events and 
-          a 28% improvement in time-in-range glucose levels compared to the control group.
-        </p>
-
-        <h2>Conclusion</h2>
-        <p>
-          Our findings provide strong evidence supporting the long-term efficacy of artificial 
-          pancreas systems in improving glycemic control and reducing the burden of diabetes 
-          management for patients with type 1 diabetes.
-        </p>
-      </>
-    )
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
   };
 
-  const postData = {
-    ...commonData,
-    summary: "A comprehensive 24-month trial evaluating artificial pancreas systems shows promising results for type 1 diabetes management.",
-    studyDesign: {
-      interventions: ["Continuous Glucose Monitor", "Automated Insulin Pump"],
-      outcomes: ["Improved Glycemic Control", "Reduced Hypoglycemic Events", "Quality of Life"],
-      studyType: "Randomized Controlled Trial",
-      duration: "24 Months",
-      size: "500 Participants"
-    },
-    studyPopulation: {
-      ageRange: "18-65 years",
-      sex: "All genders",
-      geography: ["Multi-center US", "Europe"],
-      others: ["Type 1 Diabetes", "5+ years diagnosed"]
-    },
-    methodology: "This landmark study implemented a comprehensive methodological framework...",
-    interventions: "The artificial pancreas system utilized in this study combined...",
-    keyFindings: "The 24-month trial demonstrated significant clinical benefits...",
-    comparison: "Compared to previous studies, our findings show...",
-    biasScore: "Moderate",
-    effectivenessAnalysis: {
-      intervention: "AI-Driven Monitoring",
-      effectiveness: "Moderate"
-    },
-    journalReference: {
-      full: "Smith J, et al. Long-term Outcomes of Artificial Pancreas Systems. Diabetes Care. 2025;15(3):125-140."
-    },
-    expertCards: [
-      {
-        title: "Expert Analysis of AID Systems",
-        outboundLink: "https://example.com/expert-analysis",
-        author: "Dr. Sarah Chen"
+  const handleAddComment = async (content) => {
+    if (!selectedPost) return;
+
+    try {
+      const response = await fetch(`/api/posts/${selectedPost.uid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          content,
+          author: 'Anonymous', // You might want to get this from user session
+        }),
+      });
+
+      if (response.ok) {
+        const newComment = await response.json();
+        setComments(prevComments => [newComment, ...prevComments]);
       }
-    ],
-    onlineCards: [],
-    redditCards: [],
-    studyCards: [],
-    xCards: [],
-    youtubeCards: [],
-    relatedPosts
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
   };
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    setSyncError(null);
+    try {
+      const response = await fetch('/api/prismic/sync', {
+        method: 'POST',
+      });
+      
+      if (!response.ok) {
+        throw new Error('Sync failed');
+      }
+
+      // Refresh the page to show new content
+      router.reload();
+    } catch (error) {
+      console.error('Error syncing content:', error);
+      setSyncError('Failed to sync content');
+    } finally {
+      setIsSyncing(false);
+    }
+  };
+
+  if (router.isFallback) {
+    return <div>{t('loading')}</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Head>
-        <title>{`${commonData.title} - Dexdiabetes`}</title>
-        <meta 
-          name="description" 
-          content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control." 
-        />
-      </Head>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">{t('blog.title')}</h1>
+      
+      {/* Admin Controls */}
+      {isAdmin && (
+        <div className="mb-8">
+          <button
+            onClick={handleSync}
+            disabled={isSyncing}
+            className={`px-4 py-2 rounded ${
+              isSyncing
+                ? 'bg-gray-400'
+                : 'bg-blue-500 hover:bg-blue-600'
+            } text-white`}
+          >
+            {isSyncing ? 'Syncing...' : 'Sync Prismic Content'}
+          </button>
+          {syncError && (
+            <p className="text-red-500 mt-2">{syncError}</p>
+          )}
+        </div>
+      )}
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Posts List */}
+        <div>
+          <h2 className="text-2xl font-semibold mb-4">{t('blog.recentPosts')}</h2>
+          <div className="space-y-4">
+            {posts.map((post) => (
+              <div
+                key={post.uid}
+                className="p-4 border rounded cursor-pointer hover:bg-gray-50"
+                onClick={() => handlePostClick(post)}
+              >
+                <h3 className="text-xl font-semibold">{post.title}</h3>
+                <p className="text-gray-600">{post.excerpt}</p>
+                <p className="text-sm text-gray-500">
+                  {new Date(post.publishedAt).toLocaleDateString(locale)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
 
-      {source_type === 'article' ? (
-       <ArticleTemplate {...articleData} />
-     ) : (
-       <main>
-         <article>
-           <PostTemplate {...postData} />
-         </article>
-       </main>
-     )}
+        {/* Selected Post and Comments */}
+        {selectedPost && (
+          <div>
+            <ArticleTemplate
+              title={selectedPost.title}
+              publishedAt={selectedPost.publishedAt}
+            />
+            
+            {/* Comments Section */}
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold mb-4">{t('blog.comments')}</h3>
+              
+              {/* Add Comment Form */}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const content = e.target.comment.value;
+                  if (content.trim()) {
+                    handleAddComment(content);
+                    e.target.comment.value = '';
+                  }
+                }}
+                className="mb-6"
+              >
+                <textarea
+                  name="comment"
+                  className="w-full p-2 border rounded"
+                  rows="3"
+                  placeholder={t('blog.addComment')}
+                ></textarea>
+                <button
+                  type="submit"
+                  className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  {t('blog.submit')}
+                </button>
+              </form>
+
+              {/* Comments List */}
+              <div className="space-y-4">
+                {comments.map((comment) => (
+                  <div key={comment.id} className="p-4 bg-gray-50 rounded">
+                    <p>{comment.content}</p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      {comment.author} - {new Date(comment.createdAt).toLocaleDateString(locale)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

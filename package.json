@@ -1,14 +1,23 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync-prismic": "node scripts/sync-prismic.js"
   },
   "dependencies": {
+    "@prismicio/client": "^7.3.1",
+    "@prismicio/next": "^1.5.0",
+    "@prismicio/react": "^2.7.3",
     "@tabler/icons-react": "^3.29.0",
+    "dotenv": "^16.4.1",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.1.1",
     "next": "^14.1.0",
+    "prismic-dom": "^2.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

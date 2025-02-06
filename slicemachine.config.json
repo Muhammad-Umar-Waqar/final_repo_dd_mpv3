@@ -1,0 +1,6 @@
+{
+  "apiEndpoint": "https://dediabetes.cdn.prismic.io/api/v2",
+  "libraries": ["@/slices"],
+  "_latest": "0.9.0",
+  "framework": "next"
+}
