@@ -3,13 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import { 
   IconHome2,
-  IconHandRock,
   IconHeartFilled,
-  IconShieldFilled,
-  IconDeviceMobile,
   IconVaccineBottle,
-  IconMicroscope,
-  IconClock,
   IconSearch,
   IconLogin,
   IconCrown
