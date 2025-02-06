@@ -111,6 +111,7 @@ export default function Navbar() {
                       <MenuItem icon={IconHome2} text={t('nav.home')} href="/" />
                       <MenuItem icon={IconClipboardHeart} text={t('nav.interventions')} href="/interventions" />
                       <MenuItem icon={IconHeartFilled} text={t('nav.outcomes')} href="/outcomes" />
+                      <MenuItem icon={IconClipboardHeart} text={t('nav.articles')} href="/articles" />
                       <MenuItem icon={IconVaccineBottle} text={t('nav.medications')} href="/medications" />
                       <MenuItem icon={IconFeatherFilled} text={t('nav.supplements')} href="/supplements" />
                     </nav>

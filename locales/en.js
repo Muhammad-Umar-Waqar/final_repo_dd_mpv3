@@ -3,8 +3,15 @@ export const enTranslations = {
   siteName: "deDiabetes",
   homeTitle: "Stay Informed About Diabetes",
   homeDescription: "Stay informed about the latest breakthroughs in diabetes care",
+  articles: {
+    pageTitle: "Articles",
+    title: "Research Articles",
+    subtitle: "Explore our comprehensive collection of diabetes research articles, clinical trials, and expert insights.",
+    description: "Browse and search through our curated collection of diabetes research articles and clinical studies."
+  },
   nav: {
     home: "Home",
+    articles: "Articles",
     interventions: "Interventions",
     outcomes: "Outcomes",
     medications: "Medications",

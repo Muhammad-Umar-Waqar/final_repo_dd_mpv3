@@ -3,7 +3,7 @@ import { IconLock } from '@tabler/icons-react';
 import { useTranslations } from '../utils/i18n';
 import FilterMenu from './FilterMenu';
 
-const SearchSection = () => {
+const SearchSection = ({ showFilterButton = true }) => {
   const { t } = useTranslations();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   
@@ -57,13 +57,15 @@ const SearchSection = () => {
               {t(filter.labelKey)}
             </button>
           ))}
-          <button
-            onClick={() => setIsFilterMenuOpen(true)}
-            className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-2"
-          >
-            <IconLock className="w-4 h-4" />
-            {t('searchSection.filterButton')}
-          </button>
+          {showFilterButton && (
+            <button
+              onClick={() => setIsFilterMenuOpen(true)}
+              className="px-3 py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-2"
+            >
+              <IconLock className="w-4 h-4" />
+              {t('searchSection.filterButton')}
+            </button>
+          )}
         </div>
       </section>
 
