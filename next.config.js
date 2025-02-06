@@ -11,7 +11,7 @@ const nextConfig = {
     domains: ['images.prismic.io', 'dediabetes.cdn.prismic.io'],
   },
   webpack: (config, { dev, isServer }) => {
-    // Add rule for handling SVG files
+    // Add SVG handling
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack']
@@ -21,6 +21,22 @@ const nextConfig = {
     if (dev && !isServer) {
       config.optimization.moduleIds = 'named';
       config.optimization.chunkIds = 'named';
+    }
+
+    // Handle Node.js modules in browser
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        net: false,
+        tls: false,
+        dns: false,
+        'fs/promises': false,
+        fs: false,
+        'timers/promises': false,
+        child_process: false,
+        'util/types': false,
+        util: false,
+      };
     }
 
     return config;
@@ -46,6 +62,6 @@ const nextConfig = {
       },
     ];
   },
-}
+};
 
-module.exports = nextConfig;
+export default nextConfig;
