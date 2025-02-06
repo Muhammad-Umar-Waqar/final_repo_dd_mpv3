@@ -67,6 +67,33 @@ async function syncDocument(db, prismicDoc) {
   console.log(`✓ Synced ${prismicDoc.type} document: ${prismicDoc.uid || prismicDoc.id} (${prismicDoc.lang})`);
 }
 
+async function syncAlternateLanguages(db, prismicClient, doc) {
+  if (!doc.alternate_languages?.length) return;
+
+  console.log(`Syncing ${doc.alternate_languages.length} alternate language versions for ${doc.uid || doc.id}`);
+  
+  for (const altLang of doc.alternate_languages) {
+    try {
+      console.log(`  Fetching alternate language version: ${altLang.id} (${altLang.lang})`);
+      const altDoc = await prismicClient.getByID(altLang.id);
+      
+      if (!altDoc) {
+        console.warn(`  ⚠️ Warning: Alternate language document ${altLang.id} not found`);
+        continue;
+      }
+
+      await syncDocument(db, altDoc);
+    } catch (error) {
+      if (error.name === 'NotFoundError') {
+        console.warn(`  ⚠️ Warning: Alternate language document ${altLang.id} not found or inaccessible`);
+        continue;
+      }
+      // For other errors, we want to log but continue syncing other documents
+      console.error(`  ❌ Error syncing alternate language ${altLang.id}:`, error.message);
+    }
+  }
+}
+
 async function syncAllContent() {
   console.log('Starting Prismic content sync...');
   let client;
@@ -89,17 +116,7 @@ async function syncAllContent() {
       
       for (const doc of documents) {
         await syncDocument(db, doc);
-
-        // Sync alternate language versions
-        if (doc.alternate_languages?.length > 0) {
-          console.log(`Syncing ${doc.alternate_languages.length} alternate language versions for ${doc.uid || doc.id}`);
-          for (const altLang of doc.alternate_languages) {
-            const altDoc = await prismicClient.getByID(altLang.id);
-            if (altDoc) {
-              await syncDocument(db, altDoc);
-            }
-          }
-        }
+        await syncAlternateLanguages(db, prismicClient, doc);
       }
     }
 
