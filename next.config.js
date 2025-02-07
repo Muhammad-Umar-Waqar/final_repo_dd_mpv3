@@ -3,9 +3,19 @@
 const nextConfig = {
   reactStrictMode: true,
   i18n: {
-    locales: ['en-us', 'es-es'],
-    defaultLocale: 'en-us',
+    locales: ['en', 'es'],
+    defaultLocale: 'en',
     localeDetection: false,
+    domains: [
+      {
+        domain: 'dexdiabetes.com',
+        defaultLocale: 'en',
+      },
+      {
+        domain: 'es.dexdiabetes.com',
+        defaultLocale: 'es',
+      },
+    ],
   },
   images: {
     domains: ['images.prismic.io', 'dediabetes.cdn.prismic.io'],
@@ -48,6 +58,16 @@ const nextConfig = {
         destination: '/api/preview',
         permanent: false,
       },
+      {
+        source: '/research/:uid',
+        destination: '/:uid',
+        permanent: true,
+      },
+      {
+        source: '/es/research/:uid',
+        destination: '/es/:uid',
+        permanent: true,
+      }
     ];
   },
   async rewrites() {
@@ -59,7 +79,7 @@ const nextConfig = {
       {
         source: '/api/exit-preview',
         destination: '/api/prismic/exit-preview',
-      },
+      }
     ];
   },
 };

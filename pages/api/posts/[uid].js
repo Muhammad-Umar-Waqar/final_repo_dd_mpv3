@@ -2,7 +2,7 @@ import { getDocumentByUID } from '../../../lib/mongodb';
 import { connectToDatabase } from '../../../lib/mongodb';
 
 export default async function handler(req, res) {
-  const { uid, locale = 'en' } = req.query;
+  const { uid, locale = 'en-us' } = req.query;
 
   try {
     // Get post content from MongoDB

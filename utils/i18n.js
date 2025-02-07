@@ -4,13 +4,24 @@ import { enTranslations } from '../locales/en';
 import { esTranslations } from '../locales/es';
 
 const translations = {
-  'en-us': enTranslations,
-  'es-es': esTranslations
+  'en': enTranslations,
+  'es': esTranslations
+};
+
+// Map URL locales to database locales
+const databaseLocales = {
+  'en': 'en-us',
+  'es': 'es-es'
 };
 
 export const useTranslations = () => {
   const router = useRouter();
-  const { locale = 'en-us', defaultLocale = 'en-us' } = router;
+  const { locale = 'en', defaultLocale = 'en' } = router;
+
+  // Get the database locale for queries
+  const getDatabaseLocale = React.useCallback((urlLocale) => {
+    return databaseLocales[urlLocale] || urlLocale;
+  }, []);
 
   const t = React.useCallback((key) => {
     const currentTranslations = translations[locale] || translations[defaultLocale];
@@ -36,6 +47,7 @@ export const useTranslations = () => {
   return {
     t,
     locale,
-    changeLanguage
+    changeLanguage,
+    getDatabaseLocale
   };
 };

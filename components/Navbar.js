@@ -42,7 +42,7 @@ export default function Navbar() {
   const { isDarkMode, toggleDarkMode, mounted } = useDarkMode();
 
   const toggleLanguage = () => {
-    const newLocale = locale === 'en-us' ? 'es-es' : 'en-us';
+    const newLocale = locale === 'en' ? 'es' : 'en';
     changeLanguage(newLocale);
   };
 

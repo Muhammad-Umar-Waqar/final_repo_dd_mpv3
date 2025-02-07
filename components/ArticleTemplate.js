@@ -12,6 +12,7 @@ const ArticleTemplate = ({
   readTime = "5 min read",
   content = "",
   imageUrl = null,
+  authorImage = null,
   isDarkMode = false,
   toggleDarkMode = () => {},
   relatedPosts = [],
@@ -42,6 +43,7 @@ const ArticleTemplate = ({
           readTime={readTime}
           type="article"
           author={author}
+          authorImage={authorImage}
         />
 
         {/* Featured Image */}
@@ -63,7 +65,14 @@ const ArticleTemplate = ({
 
         {/* Article Content */}
         <article className="prose prose-lg max-w-none mb-16">
-          {content}
+          {content === 'No content available' ? (
+            <p className="text-gray-500 italic">No content available</p>
+          ) : (
+            <div 
+              dangerouslySetInnerHTML={{ __html: content }} 
+              className="prose-headings:font-bold prose-p:mb-4 prose-ul:mb-4 prose-li:mb-2"
+            />
+          )}
         </article>
 
         {/* Newsletter Section */}

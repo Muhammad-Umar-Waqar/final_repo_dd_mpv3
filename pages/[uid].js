@@ -2,8 +2,9 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useTranslations } from '../utils/i18n';
 import { getDocumentByUID, getAllDocuments } from '../lib/mongodb';
+import ResearchTemplate from '../components/ResearchTemplate';
 
-export default function BlogPost({ post }) {
+export default function Page({ post, type }) {
   const router = useRouter();
   const { t, locale } = useTranslations();
 
@@ -17,16 +18,76 @@ export default function BlogPost({ post }) {
     return <div>Post not found</div>;
   }
 
+  // If it's a research post, transform the data and use ResearchTemplate
+  if (type === 'research') {
+    const research = {
+      title: post.data?.json_content?.short_title,
+      publisher: post.data?.json_content?.publisher,
+      publishDate: post.data?.json_content?.publication_date,
+      domain: post.data?.domain,
+      summary: post.data?.json_content?.TLDR,
+      studyDesign: {
+        interventions: post.data?.json_content?.interventions_SNOMED || [],
+        outcomes: post.data?.json_content?.outcomes_using_COMET || [],
+        studyType: post.data?.json_content?.study_design || '',
+        duration: post.data?.json_content?.study_duration || '',
+        size: post.data?.json_content?.study_size_cat || ''
+      },
+      studyPopulation: {
+        ageRange: post.data?.json_content?.participants_age || '',
+        sex: post.data?.json_content?.participants_sex || '',
+        geography: Array.isArray(post.data?.json_content?.participants_geo)
+          ? post.data.json_content.participants_geo
+          : [post.data?.json_content?.participants_geo].filter(Boolean),
+        others: Array.isArray(post.data?.json_content?.participants_char)
+          ? post.data.json_content.participants_char
+          : [post.data?.json_content?.participants_char].filter(Boolean)
+      },
+      methodology: post.data?.json_content?.methodology || '',
+      interventions: post.data?.json_content?.interventions || '',
+      keyFindings: post.data?.json_content?.key_findings || '',
+      comparison: post.data?.json_content?.comparison_with_similar_studies || '',
+      biasScore: post.data?.json_content?.overall_cochrane_risk_of_bias_score || '',
+      effectivenessAnalysis: {
+        intervention: post.data?.json_content?.intervention || '',
+        effectiveness: post.data?.json_content?.rank_value || ''
+      },
+      journalReference: {
+        full: post.data?.json_content?.research_reference_AMA || ''
+      },
+      headerImage: post.data?.screenshot_study_header?.url,
+      mentions: {
+        expert: post.data?.mentions_group?.expert || [],
+        online: post.data?.mentions_group?.online || [],
+        reddit: post.data?.mentions_group?.reddit || [],
+        studies: post.data?.mentions_group?.studies || [],
+        x: post.data?.mentions_group?.x || [],
+        youtube: post.data?.mentions_group?.youtube || []
+      }
+    };
+
+    return (
+      <div className="min-h-screen bg-background">
+        <Head>
+          <title>{`${research.title} - Dexdiabetes`}</title>
+          <meta name="description" content={research.summary} />
+        </Head>
+        <ResearchTemplate {...research} />
+      </div>
+    );
+  }
+
+  // Regular page content
   return (
     <>
       <Head>
-        <title>{post.data.title?.[0]?.text || 'Blog Post'}</title>
+        <title>{post.data.title?.[0]?.text || 'Page'}</title>
         <meta name="description" content={post.data.description || ''} />
       </Head>
 
       <article className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold mb-6">
-          {post.data.title?.[0]?.text || 'Blog Post'}
+          {post.data.title?.[0]?.text || 'Page'}
         </h1>
         
         {post.data.featured_image && (
@@ -40,7 +101,6 @@ export default function BlogPost({ post }) {
         )}
 
         <div className="prose max-w-none">
-          
           {Array.isArray(post.data.content) && post.data.content.map((block, index) => {
             const textContent = block?.[0]?.text || block?.text || '';
             
@@ -71,51 +131,122 @@ export default function BlogPost({ post }) {
 }
 
 export async function getStaticPaths({ locales }) {
-  // Get all blog posts for each locale
   const paths = [];
   
+  // Map URL locales to database locales
+  const databaseLocales = {
+    'en': 'en-us',
+    'es': 'es-es'
+  };
+  
   for (const locale of locales) {
-    const posts = await getAllDocuments('blog_post', locale);
+    const dbLocale = databaseLocales[locale] || locale;
     
-    // Create paths for both /[uid] and /blog/[uid]
-    const localePaths = posts.map((post) => [
+    // Get all pages
+    const pages = await getAllDocuments('page', dbLocale);
+    const pagePaths = pages.map((page) => ({
+      params: { uid: page.uid },
+      locale,
+    }));
+    
+    // Get all research posts and create paths for both root and /research/ URLs
+    const researchPosts = await getAllDocuments('research', dbLocale);
+    const researchPaths = researchPosts.flatMap((post) => [
       {
         params: { uid: post.uid },
         locale,
       },
       {
-        params: { uid: `blog/${post.uid}` },
+        params: { uid: `research/${post.uid}` },
         locale,
       }
-    ]).flat();
+    ]);
     
-    paths.push(...localePaths);
+    paths.push(...pagePaths, ...researchPaths);
   }
 
   return {
     paths,
-    fallback: true, // Enable fallback for new posts
+    fallback: true, // Enable fallback for new pages
   };
 }
 
 export async function getStaticProps({ params, locale }) {
   try {
-    // Remove 'blog/' prefix if present
-    const uid = params.uid.replace('blog/', '');
-    
-    // Use Next.js locale directly since it matches Prismic locale
-    const prismicLocale = locale;
-    
-    // Try to find the document as a blog post
-    let post = await getDocumentByUID('blog_post', uid, prismicLocale);
-
-    // If not found, try the other locale
-    if (!post) {
-      const otherLocale = locale === 'es-es' ? 'en-us' : 'es-es';
-      post = await getDocumentByUID('blog_post', uid, otherLocale);
+    // If URL starts with 'blog/', redirect to the blog route
+    if (params.uid.startsWith('blog/')) {
+      return {
+        redirect: {
+          destination: `/${locale}/blog/${params.uid.replace('blog/', '')}`,
+          permanent: true,
+        },
+      };
     }
 
-    // If still not found, return 404
+    // Map URL locales to database locales
+    const databaseLocales = {
+      'en': 'en-us',
+      'es': 'es-es'
+    };
+
+    const uid = params.uid;
+    const dbLocale = databaseLocales[locale] || locale;
+    
+    // Handle research path
+    const isResearchPath = params.uid.startsWith('research/');
+    const cleanUid = isResearchPath ? params.uid.replace('research/', '') : params.uid;
+
+    // Try to find the document as a research post first
+    let post = await getDocumentByUID('research', cleanUid, dbLocale);
+    if (post) {
+      // If found in /research/ path, redirect to root path
+      if (isResearchPath) {
+        return {
+          redirect: {
+            destination: `/${locale}/${cleanUid}`,
+            permanent: true,
+          },
+        };
+      }
+      return {
+        props: {
+          post,
+          type: 'research'
+        },
+        revalidate: 60,
+      };
+    }
+
+    // If not a research post, try as a regular page
+    post = await getDocumentByUID('page', uid, dbLocale);
+    
+    // If still not found, try the other locale
+    if (!post) {
+      const otherLocale = locale === 'es' ? 'en-us' : 'es-es';
+      // Try research post in other locale first
+      post = await getDocumentByUID('research', cleanUid, otherLocale);
+      if (post) {
+        // If found in /research/ path, redirect to root path
+        if (isResearchPath) {
+          return {
+            redirect: {
+              destination: `/${locale}/${cleanUid}`,
+              permanent: true,
+            },
+          };
+        }
+        return {
+          props: {
+            post,
+            type: 'research'
+          },
+          revalidate: 60,
+        };
+      }
+      // Then try page in other locale
+      post = await getDocumentByUID('page', uid, otherLocale);
+    }
+
     if (!post) {
       return { notFound: true };
     }
@@ -123,11 +254,12 @@ export async function getStaticProps({ params, locale }) {
     return {
       props: {
         post,
+        type: 'page'
       },
-      revalidate: 60, // Revalidate every minute
+      revalidate: 60,
     };
   } catch (error) {
-    console.error('Error fetching blog post:', error);
+    console.error('Error fetching page:', error);
     return {
       notFound: true,
     };

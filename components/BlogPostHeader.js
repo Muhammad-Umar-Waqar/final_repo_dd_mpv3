@@ -2,7 +2,8 @@ import React from 'react';
 import { IconBookmark, IconUser } from '@tabler/icons-react';
 import ShareMenu from './ShareMenu';
 
-const BlogPostHeader = ({ title, publisher, publishDate, type, author }) => {
+const BlogPostHeader = ({ title, publisher, publishDate, type, author, authorImage }) => {
+  console.log('BlogPostHeader rendered with:', { type, author, authorImage });
   return (
     <header className="mb-16">
       <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
@@ -12,8 +13,24 @@ const BlogPostHeader = ({ title, publisher, publishDate, type, author }) => {
       <div className="flex items-center justify-between mb-6">
         {type === 'article' ? (
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center">
-              <IconUser className="w-6 h-6 text-muted-foreground" />
+            <div className="w-10 h-10 rounded-full overflow-hidden">
+              {authorImage ? (
+                <img 
+                  src={authorImage} 
+                  alt={author} 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    console.log('Author image failed to load:', authorImage);
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+              ) : null}
+              <div 
+                className={`w-full h-full bg-secondary/20 flex items-center justify-center ${authorImage ? 'hidden' : ''}`}
+              >
+                <IconUser className="w-6 h-6 text-muted-foreground" />
+              </div>
             </div>
             <div>
               <h4 className="font-medium text-foreground">{author || publisher}</h4>

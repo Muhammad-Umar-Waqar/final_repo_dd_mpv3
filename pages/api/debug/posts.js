@@ -1,71 +1,34 @@
-import { getAllDocuments, connectToDatabase } from '../../../lib/mongodb';
+import { getDocumentByUID } from '../../../lib/mongodb';
 
 export default async function handler(req, res) {
   try {
-    console.log('Debug API: Starting database query...');
+    const { uid } = req.query;
+    // Ensure language is either en-us or es-es, defaulting to en-us
+    const locale = req.query.locale === 'es-es' ? 'es-es' : 'en-us';
     
-    // First, let's check what documents exist in the collection
-    const { db } = await connectToDatabase();
+    // First get the blog post
+    const post = await getDocumentByUID('blog_post', uid, locale);
     
-    // Get all blog posts regardless of language
-    const allBlogPosts = await db.collection('prismic_content')
-      .find({ type: 'blog_post' })
-      .toArray();
-    
-    console.log('Found blog posts:', allBlogPosts.map(post => ({
-      uid: post.uid,
-      lang: post.lang,
-      title: post.data?.title
-    })));
+    // Then get the author document
+    let authorDoc = null;
+    if (post?.data?.author?.uid) {
+      authorDoc = await getDocumentByUID('author', post.data.author.uid, locale);
+    }
 
-    // Now try to get posts by language
-    const [enPosts, esPosts] = await Promise.all([
-      db.collection('prismic_content')
-        .find({ type: 'blog_post', lang: 'en-us' })
-        .toArray(),
-      db.collection('prismic_content')
-        .find({ type: 'blog_post', lang: 'es-es' })
-        .toArray()
-    ]);
+    // Get default author as well
+    const defaultAuthor = await getDocumentByUID('author', 'dediabetes', locale);
 
-    console.log('English posts found:', enPosts.length);
-    console.log('Spanish posts found:', esPosts.length);
-
-    const result = {
-      english: enPosts.map(post => ({
-        uid: post.uid,
-        type: post.type,
-        lang: post.lang,
-        title: post.data?.title
-      })),
-      spanish: esPosts.map(post => ({
-        uid: post.uid,
-        type: post.type,
-        lang: post.lang,
-        title: post.data?.title
-      }))
-    };
-    
-    // Log the results to the server console
-    console.log('Debug API Results:', JSON.stringify(result, null, 2));
-    
     res.status(200).json({
-      ...result,
-      allBlogPosts: allBlogPosts.map(post => ({
-        uid: post.uid,
-        type: post.type,
-        lang: post.lang,
-        title: post.data?.title
-      }))
+      post: {
+        uid: post?.uid,
+        type: post?.type,
+        authorUid: post?.data?.author?.uid,
+        authorSlug: post?.data?.author?.slug,
+      },
+      authorDocument: authorDoc,
+      defaultAuthorDocument: defaultAuthor,
     });
   } catch (error) {
-    console.error('Debug API detailed error:', {
-      message: error.message,
-      stack: error.stack
-    });
-    res.status(500).json({ 
-      error: error.message,
-      stack: error.stack 
-    });
+    res.status(500).json({ error: error.message });
   }
 }
