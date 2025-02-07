@@ -337,6 +337,14 @@ export const enTranslations = {
     emailPlaceholder: "Enter your email address",
     subscribeButton: "Subscribe now and never miss an update"
   },
+  blog: {
+    title: "Blog",
+    description: "Explore our collection of articles about diabetes management, research, and lifestyle tips",
+    readMore: "Read more",
+    loading: "Loading...",
+    notFound: "Post not found",
+    backToBlog: "Back to blog"
+  },
   premium: {
     title: "Upgrade to Premium",
     subtitle: "Easy, smart, and always the right choice",

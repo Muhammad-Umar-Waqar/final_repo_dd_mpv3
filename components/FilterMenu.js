@@ -8,14 +8,14 @@ const FilterMenu = ({ isOpen, onClose }) => {
   const [searchOutcomes, setSearchOutcomes] = useState('');
   const [searchInterventions, setSearchInterventions] = useState('');
 
-  const outcomes = t('filterMenu.sections.outcomes.items');
-  const interventions = t('filterMenu.sections.interventions.items');
+  const outcomes = t('filterMenu.sections.outcomes.items') ?? [];
+  const interventions = t('filterMenu.sections.interventions.items') ?? [];
 
-  const filteredOutcomes = outcomes.filter(outcome =>
+  const filteredOutcomes = (Array.isArray(outcomes) ? outcomes : []).filter(outcome =>
     outcome.toLowerCase().includes(searchOutcomes.toLowerCase())
   );
 
-  const filteredInterventions = interventions.filter(intervention =>
+  const filteredInterventions = (Array.isArray(interventions) ? interventions : []).filter(intervention =>
     intervention.toLowerCase().includes(searchInterventions.toLowerCase())
   );
 

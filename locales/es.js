@@ -336,6 +336,14 @@ export const esTranslations = {
     emailPlaceholder: "Ingrese su correo electrónico",
     subscribeButton: "Suscríbase ahora y no se pierda ninguna actualización"
   },
+  blog: {
+    title: "Blog",
+    description: "Explore nuestra colección de artículos sobre el manejo de la diabetes, investigación y consejos de estilo de vida",
+    readMore: "Leer más",
+    loading: "Cargando...",
+    notFound: "Publicación no encontrada",
+    backToBlog: "Volver al blog"
+  },
   premium: {
     title: "Actualizar a Premium",
     subtitle: "Fácil, inteligente y siempre la mejor opción",

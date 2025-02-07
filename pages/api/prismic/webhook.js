@@ -40,7 +40,7 @@ export default async function handler(req, res) {
     const { type, id, secret: docSecret } = req.body;
     
     // Fetch the full document from Prismic
-    const doc = await client.getByID(id);
+    const doc = await client.getByID(id, { lang: '*' });
     if (!doc) {
       return res.status(404).json({ message: 'Document not found' });
     }
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
     // If this is a multi-language document, sync all language versions
     if (doc.alternate_languages?.length > 0) {
       for (const altLang of doc.alternate_languages) {
-        const altDoc = await client.getByID(altLang.id);
+        const altDoc = await client.getByID(altLang.id, { lang: '*' });
         if (altDoc) {
           await syncDocument(db, altDoc);
         }

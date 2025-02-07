@@ -4,13 +4,13 @@ import { enTranslations } from '../locales/en';
 import { esTranslations } from '../locales/es';
 
 const translations = {
-  en: enTranslations,
-  es: esTranslations
+  'en-us': enTranslations,
+  'es-es': esTranslations
 };
 
 export const useTranslations = () => {
   const router = useRouter();
-  const { locale = 'en', defaultLocale = 'en' } = router;
+  const { locale = 'en-us', defaultLocale = 'en-us' } = router;
 
   const t = React.useCallback((key) => {
     const currentTranslations = translations[locale] || translations[defaultLocale];

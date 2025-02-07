@@ -42,8 +42,12 @@ export default function Navbar() {
   const { isDarkMode, toggleDarkMode, mounted } = useDarkMode();
 
   const toggleLanguage = () => {
-    const newLocale = locale === 'en' ? 'es' : 'en';
+    const newLocale = locale === 'en-us' ? 'es-es' : 'en-us';
     changeLanguage(newLocale);
+  };
+
+  const getDisplayLanguage = (locale) => {
+    return locale?.startsWith('en') ? 'EN' : 'ES';
   };
 
   return (
@@ -67,7 +71,7 @@ export default function Navbar() {
                 className="px-2 py-1 rounded-md border border-border hover:bg-secondary/10 text-foreground text-sm font-medium transition-colors"
                 aria-label="Toggle language"
               >
-                {locale?.toUpperCase()}
+                {getDisplayLanguage(locale)}
               </button>
               
               <button 
