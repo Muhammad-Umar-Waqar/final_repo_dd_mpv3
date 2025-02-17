@@ -74,22 +74,27 @@ async function syncAlternateLanguages(db, prismicClient, doc) {
   
   for (const altLang of doc.alternate_languages) {
     try {
-      console.log(`  Fetching alternate language version: ${altLang.id} (${altLang.lang})`);
-      const altDoc = await prismicClient.getByID(altLang.id);
+      console.log(`  Fetching alternate language version: ${altLang.uid} (${altLang.lang})`);
+      // Use getByUID instead of getByID, and specify the language
+      const altDoc = await prismicClient.getByUID(
+        doc.type,
+        altLang.uid,
+        { lang: altLang.lang }
+      );
       
       if (!altDoc) {
-        console.warn(`  ⚠️ Warning: Alternate language document ${altLang.id} not found`);
+        console.warn(`  ⚠️ Warning: Alternate language document not found for ${doc.uid} in ${altLang.lang}`);
         continue;
       }
 
       await syncDocument(db, altDoc);
     } catch (error) {
       if (error.name === 'NotFoundError') {
-        console.warn(`  ⚠️ Warning: Alternate language document ${altLang.id} not found or inaccessible`);
+        console.warn(`  ⚠️ Warning: Alternate language document not found for ${doc.uid} in ${altLang.lang}`);
         continue;
       }
       // For other errors, we want to log but continue syncing other documents
-      console.error(`  ❌ Error syncing alternate language ${altLang.id}:`, error.message);
+      console.error(`  ❌ Error syncing alternate language version for ${doc.uid} in ${altLang.lang}:`, error.message);
     }
   }
 }

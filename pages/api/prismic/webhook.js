@@ -25,6 +25,23 @@ async function syncDocument(db, prismicDoc) {
   );
 }
 
+async function syncAlternateLanguages(db, client, doc) {
+  if (!doc.alternate_languages?.length) return;
+
+  for (const altLang of doc.alternate_languages) {
+    try {
+      // First get the document by ID since alternate versions may have different UIDs
+      const altDoc = await client.getByID(altLang.id, { lang: '*' });
+      
+      if (altDoc) {
+        await syncDocument(db, altDoc);
+      }
+    } catch (error) {
+      console.error(`Error syncing alternate language version ${altLang.id} (${altLang.lang}):`, error.message);
+    }
+  }
+}
+
 export default async function handler(req, res) {
   // Verify webhook secret
   const secret = req.headers['prismic-webhook-secret'];
@@ -37,7 +54,7 @@ export default async function handler(req, res) {
     const client = createClient();
 
     // Get the document that was updated
-    const { type, id, secret: docSecret } = req.body;
+    const { type, id } = req.body;
     
     // Fetch the full document from Prismic
     const doc = await client.getByID(id, { lang: '*' });
@@ -48,15 +65,8 @@ export default async function handler(req, res) {
     // Sync the document to MongoDB
     await syncDocument(db, doc);
 
-    // If this is a multi-language document, sync all language versions
-    if (doc.alternate_languages?.length > 0) {
-      for (const altLang of doc.alternate_languages) {
-        const altDoc = await client.getByID(altLang.id, { lang: '*' });
-        if (altDoc) {
-          await syncDocument(db, altDoc);
-        }
-      }
-    }
+    // Sync alternate language versions if they exist
+    await syncAlternateLanguages(db, client, doc);
 
     res.status(200).json({ message: 'Content synced successfully' });
   } catch (error) {
