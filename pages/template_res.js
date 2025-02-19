@@ -49,37 +49,37 @@ export default function ArtificialPancreasTrialPage() {
       <>
         <h2>Abstract</h2>
         <p>
-          This groundbreaking study examines the long-term efficacy and safety of artificial 
-          pancreas systems in managing type 1 diabetes over a 24-month period. The research 
-          demonstrates significant improvements in glycemic control and quality of life for 
+          This groundbreaking study examines the long-term efficacy and safety of artificial
+          pancreas systems in managing type 1 diabetes over a 24-month period. The research
+          demonstrates significant improvements in glycemic control and quality of life for
           participants.
         </p>
 
         <h2>Introduction</h2>
         <p>
-          Artificial pancreas systems represent a significant advancement in diabetes 
-          management, combining continuous glucose monitoring with automated insulin delivery. 
-          This study provides crucial long-term data on their effectiveness in real-world 
+          Artificial pancreas systems represent a significant advancement in diabetes
+          management, combining continuous glucose monitoring with automated insulin delivery.
+          This study provides crucial long-term data on their effectiveness in real-world
           settings.
         </p>
 
         <h2>Methodology</h2>
         <p>
-          The study employed a rigorous methodological framework to ensure data reliability and validity. 
+          The study employed a rigorous methodological framework to ensure data reliability and validity.
           Participants were randomly assigned to treatment groups using a computer-generated algorithm.
         </p>
 
         <h2>Results and Discussion</h2>
         <p>
-          The 24-month trial demonstrated significant clinical benefits of the artificial 
-          pancreas system. Key findings include a 35% reduction in hypoglycemic events and 
+          The 24-month trial demonstrated significant clinical benefits of the artificial
+          pancreas system. Key findings include a 35% reduction in hypoglycemic events and
           a 28% improvement in time-in-range glucose levels compared to the control group.
         </p>
 
         <h2>Conclusion</h2>
         <p>
-          Our findings provide strong evidence supporting the long-term efficacy of artificial 
-          pancreas systems in improving glycemic control and reducing the burden of diabetes 
+          Our findings provide strong evidence supporting the long-term efficacy of artificial
+          pancreas systems in improving glycemic control and reducing the burden of diabetes
           management for patients with type 1 diabetes.
         </p>
       </>
@@ -92,25 +92,27 @@ export default function ArtificialPancreasTrialPage() {
     studyDesign: {
       interventions: ["Continuous Glucose Monitor", "Automated Insulin Pump"],
       outcomes: ["Improved Glycemic Control", "Reduced Hypoglycemic Events", "Quality of Life"],
-      studyType: "Randomized Controlled Trial",
-      duration: "24 Months",
-      size: "500 Participants"
+      studyType: ["Randomized Controlled Trial"], // Ahora es un array
+      duration: ["24 Months"], 
+      size: ["500 Participants"]
     },
     studyPopulation: {
-      ageRange: "18-65 years",
-      sex: "All genders",
+      ageRange: ["18-65 years"],
+      sex: ["All genders"],
       geography: ["Multi-center US", "Europe"],
       others: ["Type 1 Diabetes", "5+ years diagnosed"]
     },
-    methodology: "This landmark study implemented a comprehensive methodological framework...",
-    interventions: "The artificial pancreas system utilized in this study combined...",
-    keyFindings: "The 24-month trial demonstrated significant clinical benefits...",
-    comparison: "Compared to previous studies, our findings show...",
+    methodology: ["This landmark study implemented a comprehensive methodological framework..."],
+    interventions: ["The artificial pancreas system utilized in this study combined..."],
+    keyFindings: ["The 24-month trial demonstrated significant clinical benefits..."],
+    comparison: ["Compared to previous studies, our findings show..."],
     biasScore: "Moderate",
-    effectivenessAnalysis: {
-      intervention: "AI-Driven Monitoring",
-      effectiveness: "Moderate"
-    },
+    effectivenessAnalysis: [
+      {
+        intervention: ["AI-Driven Monitoring"],
+        items: [{ effectiveness: "Moderate" }],
+      },
+    ],
     journalReference: {
       full: "Smith J, et al. Long-term Outcomes of Artificial Pancreas Systems. Diabetes Care. 2025;15(3):125-140."
     },
@@ -133,20 +135,20 @@ export default function ArtificialPancreasTrialPage() {
     <div className="min-h-screen bg-background">
       <Head>
         <title>{`${commonData.title} - Dexdiabetes`}</title>
-        <meta 
-          name="description" 
-          content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control." 
+        <meta
+          name="description"
+          content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control."
         />
       </Head>
 
       {source_type === 'article' ? (
-       <ArticleTemplate {...articleData} />
+        <ArticleTemplate {...articleData} />
       ) : (
-       <main>
-         <article>
-           <ResearchTemplate {...researchData} />
-         </article>
-       </main>
+        <main>
+          <article>
+            <ResearchTemplate {...researchData} />
+          </article>
+        </main>
       )}
     </div>
   );

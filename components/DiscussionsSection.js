@@ -1,31 +1,35 @@
 import React, { useState } from 'react';
 import { IconBrandReddit, IconBrandX, IconBrandYoutube, IconUsers, IconWorld, IconClipboardList, IconExternalLink } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 
 // Base Card Component
-const BaseDiscussionCard = ({ icon: Icon, type, title, author, outboundLink }) => (
-  <div className="bg-background border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
-    <div className="flex items-center justify-between mb-4">
-      <div className="flex items-center gap-3">
-        <Icon className="w-5 h-5" />
-        <span className="text-sm font-medium text-muted-foreground">{type}</span>
+const BaseDiscussionCard = ({ icon: Icon, type, title, author, outboundLink }) => {
+  const { t } = useTranslations();
+  return (
+    <div className="bg-background border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <Icon className="w-5 h-5" />
+          <span className="text-sm font-medium text-muted-foreground">{t(`research.discussions.types.${type}`)}</span>
+        </div>
+        <a 
+          href={outboundLink} 
+          target="_blank" 
+          rel="nofollow noopener noreferrer" 
+          className="text-muted-foreground hover:text-primary transition-colors"
+        >
+          <IconExternalLink className="w-5 h-5" />
+        </a>
       </div>
-      <a 
-        href={outboundLink} 
-        target="_blank" 
-        rel="nofollow noopener noreferrer" 
-        className="text-muted-foreground hover:text-primary transition-colors"
-      >
-        <IconExternalLink className="w-5 h-5" />
-      </a>
+      
+      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      
+      <div className="text-sm text-muted-foreground">
+        <span>{author}</span>
+      </div>
     </div>
-    
-    <h3 className="text-lg font-semibold mb-2">{title}</h3>
-    
-    <div className="text-sm text-muted-foreground">
-      <span>{author}</span>
-    </div>
-  </div>
-);
+  );
+};
 
 // Specific Card Types
 export const ExpertCard = (props) => (
@@ -45,7 +49,7 @@ export const StudyCard = (props) => (
 );
 
 export const XCard = (props) => (
-  <BaseDiscussionCard {...props} icon={IconBrandX} type="" />
+  <BaseDiscussionCard {...props} icon={IconBrandX} type="x" />
 );
 
 export const YoutubeCard = (props) => (
@@ -61,26 +65,27 @@ const DiscussionsSection = ({
   xCards = [],
   youtubeCards = []
 }) => {
+  const { t } = useTranslations();
   const [activeTab, setActiveTab] = useState('all');
 
   const tabs = [
-    { id: 'all', label: 'all' },
-    { id: 'experts', label: 'experts' },
-    { id: 'online', label: 'online' },
-    { id: 'reddit', label: 'reddit' },
-    { id: 'studies', label: 'studies' },
-    { id: 'x', label: 'x' },
-    { id: 'youtube', label: 'youtube' }
+    { id: 'all', label: t('research.discussions.tabs.all') },
+    { id: 'experts', label: t('research.discussions.tabs.experts') },
+    { id: 'online', label: t('research.discussions.tabs.online') },
+    { id: 'reddit', label: t('research.discussions.tabs.reddit') },
+    { id: 'studies', label: t('research.discussions.tabs.studies') },
+    { id: 'x', label: t('research.discussions.tabs.x') },
+    { id: 'youtube', label: t('research.discussions.tabs.youtube') }
   ];
 
   const getDisplayCards = () => {
     const allCardsWithTypes = {
-      experts: expertCards.map(card => ({ ...card, type: 'experts' })),
-      online: onlineCards.map(card => ({ ...card, type: 'online' })),
-      reddit: redditCards.map(card => ({ ...card, type: 'reddit' })),
-      studies: studyCards.map(card => ({ ...card, type: 'studies' })),
-      x: xCards.map(card => ({ ...card, type: 'x' })),
-      youtube: youtubeCards.map(card => ({ ...card, type: 'youtube' }))
+      experts: expertCards.map((card, index) => ({ ...card, type: 'experts', index })),
+      online: onlineCards.map((card, index) => ({ ...card, type: 'online', index })),
+      reddit: redditCards.map((card, index) => ({ ...card, type: 'reddit', index })),
+      studies: studyCards.map((card, index) => ({ ...card, type: 'studies', index })),
+      x: xCards.map((card, index) => ({ ...card, type: 'x', index })),
+      youtube: youtubeCards.map((card, index) => ({ ...card, type: 'youtube', index }))
     };
 
     return activeTab === 'all' 
@@ -98,12 +103,19 @@ const DiscussionsSection = ({
       youtube: YoutubeCard
     }[card.type];
 
-    return CardComponent ? <CardComponent key={card.title} {...card} /> : null;
+    return CardComponent ? (
+      <CardComponent 
+        key={`${card.type}-${card.index}-${card.outboundLink}`}
+        title={card.title}
+        author={card.author}
+        outboundLink={card.outboundLink}
+      />
+    ) : null;
   };
 
   return (
     <section className="prose prose-lg max-w-none mb-16">
-      <h2 className="text-3xl font-bold mb-8">Related and Discussions</h2>
+      <h2 className="text-3xl font-bold mb-8">{t('research.discussions.title')}</h2>
       
       {/* Navigation Tabs */}
       <div className="border-b border-border mb-8">

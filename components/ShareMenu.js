@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { IconShare2, IconLink, IconBrandX, IconBrandFacebook, IconBrandLinkedin } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 
 const ShareMenu = ({ title, className = "" }) => {
+  const { t } = useTranslations();
   const [isShareMenuOpen, setIsShareMenuOpen] = useState(false);
   const shareMenuRef = useRef(null);
   const shareButtonRef = useRef(null);
@@ -66,35 +68,35 @@ const ShareMenu = ({ title, className = "" }) => {
           }}
         >
           <div className="py-2">
-            <div className="ml-4"><p className="font-bold">Share on:</p></div>
+            <div className="ml-4"><p className="font-bold">{t('article.share.title')}</p></div>
             
             <button
               onClick={() => handleShare('copyLink')}
               className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
             >
               <IconLink className="w-4 h-4" />
-              Copy link
+              {t('article.share.copyLink')}
             </button>
             <button
               onClick={() => handleShare('x')}
               className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
             >
               <IconBrandX className="w-4 h-4" />
-              X (Twitter)
+              {t('article.share.platforms.x')}
             </button>
             <button
               onClick={() => handleShare('facebook')}
               className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
             >
               <IconBrandFacebook className="w-4 h-4" />
-              Facebook
+              {t('article.share.platforms.facebook')}
             </button>
             <button
               onClick={() => handleShare('linkedin')}
               className="w-full px-4 py-2 text-left flex items-center gap-3 hover:bg-secondary/10"
             >
               <IconBrandLinkedin className="w-4 h-4" />
-              LinkedIn
+              {t('article.share.platforms.linkedin')}
             </button>
           </div>
         </div>

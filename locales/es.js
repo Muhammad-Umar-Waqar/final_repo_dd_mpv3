@@ -380,5 +380,100 @@ export const esTranslations = {
       effectivenessScore: "Puntuación de efectividad de intervenciones",
       biasAnalysis: "Análisis de sesgo usando herramientas aplicables de Cochrane"
     }
+  },
+  // ============= TRADUCCIONES PARA PLANTILLA DE INVESTIGACIÓN =============
+  research: {
+    defaultTitle: "Entendiendo los Sistemas de Páncreas Artificial: Resultados de un Ensayo de 24 Meses",
+    defaultAuthor: "Dra. Sarah Johnson",
+    defaultPublisher: "Revista de Investigación en Diabetes",
+    defaultDate: "31 de enero de 2025",
+    defaultReadTime: "8 min de lectura",
+    sections: {
+      summary: "Resumen",
+      studyDesign: "Diseño del Estudio",
+      interventions: "Intervenciones",
+      studyType: "Tipo de Estudio",
+      outcomes: "Resultados",
+      durationSize: "Duración y Tamaño",
+      studyPopulation: "Población del Estudio",
+      ageRange: "Rango de Edad",
+      sex: "Sexo",
+      geography: "Geografía",
+      otherCriteria: "Otros Criterios",
+      methodology: "Metodología",
+      keyFindings: "Hallazgos Clave",
+      comparison: "Comparación con otros Estudios",
+      biasAnalysisScore: "Puntuación de Análisis de Sesgo",
+      effectivenessAnalysis: "Análisis de Efectividad",
+      intervention: "Intervención",
+      effectiveness: "Efectividad",
+      journalReference: "Referencia de la Revista"
+    },
+    newsletter: {
+      title: "Mantente informado. Mantente adelante.",
+      description: "Suscríbete ahora para recibir los últimos avances, perspectivas de expertos y actualizaciones de vanguardia en el cuidado de la diabetes, directamente en tu bandeja de entrada.",
+      emailPlaceholder: "Ingresa tu correo electrónico",
+      subscribeButton: "Suscribirse"
+    },
+    discussions: {
+      title: "Relacionados y Discusiones",
+      tabs: {
+        all: "todos",
+        experts: "expertos",
+        online: "en línea",
+        reddit: "reddit",
+        studies: "estudios",
+        x: "x",
+        youtube: "youtube"
+      },
+      types: {
+        experts: "expertos",
+        online: "en línea",
+        reddit: "reddit",
+        studies: "estudios",
+        x: "",
+        youtube: "youtube"
+      }
+    }
+  },
+  // ============= TRADUCCIONES PARA TEMPLATE DE ARTÍCULOS =============
+  article: {
+    defaults: {
+      title: "Título del Artículo",
+      author: "Nombre del Autor",
+      publisher: "Nombre del Editor",
+      publishDate: "Fecha de Publicación",
+      readTime: "5 min de lectura"
+    },
+    content: {
+      noContent: "No hay contenido disponible"
+    },
+    newsletter: {
+      title: "Mantente Actualizado con los Últimos Artículos",
+      description: "Suscríbete a nuestro boletín para recibir actualizaciones semanales sobre investigación y cuidado de la diabetes.",
+      emailPlaceholder: "Ingresa tu correo electrónico",
+      subscribeButton: "Suscribirse"
+    },
+    header: {
+      publishedOn: "Publicado el",
+      bookmark: "Guardar artículo",
+      share: "Compartir",
+      shareVia: "Compartir vía",
+      copyLink: "Copiar enlace",
+      linkCopied: "¡Enlace copiado!"
+    },
+    share: {
+      title: "Compartir en:",
+      copyLink: "Copiar enlace",
+      platforms: {
+        x: "X (Twitter)",
+        facebook: "Facebook",
+        linkedin: "LinkedIn"
+      }
+    },
+    related: {
+      title: "También te puede interesar...",
+      noRelatedPosts: "No hay artículos relacionados disponibles"
+    }
   }
 };

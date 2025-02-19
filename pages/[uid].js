@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useTranslations } from '../utils/i18n';
 import { getDocumentByUID, getAllDocuments } from '../lib/mongodb';
 import ResearchTemplate from '../components/ResearchTemplate';
+import { mapResearchData } from '../lib/research/research-mapper';
 
 export default function Page({ post, type }) {
   const router = useRouter();
@@ -20,51 +21,8 @@ export default function Page({ post, type }) {
 
   // If it's a research post, transform the data and use ResearchTemplate
   if (type === 'research') {
-    const research = {
-      title: post.data?.json_content?.short_title,
-      publisher: post.data?.json_content?.publisher,
-      publishDate: post.data?.json_content?.publication_date,
-      domain: post.data?.domain,
-      summary: post.data?.json_content?.TLDR,
-      studyDesign: {
-        interventions: post.data?.json_content?.interventions_SNOMED || [],
-        outcomes: post.data?.json_content?.outcomes_using_COMET || [],
-        studyType: post.data?.json_content?.study_design || '',
-        duration: post.data?.json_content?.study_duration || '',
-        size: post.data?.json_content?.study_size_cat || ''
-      },
-      studyPopulation: {
-        ageRange: post.data?.json_content?.participants_age || '',
-        sex: post.data?.json_content?.participants_sex || '',
-        geography: Array.isArray(post.data?.json_content?.participants_geo)
-          ? post.data.json_content.participants_geo
-          : [post.data?.json_content?.participants_geo].filter(Boolean),
-        others: Array.isArray(post.data?.json_content?.participants_char)
-          ? post.data.json_content.participants_char
-          : [post.data?.json_content?.participants_char].filter(Boolean)
-      },
-      methodology: post.data?.json_content?.methodology || '',
-      interventions: post.data?.json_content?.interventions || '',
-      keyFindings: post.data?.json_content?.key_findings || '',
-      comparison: post.data?.json_content?.comparison_with_similar_studies || '',
-      biasScore: post.data?.json_content?.overall_cochrane_risk_of_bias_score || '',
-      effectivenessAnalysis: {
-        intervention: post.data?.json_content?.intervention || '',
-        effectiveness: post.data?.json_content?.rank_value || ''
-      },
-      journalReference: {
-        full: post.data?.json_content?.research_reference_AMA || ''
-      },
-      headerImage: post.data?.screenshot_study_header?.url,
-      mentions: {
-        expert: post.data?.mentions_group?.expert || [],
-        online: post.data?.mentions_group?.online || [],
-        reddit: post.data?.mentions_group?.reddit || [],
-        studies: post.data?.mentions_group?.studies || [],
-        x: post.data?.mentions_group?.x || [],
-        youtube: post.data?.mentions_group?.youtube || []
-      }
-    };
+    const research = mapResearchData(post);
+    console.log(research);
 
     return (
       <div className="min-h-screen bg-background">
@@ -174,14 +132,14 @@ export async function getStaticPaths({ locales }) {
 export async function getStaticProps({ params, locale }) {
   try {
     // If URL starts with 'blog/', redirect to the blog route
-    if (params.uid.startsWith('blog/')) {
-      return {
-        redirect: {
-          destination: `/${locale}/blog/${params.uid.replace('blog/', '')}`,
-          permanent: true,
-        },
-      };
-    }
+    // if (params.uid.startsWith('blog/')) {
+    //   return {
+    //     redirect: {
+    //       destination: `/${locale}/blog/${params.uid.replace('blog/', '')}`,
+    //       permanent: true,
+    //     },
+    //   };
+    // }
 
     // Map URL locales to database locales
     const databaseLocales = {
@@ -200,14 +158,14 @@ export async function getStaticProps({ params, locale }) {
     let post = await getDocumentByUID('research', cleanUid, dbLocale);
     if (post) {
       // If found in /research/ path, redirect to root path
-      if (isResearchPath) {
-        return {
-          redirect: {
-            destination: `/${locale}/${cleanUid}`,
-            permanent: true,
-          },
-        };
-      }
+      // if (isResearchPath) {
+      //   return {
+      //     redirect: {
+      //       destination: `/${locale}/${cleanUid}`,
+      //       permanent: true,
+      //     },
+      //   };
+      // }
       return {
         props: {
           post,

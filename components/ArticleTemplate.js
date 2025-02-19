@@ -1,15 +1,16 @@
 import React from 'react';
 import { IconPhoto } from '@tabler/icons-react';
+import { useTranslations } from '../utils/i18n';
 import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
 import RelatedPosts from './RelatedPosts';
 
 const ArticleTemplate = ({
-  title = "Article Title",
-  author = "Author Name",
-  publisher = "Publisher Name",
-  publishDate = "Publication Date",
-  readTime = "5 min read",
+  title,
+  author,
+  publisher,
+  publishDate,
+  readTime,
   content = "",
   imageUrl = null,
   authorImage = null,
@@ -18,6 +19,8 @@ const ArticleTemplate = ({
   relatedPosts = [],
   categories = []
 }) => {
+  const { t } = useTranslations();
+
   return (
     <div className="min-h-screen bg-background">
       <main className="max-w-4xl mx-auto px-4 py-8">
@@ -51,7 +54,7 @@ const ArticleTemplate = ({
           {imageUrl ? (
             <img
               src={imageUrl}
-              alt={title}
+              alt={title || t('article.defaults.title')}
               className="w-full rounded-lg"
             />
           ) : (
@@ -61,12 +64,10 @@ const ArticleTemplate = ({
           )}
         </figure>
 
-
-
         {/* Article Content */}
         <article className="prose prose-lg max-w-none mb-16">
-          {content === 'No content available' ? (
-            <p className="text-gray-500 italic">No content available</p>
+          {!content ? (
+            <p className="text-gray-500 italic">{t('article.content.noContent')}</p>
           ) : (
             <div 
               dangerouslySetInnerHTML={{ __html: content }} 
@@ -78,20 +79,20 @@ const ArticleTemplate = ({
         {/* Newsletter Section */}
         <section className="bg-secondary/5 rounded-lg p-8 mb-16">
           <h2 className="text-2xl font-bold text-center mb-4">
-            Stay Updated with the Latest Articles
+            {t('article.newsletter.title')}
           </h2>
           <p className="text-center text-muted-foreground mb-6">
-            Subscribe to our newsletter for weekly updates on diabetes research and care.
+            {t('article.newsletter.description')}
           </p>
           <form onSubmit={(e) => e.preventDefault()} className="max-w-md mx-auto">
             <div className="flex gap-4">
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('article.newsletter.emailPlaceholder')}
                 className="flex-1 px-4 py-2 rounded-md border border-input bg-background"
               />
               <button className="px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
-                Subscribe
+                {t('article.newsletter.subscribeButton')}
               </button>
             </div>
           </form>

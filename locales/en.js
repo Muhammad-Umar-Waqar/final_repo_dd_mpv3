@@ -381,5 +381,100 @@ export const enTranslations = {
       effectivenessScore: "Interventions effectiveness score",
       biasAnalysis: "Bias analysis using applicable Cochrane Collaboration tools"
     }
+  },
+  // ============= RESEARCH TEMPLATE TRANSLATIONS =============
+  research: {
+    defaultTitle: "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
+    defaultAuthor: "Dr. Sarah Johnson",
+    defaultPublisher: "Diabetes Research Journal",
+    defaultDate: "January 31, 2025",
+    defaultReadTime: "8 min read",
+    sections: {
+      summary: "Summary",
+      studyDesign: "Study Design",
+      interventions: "Interventions",
+      studyType: "Study Type",
+      outcomes: "Outcomes",
+      durationSize: "Duration and Size",
+      studyPopulation: "Study Population",
+      ageRange: "Age Range",
+      sex: "Sex",
+      geography: "Geography",
+      otherCriteria: "Other Criteria",
+      methodology: "Methodology",
+      keyFindings: "Key Findings",
+      comparison: "Comparison with other Studies",
+      biasAnalysisScore: "Bias Analysis Score",
+      effectivenessAnalysis: "Effectiveness Analysis",
+      intervention: "Intervention",
+      effectiveness: "Effectiveness",
+      journalReference: "Journal Reference"
+    },
+    newsletter: {
+      title: "Stay informed. Stay ahead.",
+      description: "Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.",
+      emailPlaceholder: "Enter your email",
+      subscribeButton: "Subscribe"
+    },
+    discussions: {
+      title: "Related and Discussions",
+      tabs: {
+        all: "all",
+        experts: "experts",
+        online: "online",
+        reddit: "reddit",
+        studies: "studies",
+        x: "x",
+        youtube: "youtube"
+      },
+      types: {
+        experts: "experts",
+        online: "online",
+        reddit: "reddit",
+        studies: "studies",
+        x: "",
+        youtube: "youtube"
+      }
+    }
+  },
+  // ============= ARTICLE TEMPLATE TRANSLATIONS =============
+  article: {
+    defaults: {
+      title: "Article Title",
+      author: "Author Name",
+      publisher: "Publisher Name",
+      publishDate: "Publication Date",
+      readTime: "5 min read"
+    },
+    content: {
+      noContent: "No content available"
+    },
+    newsletter: {
+      title: "Stay Updated with the Latest Articles",
+      description: "Subscribe to our newsletter for weekly updates on diabetes research and care.",
+      emailPlaceholder: "Enter your email",
+      subscribeButton: "Subscribe"
+    },
+    header: {
+      publishedOn: "Published on",
+      bookmark: "Bookmark article",
+      share: "Share",
+      shareVia: "Share via",
+      copyLink: "Copy link",
+      linkCopied: "Link copied!"
+    },
+    share: {
+      title: "Share on:",
+      copyLink: "Copy link",
+      platforms: {
+        x: "X (Twitter)",
+        facebook: "Facebook",
+        linkedin: "LinkedIn"
+      }
+    },
+    related: {
+      title: "You might also like...",
+      noRelatedPosts: "No related posts available"
+    }
   }
 };

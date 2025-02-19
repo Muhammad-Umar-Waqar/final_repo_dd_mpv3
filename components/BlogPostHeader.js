@@ -1,13 +1,28 @@
 import React from 'react';
 import { IconBookmark, IconUser } from '@tabler/icons-react';
+import { format } from 'date-fns';
+import { es, enUS } from 'date-fns/locale';
+import { useTranslations } from '../utils/i18n';
 import ShareMenu from './ShareMenu';
 
 const BlogPostHeader = ({ title, publisher, publishDate, type, author, authorImage }) => {
+  const { t, locale } = useTranslations();
+
+  const formatDate = (date) => {
+    try {
+      const dateLocale = locale === 'es' ? es : enUS;
+      return format(new Date(date), 'MMMM d, yyyy', { locale: dateLocale });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return date;
+    }
+  };
+
   console.log('BlogPostHeader rendered with:', { type, author, authorImage });
   return (
     <header className="mb-16">
       <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-        {title}
+        {title || t('article.defaults.title')}
       </h1>
       <hr className="border-border mb-6" />
       <div className="flex items-center justify-between mb-6">
@@ -17,7 +32,7 @@ const BlogPostHeader = ({ title, publisher, publishDate, type, author, authorIma
               {authorImage ? (
                 <img 
                   src={authorImage} 
-                  alt={author} 
+                  alt={author || t('article.defaults.author')} 
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     console.log('Author image failed to load:', authorImage);
@@ -33,24 +48,35 @@ const BlogPostHeader = ({ title, publisher, publishDate, type, author, authorIma
               </div>
             </div>
             <div>
-              <h4 className="font-medium text-foreground">{author || publisher}</h4>
+              <h4 className="font-medium text-foreground">
+                {author || publisher || t('article.defaults.author')}
+              </h4>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <time>Published on {publishDate}</time>
+                <time>
+                  {t('article.header.publishedOn')} {/^\d{4}$/.test(publishDate) ? publishDate : formatDate(publishDate)}
+                </time>
               </div>
             </div>
           </div>
         ) : (
           <div className="flex items-center gap-4">
             <div>
-              <h4 className="font-medium text-foreground">{publisher}</h4>
+              <h4 className="font-medium text-foreground">
+                {publisher || t('article.defaults.publisher')}
+              </h4>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <time>Published on {publishDate}</time>
+                <time>
+                  {t('article.header.publishedOn')} {/^\d{4}$/.test(publishDate) ? publishDate : formatDate(publishDate)}
+                </time>
               </div>
             </div>
           </div>
         )}
         <div className="flex gap-2">
-          <button className="p-2 hover:bg-secondary/10 rounded-full">
+          <button 
+            className="p-2 hover:bg-secondary/10 rounded-full"
+            title={t('article.header.bookmark')}
+          >
             <IconBookmark className="w-6 h-6" />
           </button>
           <ShareMenu title={title} />
