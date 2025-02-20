@@ -1,5 +1,3 @@
-'use client';
-
 import { usePathname, useSearchParams } from 'next/navigation';
 import Link from "next/link";
 import { Button } from "./button";

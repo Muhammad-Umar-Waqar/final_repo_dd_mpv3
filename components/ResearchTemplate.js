@@ -304,7 +304,7 @@ const ResearchTemplate = ({
         )}
 
         {effectivenessAnalysis.length > 0 && (
-          <section className="prose prose-lg max-w-none">
+          <section className="prose prose-lg max-w-none mb-16">
             <section>
               <div className="flex mb-4">
                 <h2>{t('research.sections.effectivenessAnalysis')}</h2>

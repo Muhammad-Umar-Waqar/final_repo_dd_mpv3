@@ -176,7 +176,18 @@ export const enTranslations = {
     },
     filters: {
       allEffectiveness: "All Effectiveness",
-      allBias: "All Bias Levels"
+      allBias: "All Bias Levels",
+      effectiveness: {
+        high: "High",
+        med: "Medium",
+        low: "Low"
+      },
+      bias: {
+        low: "Low",
+        some_concerns: "Some Concerns",
+        high: "High",
+        very_high: "Very High"
+      }
     }
   },
   // New outcomes translations
@@ -194,7 +205,18 @@ export const enTranslations = {
     },
     filters: {
       allEffectiveness: "All Effectiveness",
-      allBias: "All Bias Levels"
+      allBias: "All Bias Levels",
+      effectiveness: {
+        high: "High",
+        med: "Medium",
+        low: "Low"
+      },
+      bias: {
+        low: "Low",
+        some_concerns: "Some Concerns",
+        high: "High",
+        very_high: "Very High"
+      }
     }
   },
   // SearchSection
@@ -475,6 +497,40 @@ export const enTranslations = {
     related: {
       title: "You might also like...",
       noRelatedPosts: "No related posts available"
+    }
+  },
+  // ============= RESEARCH TABLE TRANSLATIONS =============
+  researchTable: {
+    title: "Research",
+    studies: "Research about",
+    for: "for",
+    studiesFor: "Research about",
+    outcome: "Outcome",
+    noStudiesFound: "No research found",
+    tryDifferentSearch: "Try a different search",
+    totalStudies: "Total:",
+    tableHeaders: {
+      title: "Title",
+      size: "Size",
+      effectiveness: "Effectiveness",
+      bias: "Bias"
+    },
+    size: {
+      "small_size_≤100": "Small size (≤100)",
+      "medium_size_100–500": "Medium size (100–500)",
+      "large_size_500–5000": "Large size (500–5000)",
+      "mega_size_5000+": "Mega size (5000+)"
+    },
+    effectiveness: {
+      high: "High",
+      med: "Medium",
+      low: "Low"
+    },
+    bias: {
+      low: "Low",
+      some_concerns: "Some Concerns",
+      high: "High",
+      very_high: "Very High"
     }
   }
 };

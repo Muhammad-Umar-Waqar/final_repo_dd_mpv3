@@ -170,13 +170,24 @@ export const esTranslations = {
     tableHeaders: {
       intervention: "Intervención",
       outcome: "Resultado",
-      effectiveness: "Efectividad", 
+      effectiveness: "Efectividad",
       studies: "Estudios",
       bias: "Sesgo"
     },
     filters: {
       allEffectiveness: "Toda Efectividad",
-      allBias: "Todos los Niveles de Sesgo"
+      allBias: "Todos los Niveles de Sesgo",
+      effectiveness: {
+        high: "Alta",
+        med: "Media",
+        low: "Baja"
+      },
+      bias: {
+        low: "Bajo",
+        some_concerns: "Algunas Preocupaciones",
+        high: "Alto",
+        very_high: "Muy Alto"
+      }
     }
   },
   // New outcomes translations
@@ -194,7 +205,18 @@ export const esTranslations = {
     },
     filters: {
       allEffectiveness: "Toda Efectividad",
-      allBias: "Todos los Niveles de Sesgo"
+      allBias: "Todos los Niveles de Sesgo",
+      effectiveness: {
+        high: "Alta",
+        med: "Media",
+        low: "Baja"
+      },
+      bias: {
+        low: "Bajo",
+        some_concerns: "Algunas Preocupaciones",
+        high: "Alto",
+        very_high: "Muy Alto"
+      }
     }
   },
   // SearchSection
@@ -475,5 +497,39 @@ export const esTranslations = {
       title: "También te puede interesar...",
       noRelatedPosts: "No hay artículos relacionados disponibles"
     }
-  }
+  },
+  // ============= TRADUCCIONES PARA LA TABLA DE INVESTIGACIÓN =============
+  researchTable: {
+    title: "Investigación",
+    studies: "Investigación sobre",
+    for: "para",
+    studiesFor: "Investigaciones sobre",
+    outcome: "Resultado",
+    noStudiesFound: "No se encontraron investigaciones",
+    tryDifferentSearch: "Intenta una búsqueda diferente",
+    totalStudies: "Total:",
+    tableHeaders: {
+      title: "Título",
+      size: "Tamaño",
+      effectiveness: "Efectividad",
+      bias: "Sesgo"
+    },
+    size: {
+      "small_size_≤100": "Tamaño pequeño (≤100)",
+      "medium_size_100–500": "Tamaño medio (100–500)",
+      "large_size_500–5000": "Tamaño grande (500–5000)",
+      "mega_size_5000+": "Tamaño mega (5000+)"
+    },
+    effectiveness: {
+      high: "Alta",
+      med: "Media",
+      low: "Baja"
+    },
+    bias: {
+      low: "Bajo",
+      some_concerns: "Algunas Preocupaciones",
+      high: "Alto",
+      very_high: "Muy Alto"
+    }
+  },
 };

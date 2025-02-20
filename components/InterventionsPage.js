@@ -3,85 +3,28 @@ import Footer from './Footer';
 import { IconChevronDown, IconFilter } from '@tabler/icons-react';
 import { useTranslations } from '../utils/i18n';
 import { useDarkMode } from '../utils/DarkModeContext';
+import { EFFECTIVENESS_OPTIONS, BIAS_OPTIONS, getEffectivenessColor } from '../lib/research/filter-options';
+import { filterInterventions } from '../lib/research/interventions-filter';
+import Link from 'next/link';
 
-const InterventionsPage = () => {
+const InterventionsPage = ({ interventionsData }) => {
   const [filterText, setFilterText] = useState('');
-  const [effectivenessFilter, setEffectivenessFilter] = useState('all');
-  const [biasFilter, setBiasFilter] = useState('all');
+  const [effectivenessFilter, setEffectivenessFilter] = useState(EFFECTIVENESS_OPTIONS.ALL);
+  const [biasFilter, setBiasFilter] = useState(BIAS_OPTIONS.ALL);
   const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
   const [showBiasDropdown, setBiasDropdown] = useState(false);
   const { t } = useTranslations();
   const { isDarkMode } = useDarkMode();
 
-  const interventionsData = [
-    {
-      intervention: 'Continuous Glucose Monitoring',
-      outcomes: [
-        { name: 'Glycemic Control', effectiveness: 'High', studies: 25, bias: 'Low' },
-        { name: 'Quality of Life', effectiveness: 'Med', studies: 18, bias: 'Low' },
-        { name: 'Hypoglycemia Prevention', effectiveness: 'High', studies: 22, bias: 'Low' },
-      ]
-    },
-    {
-      intervention: 'Insulin Pump Therapy',
-      outcomes: [
-        { name: 'Blood Sugar Control', effectiveness: 'High', studies: 30, bias: 'Low' },
-        { name: 'Patient Satisfaction', effectiveness: 'High', studies: 15, bias: 'Medium' },
-        { name: 'Treatment Adherence', effectiveness: 'Med', studies: 12, bias: 'Medium' },
-      ]
-    },
-    {
-      intervention: 'Dietary Modification',
-      outcomes: [
-        { name: 'HbA1c Reduction', effectiveness: 'Med', studies: 20, bias: 'Moderate' },
-        { name: 'Weight Management', effectiveness: 'Med', studies: 16, bias: 'Medium' },
-        { name: 'Cardiovascular Health', effectiveness: 'High', studies: 14, bias: 'Low' },
-      ]
-    }
-  ];
+  const filteredInterventions = filterInterventions(
+    interventionsData,
+    filterText,
+    effectivenessFilter,
+    biasFilter
+  );
 
-  const filteredInterventions = interventionsData
-    .map(intervention => ({
-      ...intervention,
-      outcomes: intervention.outcomes.filter(outcome => {
-        const matchesSearch = intervention.intervention.toLowerCase().includes(filterText.toLowerCase()) ||
-                           outcome.name.toLowerCase().includes(filterText.toLowerCase());
-        const matchesEffectiveness = effectivenessFilter === 'all' || outcome.effectiveness === effectivenessFilter;
-        const matchesBias = biasFilter === 'all' || outcome.bias === biasFilter;
-        return matchesSearch && matchesEffectiveness && matchesBias;
-      })
-    }))
-    .filter(intervention => intervention.outcomes.length > 0);
-
-  const getEffectivenessColor = (effectiveness) => {
-    const colorMap = {
-      high: {
-        light: 'text-green-600',
-        dark: 'text-green-400'
-      },
-      med: {
-        light: 'text-yellow-600',
-        dark: 'text-yellow-400'
-      },
-      low: {
-        light: 'text-red-600',
-        dark: 'text-red-400'
-      },
-      default: {
-        light: 'text-gray-600',
-        dark: 'text-gray-400'
-      }
-    };
-
-    const effectKey = effectiveness.toLowerCase();
-    const colorSet = colorMap[effectKey] || colorMap.default;
-    
-    // Use CSS classes that respond to dark mode instead of JS-based switching
-    return `${colorSet.light} dark:${colorSet.dark}`;
-  };
-
-  const effectivenessOptions = ['all', 'High', 'Med', 'Low'];
-  const biasOptions = ['all', 'Low', 'Medium', 'Moderate'];
+  const effectivenessOptions = Object.values(EFFECTIVENESS_OPTIONS);
+  const biasOptions = Object.values(BIAS_OPTIONS);
 
   return (
     <>
@@ -127,7 +70,9 @@ const InterventionsPage = () => {
                     effectivenessFilter === option ? 'bg-accent/50' : ''
                   }`}
                 >
-                  {option === 'all' ? t('interventions.filters.allEffectiveness') : option}
+                  {option === EFFECTIVENESS_OPTIONS.ALL 
+                    ? t('interventions.filters.allEffectiveness') 
+                    : t(`interventions.filters.effectiveness.${option.toLowerCase()}`)}
                 </button>
               ))}
             </div>
@@ -161,7 +106,9 @@ const InterventionsPage = () => {
                     biasFilter === option ? 'bg-accent/50' : ''
                   }`}
                 >
-                  {option === 'all' ? t('interventions.filters.allBias') : option}
+                  {option === BIAS_OPTIONS.ALL 
+                    ? t('interventions.filters.allBias')
+                    : t(`interventions.filters.bias.${option.toLowerCase().replace(/\s+/g, '_')}`)}
                 </button>
               ))}
             </div>
@@ -208,15 +155,18 @@ const InterventionsPage = () => {
                   ) : null}
                   <td className="px-6 py-4">{outcome.name}</td>
                   <td className={`px-6 py-4 ${getEffectivenessColor(outcome.effectiveness)}`}>
-                    {outcome.effectiveness}
+                    {t(`interventions.filters.effectiveness.${outcome.effectiveness.toLowerCase()}`)}
                   </td>
                   <td className="px-6 py-4">
-                    <a href="#" className="text-primary hover:underline">
+                    <Link 
+                      href={`/research?type=intervention&item=${encodeURIComponent(item.intervention)}&outcome=${encodeURIComponent(outcome.name)}`}
+                      className="text-primary hover:underline"
+                    >
                       {outcome.studies}
-                    </a>
+                    </Link>
                   </td>
                   <td className="px-6 py-4">
-                    {outcome.bias}
+                    {t(`interventions.filters.bias.${outcome.bias.toLowerCase().replace(/\s+/g, '_')}`)}
                   </td>
                 </tr>
               ))

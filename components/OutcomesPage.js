@@ -3,42 +3,17 @@ import { useDarkMode } from '../utils/DarkModeContext';
 import Footer from './Footer';
 import { IconChevronDown, IconFilter } from '@tabler/icons-react';
 import { useTranslations } from '../utils/i18n';
+import { EFFECTIVENESS_OPTIONS, BIAS_OPTIONS, getEffectivenessColor } from '../lib/research/filter-options';
+import { filterInterventions } from '../lib/research/interventions-filter';
 
-const OutcomesPage = () => {
+const OutcomesPage = ({ outcomesData }) => {
   const { isDarkMode } = useDarkMode();
   const { t } = useTranslations();
   const [filterText, setFilterText] = useState('');
-  const [effectivenessFilter, setEffectivenessFilter] = useState('all');
-  const [biasFilter, setBiasFilter] = useState('all');
+  const [effectivenessFilter, setEffectivenessFilter] = useState(EFFECTIVENESS_OPTIONS.ALL);
+  const [biasFilter, setBiasFilter] = useState(BIAS_OPTIONS.ALL);
   const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
   const [showBiasDropdown, setBiasDropdown] = useState(false);
-
-  const outcomesData = [
-    {
-      outcome: 'Glycemic Control',
-      interventions: [
-        { name: 'Continuous Glucose Monitoring', effectiveness: 'High', studies: 25, bias: 'Low' },
-        { name: 'Insulin Pump Therapy', effectiveness: 'High', studies: 30, bias: 'Low' },
-        { name: 'Carbohydrate Counting', effectiveness: 'Med', studies: 15, bias: 'Medium' }
-      ]
-    },
-    {
-      outcome: 'Quality of Life',
-      interventions: [
-        { name: 'Diabetes Education Program', effectiveness: 'High', studies: 20, bias: 'Low' },
-        { name: 'Support Group Participation', effectiveness: 'Med', studies: 12, bias: 'Medium' },
-        { name: 'Telehealth Monitoring', effectiveness: 'High', studies: 18, bias: 'Low' }
-      ]
-    },
-    {
-      outcome: 'Hypoglycemia Prevention',
-      interventions: [
-        { name: 'Smart Insulin Delivery', effectiveness: 'High', studies: 22, bias: 'Low' },
-        { name: 'Predictive Analytics', effectiveness: 'Med', studies: 14, bias: 'Medium' },
-        { name: 'Dietary Management', effectiveness: 'Med', studies: 16, bias: 'Moderate' }
-      ]
-    }
-  ];
 
   const filteredOutcomes = outcomesData
     .map(outcome => ({
@@ -46,41 +21,15 @@ const OutcomesPage = () => {
       interventions: outcome.interventions.filter(intervention => {
         const matchesSearch = outcome.outcome.toLowerCase().includes(filterText.toLowerCase()) ||
                            intervention.name.toLowerCase().includes(filterText.toLowerCase());
-        const matchesEffectiveness = effectivenessFilter === 'all' || intervention.effectiveness === effectivenessFilter;
-        const matchesBias = biasFilter === 'all' || intervention.bias === biasFilter;
+        const matchesEffectiveness = effectivenessFilter === EFFECTIVENESS_OPTIONS.ALL || intervention.effectiveness === effectivenessFilter;
+        const matchesBias = biasFilter === BIAS_OPTIONS.ALL || intervention.bias === biasFilter;
         return matchesSearch && matchesEffectiveness && matchesBias;
       })
     }))
     .filter(outcome => outcome.interventions.length > 0);
 
-  const getEffectivenessColor = (effectiveness) => {
-    const colorMap = {
-      high: {
-        light: 'text-green-600',
-        dark: 'text-green-400'
-      },
-      med: {
-        light: 'text-yellow-600',
-        dark: 'text-yellow-400'
-      },
-      low: {
-        light: 'text-red-600',
-        dark: 'text-red-400'
-      },
-      default: {
-        light: 'text-gray-600',
-        dark: 'text-gray-400'
-      }
-    };
-
-    const effectKey = effectiveness.toLowerCase();
-    const colorSet = colorMap[effectKey] || colorMap.default;
-    
-    return `${colorSet.light} dark:${colorSet.dark}`;
-  };
-
-  const effectivenessOptions = ['all', 'High', 'Med', 'Low'];
-  const biasOptions = ['all', 'Low', 'Medium', 'Moderate'];
+  const effectivenessOptions = Object.values(EFFECTIVENESS_OPTIONS);
+  const biasOptions = Object.values(BIAS_OPTIONS);
 
   return (
     <>
@@ -126,7 +75,9 @@ const OutcomesPage = () => {
                     effectivenessFilter === option ? 'bg-accent/50' : ''
                   }`}
                 >
-                  {option === 'all' ? t('outcomes.filters.allEffectiveness') : option}
+                  {option === EFFECTIVENESS_OPTIONS.ALL 
+                    ? t('outcomes.filters.allEffectiveness') 
+                    : t(`outcomes.filters.effectiveness.${option.toLowerCase()}`)}
                 </button>
               ))}
             </div>
@@ -160,7 +111,9 @@ const OutcomesPage = () => {
                     biasFilter === option ? 'bg-accent/50' : ''
                   }`}
                 >
-                  {option === 'all' ? t('outcomes.filters.allBias') : option}
+                  {option === BIAS_OPTIONS.ALL 
+                    ? t('outcomes.filters.allBias')
+                    : t(`outcomes.filters.bias.${option.toLowerCase().replace(/\s+/g, '_')}`)}
                 </button>
               ))}
             </div>
@@ -207,7 +160,7 @@ const OutcomesPage = () => {
                   ) : null}
                   <td className="px-6 py-4">{intervention.name}</td>
                   <td className={`px-6 py-4 ${getEffectivenessColor(intervention.effectiveness)}`}>
-                    {intervention.effectiveness}
+                    {t(`outcomes.filters.effectiveness.${intervention.effectiveness.toLowerCase()}`)}
                   </td>
                   <td className="px-6 py-4">
                     <a href="#" className="text-primary hover:underline">
@@ -215,7 +168,7 @@ const OutcomesPage = () => {
                     </a>
                   </td>
                   <td className="px-6 py-4">
-                    {intervention.bias}
+                    {t(`outcomes.filters.bias.${intervention.bias.toLowerCase().replace(/\s+/g, '_')}`)}
                   </td>
                 </tr>
               ))
