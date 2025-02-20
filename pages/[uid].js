@@ -3,6 +3,8 @@ import Head from 'next/head';
 import { useTranslations } from '../utils/i18n';
 import { getDocumentByUID, getAllDocuments } from '../lib/mongodb';
 import ResearchTemplate from '../components/ResearchTemplate';
+import ResearchSkeleton from '../components/research/ResearchSkeleton';
+import NotFoundState from '../components/research/NotFoundState';
 import { mapResearchData } from '../lib/research/research-mapper';
 
 export default function Page({ post, type }) {
@@ -11,12 +13,20 @@ export default function Page({ post, type }) {
 
   // Show loading state if page is being generated
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return <ResearchSkeleton />;
   }
 
   // Show 404 if post not found
   if (!post) {
-    return <div>Post not found</div>;
+    return (
+      <>
+        <Head>
+          <title>{t('notFound.metaTitle')}</title>
+          <meta name="description" content={t('notFound.metaDescription')} />
+        </Head>
+        <NotFoundState />
+      </>
+    );
   }
 
   // If it's a research post, transform the data and use ResearchTemplate

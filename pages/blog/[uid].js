@@ -3,6 +3,8 @@ import Head from 'next/head';
 import { useTranslations } from '../../utils/i18n';
 import { getDocumentByUID, getAllDocuments } from '../../lib/mongodb';
 import ArticleTemplate from '../../components/ArticleTemplate';
+import NotFoundState from '../../components/research/NotFoundState';
+import BlogSkeleton from '../../components/blog/BlogSkeleton';
 import { mapBlogData } from '../../lib/blog/blog-mapper';
 
 export default function BlogPost({ post, authorImage, authorName }) {
@@ -13,12 +15,20 @@ export default function BlogPost({ post, authorImage, authorName }) {
 
   // Show loading state if page is being generated
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return <BlogSkeleton />;
   }
 
   // Show 404 if post not found
   if (!post) {
-    return <div>Post not found</div>;
+    return (
+      <>
+        <Head>
+          <title>{t('notFound.metaTitle')}</title>
+          <meta name="description" content={t('notFound.metaDescription')} />
+        </Head>
+        <NotFoundState />
+      </>
+    );
   }
 
   // Transform MongoDB post data to match ArticleTemplate structure

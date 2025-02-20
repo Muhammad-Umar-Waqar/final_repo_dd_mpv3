@@ -1,93 +1,100 @@
 import React from 'react';
 import { useTranslations } from '../utils/i18n';
 import NewsCard from './NewsCard';
+import Pagination from './ui/pagination';
 
-const NewsGrid = () => {
+const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading = false }) => {
   const { t } = useTranslations();
 
-  const newsItems = [
-    {
-      category: 'Clinical Trial',
-      title: 'Novel GLP-1 Receptor Agonist Shows Promising Results in Phase 3 Trial',
-      description: 'Recent study demonstrates significant improvements in glycemic control and weight management in patients with type 2 diabetes.',
-      publisher: 'Diabetes Obesity & Metabolism',
-      publishDate: '2023-10-15',
-      timeToRead: 8
-    },
-    {
-      category: 'Research',
-      title: 'Artificial Pancreas Technology: A Game-Changer in T1D Management',
-      description: 'Breakthrough in closed-loop insulin delivery systems shows improved outcomes in real-world settings.',
-      publisher: 'Nature Medicine',
-      publishDate: '2023-10-10',
-      timeToRead: 6
-    },
-    {
-      category: 'Treatment',
-      title: 'New Guidelines for Managing Post-Meal Blood Sugar Spikes',
-      description: 'Updated recommendations focus on personalized approaches to postprandial glucose management.',
-      publisher: 'Diabetes Care',
-      publishDate: '2023-10-05',
-      timeToRead: 5
-    },
-    {
-      category: 'Prevention',
-      title: 'Early Intervention Strategies in Prediabetes Show Long-term Benefits',
-      description: 'Longitudinal study reveals the importance of lifestyle modifications in preventing diabetes progression.',
-      publisher: 'Diabetes',
-      publishDate: '2023-10-01',
-      timeToRead: 7
-    },
-    {
-      category: 'Technology',
-      title: 'Smart Contact Lenses for Continuous Glucose Monitoring',
-      description: 'Innovative wearable technology promises non-invasive glucose monitoring for diabetes patients.',
-      publisher: 'IEEE Spectrum',
-      publishDate: '2023-09-25',
-      timeToRead: 4
-    },
-    {
-      category: 'Lifestyle',
-      title: 'Mediterranean Diet and Diabetes Management',
-      description: 'New research confirms the benefits of Mediterranean dietary patterns in glycemic control.',
-      publisher: 'Journal of the American Medical Association',
-      timeToRead: 6
-    }
-  ];
+  // Loading skeleton for cards
+  const LoadingSkeleton = () => (
+    <>
+      {[1, 2, 3, 4, 5, 6].map((index) => (
+        <div 
+          key={index} 
+          className="bg-background border border-border rounded-lg overflow-hidden animate-pulse"
+        >
+          {/* Image placeholder */}
+          <div className="aspect-[16/9] bg-muted" />
+          
+          <div className="p-6">
+            {/* Category and type */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="h-6 w-24 bg-muted rounded-full" />
+            </div>
+
+            {/* Title */}
+            <div className="space-y-2 mb-2">
+              <div className="h-6 w-3/4 bg-muted rounded" />
+            </div>
+
+            {/* Description */}
+            <div className="space-y-2 mb-4">
+              <div className="h-4 w-full bg-muted rounded" />
+              <div className="h-4 w-2/3 bg-muted rounded" />
+            </div>
+
+            <hr className="border-border mb-4" />
+
+            {/* Footer */}
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="h-4 w-32 bg-muted rounded" />
+                <div className="h-3 w-48 bg-muted rounded" />
+              </div>
+              <div className="flex gap-2">
+                <div className="h-8 w-8 bg-muted rounded-full" />
+                <div className="h-8 w-8 bg-muted rounded-full" />
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+
+  // No results state
+  if (!isLoading && (!results || results.length === 0)) {
+    return (
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-foreground mb-2">
+            {t('newsGrid.noResults.title')}
+          </h3>
+          <p className="text-muted-foreground">
+            {t('newsGrid.noResults.description')}
+          </p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {newsItems.map((item, index) => (
-          <NewsCard key={index} {...item} />
-        ))}
+        {isLoading ? (
+          <LoadingSkeleton />
+        ) : (
+          results.map((item, index) => (
+            <NewsCard
+              key={`${item.type}-${item.uid}-${index}`}
+              category={item.category}
+              title={item.title}
+              description={item.description}
+              publisher={item.publisher}
+              publishDate={item.publishDate}
+              timeToRead={item.timeToRead}
+              featuredImage={item.featuredImage}
+              type={item.type}
+              uid={item.uid}
+            />
+          ))
+        )}
       </div>
       
       {/* Pagination */}
-      <div className="flex justify-center items-center space-x-2 mt-12">
-        <button 
-          className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed" 
-          disabled
-        >
-          {t('newsGrid.pagination.previous')}
-        </button>
-        <button className="px-3 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-md hover:bg-primary/90">
-          1
-        </button>
-        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
-          2
-        </button>
-        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
-          3
-        </button>
-        <span className="px-3 py-2 text-sm text-muted-foreground">...</span>
-        <button className="px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
-          8
-        </button>
-        <button className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10">
-          {t('newsGrid.pagination.next')}
-        </button>
-      </div>
+      <Pagination totalPages={totalPages} />
     </section>
   );
 };

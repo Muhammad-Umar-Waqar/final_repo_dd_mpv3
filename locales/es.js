@@ -223,6 +223,7 @@ export const esTranslations = {
   searchSection: {
     searchPlaceholder: "Buscar noticias, temas o palabras clave...",
     searchButton: "Buscar",
+    searching: "Buscando...",
     filterButton: "FILTRO",
     filters: {
       all: "Todos",
@@ -236,6 +237,10 @@ export const esTranslations = {
     }
   },
   newsGrid: {
+    noResults: {
+      title: "No se encontraron resultados",
+      description: "Intenta ajustar tu búsqueda o filtros para encontrar lo que estás buscando."
+    },
     pagination: {
       previous: "Anterior",
       next: "Siguiente"
@@ -559,5 +564,12 @@ export const esTranslations = {
       high: "Alto",
       very_high: "Muy Alto"
     }
+  },
+  notFound: {
+    title: "404",
+    description: "No hemos encontrado el contenido que buscas",
+    homeButton: "Volver al inicio",
+    metaTitle: "Contenido no encontrado - Dexdiabetes",
+    metaDescription: "El contenido que estás buscando no existe o ha sido movido."
   },
 };

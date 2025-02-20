@@ -1,17 +1,17 @@
-import { usePathname, useSearchParams } from 'next/navigation';
-import Link from "next/link";
-import { Button } from "./button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useRouter } from 'next/router';
+import { useTranslations } from '../../utils/i18n';
 
 const Pagination = ({ totalPages }) => {
-    const pathname = usePathname();
-    const searchParams = useSearchParams();
-    const currentPage = Number(searchParams.get('page')) || 1;
+    const router = useRouter();
+    const { t } = useTranslations();
+    const currentPage = Number(router.query.page) || 1;
 
-    const createPageURL = (pageNumber) => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.set('page', pageNumber.toString());
-        return `${pathname}?${params.toString()}`;
+    const handlePageChange = (pageNumber) => {
+        const query = { ...router.query, page: pageNumber.toString() };
+        router.push({
+            pathname: router.pathname,
+            query
+        }, undefined, { shallow: true, scroll: false });
     };
 
     if (totalPages <= 1) {
@@ -41,52 +41,50 @@ const Pagination = ({ totalPages }) => {
     }
 
     return (
-        <nav className="flex justify-center items-center gap-2 mt-8">
-            <Link href={currentPage > 1 ? createPageURL(currentPage - 1) : ''} scroll={false}>
-                <Button
-                    variant="outline"
-                    size="icon"
-                    disabled={currentPage === 1}
-                    className="h-8 w-8"
-                >
-                    <ChevronLeft className="h-4 w-4" />
-                </Button>
-            </Link>
+        <div className="flex justify-center items-center space-x-2 mt-12">
+            <button 
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                {t('newsGrid.pagination.previous')}
+            </button>
 
-            <div className="flex items-center gap-2">
-                {pages.map((page, index) => {
-                    if (page === '...') {
-                        return (
-                            <span key={`ellipsis-${index}`} className="px-3 py-1">
-                                {page}
-                            </span>
-                        );
-                    }
-
+            {pages.map((page, index) => {
+                if (page === '...') {
                     return (
-                        <Link key={page} href={createPageURL(page)} scroll={false}>
-                            <Button
-                                variant={currentPage === page ? "default" : "outline"}
-                                className="h-8 w-8"
-                            >
-                                {page}
-                            </Button>
-                        </Link>
+                        <span 
+                            key={`ellipsis-${index}`} 
+                            className="px-3 py-2 text-sm text-muted-foreground"
+                        >
+                            {page}
+                        </span>
                     );
-                })}
-            </div>
+                }
 
-            <Link href={currentPage < totalPages ? createPageURL(currentPage + 1) : ''} scroll={false}>
-                <Button
-                    variant="outline"
-                    size="icon"
-                    disabled={currentPage === totalPages}
-                    className="h-8 w-8"
-                >
-                    <ChevronRight className="h-4 w-4" />
-                </Button>
-            </Link>
-        </nav>
+                return (
+                    <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`px-3 py-2 text-sm font-medium rounded-md ${
+                            currentPage === page
+                                ? 'text-primary-foreground bg-primary hover:bg-primary/90'
+                                : 'text-foreground bg-background border border-border hover:bg-secondary/10'
+                        }`}
+                    >
+                        {page}
+                    </button>
+                );
+            })}
+
+            <button 
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-secondary/10 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+                {t('newsGrid.pagination.next')}
+            </button>
+        </div>
     );
 }
 

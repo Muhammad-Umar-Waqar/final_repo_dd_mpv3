@@ -385,7 +385,7 @@ const ResearchTemplate = ({
             />
           )}
 
-        <section className="max-w-4xl bg-gray-50 mx-auto px-4 py-16 text-center">
+        <section className="mb-16 max-w-4xl bg-gray-50 mx-auto px-4 py-16 text-center">
           <h2 className="text-4xl font-bold mb-6">{t('research.newsletter.title')}</h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
             {t('research.newsletter.description')}

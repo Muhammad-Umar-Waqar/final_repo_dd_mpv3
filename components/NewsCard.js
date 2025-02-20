@@ -1,23 +1,44 @@
 import React from 'react';
 import { IconClock, IconBookmark } from '@tabler/icons-react';
 import ShareMenu from './ShareMenu';
+import Link from 'next/link';
 
-const NewsCard = ({ category, title, description, publisher, publishDate, timeToRead }) => {
+const NewsCard = ({
+  category,
+  title,
+  description,
+  publisher,
+  publishDate,
+  timeToRead,
+  type,
+  uid,
+  featuredImage
+}) => {
   return (
-    <div className="bg-background border border-border rounded-lg overflow-visible hover:shadow-lg transition-shadow duration-300">
-      <div className="aspect-[16/9] bg-muted">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" className="w-full h-full">
-          <rect width="400" height="225" fill="#f5f5f5"/>
-          <rect x="40" y="60" width="320" height="10" rx="2" fill="#e0e0e0"/>
-          <rect x="40" y="85" width="280" height="10" rx="2" fill="#e0e0e0"/>
-          <rect x="40" y="110" width="320" height="10" rx="2" fill="#e0e0e0"/>
-          <rect x="40" y="135" width="200" height="10" rx="2" fill="#e0e0e0"/>
-          <circle cx="200" cy="90" r="30" fill="#e0e0e0"/>
-          <path d="M190 90 h20 m-10 -10 v20" stroke="#f5f5f5" strokeWidth="2"/>
-          <text x="200" y="180" fontFamily="Arial, sans-serif" fontSize="12" fill="#cccccc" textAnchor="middle">
-            Image placeholder
-          </text>
-        </svg>
+    <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="aspect-[16/9] relative bg-muted">
+        {featuredImage ? (
+          <img
+            src={featuredImage}
+            alt={title}
+            className="aspect-[16/9] object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" className="w-full h-full">
+              <rect width="400" height="225" fill="#f5f5f5" />
+              <rect x="40" y="60" width="320" height="10" rx="2" fill="#e0e0e0" />
+              <rect x="40" y="85" width="280" height="10" rx="2" fill="#e0e0e0" />
+              <rect x="40" y="110" width="320" height="10" rx="2" fill="#e0e0e0" />
+              <rect x="40" y="135" width="200" height="10" rx="2" fill="#e0e0e0" />
+              <circle cx="200" cy="90" r="30" fill="#e0e0e0" />
+              <path d="M190 90 h20 m-10 -10 v20" stroke="#f5f5f5" strokeWidth="2" />
+              <text x="200" y="180" fontFamily="Arial, sans-serif" fontSize="12" fill="#cccccc" textAnchor="middle">
+                Image placeholder
+              </text>
+            </svg>
+          </div>
+        )}
       </div>
       <div className="p-6">
         <div className="mb-3">
@@ -25,30 +46,31 @@ const NewsCard = ({ category, title, description, publisher, publishDate, timeTo
             {category}
           </span>
         </div>
-        <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
-          {title}
-        </h3>
+        <Link href={type === 'research' ? `/${uid}` : `/blog/${uid}`}>
+          <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2">
+            {title}
+          </h3>
+        </Link>
         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-          {publisher}
+          {description}
         </p>
-        <hr className="border-border mb-6" />
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
+        <hr className="border-border mb-4" />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
             <div>
-              <h4 className="font-medium text-foreground">{publisher}</h4>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <h4 className="text-sm font-medium text-foreground">{publisher}</h4>
+              <div className="flex items-center gap-2 text-xs text-muted-foreground">
                 <time>{publishDate}</time>
               </div>
             </div>
           </div>
           <div className="flex gap-2">
             <button className="p-2 hover:bg-secondary/10 rounded-full">
-              <IconBookmark className="w-6 h-6" />
+              <IconBookmark className="w-5 h-5" />
             </button>
             <ShareMenu title={title} />
           </div>
         </div>
-        <hr className="border-border" />
       </div>
     </div>
   );
