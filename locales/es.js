@@ -429,7 +429,35 @@ export const esTranslations = {
       effectivenessAnalysis: "Análisis de Efectividad",
       intervention: "Intervención",
       effectiveness: "Efectividad",
-      journalReference: "Referencia de la Revista"
+      journalReference: "Referencia de la Revista",
+      effectivenessOptions: {
+        high: "Alta",
+        medium: "Media",
+        low: "Baja"
+      },
+    },
+    size: {
+      "small_size_≤100": "Tamaño pequeño (≤100)",
+      "medium_size_100–500": "Tamaño medio (100–500)",
+      "large_size_500–5000": "Tamaño grande (500–5000)",
+      "mega_size_5000+": "Tamaño mega (5000+)"
+    },
+    duration: {
+      "short-term_≤3_mo": "Corto plazo (≤3 meses)",
+      "medium-term_3–12_mo": "Medio plazo (3–12 meses)",
+      "long–term_1–5_y": "Largo plazo (1–5 años)",
+      "extended_5–20+_y": "Extendido (5–20+ años)"
+    },
+    sex: {
+      "male": "Masculino",
+      "female": "Femenino"
+    },
+    ageRange: {
+      "children_≤13": "Niños (≤13)",
+      "adolescent_13–18": "Adolescentes (13–18)",
+      "young_adult_19–39": "Adultos Jóvenes (19–39)",
+      "middle_aged_40–64": "Mediana Edad (40-64)",
+      "older_adults_65+": "Adultos Mayores (65+)"
     },
     newsletter: {
       title: "Mantente informado. Mantente adelante.",

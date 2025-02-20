@@ -221,14 +221,14 @@ export const enTranslations = {
   },
   // SearchSection
   searchSection: {
-    
+
     searchPlaceholder: "Search for news, topics, or keywords...",
     searchButton: "Search",
     filterButton: "FILTER",
     filters: {
       all: "All",
       behavioral: "Behavioral",
-      complications: "Complications", 
+      complications: "Complications",
       digital: "Digital",
       pharmacology: "Pharmacology",
       prevention: "Prevention",
@@ -430,7 +430,35 @@ export const enTranslations = {
       effectivenessAnalysis: "Effectiveness Analysis",
       intervention: "Intervention",
       effectiveness: "Effectiveness",
-      journalReference: "Journal Reference"
+      journalReference: "Journal Reference",
+      effectivenessOptions: {
+        high: "High",
+        medium: "Medium",
+        low: "Low"
+      }
+    },
+    size: {
+      "small_size_≤100": "Small size (≤100)",
+      "medium_size_100–500": "Medium size (100–500)",
+      "large_size_500–5000": "Large size (500–5000)",
+      "mega_size_5000+": "Mega size (5000+)"
+    },
+    duration: {
+      "short-term_≤3_mo": "Short-Term (≤3 mo)",
+      "medium-term_3–12_mo": "Medium-Term (3–12 mo)",
+      "long–term_1–5_y": "Long-Term (1–5 y)",
+      "extended-5–20+_y": "Extended (5–20+ y)"
+    },
+    sex: {
+      "male": "Male",
+      "female": "Female"
+    },
+    ageRange: {
+      "children_≤13": "Children (≤13)",
+      "adolescent_13–18": "Adolescent (13–18)",
+      "young_adult_19–39": "Young Adult (19–39)",
+      "middle_aged_40–64": "Middle Aged (40-64)",
+      "older_adults_65+": "Older Adults (65+)"
     },
     newsletter: {
       title: "Stay informed. Stay ahead.",

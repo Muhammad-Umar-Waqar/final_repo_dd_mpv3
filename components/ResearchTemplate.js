@@ -57,6 +57,21 @@ const ResearchTemplate = ({
 
   const [showBackToTop, setShowBackToTop] = useState(false);
 
+  // Funciones auxiliares para formatear las claves de traducción
+  const formatKey = (value, prefix) => {
+    return value.toLowerCase()
+      .replace(/\s+/g, '_')
+      .replace(/\(|\)/g, '')
+      .replace(/[–-]/g, '–');  // Normaliza los guiones
+  };
+
+  const translateValue = (value, type) => {
+    if (!value) return '';
+    const key = formatKey(value, type);
+    console.log(key);
+    return t(`research.${type}.${key}`) || value;
+  };
+
   React.useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -171,12 +186,12 @@ const ResearchTemplate = ({
                       <h3 className="font-medium mb-2">{t('research.sections.durationSize')}</h3>
                       {studyDesign.duration.map((duration, index) => (
                         <span key={index} className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm mr-2">
-                          {duration}
+                          {translateValue(duration, 'duration')}
                         </span>
                       ))}
                       {studyDesign.size.map((size, index) => (
                         <span key={index} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                          {size}
+                          {translateValue(size, 'size')}
                         </span>
                       ))}
                     </div>
@@ -200,7 +215,7 @@ const ResearchTemplate = ({
                       <div className="flex flex-wrap gap-2">
                         {studyPopulation.ageRange.map((age, index) => (
                           <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                            {age}
+                            {translateValue(age, 'ageRange')}
                           </span>
                         ))}
                       </div>
@@ -212,7 +227,7 @@ const ResearchTemplate = ({
                       <div className="flex flex-wrap gap-2">
                         {studyPopulation.sex.map((sex, index) => (
                           <span key={index} className="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm">
-                            {sex}
+                            {translateValue(sex, 'sex')}
                           </span>
                         ))}
                       </div>
@@ -330,7 +345,7 @@ const ResearchTemplate = ({
                         <div className="flex flex-wrap gap-2 justify-end">
                           {analysis.items.map((item, idx) => (
                             <span key={idx} className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
-                              {item.effectiveness}
+                              {t(`research.sections.effectivenessOptions.${item.effectiveness.toLowerCase()}`)}
                             </span>
                           ))}
                         </div>
