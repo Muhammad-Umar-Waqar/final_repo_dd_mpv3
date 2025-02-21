@@ -17,7 +17,7 @@ const SupplementsPage = ({ supplementsData }) => {
   const { isDarkMode } = useDarkMode();
 
   const filteredSupplements = filterSupplements(
-    supplementsData,
+    supplementsData || [],
     filterText,
     effectivenessFilter,
     biasFilter
@@ -25,6 +25,19 @@ const SupplementsPage = ({ supplementsData }) => {
 
   const effectivenessOptions = Object.values(EFFECTIVENESS_OPTIONS);
   const biasOptions = Object.values(BIAS_OPTIONS);
+
+  // Message when there is no data
+  if (!supplementsData?.length) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold mb-8">{t('supplements.title')}</h1>
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">{t('researchTable.noData')}</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -59,7 +72,7 @@ const SupplementsPage = ({ supplementsData }) => {
           
           {showEffectivenessDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {effectivenessOptions.map((option) => (
+              {effectivenessOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -72,7 +85,7 @@ const SupplementsPage = ({ supplementsData }) => {
                 >
                   {option === EFFECTIVENESS_OPTIONS.ALL 
                     ? t('supplements.filters.allEffectiveness') 
-                    : t(`supplements.filters.effectiveness.${option.toLowerCase()}`)}
+                    : t(`supplements.filters.effectiveness.${option?.toLowerCase()}`)}
                 </button>
               ))}
             </div>
@@ -95,7 +108,7 @@ const SupplementsPage = ({ supplementsData }) => {
           
           {showBiasDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {biasOptions.map((option) => (
+              {biasOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -108,7 +121,7 @@ const SupplementsPage = ({ supplementsData }) => {
                 >
                   {option === BIAS_OPTIONS.ALL 
                     ? t('supplements.filters.allBias')
-                    : t(`supplements.filters.bias.${option.toLowerCase().replace(/\s+/g, '_')}`)}
+                    : t(`supplements.filters.bias.${option?.toLowerCase().replace(/\s+/g, '_')}`)}
                 </button>
               ))}
             </div>
@@ -139,38 +152,47 @@ const SupplementsPage = ({ supplementsData }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredSupplements.map((item, index) => (
-              item.outcomes.map((outcome, outcomeIndex) => (
-                <tr 
-                  key={`${index}-${outcomeIndex}`}
-                  className="border-b border-input hover:bg-accent/50"
-                >
-                  {outcomeIndex === 0 ? (
-                    <td 
-                      className="px-6 py-4" 
-                      rowSpan={item.outcomes.length}
-                    >
-                      {item.supplement}
+            {filteredSupplements?.length > 0 ? (
+              filteredSupplements.map((item, index) => (
+                item.outcomes?.map((outcome, outcomeIndex) => (
+                  <tr 
+                    key={`${index}-${outcomeIndex}`}
+                    className="border-b border-input hover:bg-accent/50"
+                  >
+                    {outcomeIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.outcomes?.length || 1}
+                      >
+                        {item?.supplement || ''}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{outcome?.name || ''}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(outcome?.effectiveness)}`}>
+                      {t(`supplements.filters.effectiveness.${outcome?.effectiveness?.toLowerCase() || 'low'}`)}
                     </td>
-                  ) : null}
-                  <td className="px-6 py-4">{outcome.name}</td>
-                  <td className={`px-6 py-4 ${getEffectivenessColor(outcome.effectiveness)}`}>
-                    {t(`supplements.filters.effectiveness.${outcome.effectiveness.toLowerCase()}`)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Link 
-                      href={`/research?type=supplement&item=${encodeURIComponent(item.supplement)}&outcome=${encodeURIComponent(outcome.name)}`}
-                      className="text-primary hover:underline"
-                    >
-                      {outcome.studies}
-                    </Link>
-                  </td>
-                  <td className="px-6 py-4">
-                    {t(`supplements.filters.bias.${outcome.bias.toLowerCase().replace(/\s+/g, '_')}`)}
-                  </td>
-                </tr>
+                    <td className="px-6 py-4">
+                      <Link 
+                        href={`/research?type=supplement&item=${encodeURIComponent(item?.supplement || '')}&outcome=${encodeURIComponent(outcome?.name || '')}`}
+                        className="text-primary hover:underline"
+                      >
+                        {outcome?.studies || 0}
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      {t(`supplements.filters.bias.${outcome?.bias?.toLowerCase().replace(/\s+/g, '_') || 'low'}`)}
+                    </td>
+                  </tr>
+                ))
               ))
-            ))}
+            ) : (
+              <tr>
+                <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
+                  <p>{t('researchTable.noFound')}</p>
+                  <p className="text-sm mt-2">{t('researchTable.tryDifferentSearch')}</p>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

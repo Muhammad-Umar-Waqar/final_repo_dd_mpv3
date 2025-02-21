@@ -566,6 +566,8 @@ export const enTranslations = {
     for: "for",
     studiesFor: "Research about",
     outcome: "Outcome",
+    noData: "No data available",
+    noFound: "No items match the search",
     noStudiesFound: "No research found",
     tryDifferentSearch: "Try a different search",
     totalStudies: "Total:",

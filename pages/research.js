@@ -10,10 +10,10 @@ export default function Research({ allStudies }) {
   const router = useRouter();
   const { type, item, outcome } = router.query;
 
-  // Filtrar los estudios basados en los query params
+  // Filter studies based on query params
   const filteredStudies = filterResearchStudies(allStudies, type, item, outcome);
 
-  // Si no hay estudios filtrados, mostrar mensaje o redirigir
+  // If there are no filtered studies, show message or redirect
   if (!filteredStudies || filteredStudies.length === 0) {
     return (
       <div className="text-center py-10">
@@ -54,7 +54,7 @@ export async function getStaticProps({ locale }) {
     
     const dbLocale = databaseLocales[locale] || locale;
     
-    // Obtener todos los estudios
+    // Get all studies
     const allStudies = await getAllResearchStudies(dbLocale);
 
     return {

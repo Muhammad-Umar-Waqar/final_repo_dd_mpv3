@@ -17,7 +17,7 @@ const InterventionsPage = ({ interventionsData }) => {
   const { isDarkMode } = useDarkMode();
 
   const filteredInterventions = filterInterventions(
-    interventionsData,
+    interventionsData || [],
     filterText,
     effectivenessFilter,
     biasFilter
@@ -25,6 +25,19 @@ const InterventionsPage = ({ interventionsData }) => {
 
   const effectivenessOptions = Object.values(EFFECTIVENESS_OPTIONS);
   const biasOptions = Object.values(BIAS_OPTIONS);
+
+  // Message when there is no data
+  if (!interventionsData?.length) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold mb-8">{t('interventions.title')}</h1>
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">{t('researchTable.noData')}</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -59,7 +72,7 @@ const InterventionsPage = ({ interventionsData }) => {
           
           {showEffectivenessDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {effectivenessOptions.map((option) => (
+              {effectivenessOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -72,7 +85,7 @@ const InterventionsPage = ({ interventionsData }) => {
                 >
                   {option === EFFECTIVENESS_OPTIONS.ALL 
                     ? t('interventions.filters.allEffectiveness') 
-                    : t(`interventions.filters.effectiveness.${option.toLowerCase()}`)}
+                    : t(`interventions.filters.effectiveness.${option?.toLowerCase()}`)}
                 </button>
               ))}
             </div>
@@ -95,7 +108,7 @@ const InterventionsPage = ({ interventionsData }) => {
           
           {showBiasDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {biasOptions.map((option) => (
+              {biasOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -108,7 +121,7 @@ const InterventionsPage = ({ interventionsData }) => {
                 >
                   {option === BIAS_OPTIONS.ALL 
                     ? t('interventions.filters.allBias')
-                    : t(`interventions.filters.bias.${option.toLowerCase().replace(/\s+/g, '_')}`)}
+                    : t(`interventions.filters.bias.${option?.toLowerCase().replace(/\s+/g, '_')}`)}
                 </button>
               ))}
             </div>
@@ -139,38 +152,47 @@ const InterventionsPage = ({ interventionsData }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredInterventions.map((item, index) => (
-              item.outcomes.map((outcome, outcomeIndex) => (
-                <tr 
-                  key={`${index}-${outcomeIndex}`}
-                  className="border-b border-input hover:bg-accent/50"
-                >
-                  {outcomeIndex === 0 ? (
-                    <td 
-                      className="px-6 py-4" 
-                      rowSpan={item.outcomes.length}
-                    >
-                      {item.intervention}
+            {filteredInterventions?.length > 0 ? (
+              filteredInterventions.map((item, index) => (
+                item.outcomes?.map((outcome, outcomeIndex) => (
+                  <tr 
+                    key={`${index}-${outcomeIndex}`}
+                    className="border-b border-input hover:bg-accent/50"
+                  >
+                    {outcomeIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.outcomes?.length || 1}
+                      >
+                        {item.intervention}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{outcome?.name || ''}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(outcome?.effectiveness)}`}>
+                      {t(`interventions.filters.effectiveness.${outcome?.effectiveness?.toLowerCase() || 'low'}`)}
                     </td>
-                  ) : null}
-                  <td className="px-6 py-4">{outcome.name}</td>
-                  <td className={`px-6 py-4 ${getEffectivenessColor(outcome.effectiveness)}`}>
-                    {t(`interventions.filters.effectiveness.${outcome.effectiveness.toLowerCase()}`)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Link 
-                      href={`/research?type=intervention&item=${encodeURIComponent(item.intervention)}&outcome=${encodeURIComponent(outcome.name)}`}
-                      className="text-primary hover:underline"
-                    >
-                      {outcome.studies}
-                    </Link>
-                  </td>
-                  <td className="px-6 py-4">
-                    {t(`interventions.filters.bias.${outcome.bias.toLowerCase().replace(/\s+/g, '_')}`)}
-                  </td>
-                </tr>
+                    <td className="px-6 py-4">
+                      <Link 
+                        href={`/research?type=intervention&item=${encodeURIComponent(item?.intervention || '')}&outcome=${encodeURIComponent(outcome?.name || '')}`}
+                        className="text-primary hover:underline"
+                      >
+                        {outcome?.studies || 0}
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      {t(`interventions.filters.bias.${outcome?.bias?.toLowerCase().replace(/\s+/g, '_') || 'low'}`)}
+                    </td>
+                  </tr>
+                ))
               ))
-            ))}
+            ) : (
+              <tr>
+                <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
+                  <p>{t('researchTable.noFound')}</p>
+                  <p className="text-sm mt-2">{t('researchTable.tryDifferentSearch')}</p>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

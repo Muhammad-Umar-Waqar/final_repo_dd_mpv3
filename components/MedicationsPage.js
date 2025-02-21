@@ -17,7 +17,7 @@ const MedicationsPage = ({ medicationsData }) => {
   const { isDarkMode } = useDarkMode();
 
   const filteredMedications = filterMedications(
-    medicationsData,
+    medicationsData || [],
     filterText,
     effectivenessFilter,
     biasFilter
@@ -25,6 +25,19 @@ const MedicationsPage = ({ medicationsData }) => {
 
   const effectivenessOptions = Object.values(EFFECTIVENESS_OPTIONS);
   const biasOptions = Object.values(BIAS_OPTIONS);
+
+  // Message when there is no data
+  if (!medicationsData?.length) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold mb-8">{t('medications.title')}</h1>
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">{t('researchTable.noData')}</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -59,7 +72,7 @@ const MedicationsPage = ({ medicationsData }) => {
           
           {showEffectivenessDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {effectivenessOptions.map((option) => (
+              {effectivenessOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -72,7 +85,7 @@ const MedicationsPage = ({ medicationsData }) => {
                 >
                   {option === EFFECTIVENESS_OPTIONS.ALL 
                     ? t('medications.filters.allEffectiveness') 
-                    : t(`medications.filters.effectiveness.${option.toLowerCase()}`)}
+                    : t(`medications.filters.effectiveness.${option?.toLowerCase()}`)}
                 </button>
               ))}
             </div>
@@ -95,7 +108,7 @@ const MedicationsPage = ({ medicationsData }) => {
           
           {showBiasDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {biasOptions.map((option) => (
+              {biasOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -108,7 +121,7 @@ const MedicationsPage = ({ medicationsData }) => {
                 >
                   {option === BIAS_OPTIONS.ALL 
                     ? t('medications.filters.allBias')
-                    : t(`medications.filters.bias.${option.toLowerCase().replace(/\s+/g, '_')}`)}
+                    : t(`medications.filters.bias.${option?.toLowerCase().replace(/\s+/g, '_')}`)}
                 </button>
               ))}
             </div>
@@ -139,38 +152,47 @@ const MedicationsPage = ({ medicationsData }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredMedications.map((item, index) => (
-              item.outcomes.map((outcome, outcomeIndex) => (
-                <tr 
-                  key={`${index}-${outcomeIndex}`}
-                  className="border-b border-input hover:bg-accent/50"
-                >
-                  {outcomeIndex === 0 ? (
-                    <td 
-                      className="px-6 py-4" 
-                      rowSpan={item.outcomes.length}
-                    >
-                      {item.medication}
+            {filteredMedications?.length > 0 ? (
+              filteredMedications.map((item, index) => (
+                item.outcomes?.map((outcome, outcomeIndex) => (
+                  <tr 
+                    key={`${index}-${outcomeIndex}`}
+                    className="border-b border-input hover:bg-accent/50"
+                  >
+                    {outcomeIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.outcomes?.length || 1}
+                      >
+                        {item?.medication || ''}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{outcome?.name || ''}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(outcome?.effectiveness)}`}>
+                      {t(`medications.filters.effectiveness.${outcome?.effectiveness?.toLowerCase() || 'low'}`)}
                     </td>
-                  ) : null}
-                  <td className="px-6 py-4">{outcome.name}</td>
-                  <td className={`px-6 py-4 ${getEffectivenessColor(outcome.effectiveness)}`}>
-                    {t(`medications.filters.effectiveness.${outcome.effectiveness.toLowerCase()}`)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <Link 
-                      href={`/research?type=medication&item=${encodeURIComponent(item.medication)}&outcome=${encodeURIComponent(outcome.name)}`}
-                      className="text-primary hover:underline"
-                    >
-                      {outcome.studies}
-                    </Link>
-                  </td>
-                  <td className="px-6 py-4">
-                    {t(`medications.filters.bias.${outcome.bias.toLowerCase().replace(/\s+/g, '_')}`)}
-                  </td>
-                </tr>
+                    <td className="px-6 py-4">
+                      <Link 
+                        href={`/research?type=medication&item=${encodeURIComponent(item?.medication || '')}&outcome=${encodeURIComponent(outcome?.name || '')}`}
+                        className="text-primary hover:underline"
+                      >
+                        {outcome?.studies || 0}
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      {t(`medications.filters.bias.${outcome?.bias?.toLowerCase().replace(/\s+/g, '_') || 'low'}`)}
+                    </td>
+                  </tr>
+                ))
               ))
-            ))}
+            ) : (
+              <tr>
+                <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
+                  <p>{t('researchTable.noFound')}</p>
+                  <p className="text-sm mt-2">{t('researchTable.tryDifferentSearch')}</p>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>

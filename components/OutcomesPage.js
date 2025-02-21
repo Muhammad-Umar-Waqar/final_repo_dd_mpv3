@@ -5,6 +5,7 @@ import { IconChevronDown, IconFilter } from '@tabler/icons-react';
 import { useTranslations } from '../utils/i18n';
 import { EFFECTIVENESS_OPTIONS, BIAS_OPTIONS, getEffectivenessColor } from '../lib/research/filter-options';
 import { filterInterventions } from '../lib/research/interventions-filter';
+import Link from 'next/link';
 
 const OutcomesPage = ({ outcomesData }) => {
   const { isDarkMode } = useDarkMode();
@@ -15,21 +16,34 @@ const OutcomesPage = ({ outcomesData }) => {
   const [showEffectivenessDropdown, setShowEffectivenessDropdown] = useState(false);
   const [showBiasDropdown, setBiasDropdown] = useState(false);
 
-  const filteredOutcomes = outcomesData
+  const filteredOutcomes = (outcomesData || [])
     .map(outcome => ({
       ...outcome,
-      interventions: outcome.interventions.filter(intervention => {
-        const matchesSearch = outcome.outcome.toLowerCase().includes(filterText.toLowerCase()) ||
-                           intervention.name.toLowerCase().includes(filterText.toLowerCase());
-        const matchesEffectiveness = effectivenessFilter === EFFECTIVENESS_OPTIONS.ALL || intervention.effectiveness === effectivenessFilter;
-        const matchesBias = biasFilter === BIAS_OPTIONS.ALL || intervention.bias === biasFilter;
+      interventions: outcome?.interventions?.filter(intervention => {
+        const matchesSearch = outcome?.outcome?.toLowerCase().includes(filterText.toLowerCase()) ||
+                           intervention?.name?.toLowerCase().includes(filterText.toLowerCase());
+        const matchesEffectiveness = effectivenessFilter === EFFECTIVENESS_OPTIONS.ALL || intervention?.effectiveness === effectivenessFilter;
+        const matchesBias = biasFilter === BIAS_OPTIONS.ALL || intervention?.bias === biasFilter;
         return matchesSearch && matchesEffectiveness && matchesBias;
-      })
+      }) || []
     }))
-    .filter(outcome => outcome.interventions.length > 0);
+    .filter(outcome => outcome?.interventions?.length > 0);
 
   const effectivenessOptions = Object.values(EFFECTIVENESS_OPTIONS);
   const biasOptions = Object.values(BIAS_OPTIONS);
+
+  // Mensaje cuando no hay datos
+  if (!outcomesData?.length) {
+    return (
+      <>
+        <h1 className="text-3xl font-bold mb-8">{t('outcomes.title')}</h1>
+        <div className="text-center py-8">
+          <p className="text-muted-foreground">{t('researchTable.noData')}</p>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -64,7 +78,7 @@ const OutcomesPage = ({ outcomesData }) => {
           
           {showEffectivenessDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {effectivenessOptions.map((option) => (
+              {effectivenessOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -77,7 +91,7 @@ const OutcomesPage = ({ outcomesData }) => {
                 >
                   {option === EFFECTIVENESS_OPTIONS.ALL 
                     ? t('outcomes.filters.allEffectiveness') 
-                    : t(`outcomes.filters.effectiveness.${option.toLowerCase()}`)}
+                    : t(`outcomes.filters.effectiveness.${option?.toLowerCase()}`)}
                 </button>
               ))}
             </div>
@@ -100,7 +114,7 @@ const OutcomesPage = ({ outcomesData }) => {
           
           {showBiasDropdown && (
             <div className="absolute top-full mt-1 w-48 bg-background border border-input rounded-md shadow-lg z-10">
-              {biasOptions.map((option) => (
+              {biasOptions?.map((option) => (
                 <button
                   key={option}
                   onClick={() => {
@@ -113,7 +127,7 @@ const OutcomesPage = ({ outcomesData }) => {
                 >
                   {option === BIAS_OPTIONS.ALL 
                     ? t('outcomes.filters.allBias')
-                    : t(`outcomes.filters.bias.${option.toLowerCase().replace(/\s+/g, '_')}`)}
+                    : t(`outcomes.filters.bias.${option?.toLowerCase().replace(/\s+/g, '_')}`)}
                 </button>
               ))}
             </div>
@@ -144,35 +158,47 @@ const OutcomesPage = ({ outcomesData }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredOutcomes.map((item, index) => (
-              item.interventions.map((intervention, interventionIndex) => (
-                <tr 
-                  key={`${index}-${interventionIndex}`}
-                  className="border-b border-input hover:bg-accent/50"
-                >
-                  {interventionIndex === 0 ? (
-                    <td 
-                      className="px-6 py-4" 
-                      rowSpan={item.interventions.length}
-                    >
-                      {item.outcome}
+            {filteredOutcomes?.length > 0 ? (
+              filteredOutcomes.map((item, index) => (
+                item.interventions?.map((intervention, interventionIndex) => (
+                  <tr 
+                    key={`${index}-${interventionIndex}`}
+                    className="border-b border-input hover:bg-accent/50"
+                  >
+                    {interventionIndex === 0 ? (
+                      <td 
+                        className="px-6 py-4" 
+                        rowSpan={item.interventions?.length || 1}
+                      >
+                        {item?.outcome || ''}
+                      </td>
+                    ) : null}
+                    <td className="px-6 py-4">{intervention?.name || ''}</td>
+                    <td className={`px-6 py-4 ${getEffectivenessColor(intervention?.effectiveness)}`}>
+                      {t(`outcomes.filters.effectiveness.${intervention?.effectiveness?.toLowerCase() || 'low'}`)}
                     </td>
-                  ) : null}
-                  <td className="px-6 py-4">{intervention.name}</td>
-                  <td className={`px-6 py-4 ${getEffectivenessColor(intervention.effectiveness)}`}>
-                    {t(`outcomes.filters.effectiveness.${intervention.effectiveness.toLowerCase()}`)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <a href="#" className="text-primary hover:underline">
-                      {intervention.studies}
-                    </a>
-                  </td>
-                  <td className="px-6 py-4">
-                    {t(`outcomes.filters.bias.${intervention.bias.toLowerCase().replace(/\s+/g, '_')}`)}
-                  </td>
-                </tr>
+                    <td className="px-6 py-4">
+                      <Link 
+                        href={`/research?type=intervention&outcome=${encodeURIComponent(item?.outcome || '')}&item=${encodeURIComponent(intervention?.name || '')}`}
+                        className="text-primary hover:underline"
+                      >
+                        {intervention?.studies || 0}
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      {t(`outcomes.filters.bias.${intervention?.bias?.toLowerCase().replace(/\s+/g, '_') || 'low'}`)}
+                    </td>
+                  </tr>
+                ))
               ))
-            ))}
+            ) : (
+              <tr>
+                <td colSpan={5} className="px-6 py-8 text-center text-muted-foreground">
+                  <p>{t('researchTable.noFound')}</p>
+                  <p className="text-sm mt-2">{t('researchTable.tryDifferentSearch')}</p>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
