@@ -11,7 +11,6 @@ import Footer from '../components/Footer';
 
 export default function Home() {
   const { t, locale } = useTranslations();
-  console.log(locale);
   const router = useRouter();
   const [searchResults, setSearchResults] = useState({
     results: [],

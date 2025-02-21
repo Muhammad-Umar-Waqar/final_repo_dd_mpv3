@@ -103,7 +103,6 @@ export default function Articles() {
         }
 
         const data = await response.json();
-        console.log(data);
         setSearchResults(data);
       } catch (error) {
         console.error('Error fetching search results:', error);

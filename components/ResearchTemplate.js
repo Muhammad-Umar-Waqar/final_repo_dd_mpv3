@@ -53,8 +53,6 @@ const ResearchTemplate = ({
   domains = []
 }) => {
 
-  console.log(effectivenessAnalysis);
-
   const { t, locale } = useTranslations();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
