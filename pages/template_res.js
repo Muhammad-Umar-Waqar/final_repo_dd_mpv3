@@ -110,7 +110,7 @@ export default function ArtificialPancreasTrialPage() {
     effectivenessAnalysis: [
       {
         intervention: ["AI-Driven Monitoring"],
-        items: [{ effectiveness: "Moderate" }],
+        items: [{ outcome: ["Improved Glycemic Control"], effectiveness: "Moderate", explanation: ["The artificial pancreas system demonstrated a significant reduction in hypoglycemic events compared to the control group."] }],
       },
     ],
     journalReference: {

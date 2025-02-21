@@ -135,16 +135,16 @@ const ResearchTemplate = ({
           </section>
         )}
 
-        {(studyDesign.interventions.length > 0 ||
-          studyDesign.outcomes.length > 0 ||
-          studyDesign.studyType.length > 0 ||
-          studyDesign.duration.length > 0 ||
-          studyDesign.size.length > 0) && (
+        {(studyDesign?.interventions?.length > 0 ||
+          studyDesign?.outcomes?.length > 0 ||
+          studyDesign?.studyType?.length > 0 ||
+          studyDesign?.duration?.length > 0 ||
+          studyDesign?.size?.length > 0) && (
             <section className="prose prose-lg max-w-none mb-16">
               <h2 className="mb-6">{t('research.sections.studyDesign')}</h2>
               <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {studyDesign.interventions.length > 0 && (
+                  {studyDesign?.interventions?.length > 0 && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.interventions')}</h3>
                       <div className="flex flex-wrap gap-2">
@@ -156,7 +156,7 @@ const ResearchTemplate = ({
                       </div>
                     </div>
                   )}
-                  {studyDesign.studyType.length > 0 && (
+                  {studyDesign?.studyType?.length > 0 && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.studyType')}</h3>
                       <div className="flex flex-wrap gap-2">
@@ -168,7 +168,7 @@ const ResearchTemplate = ({
                       </div>
                     </div>
                   )}
-                  {studyDesign.outcomes.length > 0 && (
+                  {studyDesign?.outcomes?.length > 0 && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.outcomes')}</h3>
                       <div className="flex flex-wrap gap-2">
@@ -180,15 +180,15 @@ const ResearchTemplate = ({
                       </div>
                     </div>
                   )}
-                  {(studyDesign.duration.length > 0 || studyDesign.size.length > 0) && (
+                  {(studyDesign?.duration?.length > 0 || studyDesign?.size?.length > 0) && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.durationSize')}</h3>
-                      {studyDesign.duration.map((duration, index) => (
+                      {studyDesign?.duration?.map((duration, index) => (
                         <span key={index} className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm mr-2">
                           {translateValue(duration, 'duration')}
                         </span>
                       ))}
-                      {studyDesign.size.map((size, index) => (
+                      {studyDesign?.size?.map((size, index) => (
                         <span key={index} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
                           {translateValue(size, 'size')}
                         </span>
@@ -200,15 +200,15 @@ const ResearchTemplate = ({
             </section>
           )}
 
-        {(studyPopulation.ageRange.length > 0 ||
-          studyPopulation.sex.length > 0 ||
-          studyPopulation.geography.length > 0 ||
-          studyPopulation.others.length > 0) && (
+        {(studyPopulation?.ageRange?.length > 0 ||
+          studyPopulation?.sex?.length > 0 ||
+          studyPopulation?.geography?.length > 0 ||
+          studyPopulation?.others?.length > 0) && (
             <section className="prose prose-lg max-w-none mb-16">
               <h2 className="mb-6">{t('research.sections.studyPopulation')}</h2>
               <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {studyPopulation.ageRange.length > 0 && (
+                  {studyPopulation?.ageRange?.length > 0 && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.ageRange')}</h3>
                       <div className="flex flex-wrap gap-2">
@@ -220,7 +220,7 @@ const ResearchTemplate = ({
                       </div>
                     </div>
                   )}
-                  {studyPopulation.sex.length > 0 && (
+                  {studyPopulation?.sex?.length > 0 && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.sex')}</h3>
                       <div className="flex flex-wrap gap-2">
@@ -232,7 +232,7 @@ const ResearchTemplate = ({
                       </div>
                     </div>
                   )}
-                  {studyPopulation.geography.length > 0 && (
+                  {studyPopulation?.geography?.length > 0 && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.geography')}</h3>
                       <div className="flex flex-wrap gap-2">
@@ -244,7 +244,7 @@ const ResearchTemplate = ({
                       </div>
                     </div>
                   )}
-                  {studyPopulation.others.length > 0 && (
+                  {studyPopulation?.others?.length > 0 && (
                     <div>
                       <h3 className="font-medium mb-2">{t('research.sections.otherCriteria')}</h3>
                       <div className="flex flex-wrap gap-2">
@@ -262,7 +262,7 @@ const ResearchTemplate = ({
           )}
 
         <section className="prose prose-lg max-w-none mb-16">
-          {methodology.length > 0 && (
+          {methodology?.length > 0 && (
             <section>
               <h2>{t('research.sections.methodology')}</h2>
               {methodology.map((method, index) => (
@@ -271,7 +271,7 @@ const ResearchTemplate = ({
             </section>
           )}
 
-          {interventions.length > 0 && (
+          {interventions?.length > 0 && (
             <section>
               <h2>{t('research.sections.interventions')}</h2>
               {interventions.map((intervention, index) => (
@@ -280,7 +280,7 @@ const ResearchTemplate = ({
             </section>
           )}
 
-          {keyFindings.length > 0 && (
+          {keyFindings?.length > 0 && (
             <section>
               <h2>{t('research.sections.keyFindings')}</h2>
               {keyFindings.map((finding, index) => (
@@ -289,7 +289,7 @@ const ResearchTemplate = ({
             </section>
           )}
 
-          {comparison.length > 0 && (
+          {comparison?.length > 0 && (
             <section>
               <h2>{t('research.sections.comparison')}</h2>
               {comparison.map((comp, index) => (
@@ -317,7 +317,7 @@ const ResearchTemplate = ({
           </section>
         )}
 
-        {effectivenessAnalysis.length > 0 && (
+        {effectivenessAnalysis?.length > 0 && (
           <section className="prose prose-lg max-w-none mb-16">
             <section>
               <div className="flex mb-4">
@@ -326,7 +326,7 @@ const ResearchTemplate = ({
               <div className='flex flex-col gap-4'>
                 {effectivenessAnalysis.map((analysis, index) => (
                   <div key={index} className="space-y-5 bg-secondary/5 rounded-lg p-6">
-                    {analysis.intervention.length > 0 && (
+                    {analysis?.intervention?.length > 0 && (
                       <div className="flex items-center gap-4 text-lg">
                         <span className="text-muted-foreground">{t('research.sections.intervention')}:</span>
                         <div className="flex flex-wrap gap-2 justify-end">
@@ -338,13 +338,13 @@ const ResearchTemplate = ({
                         </div>
                       </div>
                     )}
-                    {analysis.items.length > 0 && analysis.items.map((item, itemIdx) => (
+                    {analysis?.items?.length > 0 && analysis.items.map((item, itemIdx) => (
                       <div key={itemIdx} className="space-y-4">
                         {/* Outcome */}
                         <div className="flex items-center justify-between">
                           <span className="text-muted-foreground">{t('research.sections.outcome')}:</span>
                           <div className="flex flex-wrap gap-2 justify-end">
-                            {item.outcome.map((out, idx) => (
+                            {item?.outcome?.length > 0 && item.outcome.map((out, idx) => (
                               <span key={idx} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                                 {out}
                               </span>
@@ -356,7 +356,7 @@ const ResearchTemplate = ({
                           <span className="text-muted-foreground">{t('research.sections.effectiveness')}:</span>
                           <div className="flex flex-wrap gap-2 justify-end">
                             <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
-                              {t(`research.sections.effectivenessOptions.${item.effectiveness.toLowerCase()}`)}
+                              {t(`research.sections.effectivenessOptions.${item?.effectiveness?.toLowerCase() || 'low'}`)}
                             </span>
                           </div>
                         </div>
@@ -364,8 +364,8 @@ const ResearchTemplate = ({
                         <div className="flex items-start justify-between">
                           <span className="text-muted-foreground">{t('research.sections.explanation')}:</span>
                           <div className="flex flex-wrap gap-2 justify-end max-w-[70%] text-right">
-                            {item.explanation.map((exp, idx) => (
-                              <p key={idx} className="text-sm text-gray-700">
+                            {item?.explanation?.length > 0 && item.explanation.map((exp, idx) => (
+                              <p key={idx} className="my-0 text-sm text-gray-600">
                                 {exp}
                               </p>
                             ))}
@@ -380,7 +380,7 @@ const ResearchTemplate = ({
           </section>
         )}
 
-        {journalReference.length > 0 && (
+        {journalReference?.length > 0 && (
           <section className="prose prose-lg max-w-none mb-16">
             <section>
               <h2>{t('research.sections.journalReference')}</h2>
@@ -391,19 +391,19 @@ const ResearchTemplate = ({
           </section>
         )}
 
-        {(expertCards.length > 0 ||
-          onlineCards.length > 0 ||
-          redditCards.length > 0 ||
-          studyCards.length > 0 ||
-          xCards.length > 0 ||
-          youtubeCards.length > 0) && (
+        {(expertCards?.length > 0 ||
+          onlineCards?.length > 0 ||
+          redditCards?.length > 0 ||
+          studyCards?.length > 0 ||
+          xCards?.length > 0 ||
+          youtubeCards?.length > 0) && (
             <DiscussionsSection
-              expertCards={expertCards}
-              onlineCards={onlineCards}
-              redditCards={redditCards}
-              studyCards={studyCards}
-              xCards={xCards}
-              youtubeCards={youtubeCards}
+              expertCards={expertCards || []}
+              onlineCards={onlineCards || []}
+              redditCards={redditCards || []}
+              studyCards={studyCards || []}
+              xCards={xCards || []}
+              youtubeCards={youtubeCards || []}
             />
           )}
 

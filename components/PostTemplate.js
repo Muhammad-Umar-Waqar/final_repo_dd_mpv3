@@ -94,7 +94,7 @@ const PostTemplate = ({
               <div>
                 <h3 className="font-medium mb-2">Interventions</h3>
                 <div className="flex flex-wrap gap-2">
-                  {studyDesign.interventions.map((intervention, index) => (
+                  {studyDesign?.interventions?.map((intervention, index) => (
                     <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
                       {intervention}
                     </span>
@@ -104,13 +104,13 @@ const PostTemplate = ({
               <div>
                 <h3 className="font-medium mb-2">Study Type</h3>
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
-                  {studyDesign.studyType}
+                  {studyDesign?.studyType || ''}
                 </span>
               </div>
               <div>
                 <h3 className="font-medium mb-2">Outcomes</h3>
                 <div className="flex flex-wrap gap-2">
-                  {studyDesign.outcomes.map((outcome, index) => (
+                  {studyDesign?.outcomes?.map((outcome, index) => (
                     <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                       {outcome}
                     </span>
@@ -120,10 +120,10 @@ const PostTemplate = ({
               <div>
                 <h3 className="font-medium mb-2">Duration and Size</h3>
                 <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm mr-2">
-                  {studyDesign.duration}
+                  {studyDesign?.duration || ''}
                 </span>
                 <span className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                  {studyDesign.size}
+                  {studyDesign?.size || ''}
                 </span>
               </div>
             </div>
@@ -137,19 +137,19 @@ const PostTemplate = ({
               <div>
                 <h3 className="font-medium mb-2">Age Range</h3>
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                  {studyPopulation.ageRange}
+                  {studyPopulation?.ageRange || ''}
                 </span>
               </div>
               <div>
                 <h3 className="font-medium mb-2">Sex</h3>
                 <span className="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm">
-                  {studyPopulation.sex}
+                  {studyPopulation?.sex || ''}
                 </span>
               </div>
               <div>
                 <h3 className="font-medium mb-2">Geography</h3>
                 <div className="flex flex-wrap gap-2">
-                  {studyPopulation.geography.map((location, index) => (
+                  {studyPopulation?.geography?.map((location, index) => (
                     <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
                       {location}
                     </span>
@@ -159,7 +159,7 @@ const PostTemplate = ({
               <div>
                 <h3 className="font-medium mb-2">Other Criteria</h3>
                 <div className="flex flex-wrap gap-2">
-                  {studyPopulation.others.map((criterion, index) => (
+                  {studyPopulation?.others?.map((criterion, index) => (
                     <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
                       {criterion}
                     </span>
@@ -173,22 +173,22 @@ const PostTemplate = ({
         <section className="prose prose-lg max-w-none mb-16">
           <section>
             <h2>Methodology</h2>
-            <p>{methodology}</p>
+            <p>{methodology || ''}</p>
           </section>
 
           <section>
             <h2>Interventions</h2>
-            <p>{interventions}</p>
+            <p>{interventions || ''}</p>
           </section>
 
           <section>
             <h2>Key Findings</h2>
-            <p>{keyFindings}</p>
+            <p>{keyFindings || ''}</p>
           </section>
           
           <section>
             <h2>Comparison with other Studies</h2>
-            <p>{comparison}</p>
+            <p>{comparison || ''}</p>
           </section>
         </section>
 
@@ -217,13 +217,13 @@ const PostTemplate = ({
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Intervention:</span>
                 <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
-                  {effectivenessAnalysis.intervention}
+                  {effectivenessAnalysis?.intervention || ''}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Effectiveness:</span>
                 <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
-                  {effectivenessAnalysis.effectiveness}
+                  {effectivenessAnalysis?.effectiveness || ''}
                 </span>
               </div>
             </div>
@@ -233,17 +233,17 @@ const PostTemplate = ({
         <section className="prose prose-lg max-w-none mb-16">
           <section>
             <h2>Journal Reference</h2>
-            <p className="italic">{journalReference.full}</p>
+            <p className="italic">{journalReference?.full || ''}</p>
           </section>
         </section>
 
         <DiscussionsSection
-          expertCards={expertCards}
-          onlineCards={onlineCards}
-          redditCards={redditCards}
-          studyCards={studyCards}
-          xCards={xCards}
-          youtubeCards={youtubeCards}
+          expertCards={expertCards || []}
+          onlineCards={onlineCards || []}
+          redditCards={redditCards || []}
+          studyCards={studyCards || []}
+          xCards={xCards || []}
+          youtubeCards={youtubeCards || []}
         />
 
         <section className="max-w-4xl bg-gray-50 mx-auto px-4 py-16 text-center">
@@ -269,7 +269,7 @@ const PostTemplate = ({
           </div>
         </section>
 
-        <RelatedPosts posts={relatedPosts} />
+        <RelatedPosts posts={relatedPosts || []} />
       </main>
 
       <div className="mt-auto">
