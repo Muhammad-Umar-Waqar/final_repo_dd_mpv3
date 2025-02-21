@@ -439,7 +439,9 @@ export const enTranslations = {
         high: "High",
         medium: "Medium",
         low: "Low"
-      }
+      },
+      outcome: "Outcome",
+      explanation: "Explanation"
     },
     size: {
       "small_size_≤100": "Small size (≤100)",

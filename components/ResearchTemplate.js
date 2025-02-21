@@ -53,6 +53,8 @@ const ResearchTemplate = ({
   domains = []
 }) => {
 
+  console.log(effectivenessAnalysis);
+
   const { t, locale } = useTranslations();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -68,7 +70,6 @@ const ResearchTemplate = ({
   const translateValue = (value, type) => {
     if (!value) return '';
     const key = formatKey(value, type);
-    console.log(key);
     return t(`research.${type}.${key}`) || value;
   };
 
@@ -328,29 +329,52 @@ const ResearchTemplate = ({
                 {effectivenessAnalysis.map((analysis, index) => (
                   <div key={index} className="space-y-5 bg-secondary/5 rounded-lg p-6">
                     {analysis.intervention.length > 0 && (
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4 text-lg">
                         <span className="text-muted-foreground">{t('research.sections.intervention')}:</span>
                         <div className="flex flex-wrap gap-2 justify-end">
                           {analysis.intervention.map((int, idx) => (
-                            <span key={idx} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                            <span key={idx} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-lg">
                               {int}
                             </span>
                           ))}
                         </div>
                       </div>
                     )}
-                    {analysis.items.length > 0 && (
-                      <div className="flex items-center justify-between">
-                        <span className="text-muted-foreground">{t('research.sections.effectiveness')}:</span>
-                        <div className="flex flex-wrap gap-2 justify-end">
-                          {analysis.items.map((item, idx) => (
-                            <span key={idx} className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+                    {analysis.items.length > 0 && analysis.items.map((item, itemIdx) => (
+                      <div key={itemIdx} className="space-y-4">
+                        {/* Outcome */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">{t('research.sections.outcome')}:</span>
+                          <div className="flex flex-wrap gap-2 justify-end">
+                            {item.outcome.map((out, idx) => (
+                              <span key={idx} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                                {out}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        {/* Effectiveness */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground">{t('research.sections.effectiveness')}:</span>
+                          <div className="flex flex-wrap gap-2 justify-end">
+                            <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
                               {t(`research.sections.effectivenessOptions.${item.effectiveness.toLowerCase()}`)}
                             </span>
-                          ))}
+                          </div>
+                        </div>
+                        {/* Explanation */}
+                        <div className="flex items-start justify-between">
+                          <span className="text-muted-foreground">{t('research.sections.explanation')}:</span>
+                          <div className="flex flex-wrap gap-2 justify-end max-w-[70%] text-right">
+                            {item.explanation.map((exp, idx) => (
+                              <p key={idx} className="text-sm text-gray-700">
+                                {exp}
+                              </p>
+                            ))}
+                          </div>
                         </div>
                       </div>
-                    )}
+                    ))}
                   </div>
                 ))}
               </div>

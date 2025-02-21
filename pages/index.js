@@ -10,7 +10,8 @@ import NewsGrid from '../components/NewsGrid';
 import Footer from '../components/Footer';
 
 export default function Home() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
+  console.log(locale);
   const router = useRouter();
   const [searchResults, setSearchResults] = useState({
     results: [],
@@ -28,6 +29,13 @@ export default function Home() {
     const fetchSearchResults = async () => {
       try {
         setIsLoading(true);
+        
+        // Map URL locales to database locales
+        const databaseLocales = {
+          'en': 'en-us',
+          'es': 'es-es'
+        };
+        const dbLocale = databaseLocales[locale] || locale;
         
         // Get all query parameters
         const {
@@ -52,6 +60,7 @@ export default function Home() {
         if (q) queryParams.append('q', q);
         if (page) queryParams.append('page', page);
         if (limit) queryParams.append('limit', limit);
+        queryParams.append('lang', dbLocale);
         
         // Handle array parameters
         const appendArrayParam = (param, name) => {

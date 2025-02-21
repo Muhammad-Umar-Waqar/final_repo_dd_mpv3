@@ -74,7 +74,7 @@ const DiscussionsSection = ({
     { id: 'online', label: t('research.discussions.tabs.online') },
     { id: 'reddit', label: t('research.discussions.tabs.reddit') },
     { id: 'studies', label: t('research.discussions.tabs.studies') },
-    { id: 'x', label: t('research.discussions.tabs.x') },
+    { id: 'x', label: '𝕏' },
     { id: 'youtube', label: t('research.discussions.tabs.youtube') }
   ];
 

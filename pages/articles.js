@@ -24,7 +24,7 @@ const ArticlesHero = () => {
 };
 
 export default function Articles() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const router = useRouter();
   const [searchResults, setSearchResults] = useState({
     results: [],
@@ -43,11 +43,18 @@ export default function Articles() {
       try {
         setIsLoading(true);
         
+        // Map URL locales to database locales
+        const databaseLocales = {
+          'en': 'en-us',
+          'es': 'es-es'
+        };
+        const dbLocale = databaseLocales[locale] || locale;
+        
         // Get all query parameters
         const {
           q,              // search term
           page = 1,       // current page
-          limit = 6,     // results per page, changed from 10 to 6
+          limit = 6,      // results per page
           outcomes,       // outcomes filter
           interventions,  // interventions filter
           trialType,     // trial type filter
@@ -66,6 +73,7 @@ export default function Articles() {
         if (q) queryParams.append('q', q);
         if (page) queryParams.append('page', page);
         if (limit) queryParams.append('limit', limit);
+        queryParams.append('lang', dbLocale);
         
         // Handle array parameters
         const appendArrayParam = (param, name) => {

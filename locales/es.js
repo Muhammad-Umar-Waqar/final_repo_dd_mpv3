@@ -440,6 +440,8 @@ export const esTranslations = {
         medium: "Media",
         low: "Baja"
       },
+      outcome: "Resultado",
+      explanation: "Explicación"
     },
     size: {
       "small_size_≤100": "Tamaño pequeño (≤100)",
