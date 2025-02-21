@@ -13,7 +13,7 @@ export default function Interventions({ interventionsData }) {
         <title>{`${t('interventions.title')} - deDiabetes`}</title>
         <meta 
           name="description" 
-          content={t('interventions.filterPlaceholder')} 
+          content={t('interventions.description')} 
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

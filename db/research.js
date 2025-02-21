@@ -218,7 +218,7 @@ export async function getMedicationsTable(lang = 'en-us') {
         // Find intervention slices that are medications
         const medicationSlices = doc.data.body.filter(slice =>
             slice.slice_type === 'interventions' &&
-            slice.primary?.intervention_type === 'medication'
+            slice.primary?.intervention_type === 'Medicine'
         );
 
         medicationSlices.forEach(slice => {
@@ -321,15 +321,7 @@ export async function getSupplementsTable(lang = 'en-us') {
         // Find intervention slices that are supplements
         const supplementSlices = doc.data.body.filter(slice =>
             slice.slice_type === 'interventions' &&
-            (slice.primary?.intervention_type === 'supplement' ||
-             doc.data?.domain_group?.some(d => 
-                d.domain_text?.[0]?.text === 'Supplements' ||
-                d.domain_text?.[0]?.text === 'Dietary Supplements'
-             ) ||
-             slice.primary?.intervention_text?.[0]?.text.toLowerCase().includes('supplement') ||
-             slice.primary?.intervention_text?.[0]?.text.toLowerCase().includes('vitamin') ||
-             slice.primary?.intervention_text?.[0]?.text.toLowerCase().includes('mineral')
-            )
+            slice.primary?.intervention_type === 'Supplement'
         );
 
         supplementSlices.forEach(slice => {
@@ -443,10 +435,10 @@ export async function getAllResearchStudies(lang = 'en-us') {
             
             // Determine the type based on various conditions
             let type = 'intervention';
-            if (interventionType === 'medication') {
+            if (interventionType === 'Medicine') {
                 type = 'medication';
             } else if (
-                interventionType === 'supplement' ||
+                interventionType === 'Supplement' ||
                 doc.data?.domain_group?.some(d => 
                     d.domain_text?.[0]?.text === 'Supplements' ||
                     d.domain_text?.[0]?.text === 'Dietary Supplements'

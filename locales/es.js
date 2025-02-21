@@ -161,64 +161,6 @@ export const esTranslations = {
       }
     }
   },
-  // New interventions translations
-  interventions: {
-    title: "Análisis de Intervenciones",
-    filterPlaceholder: "Filtrar intervenciones...",
-    effectiveness: "Efectividad",
-    bias: "Sesgo",
-    tableHeaders: {
-      intervention: "Intervención",
-      outcome: "Resultado",
-      effectiveness: "Efectividad",
-      studies: "Estudios",
-      bias: "Sesgo"
-    },
-    filters: {
-      allEffectiveness: "Toda Efectividad",
-      allBias: "Todos los Niveles de Sesgo",
-      effectiveness: {
-        high: "Alta",
-        med: "Media",
-        low: "Baja"
-      },
-      bias: {
-        low: "Bajo",
-        some_concerns: "Algunas Preocupaciones",
-        high: "Alto",
-        very_high: "Muy Alto"
-      }
-    }
-  },
-  // New outcomes translations
-  outcomes: {
-    title: "Análisis de Resultados",
-    filterPlaceholder: "Filtrar resultados...",
-    effectiveness: "Efectividad",
-    bias: "Sesgo",
-    tableHeaders: {
-      outcome: "Resultado",
-      intervention: "Intervención",
-      effectiveness: "Efectividad",
-      studies: "Estudios",
-      bias: "Sesgo"
-    },
-    filters: {
-      allEffectiveness: "Toda Efectividad",
-      allBias: "Todos los Niveles de Sesgo",
-      effectiveness: {
-        high: "Alta",
-        med: "Media",
-        low: "Baja"
-      },
-      bias: {
-        low: "Bajo",
-        some_concerns: "Algunas Preocupaciones",
-        high: "Alto",
-        very_high: "Muy Alto"
-      }
-    }
-  },
   // SearchSection
   searchSection: {
     searchPlaceholder: "Buscar noticias, temas o palabras clave...",
@@ -269,9 +211,70 @@ export const esTranslations = {
       next: "Siguiente"
     }
   },
+  // New interventions translations
+  interventions: {
+    title: "Análisis de Intervenciones",
+    description: "Análisis de intervenciones y sus resultados, efectividad y sesgo potencial",
+    filterPlaceholder: "Filtrar intervenciones...",
+    effectiveness: "Efectividad",
+    bias: "Sesgo",
+    tableHeaders: {
+      intervention: "Intervención",
+      outcome: "Resultado",
+      effectiveness: "Efectividad",
+      studies: "Estudios",
+      bias: "Sesgo"
+    },
+    filters: {
+      allEffectiveness: "Toda Efectividad",
+      allBias: "Todos los Niveles de Sesgo",
+      effectiveness: {
+        high: "Alta",
+        med: "Media",
+        low: "Baja"
+      },
+      bias: {
+        low: "Bajo",
+        some_concerns: "Algunas Preocupaciones",
+        high: "Alto",
+        very_high: "Muy Alto"
+      }
+    }
+  },
+  // New outcomes translations
+  outcomes: {
+    title: "Análisis de Resultados",
+    description: "Análisis de resultados y sus efectos, efectividad y sesgo potencial",
+    filterPlaceholder: "Filtrar resultados...",
+    effectiveness: "Efectividad",
+    bias: "Sesgo",
+    tableHeaders: {
+      outcome: "Resultado",
+      intervention: "Intervención",
+      effectiveness: "Efectividad",
+      studies: "Estudios",
+      bias: "Sesgo"
+    },
+    filters: {
+      allEffectiveness: "Toda Efectividad",
+      allBias: "Todos los Niveles de Sesgo",
+      effectiveness: {
+        high: "Alta",
+        med: "Media",
+        low: "Baja"
+      },
+      bias: {
+        low: "Bajo",
+        some_concerns: "Algunas Preocupaciones",
+        high: "Alto",
+        very_high: "Muy Alto"
+      }
+    }
+  },
   // New medications translations
   medications: {
     title: "Análisis de Medicamentos",
+    description: "Análisis de medicamentos y sus resultados, efectividad y sesgo potencial",
     filterPlaceholder: "Filtrar medicamentos...",
     effectiveness: "Efectividad",
     bias: "Sesgo",
@@ -284,12 +287,24 @@ export const esTranslations = {
     },
     filters: {
       allEffectiveness: "Toda Efectividad",
-      allBias: "Todos los Niveles de Sesgo"
+      allBias: "Todos los Niveles de Sesgo",
+      effectiveness: {
+        high: "Alta",
+        med: "Media",
+        low: "Baja"
+      },
+      bias: {
+        low: "Bajo",
+        some_concerns: "Algunas Preocupaciones",
+        high: "Alto",
+        very_high: "Muy Alto"
+      }
     }
   },
   // New supplements translations
   supplements: {
     title: "Análisis de Suplementos",
+    description: "Análisis de suplementos y sus resultados, efectividad y sesgo potencial",
     filterPlaceholder: "Filtrar suplementos...",
     effectiveness: "Efectividad",
     bias: "Sesgo",
@@ -302,7 +317,18 @@ export const esTranslations = {
     },
     filters: {
       allEffectiveness: "Toda Efectividad",
-      allBias: "Todos los Niveles de Sesgo"
+      allBias: "Todos los Niveles de Sesgo",
+      effectiveness: {
+        high: "Alta",
+        med: "Media",
+        low: "Baja"
+      },
+      bias: {
+        low: "Bajo",
+        some_concerns: "Algunas Preocupaciones",
+        high: "Alto",
+        very_high: "Muy Alto"
+      }
     }
   },
   // About Us page

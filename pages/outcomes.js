@@ -5,7 +5,6 @@ import { getOutcomesTable } from '../db/research';
 
 export default function Outcomes({ outcomesData }) {
   const { t } = useTranslations();
-  console.log(outcomesData);
   
   return (
     <>
@@ -13,7 +12,7 @@ export default function Outcomes({ outcomesData }) {
         <title>{`${t('outcomes.title')} - deDiabetes`}</title>
         <meta 
           name="description" 
-          content={t('outcomes.filterPlaceholder')} 
+          content={t('outcomes.description')} 
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

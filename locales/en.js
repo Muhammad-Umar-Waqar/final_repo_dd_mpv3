@@ -161,64 +161,6 @@ export const enTranslations = {
       }
     }
   },
-  // New interventions translations
-  interventions: {
-    title: "Interventions Analysis",
-    filterPlaceholder: "Filter interventions...",
-    effectiveness: "Effectiveness",
-    bias: "Bias",
-    tableHeaders: {
-      intervention: "Intervention",
-      outcome: "Outcome",
-      effectiveness: "Effectiveness",
-      studies: "Studies",
-      bias: "Bias"
-    },
-    filters: {
-      allEffectiveness: "All Effectiveness",
-      allBias: "All Bias Levels",
-      effectiveness: {
-        high: "High",
-        med: "Medium",
-        low: "Low"
-      },
-      bias: {
-        low: "Low",
-        some_concerns: "Some Concerns",
-        high: "High",
-        very_high: "Very High"
-      }
-    }
-  },
-  // New outcomes translations
-  outcomes: {
-    title: "Outcomes Analysis",
-    filterPlaceholder: "Filter outcomes...",
-    effectiveness: "Effectiveness",
-    bias: "Bias",
-    tableHeaders: {
-      outcome: "Outcome",
-      intervention: "Intervention",
-      effectiveness: "Effectiveness",
-      studies: "Studies",
-      bias: "Bias"
-    },
-    filters: {
-      allEffectiveness: "All Effectiveness",
-      allBias: "All Bias Levels",
-      effectiveness: {
-        high: "High",
-        med: "Medium",
-        low: "Low"
-      },
-      bias: {
-        low: "Low",
-        some_concerns: "Some Concerns",
-        high: "High",
-        very_high: "Very High"
-      }
-    }
-  },
   // SearchSection
   searchSection: {
     searchPlaceholder: "Search for news, topics, or keywords...",
@@ -269,9 +211,70 @@ export const enTranslations = {
       next: "Next"
     }
   },
+  // New interventions translations
+  interventions: {
+    title: "Interventions Analysis",
+    description: "Analysis of diabetes interventions and their outcomes, effectiveness, and potential bias",
+    filterPlaceholder: "Filter interventions...",
+    effectiveness: "Effectiveness",
+    bias: "Bias",
+    tableHeaders: {
+      intervention: "Intervention",
+      outcome: "Outcome",
+      effectiveness: "Effectiveness",
+      studies: "Studies",
+      bias: "Bias"
+    },
+    filters: {
+      allEffectiveness: "All Effectiveness",
+      allBias: "All Bias Levels",
+      effectiveness: {
+        high: "High",
+        med: "Medium",
+        low: "Low"
+      },
+      bias: {
+        low: "Low",
+        some_concerns: "Some Concerns",
+        high: "High",
+        very_high: "Very High"
+      }
+    }
+  },
+  // New outcomes translations
+  outcomes: {
+    title: "Outcomes Analysis",
+    description: "Analysis of diabetes outcomes and their effectiveness, bias, and potential bias",
+    filterPlaceholder: "Filter outcomes...",
+    effectiveness: "Effectiveness",
+    bias: "Bias",
+    tableHeaders: {
+      outcome: "Outcome",
+      intervention: "Intervention",
+      effectiveness: "Effectiveness",
+      studies: "Studies",
+      bias: "Bias"
+    },
+    filters: {
+      allEffectiveness: "All Effectiveness",
+      allBias: "All Bias Levels",
+      effectiveness: {
+        high: "High",
+        med: "Medium",
+        low: "Low"
+      },
+      bias: {
+        low: "Low",
+        some_concerns: "Some Concerns",
+        high: "High",
+        very_high: "Very High"
+      }
+    }
+  },
   // New medications translations
   medications: {
     title: "Medications Analysis",
+    description: "Analysis of diabetes medications and their outcomes, effectiveness, and potential bias",
     filterPlaceholder: "Filter medications...",
     effectiveness: "Effectiveness",
     bias: "Bias",
@@ -284,12 +287,24 @@ export const enTranslations = {
     },
     filters: {
       allEffectiveness: "All Effectiveness",
-      allBias: "All Bias Levels"
+      allBias: "All Bias Levels",
+      effectiveness: {
+        high: "High",
+        med: "Medium",
+        low: "Low"
+      },
+      bias: {
+        low: "Low",
+        some_concerns: "Some Concerns",
+        high: "High",
+        very_high: "Very High"
+      }
     }
   },
   // New supplements translations
   supplements: {
     title: "Supplements Analysis",
+    description: "Analysis of diabetes supplements and their outcomes, effectiveness, and potential bias",
     filterPlaceholder: "Filter supplements...",
     effectiveness: "Effectiveness",
     bias: "Bias",
@@ -302,7 +317,18 @@ export const enTranslations = {
     },
     filters: {
       allEffectiveness: "All Effectiveness",
-      allBias: "All Bias Levels"
+      allBias: "All Bias Levels",
+      effectiveness: {
+        high: "High",
+        med: "Medium",
+        low: "Low"
+      },
+      bias: {
+        low: "Low",
+        some_concerns: "Some Concerns",
+        high: "High",
+        very_high: "Very High"
+      }
     }
   },
   // About Us page
