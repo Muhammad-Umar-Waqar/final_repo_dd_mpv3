@@ -3,7 +3,7 @@ import { connectToDatabase } from '../../../lib/mongodb';
 
 async function syncDocument(db, prismicDoc) {
   const collection = db.collection('prismic_content');
-  
+
   const mongoDoc = {
     _id: `${prismicDoc.type}_${prismicDoc.id}`,
     prismicId: prismicDoc.id,
@@ -32,7 +32,7 @@ async function syncAlternateLanguages(db, client, doc) {
     try {
       // First get the document by ID since alternate versions may have different UIDs
       const altDoc = await client.getByID(altLang.id, { lang: '*' });
-      
+
       if (altDoc) {
         await syncDocument(db, altDoc);
       }
@@ -43,6 +43,10 @@ async function syncAlternateLanguages(db, client, doc) {
 }
 
 export default async function handler(req, res) {
+  // Allow only POST requests
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method Not Allowed' });
+  }
   // Verify webhook secret
   const secret = req.headers['prismic-webhook-secret'];
   if (secret !== process.env.PRISMIC_WEBHOOK_SECRET) {
@@ -55,7 +59,7 @@ export default async function handler(req, res) {
 
     // Get the document that was updated
     const { type, id } = req.body;
-    
+
     // Fetch the full document from Prismic
     const doc = await client.getByID(id, { lang: '*' });
     if (!doc) {
