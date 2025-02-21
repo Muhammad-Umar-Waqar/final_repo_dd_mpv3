@@ -5,7 +5,6 @@ import { getInterventionsTable } from '../db/research';
 
 export default function Interventions({ interventionsData }) {
   const { t } = useTranslations();
-  console.log(interventionsData);
   
   return (
     <>

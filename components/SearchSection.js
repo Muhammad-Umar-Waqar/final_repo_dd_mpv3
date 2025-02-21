@@ -13,13 +13,13 @@ const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
   
   const filters = [
     { id: 'all', labelKey: 'searchSection.filters.all' },
-    { id: 'behavioral', labelKey: 'searchSection.filters.behavioral', domain: 'Behavioral Intervention' },
-    { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'Complications' },
-    { id: 'digital', labelKey: 'searchSection.filters.digital', domain: 'Digital Health' },
-    { id: 'pharmacology', labelKey: 'searchSection.filters.pharmacology', domain: 'Pharmacology' },
-    { id: 'prevention', labelKey: 'searchSection.filters.prevention', domain: 'Prevention' },
-    { id: 'supplements', labelKey: 'searchSection.filters.supplements', domain: 'Supplements' },
-    { id: 't1d', labelKey: 'searchSection.filters.t1d', domain: 'Type 1 Diabetes' },
+    { id: 'behavioral', labelKey: 'searchSection.filters.behavioral', domain: 'behavioral' },
+    { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'complications' },
+    { id: 'digital', labelKey: 'searchSection.filters.digital', domain: 'digital' },
+    { id: 'pharmacology', labelKey: 'searchSection.filters.pharmacology', domain: 'pharmacology' },
+    { id: 'prevention', labelKey: 'searchSection.filters.prevention', domain: 'prevention' },
+    { id: 'supplements', labelKey: 'searchSection.filters.supplements', domain: 'supplements' },
+    { id: 't1d', labelKey: 'searchSection.filters.t1d', domain: 't1d' },
   ];
 
   // Initialize state from URL on mount

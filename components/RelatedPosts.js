@@ -44,7 +44,6 @@ const PostCard = ({ title, date, description, slug }) => {
 };
 
 const RelatedPosts = ({ posts }) => {
-  console.log(posts);
   const { t } = useTranslations();
 
   if (!posts || posts.length === 0) return null;

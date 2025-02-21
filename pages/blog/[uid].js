@@ -92,11 +92,19 @@ export async function getStaticProps({ params, locale }) {
     const dbLocale = databaseLocales[locale] || locale;
     
     console.log('Fetching blog post...');
-    const post = await getDocumentByUID('blog_post', params.uid, dbLocale);
+    let post = await getDocumentByUID('blog_post', params.uid, dbLocale);
+    let authorDoc = null;
     
+    // If not found in current locale, try the other locale
     if (!post) {
-      console.log('No post found for:', { type: 'blog_post', uid: params.uid, locale });
-      return { notFound: true };
+      console.log('Post not found in current locale, trying other locale...');
+      const otherLocale = dbLocale === 'en-us' ? 'es-es' : 'en-us';
+      post = await getDocumentByUID('blog_post', params.uid, otherLocale);
+      
+      if (!post) {
+        console.log('Post not found in any locale');
+        return { notFound: true };
+      }
     }
 
     console.log('Post author data:', post.data.author);
@@ -106,14 +114,21 @@ export async function getStaticProps({ params, locale }) {
     let authorName = null;
     if (post.data.author?.uid) {
       console.log('Fetching author document for UID:', post.data.author.uid);
-      const authorDoc = await getDocumentByUID('author', post.data.author.uid, dbLocale);
+      // Try to get author in current locale first
+      authorDoc = await getDocumentByUID('author', post.data.author.uid, dbLocale);
+      
+      // If author not found in current locale, try other locale
+      if (!authorDoc) {
+        const otherLocale = dbLocale === 'en-us' ? 'es-es' : 'en-us';
+        authorDoc = await getDocumentByUID('author', post.data.author.uid, otherLocale);
+      }
+      
       console.log('Author document:', JSON.stringify(authorDoc, null, 2));
       
-      // Get author image from headshot field
+      // Get author image and name if available
       if (authorDoc?.data?.headshot?.url) {
         authorImage = authorDoc.data.headshot.url;
       }
-      // Get author name from name field
       if (authorDoc?.data?.name?.[0]?.text) {
         authorName = authorDoc.data.name[0].text;
       }
@@ -124,7 +139,15 @@ export async function getStaticProps({ params, locale }) {
     // Use default author image if no author image found
     if (!authorImage) {
       console.log('Fetching default author (dediabetes) document');
-      const defaultAuthor = await getDocumentByUID('author', 'dediabetes', dbLocale);
+      // Try default author in current locale first
+      let defaultAuthor = await getDocumentByUID('author', 'dediabetes', dbLocale);
+      
+      // If not found, try other locale
+      if (!defaultAuthor) {
+        const otherLocale = dbLocale === 'en-us' ? 'es-es' : 'en-us';
+        defaultAuthor = await getDocumentByUID('author', 'dediabetes', otherLocale);
+      }
+      
       console.log('Default author document:', JSON.stringify(defaultAuthor, null, 2));
       
       // Get default author image from headshot field

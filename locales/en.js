@@ -9,6 +9,12 @@ export const enTranslations = {
     subtitle: "Our team of experts delivers insightful and valuable information to help you make informed decisions about your health and wellness.",
     description: "Browse and search through our curated collection of diabetes articles."
   },
+  archive: {
+    pageTitle: "Archive",
+    title: "Complete Archive",
+    subtitle: "Access our comprehensive collection of research papers and articles about diabetes care and management.",
+    description: "Browse through our complete archive of diabetes research and articles."
+  },
   nav: {
     home: "Home",
     articles: "Articles",
@@ -597,9 +603,9 @@ export const enTranslations = {
   },
   notFound: {
     title: "404",
-    description: "We couldn't find the content you're looking for",
-    homeButton: "Back to home",
-    metaTitle: "Content not found - Dexdiabetes",
-    metaDescription: "The content you are looking for does not exist or has been moved."
+    description: "Oops! The page you're looking for seems to have wandered off. Let's get you back on track.",
+    homeButton: "Back to Home",
+    metaTitle: "Page Not Found - deDiabetes",
+    metaDescription: "The page you are looking for could not be found. Return to deDiabetes homepage for the latest in diabetes research and care."
   }
 };

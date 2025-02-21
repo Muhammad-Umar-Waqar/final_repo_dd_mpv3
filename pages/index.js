@@ -79,9 +79,9 @@ export default function Home() {
 
         // Add single value parameters
         if (year) queryParams.append('year', year);
-        if (sponsorship) queryParams.append('sponsorship', sponsorship);
+        if (sponsorship !== undefined) queryParams.append('sponsorship', sponsorship);
 
-        // Make API request
+        // Make API request to research endpoint
         const response = await fetch(`/api/research/search?${queryParams.toString()}`);
         
         if (!response.ok) {

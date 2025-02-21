@@ -412,7 +412,6 @@ export async function getSupplementsTable(lang = 'en-us') {
 
 export async function getAllResearchStudies(lang = 'en-us') {
     const researchDocs = await getAllDocuments('research', lang);
-    console.log(researchDocs.length);
     const studies = [];
 
     researchDocs.forEach(doc => {

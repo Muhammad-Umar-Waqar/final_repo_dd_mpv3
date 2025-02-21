@@ -47,8 +47,14 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
-  // Verify webhook secret
-  const secret = req.headers['prismic-webhook-secret'];
+
+  // Get the secret from headers or body
+  const secret =
+    req.headers['prismic-webhook-secret'] ||
+    req.headers['x-prismic-secret'] ||
+    req.body?.secret; // Checking the body too
+
+  // Verify the secret
   if (secret !== process.env.PRISMIC_WEBHOOK_SECRET) {
     return res.status(401).json({ message: 'Invalid webhook secret' });
   }
@@ -57,7 +63,7 @@ export default async function handler(req, res) {
     const { db } = await connectToDatabase();
     const client = createClient();
 
-    // Get the document that was updated
+    // Get the document type and id from the body
     const { type, id } = req.body;
 
     // Fetch the full document from Prismic
@@ -68,8 +74,6 @@ export default async function handler(req, res) {
 
     // Sync the document to MongoDB
     await syncDocument(db, doc);
-
-    // Sync alternate language versions if they exist
     await syncAlternateLanguages(db, client, doc);
 
     res.status(200).json({ message: 'Content synced successfully' });

@@ -192,7 +192,8 @@ function serializeDocument(doc) {
       searchTerm = '',
       lang = 'en-us',
       limit = 10,
-      skip = 0
+      skip = 0,
+      domains = []
     } = options;
   
     const query = {
@@ -205,6 +206,11 @@ function serializeDocument(doc) {
       query['data.title.text'] = { 
         $regex: new RegExp(searchTerm, 'i') 
       };
+    }
+
+    // Add categories filter if domains array is not empty
+    if (domains.length > 0) {
+      query['data.categories.category.uid'] = { $in: domains };
     }
   
     const sort = { first_publication_date: -1 };

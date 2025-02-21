@@ -9,6 +9,12 @@ export const esTranslations = {
     subtitle: "Nuestro equipo de expertos brinda información valiosa y enriquecedora para ayudarte a tomar decisiones informadas sobre tu salud y bienestar.",
     description: "Browse and search through our curated collection of diabetes articles."
   },
+  archive: {
+    pageTitle: "Archivo",
+    title: "Archivo Completo",
+    subtitle: "Accede a nuestra colección completa de artículos e investigaciones sobre el cuidado y manejo de la diabetes.",
+    description: "Explora nuestro archivo completo de investigaciones y artículos sobre diabetes."
+  },
   nav: {
     home: "Inicio",
     interventions: "Intervenciones",
@@ -595,9 +601,9 @@ export const esTranslations = {
   },
   notFound: {
     title: "404",
-    description: "No hemos encontrado el contenido que buscas",
-    homeButton: "Volver al inicio",
-    metaTitle: "Contenido no encontrado - Dexdiabetes",
-    metaDescription: "El contenido que estás buscando no existe o ha sido movido."
+    description: "¡Ups! Parece que la página que buscas se ha extraviado. Volvamos al camino correcto.",
+    homeButton: "Volver al Inicio",
+    metaTitle: "Página No Encontrada - deDiabetes",
+    metaDescription: "La página que estás buscando no se pudo encontrar. Regresa a la página principal de deDiabetes para lo último en investigación y cuidado de la diabetes."
   },
 };

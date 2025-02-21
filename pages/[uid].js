@@ -32,7 +32,6 @@ export default function Page({ post, type }) {
   // If it's a research post, transform the data and use ResearchTemplate
   if (type === 'research') {
     const research = mapResearchData(post);
-    console.log(research);
 
     return (
       <div className="min-h-screen bg-background">
