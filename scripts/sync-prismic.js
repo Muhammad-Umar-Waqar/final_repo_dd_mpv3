@@ -113,15 +113,36 @@ async function syncAllContent() {
     const types = repository.types;
     console.log(`Found ${Object.keys(types).length} document types`);
 
-    // Sync documents of each type
+    // Sync documents of each type in both languages
     for (const type of Object.keys(types)) {
       console.log(`\nSyncing documents of type: ${type}`);
-      const documents = await prismicClient.getAllByType(type);
-      console.log(`Found ${documents.length} documents of type ${type}`);
       
-      for (const doc of documents) {
-        await syncDocument(db, doc);
-        await syncAlternateLanguages(db, prismicClient, doc);
+      // Get documents in master language (en-us)
+      const enDocuments = await prismicClient.getAllByType(type, { lang: 'en-us' });
+      console.log(`Found ${enDocuments.length} documents in en-us`);
+      
+      // Get documents in Spanish (es-es)
+      const esDocuments = await prismicClient.getAllByType(type, { lang: 'es-es' });
+      console.log(`Found ${esDocuments.length} documents in es-es`);
+      
+      // Keep track of synced document IDs to avoid duplicates
+      const syncedIds = new Set();
+      
+      // Sync en-us documents and their alternates
+      for (const doc of enDocuments) {
+        if (!syncedIds.has(doc.id)) {
+          await syncDocument(db, doc);
+          await syncAlternateLanguages(db, prismicClient, doc);
+          syncedIds.add(doc.id);
+        }
+      }
+      
+      // Sync es-es only documents (those without en-us versions)
+      for (const doc of esDocuments) {
+        if (!syncedIds.has(doc.id)) {
+          await syncDocument(db, doc);
+          syncedIds.add(doc.id);
+        }
       }
     }
 
