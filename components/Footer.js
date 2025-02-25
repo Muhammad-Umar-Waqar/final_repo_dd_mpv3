@@ -8,61 +8,59 @@ const Footer = () => {
 
   return (
     <footer className="border-t border-border bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="flex items-center justify-center md:justify-start">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-8">
+          <div className="flex items-center justify-center">
             <Link href="/" className="hover:opacity-90 transition-opacity">
               <img
                 src="/logo1.png"
                 alt={t('footer.logoAlt')}
-                className="h-8 w-auto"
+                className="h-6 sm:h-8 w-auto"
               />
             </Link>
           </div>
           
-          <div className="flex justify-center md:justify-end col-span-3">
-            <nav className="flex items-center space-x-8">
-              <Link 
-                href="/about"
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <IconUsers className="w-5 h-5" />
-                <span>{t('footer.about')}</span>
-              </Link>
-              
-              <Link 
-                href="/newsletter"
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <IconMail className="w-5 h-5" />
-                <span>{t('footer.newsletter')}</span>
-              </Link>
-              
-              <Link 
-                href="/archive"
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <IconArchive className="w-5 h-5" />
-                <span>{t('footer.archive')}</span>
-              </Link>
-              
-              <Link 
-                href="/contact"
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <IconMessageCircle className="w-5 h-5" />
-                <span>{t('footer.contact')}</span>
-              </Link>
+          <nav className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
+            <Link 
+              href="/about"
+              className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <IconUsers className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">{t('footer.about')}</span>
+            </Link>
+            
+            <Link 
+              href="/newsletter"
+              className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <IconMail className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">{t('footer.newsletter')}</span>
+            </Link>
+            
+            <Link 
+              href="/archive"
+              className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <IconArchive className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">{t('footer.archive')}</span>
+            </Link>
+            
+            <Link 
+              href="/contact"
+              className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <IconMessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">{t('footer.contact')}</span>
+            </Link>
 
-              <Link
-                href="/feed.xml"
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <IconRss className="w-5 h-5" />
-                <span>RSS</span>
-              </Link>
-            </nav>
-          </div>
+            <Link
+              href="/feed.xml"
+              className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <IconRss className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="hidden sm:inline">RSS</span>
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>

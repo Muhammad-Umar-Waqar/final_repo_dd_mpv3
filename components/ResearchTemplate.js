@@ -85,20 +85,20 @@ const ResearchTemplate = ({
       {showBackToTop && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-8 right-8 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-colors z-50"
+          className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 p-2 sm:p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-colors z-50"
         >
-          <IconChevronUp className="w-6 h-6" />
+          <IconChevronUp className="w-4 h-4 sm:w-6 sm:h-6" />
         </button>
       )}
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
         {/* Category Tags */}
         {domains && domains.length > 0 && (
-          <div className="flex gap-2 mb-6">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
             {domains.map((domain, index) => (
               <span
                 key={index}
-                className="inline-block px-3 py-1 text-sm font-medium text-red-700 bg-red-50 rounded-md"
+                className="inline-block px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium text-red-700 bg-red-50 rounded-md"
               >
                 {domain}
               </span>
@@ -113,7 +113,7 @@ const ResearchTemplate = ({
         />
 
         {headerImage ? (
-          <figure className="mb-16">
+          <figure className="mb-8 sm:mb-16">
             <img
               src={headerImage}
               alt={title}
@@ -121,17 +121,17 @@ const ResearchTemplate = ({
             />
           </figure>
         ) : (
-          <figure className="mb-16">
+          <figure className="mb-8 sm:mb-16">
             <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center">
-              <IconPhoto className="w-12 h-12 text-muted-foreground" />
+              <IconPhoto className="w-8 h-8 sm:w-12 sm:h-12 text-muted-foreground" />
             </div>
           </figure>
         )}
 
         {summary && (
-          <section className="prose prose-lg max-w-none mb-16">
-            <h2 className="mb-6">{t('research.sections.summary')}</h2>
-            <p>{summary}</p>
+          <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
+            <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6">{t('research.sections.summary')}</h2>
+            <p className="">{summary}</p>
           </section>
         )}
 
@@ -140,16 +140,16 @@ const ResearchTemplate = ({
           studyDesign?.studyType?.length > 0 ||
           studyDesign?.duration?.length > 0 ||
           studyDesign?.size?.length > 0) && (
-            <section className="prose prose-lg max-w-none mb-16">
-              <h2 className="mb-6">{t('research.sections.studyDesign')}</h2>
-              <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
+            <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
+              <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6">{t('research.sections.studyDesign')}</h2>
+              <div className="bg-secondary/5 rounded-lg p-4 sm:p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {studyDesign?.interventions?.length > 0 && (
                     <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.interventions')}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.interventions')}</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyDesign.interventions.map((intervention, index) => (
-                          <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm">
                             {intervention}
                           </span>
                         ))}
@@ -158,10 +158,10 @@ const ResearchTemplate = ({
                   )}
                   {studyDesign?.studyType?.length > 0 && (
                     <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.studyType')}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.studyType')}</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyDesign.studyType.map((type, index) => (
-                          <span key={index} className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm">
                             {type}
                           </span>
                         ))}
@@ -170,10 +170,10 @@ const ResearchTemplate = ({
                   )}
                   {studyDesign?.outcomes?.length > 0 && (
                     <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.outcomes')}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.outcomes')}</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyDesign.outcomes.map((outcome, index) => (
-                          <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm">
                             {outcome}
                           </span>
                         ))}
@@ -181,18 +181,22 @@ const ResearchTemplate = ({
                     </div>
                   )}
                   {(studyDesign?.duration?.length > 0 || studyDesign?.size?.length > 0) && (
-                    <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.durationSize')}</h3>
-                      {studyDesign?.duration?.map((duration, index) => (
-                        <span key={index} className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm mr-2">
-                          {translateValue(duration, 'duration')}
-                        </span>
-                      ))}
-                      {studyDesign?.size?.map((size, index) => (
-                        <span key={index} className="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">
-                          {translateValue(size, 'size')}
-                        </span>
-                      ))}
+                    <div className='flex flex-col gap-2'>
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.durationSize')}</h3>
+                      <div className='flex flex-wrap gap-1.5 sm:gap-2'>
+                        {studyDesign?.duration?.map((duration, index) => (
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-purple-100 text-purple-800 rounded-full text-xs sm:text-sm mr-1.5 sm:mr-2">
+                            {translateValue(duration, 'duration')}
+                          </span>
+                        ))}
+                      </div>
+                      <div className='flex flex-wrap gap-1.5 sm:gap-2'>
+                        {studyDesign?.size?.map((size, index) => (
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-red-100 text-red-800 rounded-full text-xs sm:text-sm">
+                            {translateValue(size, 'size')}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -204,16 +208,16 @@ const ResearchTemplate = ({
           studyPopulation?.sex?.length > 0 ||
           studyPopulation?.geography?.length > 0 ||
           studyPopulation?.others?.length > 0) && (
-            <section className="prose prose-lg max-w-none mb-16">
-              <h2 className="mb-6">{t('research.sections.studyPopulation')}</h2>
-              <div className="bg-secondary/5 rounded-lg p-6 space-y-4">
+            <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
+              <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6">{t('research.sections.studyPopulation')}</h2>
+              <div className="bg-secondary/5 rounded-lg p-4 sm:p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {studyPopulation?.ageRange?.length > 0 && (
                     <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.ageRange')}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.ageRange')}</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.ageRange.map((age, index) => (
-                          <span key={index} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm">
                             {translateValue(age, 'ageRange')}
                           </span>
                         ))}
@@ -222,10 +226,10 @@ const ResearchTemplate = ({
                   )}
                   {studyPopulation?.sex?.length > 0 && (
                     <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.sex')}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.sex')}</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.sex.map((sex, index) => (
-                          <span key={index} className="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm">
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-pink-100 text-pink-800 rounded-full text-xs sm:text-sm">
                             {translateValue(sex, 'sex')}
                           </span>
                         ))}
@@ -234,10 +238,10 @@ const ResearchTemplate = ({
                   )}
                   {studyPopulation?.geography?.length > 0 && (
                     <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.geography')}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.geography')}</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.geography.map((location, index) => (
-                          <span key={index} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm">
                             {location}
                           </span>
                         ))}
@@ -246,10 +250,10 @@ const ResearchTemplate = ({
                   )}
                   {studyPopulation?.others?.length > 0 && (
                     <div>
-                      <h3 className="font-medium mb-2">{t('research.sections.otherCriteria')}</h3>
-                      <div className="flex flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.otherCriteria')}</h3>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.others.map((criterion, index) => (
-                          <span key={index} className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">
+                          <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-orange-100 text-orange-800 rounded-full text-xs sm:text-sm">
                             {criterion}
                           </span>
                         ))}
@@ -261,54 +265,54 @@ const ResearchTemplate = ({
             </section>
           )}
 
-        <section className="prose prose-lg max-w-none mb-16">
+        <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
           {methodology?.length > 0 && (
-            <section>
-              <h2>{t('research.sections.methodology')}</h2>
+            <section className="mb-8">
+              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.methodology')}</h2>
               {methodology.map((method, index) => (
-                <p key={index}>{method}</p>
+                <p key={index} className=" mb-4">{method}</p>
               ))}
             </section>
           )}
 
           {interventions?.length > 0 && (
-            <section>
-              <h2>{t('research.sections.interventions')}</h2>
+            <section className="mb-8">
+              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.interventions')}</h2>
               {interventions.map((intervention, index) => (
-                <p key={index}>{intervention}</p>
+                <p key={index} className=" mb-4">{intervention}</p>
               ))}
             </section>
           )}
 
           {keyFindings?.length > 0 && (
-            <section>
-              <h2>{t('research.sections.keyFindings')}</h2>
+            <section className="mb-8">
+              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.keyFindings')}</h2>
               {keyFindings.map((finding, index) => (
-                <p key={index}>{finding}</p>
+                <p key={index} className=" mb-4">{finding}</p>
               ))}
             </section>
           )}
 
           {comparison?.length > 0 && (
-            <section>
-              <h2>{t('research.sections.comparison')}</h2>
+            <section className="mb-8">
+              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.comparison')}</h2>
               {comparison.map((comp, index) => (
-                <p key={index} dangerouslySetInnerHTML={{ __html: comp }} />
+                <p key={index} className=" mb-4" dangerouslySetInnerHTML={{ __html: comp }} />
               ))}
             </section>
           )}
         </section>
 
         {biasScore && (
-          <section>
+          <section className="mb-8 sm:mb-16">
             <div className="max-w-2xl mx-auto">
-              <div className="bg-secondary/5 rounded-lg p-6">
+              <div className="bg-secondary/5 rounded-lg p-4 sm:p-6">
                 <div className="flex items-center gap-2 mb-4 justify-center">
-                  <IconFileTextAi className="w-6 h-6" />
-                  <h2 className="text-xl font-bold">{t('research.sections.biasAnalysisScore')}</h2>
+                  <IconFileTextAi className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <h2 className="text-lg sm:text-xl font-bold">{t('research.sections.biasAnalysisScore')}</h2>
                 </div>
                 <div className="flex justify-center">
-                  <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+                  <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm">
                     {biasScore}
                   </span>
                 </div>
@@ -318,20 +322,20 @@ const ResearchTemplate = ({
         )}
 
         {effectivenessAnalysis?.length > 0 && (
-          <section className="prose prose-lg max-w-none mb-16">
-            <section>
+          <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
+            <section className="mb-8">
               <div className="flex mb-4">
-                <h2>{t('research.sections.effectivenessAnalysis')}</h2>
+                <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.effectivenessAnalysis')}</h2>
               </div>
               <div className='flex flex-col gap-4'>
                 {effectivenessAnalysis.map((analysis, index) => (
-                  <div key={index} className="space-y-5 bg-secondary/5 rounded-lg p-6">
+                  <div key={index} className="space-y-5 bg-secondary/5 rounded-lg p-4 sm:p-6">
                     {analysis?.intervention?.length > 0 && (
-                      <div className="flex items-center gap-4 text-lg">
+                      <div className="flex items-center gap-4 ">
                         <span className="text-muted-foreground">{t('research.sections.intervention')}:</span>
-                        <div className="flex flex-wrap gap-2 justify-end">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-end">
                           {analysis.intervention.map((int, idx) => (
-                            <span key={idx} className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-lg">
+                            <span key={idx} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm">
                               {int}
                             </span>
                           ))}
@@ -343,9 +347,9 @@ const ResearchTemplate = ({
                         {/* Outcome */}
                         <div className="flex items-center justify-between">
                           <span className="text-muted-foreground">{t('research.sections.outcome')}:</span>
-                          <div className="flex flex-wrap gap-2 justify-end">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-end">
                             {item?.outcome?.length > 0 && item.outcome.map((out, idx) => (
-                              <span key={idx} className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                              <span key={idx} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm">
                                 {out}
                               </span>
                             ))}
@@ -354,8 +358,8 @@ const ResearchTemplate = ({
                         {/* Effectiveness */}
                         <div className="flex items-center justify-between">
                           <span className="text-muted-foreground">{t('research.sections.effectiveness')}:</span>
-                          <div className="flex flex-wrap gap-2 justify-end">
-                            <span className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-end">
+                            <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm">
                               {t(`research.sections.effectivenessOptions.${item?.effectiveness?.toLowerCase() || 'low'}`)}
                             </span>
                           </div>
@@ -363,9 +367,9 @@ const ResearchTemplate = ({
                         {/* Explanation */}
                         <div className="flex items-start justify-between">
                           <span className="text-muted-foreground">{t('research.sections.explanation')}:</span>
-                          <div className="flex flex-wrap gap-2 justify-end max-w-[70%] text-right">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-end max-w-[70%] text-right">
                             {item?.explanation?.length > 0 && item.explanation.map((exp, idx) => (
-                              <p key={idx} className="my-0 text-sm text-gray-600">
+                              <p key={idx} className="my-0 text-xs sm:text-sm text-gray-600">
                                 {exp}
                               </p>
                             ))}
@@ -381,11 +385,11 @@ const ResearchTemplate = ({
         )}
 
         {journalReference?.length > 0 && (
-          <section className="prose prose-lg max-w-none mb-16">
-            <section>
-              <h2>{t('research.sections.journalReference')}</h2>
+          <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
+            <section className="mb-8">
+              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.journalReference')}</h2>
               {journalReference.map((ref, index) => (
-                <p key={index} className="italic" dangerouslySetInnerHTML={{ __html: ref }} />
+                <p key={index} className="" dangerouslySetInnerHTML={{ __html: ref }} />
               ))}
             </section>
           </section>
@@ -407,22 +411,22 @@ const ResearchTemplate = ({
             />
           )}
 
-        <section className="mb-16 max-w-4xl bg-gray-50 mx-auto px-4 py-16 text-center">
-          <h2 className="text-4xl font-bold mb-6">{t('research.newsletter.title')}</h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
+        <section className="mb-8 sm:mb-16 max-w-4xl bg-gray-50 mx-auto px-4 sm:px-6 py-8 sm:py-16 text-center">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">{t('research.newsletter.title')}</h2>
+          <p className="text-sm sm:text-lg text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8">
             {t('research.newsletter.description')}
           </p>
           <div className="max-w-2xl mx-auto">
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <input
                 type="email"
                 placeholder={t('research.newsletter.emailPlaceholder')}
-                className="flex-1 px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
+                className="flex-1 px-3 sm:px-4 py-2 sm:py-3  rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
                 required
               />
               <button
                 type="submit"
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                className="px-4 sm:px-8 py-2 sm:py-3 bg-primary text-primary-foreground  rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               >
                 {t('research.newsletter.subscribeButton')}
               </button>
