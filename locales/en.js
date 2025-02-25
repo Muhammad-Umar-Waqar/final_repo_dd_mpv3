@@ -3,6 +3,10 @@ export const enTranslations = {
   siteName: "deDiabetes",
   homeTitle: "Stay Informed About Diabetes",
   homeDescription: "Stay informed about the latest breakthroughs in diabetes care",
+  theme: {
+    light: "Light mode",
+    dark: "Dark mode"
+  },
   articles: {
     pageTitle: "Articles",
     title: "Research Articles",

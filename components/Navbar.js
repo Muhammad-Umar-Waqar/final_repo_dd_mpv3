@@ -1,14 +1,11 @@
-// components/Navbar.js
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from '../utils/i18n';
-import { useDarkMode } from '../utils/DarkModeContext';
-import { 
-  IconMenu2, 
-  IconSearch, 
-  IconSun, 
-  IconMoon,
+import ThemeToggle from './ThemeToggle';
+import {
+  IconMenu2,
+  IconSearch,
   IconHome2,
   IconClipboardHeart,
   IconHeartFilled,
@@ -23,9 +20,9 @@ import {
 const MenuItem = ({ icon: Icon, text, href = '/' }) => {
   const router = useRouter();
   const { locale } = router;
-  
+
   return (
-    <Link 
+    <Link
       href={href}
       locale={locale}
       className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
@@ -39,7 +36,6 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => {
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, locale, changeLanguage } = useTranslations();
-  const { isDarkMode, toggleDarkMode, mounted } = useDarkMode();
 
   const toggleLanguage = () => {
     const newLocale = locale === 'en' ? 'es' : 'en';
@@ -73,29 +69,17 @@ export default function Navbar() {
               >
                 {getDisplayLanguage(locale)}
               </button>
-              
-              <button 
+
+              <button
                 className="p-2 rounded-full hover:bg-secondary text-foreground"
                 aria-label="Search"
               >
                 <IconSearch className="w-5 h-5" />
               </button>
-              
-              {mounted && (
-                <button 
-                  className="p-2 rounded-full hover:bg-secondary text-foreground"
-                  onClick={toggleDarkMode}
-                  aria-label="Toggle theme"
-                >
-                  {isDarkMode ? (
-                    <IconSun className="w-5 h-5" />
-                  ) : (
-                    <IconMoon className="w-5 h-5" />
-                  )}
-                </button>
-              )}
-              
-              <button 
+
+              <ThemeToggle />
+
+              <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 rounded-full hover:bg-secondary text-foreground relative"
                 aria-label="Toggle menu"
@@ -106,10 +90,9 @@ export default function Navbar() {
                   <IconMenu2 className="w-5 h-5" />
                 )}
                 {/* Navigation Menu */}
-                <div 
-                  className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${
-                    isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-                  } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
+                <div
+                  className={`absolute top-0 right-[3.5rem] sm:right-16 bg-background border border-border rounded-lg shadow-lg transform transition-all duration-300 ease-in-out ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+                    } z-40 w-[calc(100vw-5rem)] sm:w-auto sm:min-w-[300px] max-w-[280px] sm:max-w-none mx-2 sm:mx-0`}
                 >
                   <div className="p-4">
                     <nav className="space-y-1">
@@ -120,9 +103,9 @@ export default function Navbar() {
                       <MenuItem icon={IconFeatherFilled} text={t('nav.supplements')} href="/supplements" />
                       <MenuItem icon={IconArticleFilled} text={t('nav.articles')} href="/articles" />
                     </nav>
-                    
+
                     <div className="h-px bg-border my-4" />
-                    
+
                     <div>
                       <MenuItem icon={IconCrown} text={t('nav.premium')} href="/premium" />
                       <MenuItem icon={IconLogin} text={t('nav.login')} href="/login" />
@@ -134,7 +117,7 @@ export default function Navbar() {
           </div>
         </div>
       </nav>
-      
+
       {/* Overlay when menu is open (only on mobile) */}
       {isMenuOpen && (
         <div
