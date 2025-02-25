@@ -42,6 +42,11 @@ async function syncAlternateLanguages(db, client, doc) {
   }
 }
 
+async function deleteDocument(db, documentId) {
+  const collection = db.collection('prismic_content');
+  await collection.deleteOne({ prismicId: documentId });
+}
+
 export default async function handler(req, res) {
   // Allow only POST requests
   if (req.method !== 'POST') {
@@ -52,9 +57,8 @@ export default async function handler(req, res) {
   const secret =
     req.headers['prismic-webhook-secret'] ||
     req.headers['x-prismic-secret'] ||
-    req.body?.secret; // Checking the body too
+    req.body?.secret;
 
-  // Verify the secret
   if (secret !== process.env.PRISMIC_WEBHOOK_SECRET) {
     return res.status(401).json({ message: 'Invalid webhook secret' });
   }
@@ -63,20 +67,41 @@ export default async function handler(req, res) {
     const { db } = await connectToDatabase();
     const client = createClient();
 
-    // Get the document type and id from the body
-    const { type, id } = req.body;
-
-    // Fetch the full document from Prismic
-    const doc = await client.getByID(id, { lang: '*' });
-    if (!doc) {
-      return res.status(404).json({ message: 'Document not found' });
+    // If it's a test trigger, respond successfully
+    if (req.body.type === 'test-trigger') {
+      return res.status(200).json({ message: 'Test trigger received successfully' });
     }
 
-    // Sync the document to MongoDB
-    await syncDocument(db, doc);
-    await syncAlternateLanguages(db, client, doc);
+    // Process documents from the payload
+    const documents = req.body.documents || [];
+    
+    // Check if it's an API update
+    if (req.body.type === 'api-update') {
+      for (const documentId of documents) {
+        try {
+          // Try to get the document from Prismic
+          const doc = await client.getByID(documentId, { lang: '*' });
+          
+          if (doc) {
+            // If the document exists, sync it
+            await syncDocument(db, doc);
+            await syncAlternateLanguages(db, client, doc);
+          } else {
+            // If the document doesn't exist in Prismic, delete it from MongoDB
+            await deleteDocument(db, documentId);
+          }
+        } catch (error) {
+          // If there's an error getting the document, assume it was deleted
+          if (error.message.includes('404') || error.message.includes('not found')) {
+            await deleteDocument(db, documentId);
+          } else {
+            console.error(`Error processing document ${documentId}:`, error);
+          }
+        }
+      }
+    }
 
-    res.status(200).json({ message: 'Content synced successfully' });
+    res.status(200).json({ message: 'Webhook processed successfully' });
   } catch (error) {
     console.error('Webhook error:', error);
     res.status(500).json({ message: 'Error processing webhook', error: error.message });
