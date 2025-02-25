@@ -8,7 +8,7 @@ import DiscussionsSection from './DiscussionsSection';
 import RelatedPosts from './RelatedPosts';
 import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
-
+import NewsletterSection from './common/newsletter';
 const ResearchTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
@@ -130,7 +130,7 @@ const ResearchTemplate = ({
 
         {summary && (
           <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
-            <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6">{t('research.sections.summary')}</h2>
+            <h2 className="mb-4 sm:mb-6">{t('research.sections.summary')}</h2>
             <p className="">{summary}</p>
           </section>
         )}
@@ -141,12 +141,12 @@ const ResearchTemplate = ({
           studyDesign?.duration?.length > 0 ||
           studyDesign?.size?.length > 0) && (
             <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6">{t('research.sections.studyDesign')}</h2>
+              <h2 className="mb-4 sm:mb-6">{t('research.sections.studyDesign')}</h2>
               <div className="bg-secondary/5 rounded-lg p-4 sm:p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {studyDesign?.interventions?.length > 0 && (
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.interventions')}</h3>
+                      <h3 className="mb-2">{t('research.sections.interventions')}</h3>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyDesign.interventions.map((intervention, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm">
@@ -158,7 +158,7 @@ const ResearchTemplate = ({
                   )}
                   {studyDesign?.studyType?.length > 0 && (
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.studyType')}</h3>
+                      <h3 className="mb-2">{t('research.sections.studyType')}</h3>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyDesign.studyType.map((type, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm">
@@ -170,7 +170,7 @@ const ResearchTemplate = ({
                   )}
                   {studyDesign?.outcomes?.length > 0 && (
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.outcomes')}</h3>
+                      <h3 className="mb-2">{t('research.sections.outcomes')}</h3>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyDesign.outcomes.map((outcome, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm">
@@ -182,7 +182,7 @@ const ResearchTemplate = ({
                   )}
                   {(studyDesign?.duration?.length > 0 || studyDesign?.size?.length > 0) && (
                     <div className='flex flex-col gap-2'>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.durationSize')}</h3>
+                      <h3 className="mb-2">{t('research.sections.durationSize')}</h3>
                       <div className='flex flex-wrap gap-1.5 sm:gap-2'>
                         {studyDesign?.duration?.map((duration, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-purple-100 text-purple-800 rounded-full text-xs sm:text-sm mr-1.5 sm:mr-2">
@@ -209,12 +209,12 @@ const ResearchTemplate = ({
           studyPopulation?.geography?.length > 0 ||
           studyPopulation?.others?.length > 0) && (
             <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4 sm:mb-6">{t('research.sections.studyPopulation')}</h2>
+              <h2 className="mb-4 sm:mb-6">{t('research.sections.studyPopulation')}</h2>
               <div className="bg-secondary/5 rounded-lg p-4 sm:p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {studyPopulation?.ageRange?.length > 0 && (
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.ageRange')}</h3>
+                      <h3 className="mb-2">{t('research.sections.ageRange')}</h3>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.ageRange.map((age, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm">
@@ -226,7 +226,7 @@ const ResearchTemplate = ({
                   )}
                   {studyPopulation?.sex?.length > 0 && (
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.sex')}</h3>
+                      <h3 className="mb-2">{t('research.sections.sex')}</h3>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.sex.map((sex, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-pink-100 text-pink-800 rounded-full text-xs sm:text-sm">
@@ -238,7 +238,7 @@ const ResearchTemplate = ({
                   )}
                   {studyPopulation?.geography?.length > 0 && (
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.geography')}</h3>
+                      <h3 className="mb-2">{t('research.sections.geography')}</h3>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.geography.map((location, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm">
@@ -250,7 +250,7 @@ const ResearchTemplate = ({
                   )}
                   {studyPopulation?.others?.length > 0 && (
                     <div>
-                      <h3 className="text-base sm:text-lg font-medium mb-2">{t('research.sections.otherCriteria')}</h3>
+                      <h3 className="mb-2">{t('research.sections.otherCriteria')}</h3>
                       <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {studyPopulation.others.map((criterion, index) => (
                           <span key={index} className="px-2 sm:px-3 py-0.5 sm:py-1 bg-orange-100 text-orange-800 rounded-full text-xs sm:text-sm">
@@ -268,7 +268,7 @@ const ResearchTemplate = ({
         <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
           {methodology?.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.methodology')}</h2>
+              <h2 className="mb-4">{t('research.sections.methodology')}</h2>
               {methodology.map((method, index) => (
                 <p key={index} className=" mb-4">{method}</p>
               ))}
@@ -277,7 +277,7 @@ const ResearchTemplate = ({
 
           {interventions?.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.interventions')}</h2>
+              <h2 className="mb-4">{t('research.sections.interventions')}</h2>
               {interventions.map((intervention, index) => (
                 <p key={index} className=" mb-4">{intervention}</p>
               ))}
@@ -286,7 +286,7 @@ const ResearchTemplate = ({
 
           {keyFindings?.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.keyFindings')}</h2>
+              <h2 className="mb-4">{t('research.sections.keyFindings')}</h2>
               {keyFindings.map((finding, index) => (
                 <p key={index} className=" mb-4">{finding}</p>
               ))}
@@ -295,7 +295,7 @@ const ResearchTemplate = ({
 
           {comparison?.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.comparison')}</h2>
+              <h2 className="mb-4">{t('research.sections.comparison')}</h2>
               {comparison.map((comp, index) => (
                 <p key={index} className=" mb-4" dangerouslySetInnerHTML={{ __html: comp }} />
               ))}
@@ -309,7 +309,7 @@ const ResearchTemplate = ({
               <div className="bg-secondary/5 rounded-lg p-4 sm:p-6">
                 <div className="flex items-center gap-2 mb-4 justify-center">
                   <IconFileTextAi className="w-5 h-5 sm:w-6 sm:h-6" />
-                  <h2 className="text-lg sm:text-xl font-bold">{t('research.sections.biasAnalysisScore')}</h2>
+                  <h2 className="">{t('research.sections.biasAnalysisScore')}</h2>
                 </div>
                 <div className="flex justify-center">
                   <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs sm:text-sm">
@@ -325,7 +325,7 @@ const ResearchTemplate = ({
           <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
             <section className="mb-8">
               <div className="flex mb-4">
-                <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.effectivenessAnalysis')}</h2>
+                <h2 className="mb-4">{t('research.sections.effectivenessAnalysis')}</h2>
               </div>
               <div className='flex flex-col gap-4'>
                 {effectivenessAnalysis.map((analysis, index) => (
@@ -387,7 +387,7 @@ const ResearchTemplate = ({
         {journalReference?.length > 0 && (
           <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
             <section className="mb-8">
-              <h2 className="text-xl sm:text-3xl font-bold mb-4">{t('research.sections.journalReference')}</h2>
+              <h2 className="mb-4">{t('research.sections.journalReference')}</h2>
               {journalReference.map((ref, index) => (
                 <p key={index} className="" dangerouslySetInnerHTML={{ __html: ref }} />
               ))}
@@ -411,28 +411,7 @@ const ResearchTemplate = ({
             />
           )}
 
-        <section className="mb-8 sm:mb-16 max-w-4xl bg-gray-50 mx-auto px-4 sm:px-6 py-8 sm:py-16 text-center">
-          <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">{t('research.newsletter.title')}</h2>
-          <p className="text-sm sm:text-lg text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8">
-            {t('research.newsletter.description')}
-          </p>
-          <div className="max-w-2xl mx-auto">
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <input
-                type="email"
-                placeholder={t('research.newsletter.emailPlaceholder')}
-                className="flex-1 px-3 sm:px-4 py-2 sm:py-3  rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
-                required
-              />
-              <button
-                type="submit"
-                className="px-4 sm:px-8 py-2 sm:py-3 bg-primary text-primary-foreground  rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-              >
-                {t('research.newsletter.subscribeButton')}
-              </button>
-            </form>
-          </div>
-        </section>
+        <NewsletterSection />
 
         {relatedPosts.length > 0 && (
           <RelatedPosts posts={relatedPosts} />

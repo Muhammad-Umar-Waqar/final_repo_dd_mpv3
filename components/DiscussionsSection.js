@@ -22,7 +22,7 @@ const BaseDiscussionCard = ({ icon: Icon, type, title, author, outboundLink }) =
         </a>
       </div>
       
-      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <h3 className="text-base sm:text-lg font-semibold mb-2">{title}</h3>
       
       <div className="text-sm text-muted-foreground">
         <span>{author}</span>
@@ -115,7 +115,7 @@ const DiscussionsSection = ({
 
   return (
     <section className="prose prose-lg max-w-none mb-16">
-      <h2 className="text-3xl font-bold mb-8">{t('research.discussions.title')}</h2>
+      <h2 className="text-2xl sm:text-4xl font-bold mb-8">{t('research.discussions.title')}</h2>
       
       {/* Navigation Tabs */}
       <div className="border-b border-border mb-8">

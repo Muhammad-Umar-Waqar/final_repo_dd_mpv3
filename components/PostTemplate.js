@@ -4,6 +4,7 @@ import DiscussionsSection from './DiscussionsSection';
 import RelatedPosts from './RelatedPosts';
 import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
+import NewsletterSection from './common/newsletter';
 
 const PostTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
@@ -59,7 +60,7 @@ const PostTemplate = ({
   return (
     <div className="min-h-screen bg-background">
       {showBackToTop && (
-        <button 
+        <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="fixed bottom-8 right-8 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary/90 transition-colors z-50"
         >
@@ -185,7 +186,7 @@ const PostTemplate = ({
             <h2>Key Findings</h2>
             <p>{keyFindings || ''}</p>
           </section>
-          
+
           <section>
             <h2>Comparison with other Studies</h2>
             <p>{comparison || ''}</p>
@@ -246,30 +247,11 @@ const PostTemplate = ({
           youtubeCards={youtubeCards || []}
         />
 
-        <section className="max-w-4xl bg-gray-50 mx-auto px-4 py-16 text-center">
-          <h2 className="text-4xl font-bold mb-6">Stay informed. Stay ahead.</h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto mb-8">
-            Subscribe now for the latest breakthroughs, expert insights, and cutting-edge updates in diabetes care—delivered straight to your inbox.
-          </p>
-          <div className="max-w-2xl mx-auto">
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-md border border-input bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-colors"
-                required
-              />
-              <button
-                type="submit"
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-              >
-                Subscribe
-              </button>
-            </form>
-          </div>
-        </section>
+        <NewsletterSection />
 
-        <RelatedPosts posts={relatedPosts || []} />
+        {relatedPosts.length > 0 && (
+          <RelatedPosts posts={relatedPosts} />
+        )}
       </main>
 
       <div className="mt-auto">
