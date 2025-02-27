@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconBookmark, IconUser } from '@tabler/icons-react';
-import { format } from 'date-fns';
+import { format, parse } from 'date-fns';
 import { es, enUS } from 'date-fns/locale';
 import { useTranslations } from '../utils/i18n';
 import ShareMenu from './ShareMenu';
@@ -11,7 +11,33 @@ const BlogPostHeader = ({ title, publisher, publishDate, type, author, authorIma
   const formatDate = (date) => {
     try {
       const dateLocale = locale === 'es' ? es : enUS;
-      return format(new Date(date), 'MMMM d, yyyy', { locale: dateLocale });
+      const dateFormat = locale === 'es' ? "d 'de' MMMM, yyyy" : 'MMMM d, yyyy';
+      
+      if (date instanceof Date) {
+        return format(date, dateFormat, { locale: dateLocale });
+      }
+
+      let parsedDate;
+      
+      if (date.includes('-')) {
+        parsedDate = new Date(date);
+      }
+      else if (date.includes('/')) {
+        const [day, month, year] = date.split('/');
+        parsedDate = new Date(year, month - 1, day);
+      }
+      else if (/^\d{4}$/.test(date)) {
+        return date;
+      }
+      else {
+        parsedDate = new Date(date);
+      }
+
+      if (isNaN(parsedDate.getTime())) {
+        throw new Error('Invalid date');
+      }
+
+      return format(parsedDate, dateFormat, { locale: dateLocale });
     } catch (error) {
       console.error('Error formatting date:', error);
       return date;

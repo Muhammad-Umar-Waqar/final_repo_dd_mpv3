@@ -516,7 +516,7 @@ export const esTranslations = {
         online: "en línea",
         reddit: "reddit",
         studies: "estudios",
-        x: "x",
+        x: "𝕏",
         youtube: "youtube"
       },
       types: {
@@ -524,7 +524,7 @@ export const esTranslations = {
         online: "en línea",
         reddit: "reddit",
         studies: "estudios",
-        x: "",
+        x: "𝕏",
         youtube: "youtube"
       }
     }

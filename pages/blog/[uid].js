@@ -6,6 +6,7 @@ import ArticleTemplate from '../../components/ArticleTemplate';
 import NotFoundState from '../../components/research/NotFoundState';
 import BlogSkeleton from '../../components/blog/BlogSkeleton';
 import { mapBlogData } from '../../lib/blog/blog-mapper';
+import BlogSEO from '../../components/blog/BlogSEO';
 
 export default function BlogPost({ post, authorImage, authorName }) {
   const router = useRouter();
@@ -42,10 +43,18 @@ export default function BlogPost({ post, authorImage, authorName }) {
 
   return (
     <div className="min-h-screen bg-background">
-      <Head>
-        <title>{`${articleData.title} - Dexdiabetes`}</title>
-        <meta name="description" content={post.data.description?.[0]?.text || ''} />
-      </Head>
+      <BlogSEO 
+        title={articleData.title}
+        description={post.data.description?.[0]?.text || ''}
+        publishedAt={post.first_publication_date}
+        updatedAt={post.last_publication_date}
+        author={{
+          name: authorName || 'Dexdiabetes',
+          uid: post.data.author?.uid || 'dediabetes',
+        }}
+        authorImage={authorImage}
+        featuredImage={post.data.featured_image?.url || null}
+      />
 
       <ArticleTemplate {...articleData} />
     </div>

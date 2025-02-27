@@ -5,6 +5,7 @@ import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
 import RelatedPosts from './RelatedPosts';
 import NewsletterSection from './common/newsletter';
+import SliceZone from './SliceZone';
 
 const ArticleTemplate = ({
   title,
@@ -12,11 +13,12 @@ const ArticleTemplate = ({
   publisher,
   publishDate,
   readTime,
+  body = [],
   content = "",
   imageUrl = null,
   authorImage = null,
   isDarkMode = false,
-  toggleDarkMode = () => {},
+  toggleDarkMode = () => { },
   relatedPosts = [],
   categories = []
 }) => {
@@ -66,7 +68,7 @@ const ArticleTemplate = ({
         </figure>
 
         {/* Article Content */}
-        <article className="prose prose-lg max-w-none mb-8 sm:mb-16">
+        {/* <article className="prose prose-lg max-w-none mb-8 sm:mb-16">
           {!content ? (
             <p className="text-muted-foreground italic mb-4">{t('article.content.noContent')}</p>
           ) : (
@@ -75,13 +77,19 @@ const ArticleTemplate = ({
               className="prose-headings:mb-4 sm:prose-headings:mb-6 prose-headings:font-bold prose-p:mb-4 prose-ul:mb-4 prose-li:mb-2 prose-img:rounded-lg prose-img:my-8"
             />
           )}
-        </article>
+        </article> */}
+
+        <div className='[&_a]:text-[#eb4a4b] [&_a:hover]:underline'>
+        <span data-typesense-field="description">
+          <SliceZone allSlices={body} />
+          </span>
+        </div>
 
         {/* Newsletter Section */}
-        <div className="mb-8 sm:mb-16">
+        <div className="mt-8 mb-8 sm:mb-16">
           <NewsletterSection />
         </div>
-        
+
         {/* Related Posts Section */}
         {!relatedPosts.length > 0 && (
           <div className="mb-8 sm:mb-16">

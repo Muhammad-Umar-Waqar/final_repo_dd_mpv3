@@ -516,7 +516,7 @@ export const enTranslations = {
         online: "online",
         reddit: "reddit",
         studies: "studies",
-        x: "x",
+        x: "𝕏",
         youtube: "youtube"
       },
       types: {
@@ -524,7 +524,7 @@ export const enTranslations = {
         online: "online",
         reddit: "reddit",
         studies: "studies",
-        x: "",
+        x: "𝕏",
         youtube: "youtube"
       }
     }
