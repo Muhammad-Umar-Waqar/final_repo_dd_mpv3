@@ -129,7 +129,7 @@ const ResearchTemplate = ({
         )}
 
         {summary && (
-          <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
+          <section className="whitespace-pre-wrap prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
             <h2 className="mb-4 sm:mb-6">{t('research.sections.summary')}</h2>
             <p className="">{summary}</p>
           </section>
