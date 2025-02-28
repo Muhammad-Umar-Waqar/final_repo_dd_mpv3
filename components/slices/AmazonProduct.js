@@ -1,14 +1,18 @@
-import { Box, Button } from '@mui/material';
 import Image from 'next/image';
+import { Button } from '@mui/material';
+
+import { useTranslations } from '../../utils/i18n';
 
 const AmazonProduct = ({ input }) => {
+    const { t } = useTranslations();
+
     return (
         <div className="text-center my-10">
             {input.primary.product_image?.url && (
                 <div className="flex justify-center">
                     <Image.default
                         src={input.primary.product_image.url}
-                        alt={input.primary.product_image.alt || 'Producto Amazon'}
+                        alt={input.primary.product_image.alt || t('article.slices.amazon_product.default_alt')}
                         width={input.primary.product_image.dimensions.width}
                         height={input.primary.product_image.dimensions.height}
                         objectFit="contain"
@@ -28,9 +32,9 @@ const AmazonProduct = ({ input }) => {
                 >
                     <Button 
                         variant="contained" 
-                        className="bg-yellow-300 hover:bg-themeBrandColor hover:text-white"
+                        className="bg-[#d5d5d5] hover:bg-themeBrandColor text-black"
                     >
-                        Comprar en Amazon
+                        {t('article.slices.amazon_product.buy_button')}
                     </Button>
                 </a>
             </div>

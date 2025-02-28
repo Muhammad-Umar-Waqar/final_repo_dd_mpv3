@@ -567,6 +567,12 @@ export const esTranslations = {
     related: {
       title: "También te puede interesar...",
       noRelatedPosts: "No hay artículos relacionados disponibles"
+    },
+    slices: {
+      amazon_product: {
+        default_alt: "Producto de Amazon",
+        buy_button: "Comprar en Amazon"
+      }
     }
   },
   // ============= TRADUCCIONES PARA LA TABLA DE INVESTIGACIÓN =============

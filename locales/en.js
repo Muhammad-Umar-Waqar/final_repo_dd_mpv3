@@ -567,6 +567,12 @@ export const enTranslations = {
     related: {
       title: "You might also like...",
       noRelatedPosts: "No related posts available"
+    },
+    slices: {
+      amazon_product: {
+        default_alt: "Amazon Product",
+        buy_button: "Buy on Amazon"
+      }
     }
   },
   // ============= RESEARCH TABLE TRANSLATIONS =============

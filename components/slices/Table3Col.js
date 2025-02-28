@@ -1,160 +1,62 @@
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
-  Paper,
-  Typography 
-} from '@mui/material';
+import React from 'react';
 
 const Table3Col = ({ input }) => {
+  const getColumnHtml = (column) => {
+    if (!column || !Array.isArray(column)) return '';
+    return column.map(item => item.text).join('');
+  };
+
   return (
     <>
-      {input.primary.table_title.text && (
-        <Typography variant="h3" className="w-100">
-          {input.primary.table_title.text}
-        </Typography>
+      {input.primary.table_title?.text && (
+        <div className="w-full">
+          <h3 className="text-2xl font-bold mb-4">{input.primary.table_title.text}</h3>
+        </div>
       )}
-      <TableContainer 
-        component={Paper} 
-        elevation={1}
-      >
-        <Table 
-          sx={{
-            width: '100%',
-            borderSpacing: '10px',
-            border: 'none',
-            padding: '5px',
-            borderCollapse: 'collapse',
-            fontFamily: 'Raleway',
-            fontWeight: 400,
-            margin: '12px 0px',
-            '& thead': {
-              borderBottom: '5px solid #ff0000',
-            },
-            '& thead tr': {
-              backgroundColor: '#ffffff',
-              lineHeight: '25px'
-            }
-          }}
-        >
-          <TableHead className="bg-gray-200">
-            <TableRow>
-              <TableCell 
-                component="th"
-                align="center"
-                sx={{
-                  fontSize: '16px',
-                  color: 'black',
-                  textAlign: 'center'
-                }}
-              >
+      <div className="rounded shadow-sm">
+        <table className="w-full border-collapse font-raleway font-normal my-3">
+          <thead className="border-b-[5px] border-b-red-500">
+            <tr className="bg-white leading-[25px]">
+              <th className="text-base text-black text-center font-medium p-2">
                 {input.primary.column_1_heading}
-              </TableCell>
-              <TableCell 
-                component="th"
-                align="center"
-                sx={{
-                  fontSize: '16px',
-                  color: 'black',
-                  textAlign: 'center'
-                }}
-              >
+              </th>
+              <th className="text-base text-black text-center font-medium p-2">
                 {input.primary.column_2_heading}
-              </TableCell>
-              <TableCell 
-                component="th"
-                align="center"
-                sx={{
-                  fontSize: '16px',
-                  color: 'black',
-                  textAlign: 'center'
-                }}
-              >
+              </th>
+              <th className="text-base text-black text-center font-medium p-2">
                 {input.primary.column_3_heading}
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
             {input.items.map((item, index) => (
-              <TableRow 
-                key={index}
-                sx={{
-                  padding: '0px',
-                  margin: '0px',
-                  borderBottom: '1px solid #cccccc',
-                  '&:nth-of-type(2n)': {
-                    backgroundColor: '#cccccc'
-                  }
-                }}
+              <tr 
+                key={index} 
+                className={`border-b border-[#cccccc] ${index % 2 === 1 ? 'bg-[#cccccc]' : ''}`}
               >
-                <TableCell 
-                  align="center"
-                  sx={{
-                    padding: '2px',
-                    margin: '2px',
-                    textAlign: 'center',
-                    fontWeight: 500,
-                    '& p': {
-                      fontSize: '0.9rem',
-                      fontWeight: 500,
-                      lineHeight: 1.43,
-                      textAlign: 'center',
-                      padding: '2px',
-                      margin: '2px',
-                      verticalAlign: 'top',
-                      borderTop: 0
-                    }
+                <td 
+                  className="p-2 m-0.5 text-center text-sm [&>p]:text-sm [&>p]:font-normal [&>p]:leading-[1.43] [&>p]:text-center [&>p]:p-0.5 [&>p]:m-0.5 [&>p]:align-top [&>p]:border-t-0"
+                  dangerouslySetInnerHTML={{ 
+                    __html: getColumnHtml(item.col1)
                   }}
-                  dangerouslySetInnerHTML={{ __html: item.col1.html }}
                 />
-                <TableCell 
-                  align="center"
-                  sx={{
-                    padding: '2px',
-                    margin: '2px',
-                    textAlign: 'center',
-                    fontWeight: 500,
-                    '& p': {
-                      fontSize: '0.9rem',
-                      fontWeight: 500,
-                      lineHeight: 1.43,
-                      textAlign: 'center',
-                      padding: '2px',
-                      margin: '2px',
-                      verticalAlign: 'top',
-                      borderTop: 0
-                    }
+                <td 
+                  className="p-2 m-0.5 text-center text-sm [&>p]:text-sm [&>p]:font-normal [&>p]:leading-[1.43] [&>p]:text-center [&>p]:p-0.5 [&>p]:m-0.5 [&>p]:align-top [&>p]:border-t-0"
+                  dangerouslySetInnerHTML={{ 
+                    __html: getColumnHtml(item.col2)
                   }}
-                  dangerouslySetInnerHTML={{ __html: item.col2.html }}
                 />
-                <TableCell 
-                  align="center"
-                  sx={{
-                    padding: '2px',
-                    margin: '2px',
-                    textAlign: 'center',
-                    fontWeight: 500,
-                    '& p': {
-                      fontSize: '0.9rem',
-                      fontWeight: 500,
-                      lineHeight: 1.43,
-                      textAlign: 'center',
-                      padding: '2px',
-                      margin: '2px',
-                      verticalAlign: 'top',
-                      borderTop: 0
-                    }
+                <td 
+                  className="p-2 m-0.5 text-center text-sm [&>p]:text-sm [&>p]:font-normal [&>p]:leading-[1.43] [&>p]:text-center [&>p]:p-0.5 [&>p]:m-0.5 [&>p]:align-top [&>p]:border-t-0"
+                  dangerouslySetInnerHTML={{ 
+                    __html: getColumnHtml(item.col3)
                   }}
-                  dangerouslySetInnerHTML={{ __html: item.col3.html }}
                 />
-              </TableRow>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
