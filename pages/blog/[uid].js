@@ -65,7 +65,7 @@ export async function getStaticPaths({ locales }) {
   const paths = [];
   
   const databaseLocales = {
-    'en-us': 'en-us',
+    'en': 'en-us',
     'es': 'es-es'
   };
   
