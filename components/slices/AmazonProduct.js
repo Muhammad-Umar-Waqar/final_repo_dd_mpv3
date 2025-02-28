@@ -1,56 +1,40 @@
-import { Box, Paper, Typography, Button } from '@mui/material';
-import NextImage from 'next/image';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Box, Button } from '@mui/material';
+import Image from 'next/image';
 
 const AmazonProduct = ({ input }) => {
     return (
-        <Paper
-            elevation={2}
-            sx={{
-                p: 3,
-                my: 4,
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                alignItems: 'center',
-                gap: 3
-            }}
-        >
+        <div className="text-center my-10">
             {input.primary.product_image?.url && (
-                <Box sx={{ width: { xs: '100%', sm: '200px' } }}>
-                    <NextImage
+                <div className="flex justify-center">
+                    <Image.default
                         src={input.primary.product_image.url}
-                        alt={input.primary.product_title || 'Amazon Product'}
-                        width={200}
-                        height={200}
+                        alt={input.primary.product_image.alt || 'Producto Amazon'}
+                        width={input.primary.product_image.dimensions.width}
+                        height={input.primary.product_image.dimensions.height}
                         objectFit="contain"
                     />
-                </Box>
+                </div>
             )}
 
-            <Box sx={{ flex: 1 }}>
-                <Typography variant="h6" gutterBottom>
-                    {input.primary.product_title}
-                </Typography>
+            <p className="font-bold mt-4">
+                {input.primary.product_name?.[0]?.text}
+            </p>
 
-                {input.primary.product_description?.text && (
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                        <div dangerouslySetInnerHTML={{ __html: input.primary.product_description.text }} />
-                    </Typography>
-                )}
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    href={input.primary.amazon_link?.url}
+            <div className="flex flex-row justify-center my-5">
+                <a 
+                    href={input.primary.product_link?.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    startIcon={<ShoppingCartIcon />}
-                    sx={{ mt: 2 }}
                 >
-                    Amazon
-                </Button>
-            </Box>
-        </Paper>
+                    <Button 
+                        variant="contained" 
+                        className="bg-yellow-300 hover:bg-themeBrandColor hover:text-white"
+                    >
+                        Comprar en Amazon
+                    </Button>
+                </a>
+            </div>
+        </div>
     );
 };
 
