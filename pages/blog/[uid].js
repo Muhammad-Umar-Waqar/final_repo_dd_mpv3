@@ -116,6 +116,27 @@ export async function getStaticProps({ params, locale }) {
       }
     }
 
+    // Check if we should redirect to the alternate language version
+    if (post.alternate_languages?.length > 0) {
+      const currentLang = post.lang;
+      const requestedLang = dbLocale;
+      
+      // If the post we found is not in the requested language
+      if (currentLang !== requestedLang) {
+        // Find the alternate version in the requested language
+        const alternateVersion = post.alternate_languages.find(alt => alt.lang === requestedLang);
+        if (alternateVersion) {
+          // Redirect to the alternate version
+          return {
+            redirect: {
+              destination: `/${locale}/blog/${alternateVersion.uid}`,
+              permanent: false
+            }
+          };
+        }
+      }
+    }
+
     console.log('Post author data:', post.data.author);
 
     // Fetch author document if author UID exists

@@ -140,16 +140,6 @@ export async function getStaticPaths({ locales }) {
 
 export async function getStaticProps({ params, locale }) {
   try {
-    // If URL starts with 'blog/', redirect to the blog route
-    // if (params.uid.startsWith('blog/')) {
-    //   return {
-    //     redirect: {
-    //       destination: `/${locale}/blog/${params.uid.replace('blog/', '')}`,
-    //       permanent: true,
-    //     },
-    //   };
-    // }
-
     // Map URL locales to database locales
     const databaseLocales = {
       'en': 'en-us',
@@ -166,7 +156,32 @@ export async function getStaticProps({ params, locale }) {
     // Try to find the document as a research post first
     let post = await getDocumentByUID('research', cleanUid, dbLocale);
     if (post) {
-      // If found in /research/ path, redirect to root path
+      // Check if we should redirect to the alternate language version
+      if (post.alternate_languages?.length > 0) {
+        const currentLang = post.lang;
+        const requestedLang = dbLocale;
+        
+        // If the post we found is not in the requested language
+        if (currentLang !== requestedLang) {
+          // Find the alternate version in the requested language
+          const alternateVersion = post.alternate_languages.find(alt => alt.lang === requestedLang);
+          if (alternateVersion) {
+            // Redirect to the alternate version, maintaining the research/ prefix if present
+            const redirectPath = isResearchPath ? 
+              `/${locale}/research/${alternateVersion.uid}` : 
+              `/${locale}/${alternateVersion.uid}`;
+            
+            return {
+              redirect: {
+                destination: redirectPath,
+                permanent: false
+              }
+            };
+          }
+        }
+      }
+
+      // If found in /research/ path, redirect to root path (commented out as per existing code)
       // if (isResearchPath) {
       //   return {
       //     redirect: {
@@ -175,6 +190,7 @@ export async function getStaticProps({ params, locale }) {
       //     },
       //   };
       // }
+      
       return {
         props: {
           post,
@@ -193,15 +209,24 @@ export async function getStaticProps({ params, locale }) {
       // Try research post in other locale first
       post = await getDocumentByUID('research', cleanUid, otherLocale);
       if (post) {
-        // If found in /research/ path, redirect to root path
-        if (isResearchPath) {
-          return {
-            redirect: {
-              destination: `/${locale}/${cleanUid}`,
-              permanent: true,
-            },
-          };
+        // Check alternate languages for research post in other locale
+        if (post.alternate_languages?.length > 0) {
+          const alternateVersion = post.alternate_languages.find(alt => alt.lang === dbLocale);
+          if (alternateVersion) {
+            // Redirect to the alternate version, maintaining the research/ prefix if present
+            const redirectPath = isResearchPath ? 
+              `/${locale}/research/${alternateVersion.uid}` : 
+              `/${locale}/${alternateVersion.uid}`;
+            
+            return {
+              redirect: {
+                destination: redirectPath,
+                permanent: false
+              }
+            };
+          }
         }
+
         return {
           props: {
             post,
@@ -210,8 +235,22 @@ export async function getStaticProps({ params, locale }) {
           revalidate: 60,
         };
       }
+      
       // Then try page in other locale
       post = await getDocumentByUID('page', uid, otherLocale);
+      
+      // Check alternate languages for regular page
+      if (post?.alternate_languages?.length > 0) {
+        const alternateVersion = post.alternate_languages.find(alt => alt.lang === dbLocale);
+        if (alternateVersion) {
+          return {
+            redirect: {
+              destination: `/${locale}/${alternateVersion.uid}`,
+              permanent: false
+            }
+          };
+        }
+      }
     }
 
     if (!post) {
