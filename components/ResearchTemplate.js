@@ -9,6 +9,7 @@ import RelatedPosts from './RelatedPosts';
 import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
 import NewsletterSection from './common/newsletter';
+import { Alert } from '@mui/material';
 const ResearchTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
@@ -71,6 +72,15 @@ const ResearchTemplate = ({
     return t(`research.${type}.${key}`) || value;
   };
 
+  // Función para traducir los dominios
+  const translateDomain = (domain) => {
+    const domainKey = domain[0].toLowerCase()
+      .replace(/\s+/g, '_')
+      .replace(/\(|\)/g, '')
+      .replace(/[–-]/g, '_');
+    return t(`research.domains.${domainKey}`) || domain;
+  };
+
   React.useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -100,7 +110,7 @@ const ResearchTemplate = ({
                 key={index}
                 className="inline-block px-2 sm:px-3 py-1 text-xs sm:text-sm font-medium text-red-700 bg-red-50 rounded-md"
               >
-                {domain}
+                {translateDomain(domain)}
               </span>
             ))}
           </div>
@@ -394,6 +404,11 @@ const ResearchTemplate = ({
             </section>
           </section>
         )}
+
+        {/* Alert Box */}
+        <Alert severity="warning" variant='outlined' className="my-8 italic !prose !text-yellow-900">
+          {t('research.alert_box')}
+        </Alert>
 
         {(expertCards?.length > 0 ||
           onlineCards?.length > 0 ||

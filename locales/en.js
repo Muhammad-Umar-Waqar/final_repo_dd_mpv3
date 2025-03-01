@@ -451,6 +451,16 @@ export const enTranslations = {
     defaultPublisher: "Diabetes Research Journal",
     defaultDate: "January 31, 2025",
     defaultReadTime: "8 min read",
+    domains: {
+      supplements_and_vitamins: "Supplements and Vitamins",
+      diabetes_prevention: "Diabetes Prevention",
+      t1d_cure_research: "T1D Cure Research",
+      diabetes_complications: "Diabetes Complications",
+      behavioral_intervention: "Behavioral Intervention",
+      digital_health: "Digital Health",
+      precision_medicine: "Precision Medicine",
+      pharmacological_treatments: "Pharmacological Treatments"
+    },
     sections: {
       summary: "Summary",
       studyDesign: "Study Design",
@@ -527,7 +537,8 @@ export const enTranslations = {
         x: "𝕏",
         youtube: "youtube"
       }
-    }
+    },
+    alert_box: "This research summary and analysis were generated using AI-powered tools to assist in data synthesis and interpretation. While we strive for accuracy and completeness, we encourage readers to verify critical information and consult additional sources as needed. The insights presented reflect an AI-assisted perspective and should not be considered a substitute for expert opinion or independent research."
   },
   // ============= ARTICLE TEMPLATE TRANSLATIONS =============
   article: {
@@ -573,7 +584,8 @@ export const enTranslations = {
         default_alt: "Amazon Product",
         buy_button: "Buy on Amazon"
       }
-    }
+    },
+    alert_box: "This article is for educational purposes only. The information provided is not intended to be, nor should it be considered, a substitute for professional medical advice, diagnosis, or treatment. Always consult a healthcare professional before taking any supplements and/or medications."
   },
   // ============= RESEARCH TABLE TRANSLATIONS =============
   researchTable: {

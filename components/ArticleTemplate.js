@@ -6,6 +6,7 @@ import Footer from './Footer';
 import RelatedPosts from './RelatedPosts';
 import NewsletterSection from './common/newsletter';
 import SliceZone from './SliceZone';
+import { Alert } from '@mui/material';
 
 const ArticleTemplate = ({
   title,
@@ -80,10 +81,15 @@ const ArticleTemplate = ({
         </article> */}
 
         <div className='[&_a]:text-[#eb4a4b] [&_a:hover]:underline'>
-        <span data-typesense-field="description">
-          <SliceZone allSlices={body} />
+          <span data-typesense-field="description">
+            <SliceZone allSlices={body} />
           </span>
         </div>
+
+        {/* Alert Box */}
+        <Alert severity="warning" variant='outlined' className="my-8 italic !prose !text-yellow-900">
+          {t('article.alert_box')}
+        </Alert>
 
         {/* Newsletter Section */}
         <div className="mt-8 mb-8 sm:mb-16">

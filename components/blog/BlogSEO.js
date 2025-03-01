@@ -1,4 +1,5 @@
 import { NextSeo, ArticleJsonLd } from 'next-seo';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const BlogSEO = ({
@@ -14,7 +15,9 @@ const BlogSEO = ({
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://dexdiabetes.com',
     twitterHandle: '@dexdiabetes',
     defaultImage: '/images/default-og.jpg',
-    defaultLocale: 'es'
+    defaultLocale: 'es',
+    facebook: 'https://facebook.com/dexdiabetes',
+    twitter: 'https://twitter.com/dexdiabetes'
   }
 }) => {
   const router = useRouter();
@@ -27,6 +30,66 @@ const BlogSEO = ({
     height: 630,
     alt: title,
   }];
+
+  // Prepare organization data
+  const organization = {
+    '@type': 'Organization',
+    '@id': `${siteConfig.siteUrl}/#organization`,
+    name: siteConfig.siteName,
+    url: siteConfig.siteUrl,
+    sameAs: [siteConfig.twitter, siteConfig.facebook],
+    logo: {
+      '@type': 'ImageObject',
+      '@id': `${siteConfig.siteUrl}/#logo`,
+      url: `${siteConfig.siteUrl}${siteConfig.defaultImage}`,
+      contentUrl: `${siteConfig.siteUrl}${siteConfig.defaultImage}`,
+      caption: siteConfig.siteName
+    }
+  };
+
+  // Prepare website data
+  const website = {
+    '@type': 'WebSite',
+    '@id': `${siteConfig.siteUrl}#website`,
+    url: siteConfig.siteUrl,
+    name: siteConfig.siteName,
+    description: 'Cuidado de la Diabetes',
+    publisher: { '@id': `${siteConfig.siteUrl}/#organization` }
+  };
+
+  // Prepare breadcrumb data
+  const breadcrumb = {
+    '@type': 'BreadcrumbList',
+    '@id': `${canonicalUrl}#breadcrumb`,
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Inicio',
+        item: { '@type': 'Thing', '@id': siteConfig.siteUrl }
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: title,
+        item: { '@type': 'Thing', '@id': canonicalUrl }
+      }
+    ]
+  };
+
+  // Prepare person data if author exists
+  const person = author ? {
+    '@type': 'Person',
+    '@id': `${siteConfig.siteUrl}/autores/${author.uid}/#author`,
+    url: `${siteConfig.siteUrl}/autores/${author.uid}`,
+    name: author.name,
+    image: {
+      '@type': 'ImageObject',
+      '@id': `${siteConfig.siteUrl}#personlogo`,
+      url: authorImage,
+      caption: author.name
+    }
+  } : null;
 
   return (
     <>
@@ -45,8 +108,8 @@ const BlogSEO = ({
           article: {
             publishedTime: publishedAt,
             modifiedTime: updatedAt,
-            authors: [`${siteConfig.siteUrl}/autores/${author?.uid || 'dediabetes'}`],
-          },
+            authors: [`${siteConfig.siteUrl}/autores/${author?.uid || 'dediabetes'}`]
+          }
         }}
         twitter={{
           handle: siteConfig.twitterHandle,
@@ -70,6 +133,23 @@ const BlogSEO = ({
         publisherLogo={`${siteConfig.siteUrl}${siteConfig.defaultImage}`}
         description={description}
       />
+
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                organization,
+                website,
+                breadcrumb,
+                ...(person ? [person] : [])
+              ]
+            })
+          }}
+        />
+      </Head>
     </>
   );
 };

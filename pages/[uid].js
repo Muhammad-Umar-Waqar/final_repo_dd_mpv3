@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useTranslations } from '../utils/i18n';
 import { getDocumentByUID, getAllDocuments } from '../lib/mongodb';
 import ResearchTemplate from '../components/ResearchTemplate';
+import ResearchSEO from '../components/research/ResearchSEO';
 import ResearchSkeleton from '../components/research/ResearchSkeleton';
 import NotFoundState from '../components/research/NotFoundState';
 import { mapResearchData } from '../lib/research/research-mapper';
@@ -35,10 +36,19 @@ export default function Page({ post, type }) {
 
     return (
       <div className="min-h-screen bg-background">
-        <Head>
-          <title>{`${research.title} - Dexdiabetes`}</title>
-          <meta name="description" content={research.summary} />
-        </Head>
+        <ResearchSEO
+          title={research.title}
+          description={research.summary}
+          publishedAt={post.first_publication_date}
+          updatedAt={post.last_publication_date}
+          author={{
+            name: post.data.author?.name || 'Dexdiabetes',
+            uid: post.data.author?.uid || 'dediabetes'
+          }}
+          authorImage={post.data.author?.headshot?.url}
+          featuredImage={post.data.featured_image?.url}
+          domains={research.domains || []}
+        />
         <ResearchTemplate {...research} />
       </div>
     );

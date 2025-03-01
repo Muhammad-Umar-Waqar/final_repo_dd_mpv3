@@ -451,6 +451,16 @@ export const esTranslations = {
     defaultPublisher: "Revista de Investigación en Diabetes",
     defaultDate: "31 de enero de 2025",
     defaultReadTime: "8 min de lectura",
+    domains: {
+      supplements_and_vitamins: "Suplementos y Vitaminas",
+      diabetes_prevention: "Prevención de Diabetes",
+      t1d_cure_research: "Investigación de Cura T1D",
+      diabetes_complications: "Complicaciones de Diabetes",
+      behavioral_intervention: "Intervención Conductual",
+      digital_health: "Salud Digital",
+      precision_medicine: "Medicina de Precisión",
+      pharmacological_treatments: "Tratamientos Farmacológicos"
+    },
     sections: {
       summary: "Resumen",
       studyDesign: "Diseño del Estudio",
@@ -527,7 +537,8 @@ export const esTranslations = {
         x: "𝕏",
         youtube: "youtube"
       }
-    }
+    },
+    alert_box: "Este resumen de investigación y análisis fue generado con herramientas de inteligencia artificial para ayudar en la síntesis e interpretación de datos. Si bien nos esforzamos por garantizar precisión y exhaustividad, recomendamos a los lectores verificar la información clave y consultar fuentes adicionales según sea necesario. Los insights presentados reflejan una perspectiva asistida por IA y no deben considerarse un sustituto de la opinión de expertos o la investigación independiente."
   },
   // ============= TRADUCCIONES PARA TEMPLATE DE ARTÍCULOS =============
   article: {
@@ -573,7 +584,8 @@ export const esTranslations = {
         default_alt: "Producto de Amazon",
         buy_button: "Comprar en Amazon"
       }
-    }
+    },
+    alert_box: "Este artículo tiene un propósito exclusivamente educativo. La información proporcionada no pretende ni debe considerarse un sustituto del consejo, diagnóstico o tratamiento médico profesional. Siempre se recomienda consultar a un profesional de la salud antes de tomar cualquier suplemento y/o medicamento."
   },
   // ============= TRADUCCIONES PARA LA TABLA DE INVESTIGACIÓN =============
   researchTable: {

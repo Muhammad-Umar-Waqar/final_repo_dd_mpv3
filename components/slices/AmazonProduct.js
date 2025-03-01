@@ -32,7 +32,7 @@ const AmazonProduct = ({ input }) => {
                 >
                     <Button 
                         variant="contained" 
-                        className="bg-[#d5d5d5] hover:bg-themeBrandColor text-black"
+                        className="!bg-[#d5d5d5] hover:!bg-[#d5d5d5]/80 !text-black"
                     >
                         {t('article.slices.amazon_product.buy_button')}
                     </Button>
