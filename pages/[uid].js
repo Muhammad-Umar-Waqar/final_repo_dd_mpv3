@@ -42,7 +42,7 @@ export default function Page({ post, type }) {
           publishedAt={post.first_publication_date}
           updatedAt={post.last_publication_date}
           author={{
-            name: post.data.author?.name || 'Dexdiabetes',
+            name: post.data.author?.name || 'Dediabetes',
             uid: post.data.author?.uid || 'dediabetes'
           }}
           authorImage={post.data.author?.headshot?.url}

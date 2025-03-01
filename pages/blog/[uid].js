@@ -49,7 +49,7 @@ export default function BlogPost({ post, authorImage, authorName }) {
         publishedAt={post.first_publication_date}
         updatedAt={post.last_publication_date}
         author={{
-          name: authorName || 'Dexdiabetes',
+          name: authorName || 'Dediabetes',
           uid: post.data.author?.uid || 'dediabetes',
         }}
         authorImage={authorImage}

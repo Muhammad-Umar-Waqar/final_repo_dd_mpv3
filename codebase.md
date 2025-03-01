@@ -1205,7 +1205,7 @@ export default function Navbar({ isDarkMode, toggleDarkMode }) {
               <Link href="/" locale={locale} className="hover:opacity-90 transition-opacity">
                 <img
                   src="/logo1.png"
-                  alt="DeXdiabetes Logo"
+                  alt="Dediabetes Logo"
                   className="h-8 w-auto"
                 />
               </Link>
@@ -3203,7 +3203,7 @@ export default function ArtificialPancreasTrialPage() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>{commonData.title} - Dexdiabetes</title>
+        <title>{commonData.title} - Dediabetes</title>
         <meta 
           name="description" 
           content="Latest results from a 24-month trial of an artificial pancreas system showing significant improvements in glycemic control." 

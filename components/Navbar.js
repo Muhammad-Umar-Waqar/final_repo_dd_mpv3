@@ -55,7 +55,7 @@ export default function Navbar() {
               <Link href="/" locale={locale} className="hover:opacity-90 transition-opacity">
                 <img
                   src="/logo1.png"
-                  alt="DeXdiabetes Logo"
+                  alt="Dediabetes Logo"
                   className="h-8 w-auto"
                 />
               </Link>

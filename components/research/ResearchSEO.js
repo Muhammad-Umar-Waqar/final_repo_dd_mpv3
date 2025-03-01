@@ -12,13 +12,13 @@ const ResearchSEO = ({
     featuredImage,
     domains = [],
     siteConfig = {
-        siteName: 'Dexdiabetes',
-        siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://dexdiabetes.com',
-        twitterHandle: '@dexdiabetes',
+        siteName: 'Dediabetes',
+        siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'https://dediabetes.com',
+        twitterHandle: '@dediabetes',
         defaultImage: '/images/default-og.jpg',
         defaultLocale: 'es',
-        facebook: 'https://facebook.com/dexdiabetes',
-        twitter: 'https://twitter.com/dexdiabetes'
+        facebook: 'https://facebook.com/dediabetes',
+        twitter: 'https://twitter.com/dediabetes'
     }
 }) => {
     const router = useRouter();
@@ -128,7 +128,7 @@ const ResearchSEO = ({
                 datePublished={publishedAt}
                 dateModified={updatedAt}
                 authorName={[{
-                    name: author?.name || 'Dexdiabetes',
+                    name: author?.name || 'Dediabetes',
                     url: `${siteConfig.siteUrl}/autores/${author?.uid || 'dediabetes'}`,
                 }]}
                 publisherName={siteConfig.siteName}

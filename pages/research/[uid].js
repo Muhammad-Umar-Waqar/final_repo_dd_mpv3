@@ -95,7 +95,7 @@ export default function ResearchPost() {
   return (
     <div className="min-h-screen bg-background">
       <Head>
-        <title>{`${research.title} - Dexdiabetes`}</title>
+        <title>{`${research.title} - Dediabetes`}</title>
         <meta name="description" content={research.summary} />
       </Head>
 

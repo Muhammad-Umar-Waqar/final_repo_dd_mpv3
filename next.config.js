@@ -8,11 +8,11 @@ const nextConfig = {
     localeDetection: false,
     domains: [
       {
-        domain: 'dexdiabetes.com',
+        domain: 'dediabetes.com',
         defaultLocale: 'en',
       },
       {
-        domain: 'es.dexdiabetes.com',
+        domain: 'es.dediabetes.com',
         defaultLocale: 'es',
       },
     ],
