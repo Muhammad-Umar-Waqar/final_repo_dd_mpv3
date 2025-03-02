@@ -2,6 +2,7 @@ import React from 'react';
 import { IconClock, IconBookmark } from '@tabler/icons-react';
 import ShareMenu from './ShareMenu';
 import Link from 'next/link';
+import { useTranslations } from '../utils/i18n';
 
 const NewsCard = ({
   category,
@@ -14,6 +15,7 @@ const NewsCard = ({
   uid,
   featuredImage
 }) => {
+  const { t } = useTranslations();
   return (
     <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="aspect-[16/9] relative bg-muted">
@@ -65,7 +67,9 @@ const NewsCard = ({
             </div>
           </div>
           <div className="flex gap-2">
-            <button className="p-2 hover:bg-secondary/10 rounded-full">
+            <button className="p-2 hover:bg-secondary/10 rounded-full"
+              title={t('article.header.bookmark')}
+            >
               <IconBookmark className="w-5 h-5" />
             </button>
             <ShareMenu title={title} />
