@@ -203,7 +203,9 @@ export const esTranslations = {
     about: "Sobre nosotros",
     newsletter: "Boletín",
     archive: "Archivo",
-    contact: "Contáctenos"
+    contact: "Contáctenos",
+    terms: "Términos",
+    privacy: "Política de Privacidad"
   },
   memberPage: {
     title: "Página de Miembro",
@@ -628,4 +630,203 @@ export const esTranslations = {
     metaTitle: "Página No Encontrada - deDiabetes",
     metaDescription: "La página que estás buscando no se pudo encontrar. Regresa a la página principal de deDiabetes para lo último en investigación y cuidado de la diabetes."
   },
+  // Página de Política de Privacidad
+  privacy: {
+    title: "Política de Privacidad",
+    lastUpdated: "Última Actualización: 1 de marzo de 2025",
+    sections: {
+      introduction: {
+        title: "1. Introducción",
+        content: [
+          "Bienvenido a DeDiabetes (\"nosotros,\" \"nos,\" o \"nuestro\"). Su privacidad es importante para nosotros. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos su información cuando visita nuestro sitio web (el \"Sitio\") y utiliza nuestros servicios.",
+          "Al acceder o utilizar nuestro Sitio, usted acepta la recopilación y el uso de información de acuerdo con esta Política de Privacidad. Si no está de acuerdo, por favor no utilice nuestro Sitio."
+        ]
+      },
+      infoCollect: {
+        title: "2. Información que Recopilamos",
+        content: [
+          "Recopilamos los siguientes tipos de información:"
+        ],
+        subsections: {
+          personal: {
+            title: "A. Información Personal",
+            content: [
+              "Nombre",
+              "Dirección de correo electrónico"
+            ],
+            additional: "Esta información se recopila cuando se suscribe a nuestros servicios o acepta recibir correos electrónicos de nosotros."
+          },
+          nonPersonal: {
+            title: "B. Información No Personal",
+            content: [
+              "Información del dispositivo y navegador",
+              "Datos de uso"
+            ],
+            additional: "Estos datos se recopilan a través de tecnologías del lado del cliente y sistemas de seguimiento seguros del lado del servidor. Utilizamos esta información para mejorar nuestro sitio web y servicios, optimizar la funcionalidad y mantener la eficiencia operativa, garantizando al mismo tiempo la precisión y privacidad de los datos."
+          }
+        }
+      },
+      cookies: {
+        title: "3. Cookies y Tecnologías de Seguimiento",
+        content: [
+          "DeDiabetes no utiliza cookies de marketing o seguimiento. No participamos en publicidad conductual de terceros ni en seguimiento analítico."
+        ]
+      },
+      payment: {
+        title: "4. Procesamiento de Pagos",
+        content: [
+          "No almacenamos ni procesamos información de tarjetas de crédito directamente. Utilizamos servicios de pago de terceros que cumplen con la Industria de Tarjetas de Pago (PCI) para manejar las transacciones de pago de manera segura."
+        ]
+      },
+      infoUse: {
+        title: "5. Cómo Utilizamos Su Información",
+        content: [
+          "Utilizamos la información recopilada para:"
+        ],
+        listItems: [
+          "Proporcionar y gestionar suscripciones y servicios de correo electrónico",
+          "Mejorar nuestro sitio web y servicios",
+          "Garantizar la seguridad de los datos y la eficiencia operativa"
+        ],
+        additional: "No vendemos ni alquilamos información personal a terceros."
+      },
+      dataSharing: {
+        title: "6. Compartición y Divulgación de Datos",
+        content: [
+          "No compartimos su información personal con terceros excepto:"
+        ],
+        listItems: [
+          "Cuando lo requiera la ley o procesos legales",
+          "Para proteger nuestros derechos, privacidad, seguridad o propiedad",
+          "Con proveedores de servicios de terceros de confianza que ayudan a operar nuestro sitio web y servicios (por ejemplo, proveedores de correo electrónico, procesadores de pago)"
+        ]
+      },
+      dataSecurity: {
+        title: "7. Seguridad de Datos",
+        content: [
+          "Implementamos medidas técnicas y organizativas apropiadas para proteger su información personal contra acceso, alteración, divulgación o destrucción no autorizados."
+        ]
+      },
+      rights: {
+        title: "8. Sus Derechos y Opciones",
+        content: [
+          "Puede solicitar acceso o eliminación de sus datos personales contactándonos en support@dediabetes.com. Responderemos a su solicitud de acuerdo con las leyes aplicables."
+        ]
+      },
+      changes: {
+        title: "9. Cambios a Esta Política de Privacidad",
+        content: [
+          "Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Los cambios se publicarán en esta página, y su uso continuado del Sitio significa su aceptación de la política revisada."
+        ]
+      },
+      contact: {
+        title: "10. Información de Contacto",
+        content: [
+          "Para cualquier pregunta sobre esta Política de Privacidad, por favor contáctenos en:",
+          "Correo electrónico: support@dediabetes.com\nAvila Online LLC\n32158 Camino Capistrano, San Juan Capistrano, CA 92675"
+        ]
+      }
+    }
+  },
+  
+  // Página de Términos y Condiciones
+  terms: {
+    title: "Términos y Condiciones",
+    lastUpdated: "Última Actualización: 1 de marzo de 2025",
+    sections: {
+      introduction: {
+        title: "1. Introducción",
+        content: [
+          "Bienvenido a DeDiabetes (el \"Sitio\"). DeDiabetes es operado por Avila Online LLC, ubicado en 32158 Camino Capistrano, San Juan Capistrano, CA 92675. A lo largo de estos Términos y Condiciones (\"Términos\"), los términos \"nosotros\", \"nos\" y \"nuestro\" se refieren a [Nombre de su Empresa].",
+          "Al acceder o utilizar nuestro Sitio, usted acepta cumplir y estar sujeto a estos Términos, incluidos los términos y políticas adicionales a los que se hace referencia aquí o disponibles mediante hipervínculo. Si no está de acuerdo con estos Términos, por favor no utilice nuestro Sitio."
+        ]
+      },
+      generalInfo: {
+        title: "2. Información General",
+        content: [
+          "DeDiabetes proporciona resúmenes de investigaciones relacionadas con la diabetes solo con fines informativos. El contenido no pretende reemplazar el consejo médico profesional, el diagnóstico o el tratamiento. Siempre consulte a un proveedor de atención médica calificado con cualquier pregunta sobre condiciones médicas o preocupaciones de salud."
+        ]
+      },
+      siteUse: {
+        title: "3. Uso del Sitio",
+        content: [
+          "Puede utilizar nuestro Sitio siempre que tenga 18 años o más. Podemos terminar su acceso si es menor de esta edad.",
+          "Usted acepta no:"
+        ],
+        listItems: [
+          "Utilizar el Sitio para cualquier propósito ilegal.",
+          "Intentar obtener acceso no autorizado a cualquier parte del Sitio o sus sistemas.",
+          "Transmitir cualquier código dañino o interferir con el funcionamiento del Sitio."
+        ]
+      },
+      intellectualProperty: {
+        title: "4. Propiedad Intelectual",
+        content: [
+          "Todo el contenido del Sitio, incluidos textos, gráficos, logotipos y software, es propiedad de [Nombre de su Empresa] o sus proveedores de contenido y está protegido por las leyes de propiedad intelectual aplicables. El uso no autorizado de cualquier contenido puede violar los derechos de autor, marcas comerciales y otras leyes."
+        ]
+      },
+      medicalDisclaimer: {
+        title: "5. Descargo de Responsabilidad Médica",
+        content: [
+          "La información proporcionada en DeDiabetes es solo para fines informativos y no sustituye el consejo médico profesional. No garantizamos la exactitud, integridad o utilidad de esta información. La confianza en cualquier información proporcionada por DeDiabetes es exclusivamente bajo su propio riesgo."
+        ]
+      },
+      liability: {
+        title: "6. Limitación de Responsabilidad",
+        content: [
+          "En la máxima medida permitida por la ley, Avila Online LLC no será responsable por daños indirectos, incidentales, especiales, consecuentes o punitivos, ni por pérdida de ganancias o ingresos, ya sea incurrida directa o indirectamente, ni por pérdida de datos, uso, buena voluntad u otras pérdidas intangibles, resultantes de:"
+        ],
+        listItems: [
+          "Su uso o incapacidad para usar el Sitio.",
+          "Cualquier acceso no autorizado o uso de nuestros servidores y/o cualquier información personal almacenada en ellos.",
+          "Cualquier interrupción o cese de transmisión hacia o desde nuestro Sitio."
+        ]
+      },
+      externalLinks: {
+        title: "7. Enlaces Externos",
+        content: [
+          "Nuestro Sitio puede contener enlaces a sitios web de terceros. Estos enlaces se proporcionan solo para su conveniencia. No respaldamos el contenido de estos sitios de terceros y no somos responsables de su contenido o exactitud. El acceso a sitios web de terceros vinculados es bajo su propio riesgo."
+        ]
+      },
+      subscriptions: {
+        title: "8. Suscripciones",
+        content: [
+          "Puede suscribirse comprando (o recibiendo como regalo) una tarjeta de regalo de nuestro Sitio. Cuando compra o canjea una tarjeta de regalo, su suscripción durará por un período específico de tiempo. Su suscripción comenzará el día en que canjee la tarjeta de regalo y continuará durante el período específico comprado. No se renovará automáticamente, no hay reembolsos disponibles."
+        ]
+      },
+      refunds: {
+        title: "9. Reembolsos",
+        content: [
+          "Podemos terminar su suscripción y/o cancelar su cuenta en cualquier momento. Nos pondremos en contacto con usted por correo electrónico si tomamos tal acción y le explicaremos por qué ocurrió la cancelación y/o cierre.",
+          "Cuando terminamos:"
+        ],
+        listItems: [
+          "debido a su incumplimiento de estos Términos, no será elegible para un reembolso en tal escenario; o",
+          "por cualquier otra razón, tendrá derecho a un reembolso prorrateado por cualquier cantidad prepagada."
+        ],
+        additionalContent: [
+          "Por favor, envíenos un correo electrónico a support@dediabetes.com si cree que su cuenta ha sido cerrada incorrectamente."
+        ]
+      },
+      changes: {
+        title: "10. Cambios en los Términos",
+        content: [
+          "Nos reservamos el derecho de modificar estos Términos en cualquier momento. Cualquier cambio será efectivo inmediatamente después de su publicación en el Sitio. Su uso continuado del Sitio después de la publicación de los Términos revisados significa que acepta y está de acuerdo con los cambios."
+        ]
+      },
+      governingLaw: {
+        title: "11. Ley Aplicable",
+        content: [
+          "Estos Términos se rigen e interpretan de acuerdo con las leyes del Estado de California, sin tener en cuenta sus principios de conflicto de leyes."
+        ]
+      },
+      contact: {
+        title: "12. Información de Contacto",
+        content: [
+          "Si tiene alguna pregunta sobre estos Términos, por favor contáctenos en:",
+          "Avila Online LLC\n32158 Camino Capistrano, San Juan Capistrano, CA 92675\nCorreo electrónico: support@dediabetes.com"
+        ]
+      }
+    }
+  }
 };

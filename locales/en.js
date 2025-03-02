@@ -203,7 +203,9 @@ export const enTranslations = {
     about: "About us",
     newsletter: "Newsletter",
     archive: "Archive",
-    contact: "Contact us"
+    contact: "Contact us",
+    terms: "Terms",
+    privacy: "Privacy Policy"
   },
   memberPage: {
     title: "Member Page",
@@ -629,5 +631,204 @@ export const enTranslations = {
     homeButton: "Back to Home",
     metaTitle: "Page Not Found - deDiabetes",
     metaDescription: "The page you are looking for could not be found. Return to deDiabetes homepage for the latest in diabetes research and care."
+  },
+  // Privacy Policy page
+  privacy: {
+    title: "Privacy Policy",
+    lastUpdated: "Last Updated: March 1, 2025",
+    sections: {
+      introduction: {
+        title: "1. Introduction",
+        content: [
+          "Welcome to DeDiabetes (\"we,\" \"us,\" or \"our\"). Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and protect your information when you visit our website (the \"Site\") and use our services.",
+          "By accessing or using our Site, you agree to the collection and use of information in accordance with this Privacy Policy. If you do not agree, please do not use our Site."
+        ]
+      },
+      infoCollect: {
+        title: "2. Information We Collect",
+        content: [
+          "We collect the following types of information:"
+        ],
+        subsections: {
+          personal: {
+            title: "A. Personal Information",
+            content: [
+              "Name",
+              "Email address"
+            ],
+            additional: "This information is collected when you subscribe to our services or opt into receiving emails from us."
+          },
+          nonPersonal: {
+            title: "B. Non-Personal Information",
+            content: [
+              "Device and browser information",
+              "Usage data"
+            ],
+            additional: "This data is collected through client-side technologies and secure server-side tracking systems. We use this information to improve our website and services, optimize functionality, and maintain operational efficiency while ensuring data accuracy and privacy."
+          }
+        }
+      },
+      cookies: {
+        title: "3. Cookies and Tracking Technologies",
+        content: [
+          "DeDiabetes does not use marketing or tracking cookies. We do not engage in third-party behavioral advertising or analytics tracking."
+        ]
+      },
+      payment: {
+        title: "4. Payment Processing",
+        content: [
+          "We do not store or process credit card information directly. We use Payment Card Industry (PCI) compliant third-party payment services to handle payment transactions securely."
+        ]
+      },
+      infoUse: {
+        title: "5. How We Use Your Information",
+        content: [
+          "We use the collected information to:"
+        ],
+        listItems: [
+          "Provide and manage subscriptions and email services",
+          "Improve our website and services",
+          "Ensure data security and operational efficiency"
+        ],
+        additional: "We do not sell or rent personal information to third parties."
+      },
+      dataSharing: {
+        title: "6. Data Sharing and Disclosure",
+        content: [
+          "We do not share your personal information with third parties except:"
+        ],
+        listItems: [
+          "When required by law or legal processes",
+          "To protect our rights, privacy, safety, or property",
+          "With trusted third-party service providers who assist in operating our website and services (e.g., email providers, payment processors)"
+        ]
+      },
+      dataSecurity: {
+        title: "7. Data Security",
+        content: [
+          "We implement appropriate technical and organizational measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction."
+        ]
+      },
+      rights: {
+        title: "8. Your Rights and Choices",
+        content: [
+          "You may request access to or deletion of your personal data by contacting us at support@dediabetes.com. We will respond to your request in accordance with applicable laws."
+        ]
+      },
+      changes: {
+        title: "9. Changes to This Privacy Policy",
+        content: [
+          "We reserve the right to update this Privacy Policy at any time. Changes will be posted on this page, and your continued use of the Site signifies your acceptance of the revised policy."
+        ]
+      },
+      contact: {
+        title: "10. Contact Information",
+        content: [
+          "For any questions about this Privacy Policy, please contact us at:",
+          "Email: support@dediabetes.com\nAvila Online LLC\n32158 Camino Capistrano, San Juan Capistrano, CA 92675"
+        ]
+      }
+    }
+  },
+  
+  // Terms and Conditions page
+  terms: {
+    title: "Terms and Conditions",
+    lastUpdated: "Last Updated: March 1, 2025",
+    sections: {
+      introduction: {
+        title: "1. Introduction",
+        content: [
+          "Welcome to DeDiabetes (the \"Site\"). DeDiabetes is operated by Avila Online LLC, located at 32158 Camino Capistrano, San Juan Capistrano, CA 92675. Throughout these Terms and Conditions (\"Terms\"), the terms \"we,\" \"us,\" and \"our\" refer to [Your Company Name].",
+          "By accessing or using our Site, you agree to comply with and be bound by these Terms, including any additional terms and policies referenced herein or available by hyperlink. If you do not agree with these Terms, please do not use our Site."
+        ]
+      },
+      generalInfo: {
+        title: "2. General Information",
+        content: [
+          "DeDiabetes provides summaries of diabetes-related research for informational purposes only. The content is not intended to replace professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare provider with any questions regarding medical conditions or health concerns."
+        ]
+      },
+      siteUse: {
+        title: "3. Use of the Site",
+        content: [
+          "You may use our Site provided you are aged 18 or older. We may terminate your access if you are under this age.",
+          "You agree not to:"
+        ],
+        listItems: [
+          "Use the Site for any unlawful purpose.",
+          "Attempt to gain unauthorized access to any part of the Site or its systems.",
+          "Transmit any harmful code or interfere with the Site's operation."
+        ]
+      },
+      intellectualProperty: {
+        title: "4. Intellectual Property",
+        content: [
+          "All content on the Site, including text, graphics, logos, and software, is the property of [Your Company Name] or its content suppliers and is protected by applicable intellectual property laws. Unauthorized use of any content may violate copyright, trademark, and other laws."
+        ]
+      },
+      medicalDisclaimer: {
+        title: "5. Medical Disclaimer",
+        content: [
+          "The information provided on DeDiabetes is for informational purposes only and is not a substitute for professional medical advice. We do not warrant the accuracy, completeness, or usefulness of this information. Reliance on any information provided by DeDiabetes is solely at your own risk."
+        ]
+      },
+      liability: {
+        title: "6. Limitation of Liability",
+        content: [
+          "To the fullest extent permitted by law, Avila Online LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from:"
+        ],
+        listItems: [
+          "Your use or inability to use the Site.",
+          "Any unauthorized access to or use of our servers and/or any personal information stored therein.",
+          "Any interruption or cessation of transmission to or from our Site."
+        ]
+      },
+      externalLinks: {
+        title: "7. External Links",
+        content: [
+          "Our Site may contain links to third-party websites. These links are provided for your convenience only. We do not endorse the content of these third-party sites and are not responsible for their content or accuracy. Accessing linked third-party websites is at your own risk."
+        ]
+      },
+      subscriptions: {
+        title: "8. Subscriptions",
+        content: [
+          "You can subscribe by purchasing (or being gifted) a gift card from our Site. When you purchase or otherwise redeem a gift card, your subscription will last for a specific period of time. Your subscription will start on the day on which you redeem the gift card and will continue for the specific period purchased. It will not automatically renew, no refunds are available."
+        ]
+      },
+      refunds: {
+        title: "9. Refunds",
+        content: [
+          "We may terminate your subscription and/or cancel your account at any time. We will contact you via email if we take such action and we will explain why the cancellation and/or closure occurred.",
+          "Where we terminate:"
+        ],
+        listItems: [
+          "due to your breach of these Terms, you will not be eligible for a refund in such a scenario; or",
+          "for any other reason, you will be entitled to a pro-rated refund for any pre-paid amounts."
+        ],
+        additionalContent: [
+          "Please email us at support@dediabetes.com if you think that your account has been closed incorrectly."
+        ]
+      },
+      changes: {
+        title: "10. Changes to the Terms",
+        content: [
+          "We reserve the right to modify these Terms at any time. Any changes will be effective immediately upon posting on the Site. Your continued use of the Site following the posting of revised Terms means that you accept and agree to the changes."
+        ]
+      },
+      governingLaw: {
+        title: "11. Governing Law",
+        content: [
+          "These Terms are governed by and construed in accordance with the laws of the State of California, without regard to its conflict of law principles."
+        ]
+      },
+      contact: {
+        title: "12. Contact Information",
+        content: [
+          "If you have any questions about these Terms, please contact us at:",
+          "Avila Online LLC\n32158 Camino Capistrano, San Juan Capistrano, CA 92675\nEmail: support@dediabetes.com"
+        ]
+      }
+    }
   }
 };
