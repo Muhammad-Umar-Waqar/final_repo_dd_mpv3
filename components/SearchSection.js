@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { IconLock, IconSearch } from '@tabler/icons-react';
 import { useTranslations } from '../utils/i18n';
 import FilterMenu from './FilterMenu';
 import { useRouter } from 'next/router';
 
-const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
+const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus = false }) => {
   const { t } = useTranslations();
   const router = useRouter();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeFilters, setActiveFilters] = useState([]);
-  
+  const inputRef = useRef(null);
+
   const filters = [
     { id: 'all', labelKey: 'searchSection.filters.all' },
     { id: 'behavioral', labelKey: 'searchSection.filters.behavioral', domain: 'behavioral' },
@@ -37,7 +38,7 @@ const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
   // Handle search button click
   const handleSearch = () => {
     const newQuery = { ...router.query };
-    
+
     if (searchTerm) {
       newQuery.q = searchTerm;
     } else {
@@ -56,7 +57,7 @@ const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
   // Handle filter changes
   const handleFilterClick = (filter) => {
     let newFilters;
-    
+
     if (filter.id === 'all') {
       newFilters = [];
     } else {
@@ -96,12 +97,18 @@ const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
   // Add overlay when filter menu is open
   const Overlay = () => (
     <div
-      className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ${
-        isFilterMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      } z-40`}
+      className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ${isFilterMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        } z-40`}
       onClick={() => setIsFilterMenuOpen(false)}
     />
   );
+
+
+  useEffect(() => {
+    if (autoFocus && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [autoFocus]);
 
   return (
     <>
@@ -110,6 +117,7 @@ const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
           <div className="relative">
             <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <input
+              ref={inputRef}
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -129,17 +137,17 @@ const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
 
         <div className="flex flex-wrap gap-1.5 sm:gap-2 items-center justify-center sm:justify-start w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-[70%] mx-auto">
           {filters.map((filter) => {
-            const isActive = filter.id === 'all' 
-              ? activeFilters.length === 0 
+            const isActive = filter.id === 'all'
+              ? activeFilters.length === 0
               : activeFilters.includes(filter.domain);
-            
+
             return (
               <button
                 key={filter.id}
                 onClick={() => handleFilterClick(filter)}
                 className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs
-                  ${isActive 
-                    ? 'bg-primary text-primary-foreground border-primary' 
+                  ${isActive
+                    ? 'bg-primary text-primary-foreground border-primary'
                     : 'border-input bg-background hover:bg-secondary/10'
                   }`}
               >
@@ -160,9 +168,9 @@ const SearchSection = ({ showFilterButton = true, isLoading = false }) => {
       </section>
 
       <Overlay />
-      <FilterMenu 
-        isOpen={isFilterMenuOpen} 
-        onClose={() => setIsFilterMenuOpen(false)} 
+      <FilterMenu
+        isOpen={isFilterMenuOpen}
+        onClose={() => setIsFilterMenuOpen(false)}
       />
     </>
   );

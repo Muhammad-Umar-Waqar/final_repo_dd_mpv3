@@ -70,12 +70,13 @@ export default function Navbar() {
                 {getDisplayLanguage(locale)}
               </button>
 
-              <button
+              <Link
                 className="p-2 rounded-full hover:bg-secondary text-foreground"
                 aria-label="Search"
+                href="/archive"
               >
                 <IconSearch className="w-5 h-5" />
-              </button>
+              </Link>
 
               <ThemeToggle />
 

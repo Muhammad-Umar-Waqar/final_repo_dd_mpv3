@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { useTranslations } from '../utils/i18n';
-// import SearchSection from '../components/SearchSection';
+import SearchSection from '../components/SearchSection';
 import NewsGrid from '../components/NewsGrid';
 import Footer from '../components/Footer';
 import { useEffect, useState } from 'react';
@@ -123,12 +123,13 @@ export default function Archive() {
       </Head>
 
       <ArchiveHero />
-      {/* <div className="py-8">
+      <div className="py-8">
         <SearchSection 
-          showFilterButton={true}
+          showFilterButton={false}
           isLoading={isLoading} 
+          autoFocus={true}
         />
-      </div> */}
+      </div>
 
       <NewsGrid 
         results={searchResults.results}
