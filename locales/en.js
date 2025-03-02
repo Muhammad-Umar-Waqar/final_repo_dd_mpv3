@@ -739,7 +739,7 @@ export const enTranslations = {
       introduction: {
         title: "1. Introduction",
         content: [
-          "Welcome to DeDiabetes (the \"Site\"). DeDiabetes is operated by Avila Online LLC, located at 32158 Camino Capistrano, San Juan Capistrano, CA 92675. Throughout these Terms and Conditions (\"Terms\"), the terms \"we,\" \"us,\" and \"our\" refer to [Your Company Name].",
+          "Welcome to DeDiabetes (the \"Site\"). DeDiabetes is operated by Avila Online LLC, located at 32158 Camino Capistrano, San Juan Capistrano, CA 92675. Throughout these Terms and Conditions (\"Terms\"), the terms \"we,\" \"us,\" and \"our\" refer to Avila Online LLC.",
           "By accessing or using our Site, you agree to comply with and be bound by these Terms, including any additional terms and policies referenced herein or available by hyperlink. If you do not agree with these Terms, please do not use our Site."
         ]
       },
@@ -764,7 +764,7 @@ export const enTranslations = {
       intellectualProperty: {
         title: "4. Intellectual Property",
         content: [
-          "All content on the Site, including text, graphics, logos, and software, is the property of [Your Company Name] or its content suppliers and is protected by applicable intellectual property laws. Unauthorized use of any content may violate copyright, trademark, and other laws."
+          "All content on the Site, including text, graphics, logos, and software, is the property of Avila Online LLC or its content suppliers and is protected by applicable intellectual property laws. Unauthorized use of any content may violate copyright, trademark, and other laws."
         ]
       },
       medicalDisclaimer: {
