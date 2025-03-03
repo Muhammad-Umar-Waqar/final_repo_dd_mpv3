@@ -67,6 +67,16 @@ const nextConfig = {
         source: '/es/research/:uid',
         destination: '/es/:uid',
         permanent: true,
+      },
+      {
+        source: '/recetas/:uid',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/consejos/:uid',
+        destination: '/',
+        permanent: true,
       }
     ];
   },
