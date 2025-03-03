@@ -1,0 +1,14 @@
+{
+    "redirects": [
+      {
+        "source": "/consejos/:path*",
+        "destination": "/",
+        "permanent": true
+      },
+      {
+        "source": "/recetas/:path*",
+        "destination": "/",
+        "permanent": true
+      }
+    ]
+  }
