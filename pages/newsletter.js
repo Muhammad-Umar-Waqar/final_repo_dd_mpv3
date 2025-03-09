@@ -1,9 +1,51 @@
 import Head from 'next/head';
 import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
+import { useState } from 'react';
 
 export default function Newsletter() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  
+  const translations = {
+    id: locale === 'es' ? 'vhwnC6KsYb7PrrdSBzy27g' : 'tGZBa7H0o0LBIiXAyf2lxw',
+  };
+
+  const listId = translations.id;
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+
+  const handleSubscription = async (e) => {
+    e.preventDefault();
+
+    if (!isValidEmail(email)) {
+      setMessage(t("hero.invalidEmail")); // Use translation for invalid email
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await fetch("/api/opt-in-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, listId, locale }),
+
+      });
+
+      const data = await response.json();
+    
+      
+      setMessage(data.message); // Use message from API response
+    } catch (error) {
+      
+      setMessage(t("hero.subscriptionError")); // Use translation for generic error
+    } finally{
+      setLoading(false);
+      setEmail("");
+    }
+    
+  };
 
   const CheckIcon = () => (
     <span className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center mr-3">
@@ -72,16 +114,19 @@ export default function Newsletter() {
           </p>
 
           <div className="text-center">
-            <form className="max-w-md mx-auto">
+            <form onSubmit={handleSubscription}  className="max-w-md mx-auto">
               <input
                 type="email"
                 placeholder={t('newsletter.emailPlaceholder')}
-                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 mb-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-red-700  disabled:cursor-not-allowed"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
               <button
                 type="submit"
                 className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-3 px-6 rounded-lg transition duration-200 flex items-center justify-center"
+                disabled={loading}
               >
                 <span className="inline-block w-4 h-4 mr-2">
                   <svg fill="currentColor" viewBox="0 0 20 20">
@@ -91,6 +136,7 @@ export default function Newsletter() {
                 {t('newsletter.subscribeButton')}
               </button>
             </form>
+            {message && <p className='mt-4 text-center text-lg font-semibold text-green-600'>{message}</p>}
           </div>
         </div>
       </main>

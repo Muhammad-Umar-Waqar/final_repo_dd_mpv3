@@ -1,14 +1,18 @@
 // pages/premium.js
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IconCrown, IconCheck, IconBackground } from '@tabler/icons-react';
 import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from 'next/router';
+
+
 
 export default function Premium() {
   const [billingCycle, setBillingCycle] = useState('yearly');
   const { t } = useTranslations();
-
+ 
   const basicFeatures = [
     { name: t('premium.features.zeroAds'), included: true },
     { name: t('premium.features.noTracking'), included: true },
@@ -28,6 +32,77 @@ export default function Premium() {
   const monthlyPrice = 3.0;
   const yearlyDiscount = 0.25;
   const yearlyPrice = monthlyPrice * 12 * (1 - yearlyDiscount);
+
+
+  const { data: session, update } = useSession();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+ 
+  
+
+  const router = useRouter();
+
+
+  
+  const handleUpgrade = async () => {
+    if (!session) {
+      setMessage("You must be logged in to upgrade.");
+      router.push('/login');
+    }
+    
+    
+
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const res = await fetch("/api/upgrade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ newRole: "premium" }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.refreshSession) {
+        setMessage("Successfully upgraded to Premium!");
+        await update({
+          ...session,
+          user: {
+            ...session?.user,
+            role: "premium" 
+          }
+        });
+
+        
+
+        setIsSubscribed(true); 
+     
+        router.reload();
+
+      } else {
+        setMessage(data.error || "Something went wrong.");
+      }
+    } catch (error) {
+      
+      setMessage("An error occurred.");
+    }
+
+    setLoading(false);
+  };
+
+
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+useEffect(() => {
+  if (session?.user?.role === 'premium') {
+    setIsSubscribed(true);
+  } else {
+    setIsSubscribed(false);
+  }
+}, [session]);
+
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,11 +204,18 @@ export default function Premium() {
                 </div>
               ))}
             </div>
-            <button
-              className="w-full py-3 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
-            >
-              {t('premium.premium.subscribeButton')}
-            </button>
+<button
+  className={`w-full py-3 ${isSubscribed? "bg-gray-400" : "bg-primary hover:bg-primary/90 transition-colors" } text-white rounded-md  `}
+  onClick={handleUpgrade}
+  disabled={loading || isSubscribed}
+>
+  {loading
+    ? "Upgrading..."
+    : isSubscribed
+      ?  t('premium.premium.subscribed')
+      : t('premium.premium.subscribeButton')}
+</button>
+
           </div>
         </div>
       </main>

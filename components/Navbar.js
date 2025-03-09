@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useTranslations } from '../utils/i18n';
@@ -16,10 +16,24 @@ import {
   IconX,
   IconArticleFilled
 } from '@tabler/icons-react';
+import { signOut, useSession } from 'next-auth/react';
 
-const MenuItem = ({ icon: Icon, text, href = '/' }) => {
+// Updated MenuItem component to handle onClick if provided
+const MenuItem = ({ icon: Icon, text, href = '/', onClick }) => {
   const router = useRouter();
   const { locale } = router;
+
+  if (onClick) {
+    return (
+      <button
+        onClick={onClick}
+        className="flex items-center gap-3 px-4 py-2.5 text-muted-foreground hover:text-foreground hover:bg-secondary/10 rounded-lg transition-colors"
+      >
+        <Icon className="w-5 h-5" />
+        <span className="text-lg whitespace-nowrap">{text}</span>
+      </button>
+    );
+  }
 
   return (
     <Link
@@ -33,9 +47,13 @@ const MenuItem = ({ icon: Icon, text, href = '/' }) => {
   );
 };
 
+
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, locale, changeLanguage } = useTranslations();
+  const { data: session } = useSession();
+
+  const membershipHref = session?.user?.role === "premium" ? "/membership-premium" : "/premium";
 
   const toggleLanguage = () => {
     const newLocale = locale === 'en' ? 'es' : 'en';
@@ -45,6 +63,13 @@ export default function Navbar() {
   const getDisplayLanguage = (locale) => {
     return locale?.startsWith('en') ? 'EN' : 'ES';
   };
+
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted to true once the component has mounted (client-side)
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -107,9 +132,23 @@ export default function Navbar() {
 
                     <div className="h-px bg-border my-4" />
 
+
+
                     <div>
-                      <MenuItem icon={IconCrown} text={t('nav.premium')} href="/premium" />
-                      <MenuItem icon={IconLogin} text={t('nav.login')} href="/login" />
+                      <MenuItem icon={IconCrown} text={t('nav.premium')} href={membershipHref}  />
+                      {/* <MenuItem icon={IconLogin} text={t('nav.login')} href="/login" /> */}
+                      { mounted && session ? (
+                       <button
+                       onClick={() => signOut({ redirect: true, callbackUrl: '/login' })}
+                       className="w-full flex items-center gap-3 px-4 py-2 rounded-md  hover:bg-teal-50 transition"
+                     >
+                       <IconLogin className="w-5 h-5 text-zinc-500" /> 
+                       <span className='text-lg text-zinc-500'>{t('nav.logout')}</span>
+                     </button>
+                     
+                      ) : (
+                        <MenuItem icon={IconLogin} text={t('nav.login')} href="/login" />
+                      )}
                     </div>
                   </div>
                 </div>
@@ -129,3 +168,8 @@ export default function Navbar() {
     </>
   );
 }
+
+
+
+
+

@@ -28,6 +28,7 @@ export const esTranslations = {
     articles: "Articulos",
     premium: "Membresía Premium",
     login: "Iniciar sesión / Registrarse",
+    logout: "Cerrar sesión",
     search: "Buscar"
   },
   footer: {
@@ -43,7 +44,10 @@ export const esTranslations = {
     subtitle: "Suscríbase ahora para obtener información impulsada por IA, los últimos avances y actualizaciones de expertos en el cuidado de la diabetes, entregadas directamente a su bandeja de entrada.",
     emailPlaceholder: "Ingrese su correo electrónico",
     subscribeButton: "Suscribirse",
-    privacyNote: "Respetamos su privacidad. Puede cancelar la suscripción en cualquier momento."
+    privacyNote: "Respetamos su privacidad. Puede cancelar la suscripción en cualquier momento.", 
+    invalidEmail: "Correo electrónico no válido",
+    subscriptionError: "Error en la suscripción",
+
   },
   // intro section homepage
   introSection: {
@@ -431,7 +435,9 @@ export const esTranslations = {
       title: "Premium",
       subtitle: "Todas las funciones",
       includes: "Todo lo de Básico más...",
-      subscribeButton: "Suscribirse y pagar"
+      subscribeButton: "Suscribirse y pagar",
+      subscribed : "Suscrito"
+
     },
     features: {
       zeroAds: "Cero publicidad",
@@ -445,6 +451,27 @@ export const esTranslations = {
       effectivenessScore: "Puntuación de efectividad de intervenciones",
       biasAnalysis: "Análisis de sesgo usando herramientas aplicables de Cochrane"
     }
+  },
+  membership: {
+    title: "Tu Membresía Premium",
+    description: "Administra tu suscripción premium y accede a beneficios exclusivos",
+    label: "Membresía",
+    heading: "Tu Membresía Premium",
+    subtitle: "Administra tu suscripción premium y accede a beneficios exclusivos.",
+    status: {
+      title: "Estado de Membresía",
+      subtitle: "Tu estado de suscripción actual",
+      active: "Premium Activo",
+      activeDescription: "Tienes acceso a todas las funciones premium"
+    },
+    details: {
+      title: "Detalles de Suscripción",
+      subtitle: "Información sobre tu membresía",
+      featuresIntro: "Todo lo de Básico más..."
+    },
+    cancelButton: "Cancelar Suscripción",
+    unsubscribed: "Desuscrito",
+    returnHome: "Volver al Inicio"
   },
   // ============= TRADUCCIONES PARA PLANTILLA DE INVESTIGACIÓN =============
   research: {
@@ -478,6 +505,9 @@ export const esTranslations = {
       methodology: "Metodología",
       keyFindings: "Hallazgos Clave",
       comparison: "Comparación con otros Estudios",
+      premium: "Acceso Restringido al Contenido Premium",
+      unlock:"Mejora a premium para desbloquear el análisis detallado de la puntuación de sesgo y el análisis de efectividad.",
+      upgrade: "Actualizar ahora",
       biasAnalysisScore: "Puntuación de Análisis de Sesgo",
       effectivenessAnalysis: "Análisis de Efectividad",
       intervention: "Intervención",
