@@ -1,9 +1,11 @@
 import '../styles/global.css'
 import { ThemeProvider } from "next-themes";
 import Navbar from '../components/Navbar'
+import { SessionProvider } from "next-auth/react";
 
 function MyApp({ Component, pageProps }) {
   return (
+    <SessionProvider session={pageProps?.session}>
     <ThemeProvider attribute="class" defaultTheme="system">
       <div className="min-h-screen bg-background text-foreground transition-colors duration-150">
         <Navbar />
@@ -12,6 +14,7 @@ function MyApp({ Component, pageProps }) {
         </main>
       </div>
     </ThemeProvider>
+    </SessionProvider>
   );
 }
 

@@ -28,6 +28,7 @@ export const enTranslations = {
     supplements: "Supplements",
     premium: "Premium Membership",
     login: "Login / Sign-up",
+    logout: "Logout",
     search: "Search"
   },
   footer: {
@@ -43,7 +44,9 @@ export const enTranslations = {
     subtitle: "Subscribe now for AI-powered insights, the latest breakthroughs, and expert updates in diabetes care—delivered straight to your inbox.",
     emailPlaceholder: "Enter your email",
     subscribeButton: "Subscribe",
-    privacyNote: "We respect your privacy. Unsubscribe at any time."
+    privacyNote: "We respect your privacy. Unsubscribe at any time.",
+    invalidEmail: "Invalid Email",
+    subscriptionError: "Subscription Failed",
   },
   // introsection homepage
   introSection: {
@@ -431,7 +434,8 @@ export const enTranslations = {
       title: "Premium",
       subtitle: "Full features",
       includes: "Everything in Basic plus...",
-      subscribeButton: "Subscribe and pay"
+      subscribeButton: "Subscribe and pay",
+      subscribed: "Subscribed"
     },
     features: {
       zeroAds: "Zero Advertisement",
@@ -445,6 +449,27 @@ export const enTranslations = {
       effectivenessScore: "Interventions effectiveness score",
       biasAnalysis: "Bias analysis using applicable Cochrane Collaboration tools"
     }
+  },
+  membership: {
+    title: "Your Premium Membership",
+    description: "Manage your premium subscription and access exclusive benefits",
+    label: "Membership",
+    heading: "Your Premium Membership",
+    subtitle: "Manage your premium subscription and access exclusive benefits.",
+    status: {
+      title: "Membership Status",
+      subtitle: "Your current subscription status",
+      active: "Premium Active",
+      activeDescription: "You have access to all premium features"
+    },
+    details: {
+      title: "Subscription Details",
+      subtitle: "Information about your membership",
+      featuresIntro: "Everything in Basic plus..."
+    },
+    cancelButton: "Cancel Subscription",
+    unsubscribed: "Unsubscribed",
+    returnHome: "Return to Home"
   },
   // ============= RESEARCH TEMPLATE TRANSLATIONS =============
   research: {
@@ -478,6 +503,9 @@ export const enTranslations = {
       methodology: "Methodology",
       keyFindings: "Key Findings",
       comparison: "Comparison with other Studies",
+      premium: "Premium Content Locked",
+      unlock:"Upgrade to premium to unlock detailed Bias Analysis Score and Effectiveness Analysis.",
+      upgrade: "Upgrade Now",
       biasAnalysisScore: "Bias Analysis Score",
       effectivenessAnalysis: "Effectiveness Analysis",
       intervention: "Intervention",

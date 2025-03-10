@@ -54,14 +54,6 @@ const Footer = () => {
             </Link>
 
             <Link
-              href="/feed.xml"
-              className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <IconRss className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="hidden sm:inline">RSS</span>
-            </Link>
-            
-            <Link
               href="/terms"
               className="flex items-center gap-1.5 text-sm sm:text-base text-muted-foreground hover:text-foreground transition-colors"
             >

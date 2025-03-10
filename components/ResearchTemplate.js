@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileTextAi } from '@tabler/icons-react';
+import { IconChevronUp, IconPhoto, IconFileTextAi, IconCrown  } from '@tabler/icons-react';
 
+import { signIn, useSession } from "next-auth/react";
 
 import { useTranslations } from '../utils/i18n';
 
@@ -10,6 +11,8 @@ import BlogPostHeader from './BlogPostHeader';
 import Footer from './Footer';
 import NewsletterSection from './common/newsletter';
 import { Alert } from '@mui/material';
+import { useRouter } from 'next/router';
+
 const ResearchTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
@@ -54,6 +57,8 @@ const ResearchTemplate = ({
   domains = []
 }) => {
 
+  const { data: session, status } = useSession();
+
   const { t, locale } = useTranslations();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -89,6 +94,13 @@ const ResearchTemplate = ({
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const router = useRouter();
+  const handleUpgrade = () => {
+    if(!session) router.push('/login');
+    if(session?.user?.role == "basic") router.push('/premium');
+    
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -313,7 +325,15 @@ const ResearchTemplate = ({
           )}
         </section>
 
-        {biasScore && (
+{status === "loading" ? (
+          // While the session is loading, you might show a spinner or placeholder only for premium content.
+          <div className="flex justify-center items-center">
+        <div className="w-10 h-10 border-4 border-dashed rounded-full animate-spin border-primary"></div>
+      </div>
+        ) : session && session.user.role === "premium" ? (
+          // If the user is premium, show the premium content.
+          <>
+                  {biasScore && (
           <section className="mb-8 sm:mb-16">
             <div className="max-w-2xl mx-auto">
               <div className="bg-secondary/5 rounded-lg p-4 sm:p-6">
@@ -393,6 +413,30 @@ const ResearchTemplate = ({
             </section>
           </section>
         )}
+          </>
+        ) : (
+          // Otherwise, show a prompt to upgrade.
+          <div className="flex flex-col items-center justify-center p-8 dark:bg-transparent dark:border dark:border-gray-50  bg-gray-100 border border-gray-300 rounded-lg">
+    <div className="flex items-center gap-2">
+      <IconCrown className="w-12 h-12 text-yellow-500" />
+      <h2 className="text-2xl font-bold text-gray-800  dark:text-gray-50 ">{t('research.sections.premium')}</h2>
+    </div>
+    <p className="mt-4 text-center text-gray-600 max-w-md dark:text-gray-50 ">
+    {t('research.sections.unlock')}
+    </p>
+    <button
+      onClick={() => handleUpgrade()} // or navigate to your upgrade page
+      className="mt-6 px-6 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors"
+
+    >
+    {t('research.sections.upgrade')}
+    </button>
+  </div>
+        )}
+
+
+
+
 
         {journalReference?.length > 0 && (
           <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
