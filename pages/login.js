@@ -30,7 +30,7 @@ export default function Login() {
     if (result?.error) {
       setError(result.error);
     } else {
-      window.location.href = "/"; // Redirect to /home on successful login
+      window?.location.href = "/"; // Redirect to /home on successful login
     }
   };
 
