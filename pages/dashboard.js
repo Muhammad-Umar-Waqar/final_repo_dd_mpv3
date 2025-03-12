@@ -32,7 +32,7 @@ import { useTranslations } from "../utils/i18n";
 const SampleTable = () => {
   const router = useRouter();
   const currentPage = Number(router.query.page) || 1;
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);

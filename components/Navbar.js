@@ -53,10 +53,11 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, locale, changeLanguage } = useTranslations();
   const { data: session } = useSession();
-  console.log("SESSION>", session);
+ 
   const membershipHref = session?.user?.role === "premium" ? "/membership-premium" : "/premium";
   const adminHref = session?.user?.role === "admin" ? "/dashboard" : "/404";
-
+  console.log("SESSION>", session);
+  
   const toggleLanguage = () => {
     const newLocale = locale === 'en' ? 'es' : 'en';
     changeLanguage(newLocale);
