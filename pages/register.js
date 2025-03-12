@@ -93,7 +93,10 @@ export default function Register() {
           password: formData.password,
         });
         if (!signInResponse?.error) {
-          router.push("/premium"); // Redirect after successful sign-in
+          // router.push("/premium"); // Redirect after successful sign-in
+          if (typeof window !== 'undefined') {
+            window.location.href = "/premium"; // Redirect to /home on successful login
+          }                           
         } else {
           setMessage(data.message);
         }

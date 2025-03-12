@@ -57,7 +57,7 @@ export default function Navbar() {
   const membershipHref = session?.user?.role === "premium" ? "/membership-premium" : "/premium";
   const adminHref = session?.user?.role === "admin" ? "/dashboard" : "/404";
   console.log("SESSION>", session);
-  
+
   const toggleLanguage = () => {
     const newLocale = locale === 'en' ? 'es' : 'en';
     changeLanguage(newLocale);
