@@ -3,64 +3,48 @@ import { getToken } from 'next-auth/jwt';
 
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
-
-  // Prevent logged-in users from accessing the login page
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-  console.log("token", token);
-
-
+  // Admin-specific logic
   if (token?.role === 'admin') {
     if (pathname === '/login') {
       const url = req.nextUrl.clone();
-      url.pathname = '/dashboard'; // Redirect admins to dashboard or home
+      url.pathname = '/dashboard';
       return NextResponse.redirect(url);
     }
-    return NextResponse.next();
+    return NextResponse.next(); // Allow admin to access all other pages
   }
 
-
-  // Restrict access to the admin dashboard for non-admin users
+  // Restrict dashboard to admins only
   if (pathname.startsWith('/dashboard')) {
     const url = req.nextUrl.clone();
     url.pathname = '/404';
     return NextResponse.redirect(url);
   }
 
-
-
-  if (pathname === '/login') {
-    if (token) {
-      const url = req.nextUrl.clone();
-      url.pathname = '/';
-      return NextResponse.redirect(url);
-    }
+  // Redirect logged-in users away from login
+  if (pathname === '/login' && token) {
+    const url = req.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
   }
 
-  // Prevent premium users from accessing the /premium page
-  if (pathname === '/premium') {
-    // const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
-    if (token?.role === 'premium') {
-      const url = req.nextUrl.clone();
-      url.pathname = '/'; // Redirect premium users to home or dashboard
-      return NextResponse.redirect(url);
-    }
+  // Redirect premium users from premium plan page
+  if (pathname === '/premium' && token?.role === 'premium') {
+    const url = req.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
   }
 
-  // Define paths that require premium role
+  // Protect premium content routes
   const premiumPaths = ['/interventions', '/outcomes', '/medications', '/supplements', '/membership-premium'];
-
-  // Protect premium content
-  if (premiumPaths.some((path) => pathname.startsWith(path))) {
-    // const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-
+  if (premiumPaths.some(path => pathname.startsWith(path))) {
     if (!token) {
       const url = req.nextUrl.clone();
       url.pathname = '/login';
       return NextResponse.redirect(url);
     }
-
+    // Allow premium users and admins (admins handled earlier)
     if (token.role !== 'premium') {
       const url = req.nextUrl.clone();
       url.pathname = '/premium';
@@ -71,24 +55,18 @@ export async function middleware(req) {
   return NextResponse.next();
 }
 
-// Middleware applies only to specific paths
 export const config = {
   matcher: [
-    '/dashboard/:path*', // Protects all admin routes
+    '/dashboard/:path*',
     '/interventions/:path*',
     '/outcomes/:path*',
     '/medications/:path*',
     '/supplements/:path*',
     '/login',
     '/membership-premium',
-    '/premium', // Add premium page to matcher
+    '/premium',
   ],
 };
-
-
-
-
-
 
 
 
