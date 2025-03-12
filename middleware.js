@@ -4,6 +4,7 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  console.log("Token: ", token)                                                      
 
   // Admin-specific logic
   if (token?.role === 'admin') {
