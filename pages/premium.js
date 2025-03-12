@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { IconCrown, IconCheck, IconBackground } from '@tabler/icons-react';
 import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 
 
@@ -204,17 +204,23 @@ useEffect(() => {
                 </div>
               ))}
             </div>
-<button
-  className={`w-full py-3 ${isSubscribed? "bg-gray-400" : "bg-primary hover:bg-primary/90 transition-colors" } text-white rounded-md  `}
+            <button
+  className={`w-full py-3 ${
+    !session ? "bg-gray-400 cursor-not-allowed" : // Disable before session loads
+    isSubscribed || session?.user?.role === "admin"
+      ? "bg-gray-400 cursor-not-allowed" // Disable for admins and subscribed users
+      : "bg-primary hover:bg-primary/90 transition-colors"
+  } text-white rounded-md`}
   onClick={handleUpgrade}
-  disabled={loading || isSubscribed}
+  disabled={!session || loading || isSubscribed || session?.user?.role === "admin"}
 >
   {loading
     ? "Upgrading..."
     : isSubscribed
-      ?  t('premium.premium.subscribed')
+      ? t('premium.premium.subscribed')
       : t('premium.premium.subscribeButton')}
 </button>
+
 
           </div>
         </div>

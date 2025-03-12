@@ -149,14 +149,14 @@ export default function MembershipPremium() {
             
                   <button
         onClick={handleCancelSubscription}
-        disabled={loading || !isSubscribed}
+        disabled={loading || !isSubscribed || session.user.role == "admin"}
         className={`w-full py-3 border border-gray-300 text-gray-700 rounded-md transition-colors ${
           loading ? "cursor-not-allowed opacity-50" : "hover:bg-gray-50"
         }`}
       >
         {loading
           ? "Processing..."
-          : isSubscribed ? t('membership.cancelButton') : t('membership.unsubscribed')}
+          : isSubscribed || session?.user?.role == "admin" ? t('membership.cancelButton') : t('membership.unsubscribed')}
       </button>
 
           </div>

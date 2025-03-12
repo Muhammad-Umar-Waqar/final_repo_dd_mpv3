@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   try {
     const { db } = await connectToDatabase();
-    const { name ,email, password, role, locale } = req.body;
+    const { name ,email, password, role, locale = "en" } = req.body;
 
     // Check if user already exists
     const existingUser = await db.collection("users").findOne({ email });
@@ -63,10 +63,15 @@ export default async function handler(req, res) {
       ],
     };
 
-    // Send email using Mailjet
-    const result = await mailjetClient.post("send", { version: "v3.1" }).request(emailData);
+    try {
+      const result = await mailjetClient.post("send", { version: "v3.1" }).request(emailData);
+      console.log("Email Sent: ", result.body);
+    } catch (emailError) {
+      console.error("Error sending verification email:", emailError);
+      return res.status(500).json({ message: locale === "es" ? "Error al enviar correo de verificación." : "Error sending verification email." });
+    }
    
-
+  
     return res.status(201).json({
       message: locale === "es" ? "Registro exitoso. Se ha enviado un correo de verificación." : "Registration successful. A verification email has been sent.",
       redirectUrl: "/premium",

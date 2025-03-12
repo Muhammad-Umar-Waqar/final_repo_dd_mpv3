@@ -5,11 +5,11 @@
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
       return res.status(405).json({ 
-        message: req.body.locale === "es" ? "Método no permitido" : "Method Not Allowed" 
+        message: req?.body?.locale === "es" ? "Método no permitido" : "Method Not Allowed" 
       });
     }
   
-    const { email, listId, locale } = req.body;
+    const { email, listId, locale } = req?.body;
     const endpoint = process.env.SENDY_ENDPOINT || 'https://sendy.dediabetes.com/subscribe';
    
   

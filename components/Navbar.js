@@ -6,6 +6,7 @@ import ThemeToggle from './ThemeToggle';
 import {
   IconMenu2,
   IconSearch,
+  IconLayoutDashboard ,
   IconHome2,
   IconClipboardHeart,
   IconHeartFilled,
@@ -52,8 +53,10 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t, locale, changeLanguage } = useTranslations();
   const { data: session } = useSession();
-
+ 
   const membershipHref = session?.user?.role === "premium" ? "/membership-premium" : "/premium";
+  const adminHref = session?.user?.role === "admin" ? "/dashboard" : "/404";
+  console.log("SESSION>", session);
 
   const toggleLanguage = () => {
     const newLocale = locale === 'en' ? 'es' : 'en';
@@ -64,6 +67,7 @@ export default function Navbar() {
     return locale?.startsWith('en') ? 'EN' : 'ES';
   };
 
+ 
   const [mounted, setMounted] = useState(false);
 
   // Set mounted to true once the component has mounted (client-side)
@@ -122,6 +126,10 @@ export default function Navbar() {
                 >
                   <div className="p-4">
                     <nav className="space-y-1">
+                    {mounted && session?.user?.role === "admin" && (
+                    <MenuItem icon={IconLayoutDashboard} text={t('nav.dashboard')} href={adminHref} />
+                  )}
+
                       <MenuItem icon={IconHome2} text={t('nav.home')} href="/" />
                       <MenuItem icon={IconClipboardHeart} text={t('nav.interventions')} href="/interventions" />
                       <MenuItem icon={IconHeartFilled} text={t('nav.outcomes')} href="/outcomes" />

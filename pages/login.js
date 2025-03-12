@@ -29,8 +29,8 @@ export default function Login() {
 
     if (result?.error) {
       setError(result.error);
-    } else {
-      router.push("/"); // Redirect to /home on successful login
+    }  if (typeof window !== 'undefined') {
+      window.location.href = "/"; // Redirect to /home on successful login
     }
   };
 

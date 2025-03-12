@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useTranslations } from "../utils/i18n";
 
 export default function VerifyEmail() {
   const router = useRouter();
   const { token } = router.query;
   const [status, setStatus] = useState("loading");
+  const {locale} = useTranslations();
 
   useEffect(() => {
     if (!token) return;
@@ -52,7 +54,7 @@ export default function VerifyEmail() {
     },
   };
 
-  const locale = "en"; // Change dynamically based on user preference
+
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white p-6">

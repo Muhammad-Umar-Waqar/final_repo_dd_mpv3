@@ -20,6 +20,7 @@ export const enTranslations = {
     description: "Browse through our complete archive of diabetes research and articles."
   },
   nav: {
+    dashboard: "Dashboard",
     home: "Home",
     articles: "Articles",
     interventions: "Interventions",

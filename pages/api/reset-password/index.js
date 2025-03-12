@@ -15,8 +15,7 @@ export default async function handler(req, res) {
     }
 
     // Check password strength
-    const strongPasswordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const strongPasswordRegex = /^.{8,}$/;
     
     if (!strongPasswordRegex.test(newPassword)) {
       return res.status(400).json({ message: getMessage("weakPassword", req) });
@@ -59,7 +58,7 @@ function getMessage(key, req) {
     en: {
       methodNotAllowed: "Method Not Allowed",
       missingFields: "Missing required fields",
-      weakPassword: "Password must be at least 8 characters long and include an uppercase letter, a number, and a special character.",
+      weakPassword: "Password must be at least 8 characters long",
       invalidToken: "Invalid or expired token",
       passwordUpdated: "Password updated successfully",
       serverError: "Internal Server Error",
@@ -67,7 +66,7 @@ function getMessage(key, req) {
     es: {
       methodNotAllowed: "Método no permitido",
       missingFields: "Faltan campos obligatorios",
-      weakPassword: "La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, un número y un carácter especial.",
+      weakPassword: "La contraseña debe tener al menos 8 caracteres",
       invalidToken: "Token inválido o expirado",
       passwordUpdated: "Contraseña actualizada exitosamente",
       serverError: "Error interno del servidor",

@@ -34,11 +34,12 @@ export default function Register() {
     createButton: locale === 'es' ? 'Crear cuenta' : 'Create account',
     alreadyRegistered: locale === 'es' ? '¿Ya estás registrado?' : 'Already registered?',
     loginHere: locale === 'es' ? 'Inicia sesión aquí' : 'Login here',
-    passwordCheck: locale === 'es' ? 'La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula, una letra minúscula, un número y un carácter especial' : 'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character',
+    passwordCheck: locale === 'es' ? 'La contraseña debe tener al menos 8 caracteres' : 'Password must be at least 8 characters long',
     passwordMatch: locale === 'es' ? 'Las contraseñas no coinciden' : 'Password do not macthed'
   };
  
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const passwordRegex = /^.{8,}$/;
+
 
   
   const handleChange = (e) => {
@@ -92,7 +93,10 @@ export default function Register() {
           password: formData.password,
         });
         if (!signInResponse?.error) {
-          router.push("/premium"); // Redirect after successful sign-in
+          // router.push("/premium"); // Redirect after successful sign-in
+          if (typeof window !== 'undefined') {
+            window.location.href = "/premium"; // Redirect to /home on successful login
+          }                           
         } else {
           setMessage(data.message);
         }
@@ -188,7 +192,7 @@ export default function Register() {
       </div>
 
       {message && (
-  <p className={`mt-4 text-center text-sm font-medium ${message.includes("exitoso") || message.includes("successfully") ? "text-green-600" : "text-red-600"}`}>
+  <p className={`mt-4 text-center text-sm font-medium ${message.includes("exitoso") || message.includes("successful") ? "text-green-600" : "text-red-600"}`}>
     {message}
   </p>
 )}

@@ -20,6 +20,7 @@ export const esTranslations = {
     description: "Explora nuestro archivo completo de investigaciones y artículos sobre diabetes."
   },
   nav: {
+    dashboard : "Panel",
     home: "Inicio",
     interventions: "Intervenciones",
     outcomes: "Resultados",
