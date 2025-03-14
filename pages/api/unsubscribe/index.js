@@ -31,7 +31,10 @@ export default async function handler(req, res) {
     // Update user's role to "premium"
     const updatedUser = await db.collection("users").findOneAndUpdate(
       { email: session?.user.email },
-      { $set: { role: "basic" } },
+      { 
+        $set: { role: "basic" },
+        $unset: { premiumExpiresAt: "" }  // This removes the field
+      },
       { returnDocument: "after" } // Returns the updated document
     );
 
