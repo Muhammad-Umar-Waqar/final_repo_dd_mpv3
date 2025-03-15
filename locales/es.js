@@ -419,13 +419,13 @@ export const esTranslations = {
     subtitle: "Fácil, inteligente y siempre la mejor opción",
     description: "Un plan para acceso completo y búsqueda avanzada, potenciando el cuidado de la diabetes basado en evidencia",
     billing: {
-      monthly: "Mensual",
-      yearly: "Anual",
-      yearlyDiscount: "Anual -25%",
-      free: "Gratis",
-      month: "/mes",
-      billedYearly: "(facturado anualmente)",
-      billedMonthly: "(facturado mensualmente)"
+      monthly: "1 Mes - $5",
+      yearly: "4 Meses - $15",
+      yearlyDiscount: "Ahorra 25%",
+      free: "Sin prueba gratuita",
+      month: "/pago único",
+      billedYearly: "(pago único)",
+      billedMonthly: "(pago único)"
     },
     basic: {
       title: "Básico",

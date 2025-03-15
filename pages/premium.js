@@ -7,8 +7,6 @@ import { useTranslations } from '../utils/i18n';
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
 // import PayPalCheckout from '../components/PayPalCheckout';
-
-import Script from 'next/script';
 import CheckoutModal from '../components/PayPalCheckOutDialog';
 
 
@@ -35,9 +33,9 @@ export default function Premium() {
     { name: t('premium.features.biasAnalysis'), included: true },
   ];
 
-  const monthlyPrice = 3.0;
-  const yearlyDiscount = 0.25;
-  const yearlyPrice = monthlyPrice * 12 * (1 - yearlyDiscount);
+  const monthlyPrice = 5;
+  // const yearlyDiscount = 0.25;
+  const yearlyPrice = 15;
 
 
   const { data: session, update } = useSession();
@@ -192,9 +190,13 @@ console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
 
           {/* Premium Plan */}
           <div className="border-2 border-primary rounded-lg p-8 bg-background relative">
-            <div className="absolute -top-4 left-4 bg-primary text-white px-4 py-1 rounded-full text-sm">
-              {t('premium.billing.yearlyDiscount')}
-            </div>
+            {
+               billingCycle === 'yearly' && <div className="absolute -top-4 left-4 bg-primary text-white px-4 py-1 rounded-full text-sm">
+                {t('premium.billing.yearlyDiscount')} 
+                </div>
+                 }
+            
+           
             <div className="flex items-center gap-2 mb-4">
               <IconCrown className="w-6 h-6 text-primary" />
               <h2 className="text-2xl font-bold">{t('premium.premium.title')}</h2>
@@ -202,7 +204,7 @@ console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
             <p className="text-muted-foreground mb-4">{t('premium.premium.subtitle')}</p>
             <div className="mb-8">
               <span className="text-4xl font-bold">
-                ${billingCycle === 'yearly' ? (yearlyPrice / 12).toFixed(2) : monthlyPrice.toFixed(2)}
+                ${billingCycle === 'yearly' ? yearlyPrice : monthlyPrice}
               </span>
               <span className="text-muted-foreground">{t('premium.billing.month')}</span>
               <p className="text-sm text-muted-foreground">

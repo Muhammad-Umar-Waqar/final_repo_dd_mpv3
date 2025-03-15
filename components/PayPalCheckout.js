@@ -41,7 +41,7 @@ console.log("productTypeFromPayPalCheck:", productType);
             }
           });
           router.reload();
-          alert("Payment successful! You are now premium.");
+        
         } else {
           alert("Error capturing order: " + captureResult.error);
         }

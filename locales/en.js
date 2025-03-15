@@ -418,13 +418,13 @@ export const enTranslations = {
     subtitle: "Easy, smart, and always the right choice",
     description: "One plan for full access and advanced search, empowering evidence-based diabetes care",
     billing: {
-      monthly: "Monthly",
-      yearly: "Yearly",
-      yearlyDiscount: "Yearly -25%",
-      free: "Free",
-      month: "/month",
-      billedYearly: "(billed yearly)",
-      billedMonthly: "(billed monthly)"
+      monthly: "1 Month - $5",
+      yearly: "4 Months - $15",
+      yearlyDiscount: "Save 25%",
+      free: "No Free Trial",
+      month: "/one-time",
+      billedYearly: "(one-time payment)",
+      billedMonthly: "(one-time payment)"
     },
     basic: {
       title: "Basic",
