@@ -33,7 +33,6 @@ console.log("productTypeFromPayPalCheck:", productType);
         });
         const captureResult = await res.json();
         if (res.ok) {
-          alert("Payment successful! You are now premium.");
           await update({
             ...session,
             user: {
@@ -42,6 +41,7 @@ console.log("productTypeFromPayPalCheck:", productType);
             }
           });
           router.reload();
+          alert("Payment successful! You are now premium.");
         } else {
           alert("Error capturing order: " + captureResult.error);
         }
