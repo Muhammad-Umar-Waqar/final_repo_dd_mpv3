@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
-import PayPalCheckout from '../components/PayPalCheckout';
+// import PayPalCheckout from '../components/PayPalCheckout';
 
 import Script from 'next/script';
 import CheckoutModal from '../components/PayPalCheckOutDialog';

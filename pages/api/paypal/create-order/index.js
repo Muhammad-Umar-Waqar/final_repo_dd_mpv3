@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     if (productType === "4months") {
       price = 15.0;
     }
-
+    console.log("productTypeFromCreateOrder", productType)
     // Get client ID/secret from environment
     const { NEXT_PUBLIC_PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = process.env;
     // 1) Get OAuth token
