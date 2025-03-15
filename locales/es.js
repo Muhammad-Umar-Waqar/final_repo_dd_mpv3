@@ -422,7 +422,7 @@ export const esTranslations = {
       monthly: "1 Mes - $5",
       yearly: "4 Meses - $15",
       yearlyDiscount: "Ahorra 25%",
-      free: "Sin prueba gratuita",
+      free: "Gratis",
       month: "/pago único",
       billedYearly: "(pago único)",
       billedMonthly: "(pago único)"

@@ -172,6 +172,7 @@ const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus =
         isOpen={isFilterMenuOpen}
         onClose={() => setIsFilterMenuOpen(false)}
       />
+     
     </>
   );
 };

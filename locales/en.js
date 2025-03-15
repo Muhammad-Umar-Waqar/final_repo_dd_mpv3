@@ -421,7 +421,7 @@ export const enTranslations = {
       monthly: "1 Month - $5",
       yearly: "4 Months - $15",
       yearlyDiscount: "Save 25%",
-      free: "No Free Trial",
+      free: "Free",
       month: "/one-time",
       billedYearly: "(one-time payment)",
       billedMonthly: "(one-time payment)"
