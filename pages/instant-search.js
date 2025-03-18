@@ -90,3 +90,14 @@
 //     </div>
 //   );
 // }
+
+
+import React from 'react'
+
+function Page() {
+  return (
+    <div>instant-search</div>
+  )
+}
+
+export default instant-search
