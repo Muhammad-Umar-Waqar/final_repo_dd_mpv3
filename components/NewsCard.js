@@ -16,6 +16,15 @@ const NewsCard = ({
   featuredImage
 }) => {
   const { t } = useTranslations();
+
+    // Function to convert UNIX timestamp to 'YYYY-MM-DD' format
+    const formatDate = (timestamp) => {
+      const date = new Date(timestamp * 1000); // Convert to milliseconds
+      return date.toISOString().split('T')[0]; // Extract 'YYYY-MM-DD'
+    };
+
+
+
   return (
     <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="aspect-[16/9] relative bg-muted">
@@ -62,7 +71,7 @@ const NewsCard = ({
             <div>
               <h4 className="text-sm font-medium text-foreground">{publisher}</h4>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <time>{publishDate}</time>
+                <time>{formatDate(publishDate)}</time>
               </div>
             </div>
           </div>

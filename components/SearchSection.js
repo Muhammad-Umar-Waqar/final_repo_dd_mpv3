@@ -397,7 +397,7 @@ function useDebounce(value, delay) {
   return debouncedValue;
 }
 
-const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus = false }) => {
+const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus = false, showCategories=true }) => {
   const { t } = useTranslations();
   const router = useRouter();
   const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
@@ -489,40 +489,80 @@ const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus =
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-1.5 sm:gap-2 items-center justify-center sm:justify-start w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-[70%] mx-auto">
-          {[
-            { id: 'all', labelKey: 'searchSection.filters.all' },
-            { id: 'behavioral', labelKey: 'searchSection.filters.behavioral', domain: 'behavioral' },
-            { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'complications' },
-            { id: 'digital', labelKey: 'searchSection.filters.digital', domain: 'digital' },
-            { id: 'pharmacology', labelKey: 'searchSection.filters.pharmacology', domain: 'pharmacology' },
-            { id: 'prevention', labelKey: 'searchSection.filters.prevention', domain: 'prevention' },
-            { id: 'supplements', labelKey: 'searchSection.filters.supplements', domain: 'supplements' },
-            { id: 't1d', labelKey: 'searchSection.filters.t1d', domain: 't1d' },
-          ].map((filter) => {
-            const isActive = filter.id === 'all'
-              ? activeFilters.length === 0
-              : activeFilters.includes(filter.domain);
-            return (
-              <button
-                key={filter.id}
-                onClick={() => handleFilterClick(filter)}
-                className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs ${isActive ? 'bg-primary text-primary-foreground border-primary' : 'border-input bg-background hover:bg-secondary/10'}`}
-              >
-                {t(filter.labelKey)}
-              </button>
-            );
-          })}
-          {showFilterButton && (
-            <button
-              onClick={() => setIsFilterMenuOpen(true)}
-              className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-1.5 sm:gap-2"
-            >
-              <IconLock className="w-3 h-3 sm:w-4 sm:h-4" />
-              <span className="hidden xs:inline">{t('searchSection.filterButton')}</span>
-            </button>
-          )}
-        </div>
+
+        {
+      showCategories ?
+       <div className="flex flex-wrap gap-1.5 sm:gap-2 items-center justify-center sm:justify-start w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-[70%] mx-auto">
+      {[
+        { id: 'all', labelKey: 'searchSection.filters.all' },
+        { id: 'behavioral', labelKey: 'searchSection.filters.behavioral', domain: 'behavioral' },
+        { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'complications' },
+        { id: 'digital', labelKey: 'searchSection.filters.digital', domain: 'digital' },
+        { id: 'pharmacology', labelKey: 'searchSection.filters.pharmacology', domain: 'pharmacology' },
+        { id: 'prevention', labelKey: 'searchSection.filters.prevention', domain: 'prevention' },
+        { id: 'supplements', labelKey: 'searchSection.filters.supplements', domain: 'supplements' },
+        { id: 't1d', labelKey: 'searchSection.filters.t1d', domain: 't1d' },
+      ].map((filter) => {
+        const isActive = filter.id === 'all'
+          ? activeFilters.length === 0
+          : activeFilters.includes(filter.domain);
+        return (
+          <button
+            key={filter.id}
+            onClick={() => handleFilterClick(filter)}
+            className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs ${isActive ? 'bg-primary text-primary-foreground border-primary' : 'border-input bg-background hover:bg-secondary/10'}`}
+          >
+            {t(filter.labelKey)}
+          </button>
+        );
+      })}
+      {showFilterButton && (
+        <button
+          onClick={() => setIsFilterMenuOpen(true)}
+          className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-1.5 sm:gap-2"
+        >
+          <IconLock className="w-3 h-3 sm:w-4 sm:h-4" />
+          <span className="hidden xs:inline">{t('searchSection.filterButton')}</span>
+        </button>
+      )}
+    </div>
+     : 
+     <div className='flex flex-wrap gap-1.5 sm:gap-2 items-center justify-center sm:justify-start w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-[70%] mx-auto'>
+     <button 
+       onClick={() => {
+         router.push({
+           pathname: router.pathname,
+           query: { ...router.query, docType: 'research' }
+         }, undefined, { shallow: true });
+       }}
+       className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs 
+         hover:bg-primary focus:bg-primary 
+         hover:text-primary-foreground focus:text-primary-foreground 
+         hover:border-primary focus:border-primary 
+         border-input bg-background hover:bg-secondary/10">
+       Research
+     </button>
+   
+     <button 
+       onClick={() => {
+         router.push({
+           pathname: router.pathname,
+           query: { ...router.query, docType: 'blog_post' }
+         }, undefined, { shallow: true });
+       }}
+       className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs 
+         hover:bg-primary focus:bg-primary 
+         hover:text-primary-foreground focus:text-primary-foreground 
+         hover:border-primary focus:border-primary 
+         border-input bg-background hover:bg-secondary/10">
+       Articles
+     </button>
+   </div>
+   
+    }   
+   
+
+
       </section>
 
       {/* Overlay for filter menu */}

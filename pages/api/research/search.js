@@ -361,6 +361,140 @@
 
 
 //currentSS
+// import { Client } from 'typesense';
+// import dotenv from 'dotenv';
+// dotenv.config({ path: ".env.local" });
+
+// // Mapping for domain filters (from shorthand to full value)
+// const domainMapping = {
+//   pharmacology: "Pharmacological Treatments",
+//   behavioral: "Behavioral",
+//   complications: "Diabetes Complications",
+//   digital: "Digital",
+//   prevention: "Diabetes Prevention",
+//   supplements: "Supplements",
+//   t1d: "T1D"
+// };
+
+// const typesense = new Client({
+//   nodes: [
+//     {
+//       host: process.env.TYPESENSE_HOST, // e.g. "search.dediabetes.com"
+//       protocol: "https",
+//       path: "/"
+//     }
+//   ],
+//   apiKey: process.env.TYPESENSE_API_KEY, // Use your search-only key here
+//   connectionTimeoutSeconds: 5
+// });
+
+// // Helper to ensure parameters are arrays
+// const parseArrayParam = (param) => {
+//   if (!param) return [];
+//   return Array.isArray(param) ? param : [param];
+// };
+
+// export default async function handler(req, res) {
+//   if (req.method !== 'GET') {
+//     return res.status(405).json({ error: 'Method not allowed' });
+//   }
+  
+//   try {
+//     const {
+//       q = '',
+//       lang = 'en-us',
+//       page = 1,
+//       limit = 10,
+//       outcomes,
+//       interventions,
+//       trialType,
+//       trialSize,
+//       trialDuration,
+//       geography,
+//       year,
+//       sponsorship,
+//       domains
+//     } = req.query;
+    
+//     // Build filter expressions for Typesense.
+//     // Enforce a filter for research documents with type:="research"
+//     const filters = [];
+//     filters.push(`type:="research"`);
+//     if (lang) filters.push(`lang:=${lang}`);
+//     if (outcomes) {
+//       const arr = parseArrayParam(outcomes);
+//       filters.push(`outcomes:=[${arr.join(',')}]`);
+//     }
+//     if (interventions) {
+//       const arr = parseArrayParam(interventions);
+//       filters.push(`interventions:=[${arr.join(',')}]`);
+//     }
+//     if (trialType) {
+//       const arr = parseArrayParam(trialType);
+//       filters.push(`trialType:=[${arr.join(',')}]`);
+//     }
+//     if (trialSize) {
+//       const arr = parseArrayParam(trialSize);
+//       filters.push(`trialSize:=[${arr.join(',')}]`);
+//     }
+//     if (trialDuration) {
+//       const arr = parseArrayParam(trialDuration);
+//       filters.push(`trialDuration:=[${arr.join(',')}]`);
+//     }
+//     if (geography) {
+//       const arr = parseArrayParam(geography);
+//       filters.push(`geography:=[${arr.join(',')}]`);
+//     }
+//     if (domains) {
+//       const arr = parseArrayParam(domains).map(val =>
+//         domainMapping[val.toLowerCase()] || val
+//       );
+//       console.log("DomainArr:", arr)
+//       filters.push(`domains:=[${arr.join(',')}]`);
+//     }
+//     if (year) {
+//       filters.push(`year:=${year}`);
+//     }
+//     if (sponsorship !== undefined) {
+//       // sponsorship is a string field in our schema
+//       filters.push(`sponsorship:=${sponsorship}`);
+//     }
+    
+//     const filterBy = filters.join(" && ");
+    
+//     const searchParameters = {
+//       q,  
+//       query_by: "title,description",
+//       page: Number(page),
+//       per_page: Number(limit),
+//       filter_by: filterBy || undefined,
+//       sort_by: "publishDate:desc" // optional: sort by publishDate descending
+//     };
+    
+//     const searchResult = await typesense
+//       .collections("dediabetes4")
+//       .documents()
+//       .search(searchParameters);
+    
+//     // Format response to match your frontend expectations
+//     const formatted = {
+//       results: searchResult.hits.map(hit => hit.document),
+//       total: searchResult.found,
+//       page: searchResult.page,
+//       totalPages: Math.ceil(searchResult.found / limit)
+//     };
+    
+//     res.status(200).json(formatted);
+//   } catch (error) {
+//     console.error("TypeSense research search error:", error);
+//     res.status(500).json({ error: "TypeSense research search error" });
+//   }
+// }
+
+
+
+
+
 import { Client } from 'typesense';
 import dotenv from 'dotenv';
 dotenv.config({ path: ".env.local" });
@@ -413,13 +547,16 @@ export default async function handler(req, res) {
       geography,
       year,
       sponsorship,
-      domains
+      domains,
+      type = "research"
     } = req.query;
     
     // Build filter expressions for Typesense.
     // Enforce a filter for research documents with type:="research"
+ 
+
     const filters = [];
-    filters.push(`type:="research"`);
+    filters.push(`type:=${type}`);
     if (lang) filters.push(`lang:=${lang}`);
     if (outcomes) {
       const arr = parseArrayParam(outcomes);

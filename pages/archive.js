@@ -63,7 +63,8 @@ export default function Archive() {
           geography,     // geography filter
           year,          // publication year
           sponsorship,   // sponsorship filter
-          domains        // domains filter
+          domains,        // domains filter
+          docType = "blog_post"
         } = router.query;
 
         // Build query string
@@ -74,6 +75,7 @@ export default function Archive() {
         if (page) queryParams.append('page', page);
         if (limit) queryParams.append('limit', limit);
         queryParams.append('lang', dbLocale);
+        queryParams.append('type', docType);
         
         // Handle array parameters
         const appendArrayParam = (param, name) => {
@@ -96,7 +98,7 @@ export default function Archive() {
         if (sponsorship !== undefined) queryParams.append('sponsorship', sponsorship);
 
         // Make API request to archive endpoint
-        const response = await fetch(`/api/archive/search?${queryParams.toString()}`);
+        const response = await fetch(`/api/research/search?${queryParams.toString()}`);
         
         if (!response.ok) {
           throw new Error('Search request failed');
@@ -129,10 +131,12 @@ export default function Archive() {
           showFilterButton={false}
           isLoading={isLoading} 
           autoFocus={true}
+          showCategories = {false}
         />
       </div>
 
       <NewsGrid 
+       
         results={searchResults.results}
         total={searchResults.total}
         page={searchResults.page}

@@ -55,7 +55,8 @@ export default function Articles() {
           q,              // search term
           page = 1,       // current page
           limit = 6,      // results per page
-          domains         // category/domain filter
+          domains,         // category/domain filter
+          docType = 'blog_post'
         } = router.query;
 
         // Build query string
@@ -72,9 +73,10 @@ export default function Articles() {
           );
         }
         queryParams.append('lang', dbLocale);
+        queryParams.append('type', docType);
 
         // Make API request to blog search endpoint
-        const response = await fetch(`/api/blog/search?${queryParams.toString()}`);
+        const response = await fetch(`/api/research/search?${queryParams.toString()}`);
         
         if (!response.ok) {
           throw new Error('Search request failed');

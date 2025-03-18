@@ -3,7 +3,7 @@ import { useTranslations } from '../utils/i18n';
 import NewsCard from './NewsCard';
 import Pagination from './ui/pagination';
 
-const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading = false }) => {
+const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading = false,  }) => {
   const { t } = useTranslations();
 
   // Loading skeleton for cards
@@ -78,6 +78,7 @@ const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading
         ) : (
           results.map((item, index) => (
             <NewsCard
+             
               key={`${item.type}-${item.uid}-${index}`}
               category={item.category}
               title={item.title}

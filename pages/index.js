@@ -535,7 +535,8 @@ export default function Home() {
           geography,     // geography filter
           year,          // publication year
           sponsorship,   // sponsorship filter
-          domains        // domains filter
+          domains,        // domains filter
+          docType = 'research'
         } = router.query;
 
         // Build query string
@@ -546,7 +547,7 @@ export default function Home() {
         if (page) queryParams.append('page', page);
         if (limit) queryParams.append('limit', limit);
         queryParams.append('lang', dbLocale);
-        
+        queryParams.append('type', docType);
         // Handle array parameters
         const appendArrayParam = (param, name) => {
           if (!param) return;
