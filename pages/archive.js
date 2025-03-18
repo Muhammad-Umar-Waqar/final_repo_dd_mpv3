@@ -103,6 +103,7 @@ export default function Archive() {
         }
 
         const data = await response.json();
+        console.log("ARCHIVED Data:", data);
         setSearchResults(data);
       } catch (error) {
         console.error('Error fetching search results:', error);

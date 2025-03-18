@@ -9,8 +9,7 @@ export default function PayPalCheckout({ productType }) {
 const router = useRouter();
 console.log("productTypeFromPayPalCheck:", productType);
   return (
-    <PayPalButtons 
-
+    <PayPalButtons
       style={{ layout: "vertical", shape: "rect", label: "paypal" }}
       createOrder={async (data, actions) => {
         const res = await fetch("/api/paypal/create-order", {
