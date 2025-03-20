@@ -78,13 +78,13 @@ const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading
         ) : (
           results.map((item, index) => (
             <NewsCard
-             
               key={`${item.type}-${item.uid}-${index}`}
               category={item.category}
               title={item.title}
               description={item.description}
               publisher={item.publisher}
               publishDate={item.publishDate}
+              year={item.year}
               timeToRead={item.timeToRead}
               featuredImage={item.featuredImage}
               type={item.type}

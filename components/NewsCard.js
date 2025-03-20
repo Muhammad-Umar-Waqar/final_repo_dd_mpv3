@@ -13,7 +13,8 @@ const NewsCard = ({
   timeToRead,
   type,
   uid,
-  featuredImage
+  featuredImage,
+  year
 }) => {
   const { t } = useTranslations();
 
@@ -71,7 +72,7 @@ const NewsCard = ({
             <div>
               <h4 className="text-sm font-medium text-foreground">{publisher}</h4>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <time>{formatDate(publishDate)}</time>
+                <time>{year}</time>
               </div>
             </div>
           </div>

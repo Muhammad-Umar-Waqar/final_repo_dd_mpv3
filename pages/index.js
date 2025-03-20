@@ -535,7 +535,15 @@ export default function Home() {
           geography,     // geography filter
           year,          // publication year
           sponsorship,   // sponsorship filter
+          bias_overall, // bias
           domains,        // domains filter
+          age,
+          duration,
+          size,
+          region,
+          other,
+          studyType,
+          industrySponsored,
           docType = 'research'
         } = router.query;
 
@@ -555,7 +563,15 @@ export default function Home() {
             queryParams.append(name, value)
           );
         };
-
+        // And add them to your query string:
+        appendArrayParam(age, 'age');
+        appendArrayParam(duration, 'duration');
+        appendArrayParam(size, 'size');
+        appendArrayParam(region, 'region');
+        appendArrayParam(other, 'other');
+        appendArrayParam(studyType, 'studyType');
+        // For industry sponsored, if you decide to keep the key, then:
+        if (industrySponsored !== undefined) queryParams.append('industrySponsored', industrySponsored);
         appendArrayParam(outcomes, 'outcomes');
         appendArrayParam(interventions, 'interventions');
         appendArrayParam(trialType, 'trialType');
@@ -566,6 +582,7 @@ export default function Home() {
 
         // Add single value parameters
         if (year) queryParams.append('year', year);
+        if (bias_overall) queryParams.append('bias_overall', bias_overall);
         if (sponsorship !== undefined) queryParams.append('sponsorship', sponsorship);
 
         // Make API request to research endpoint
