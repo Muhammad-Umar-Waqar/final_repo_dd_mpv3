@@ -72,7 +72,7 @@ const NewsCard = ({
             <div>
               <h4 className="text-sm font-medium text-foreground">{publisher}</h4>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <time>{year}</time>
+                <time>{year || formatDate(publishDate)}</time>
               </div>
             </div>
           </div>

@@ -459,6 +459,12 @@ const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus =
     if (autoFocus && inputRef.current) inputRef.current.focus();
   }, [autoFocus]);
 
+  const { docType } = router.query;
+
+   // Determine active state; if no docType is set, assume "research" is active.
+   const isResearchActive =  docType === 'research';
+   const isBlogPostActive = !docType || docType === 'blog_post';
+ 
   return (
     <>
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -488,7 +494,6 @@ const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus =
             </button>
           </div>
         </div>
-
 
         {
       showCategories ?
@@ -528,7 +533,7 @@ const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus =
     </div>
      : 
      <div className='flex flex-wrap gap-1.5 sm:gap-2 items-center justify-center sm:justify-start w-full sm:max-w-[85%] md:max-w-[75%] lg:max-w-[70%] mx-auto'>
-     <button 
+     {/* <button 
        onClick={() => {
          router.push({
            pathname: router.pathname,
@@ -550,13 +555,39 @@ const SearchSection = ({ showFilterButton = true, isLoading = false, autoFocus =
            query: { ...router.query, docType: 'blog_post' }
          }, undefined, { shallow: true });
        }}
-       className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs 
+       className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs bg-primary text-primary-foreground border-none
          hover:bg-primary focus:bg-primary 
          hover:text-primary-foreground focus:text-primary-foreground 
          hover:border-primary focus:border-primary 
          border-input bg-background hover:bg-secondary/10">
        Articles
-     </button>
+     </button> */}
+
+<button 
+        onClick={() => {
+          router.push({
+            pathname: router.pathname,
+            query: { ...router.query, docType: 'research' }
+          }, undefined, { shallow: true });
+        }}
+        className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs 
+          ${isResearchActive ? 'bg-primary text-primary-foreground border-primary' : 'bg-white text-black border-input hover:bg-secondary/10'}`}
+      >
+        Research
+      </button>
+    
+      <button 
+        onClick={() => {
+          router.push({
+            pathname: router.pathname,
+            query: { ...router.query, docType: 'blog_post' }
+          }, undefined, { shallow: true });
+        }}
+        className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border transition-colors text-xs 
+          ${isBlogPostActive ? 'bg-primary text-primary-foreground border-primary' : 'bg-white text-black border-input hover:bg-secondary/10'}`}
+      >
+        Articles
+      </button>
    </div>
    
     }   
