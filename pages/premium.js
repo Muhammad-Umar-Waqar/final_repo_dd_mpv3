@@ -231,7 +231,7 @@ console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
       } text-white rounded-md`}
       // onClick={() => setSelectedPlan( billingCycle === 'monthly' ? "1month" : "4months" )}
       onClick={handleSubscribe}
-      disabled={!session || loading || isSubscribed || session?.user?.role === "admin"}
+      disabled={ loading || isSubscribed || session?.user?.role === "admin"}
     >
       {loading
         ? "Upgrading..."
