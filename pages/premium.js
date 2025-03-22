@@ -224,14 +224,14 @@ console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
             </div>
                 <button
       className={`w-full py-3 ${
-        !session ? "bg-gray-400 cursor-not-allowed" : // Disable before session loads
+        !session ? "bg-gray-400" : // Disable before session loads
         isSubscribed || session?.user?.role === "admin"
           ? "bg-gray-400 cursor-not-allowed" // Disable for admins and subscribed users
           : "bg-primary hover:bg-primary/90 transition-colors"
       } text-white rounded-md`}
       // onClick={() => setSelectedPlan( billingCycle === 'monthly' ? "1month" : "4months" )}
       onClick={handleSubscribe}
-      disabled={ loading || isSubscribed || session?.user?.role === "admin"}
+      disabled={loading || isSubscribed || session?.user?.role === "admin"}
     >
       {loading
         ? "Upgrading..."
