@@ -5,10 +5,12 @@ import NewsGrid from '../components/NewsGrid';
 import Footer from '../components/Footer';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useSession } from "next-auth/react";
+import { getApiEndpointForUserArticle } from '../utils/getApiEndpointForUser';
+// import { getApiEndpointForUser } from '../utils/getApiEndpointForUser';
 
 const ArticlesHero = () => {
   const { t } = useTranslations();
-
   return (
     <main className="max-w-7xl bg-gray-50 mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div className="text-center">
@@ -24,6 +26,7 @@ const ArticlesHero = () => {
 };
 
 export default function Articles() {
+  const {data: session, status} = useSession(); 
   const { t, locale } = useTranslations();
   const router = useRouter();
   const [searchResults, setSearchResults] = useState({
@@ -33,6 +36,8 @@ export default function Articles() {
     totalPages: 0
   });
   const [isLoading, setIsLoading] = useState(false);
+  const endpoint = getApiEndpointForUserArticle(session?.user?.role);
+  console.log("END..", endpoint);
 
   // Effect to handle search when URL params change
   useEffect(() => {
@@ -76,8 +81,11 @@ export default function Articles() {
         queryParams.append('type', docType);
 
         // Make API request to blog search endpoint
-        const response = await fetch(`/api/research/search?${queryParams.toString()}`);
+        // const response = await fetch(`/api/research/search?${queryParams.toString()}`);
         
+        const response = await fetch(`${endpoint}?${queryParams.toString()}`);
+
+
         if (!response.ok) {
           throw new Error('Search request failed');
         }

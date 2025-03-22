@@ -494,8 +494,12 @@ import IntroSection from '../components/IntroSection';
 import SearchSection from '../components/SearchSection';
 import NewsGrid from '../components/NewsGrid';
 import Footer from '../components/Footer';
+import { getApiEndpointForUser } from '../utils/getApiEndpointForUser';
+import { useSession } from "next-auth/react";
+
 
 export default function Home() {
+    const {data: session, status} = useSession();
   const { t, locale } = useTranslations();
   const router = useRouter();
   const [searchResults, setSearchResults] = useState({
@@ -506,6 +510,8 @@ export default function Home() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const endpoint = getApiEndpointForUser(session?.user?.role);
+  console.log("End..", endpoint);
   // Effect to handle search when URL params change
   useEffect(() => {
     // Wait for router to be ready
@@ -586,8 +592,11 @@ export default function Home() {
         if (sponsorship !== undefined) queryParams.append('sponsorship', sponsorship);
 
         // Make API request to research endpoint
-        const response = await fetch(`/api/research/search?${queryParams.toString()}`);
+
+        // const response = await fetch(`/api/research/search?${queryParams.toString()}`);
         
+        const response = await fetch(`${endpoint}?${queryParams.toString()}`);
+
         if (!response.ok) {
           throw new Error('Search request failed');
         }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IconChevronUp, IconPhoto, IconFileTextAi, IconCrown  } from '@tabler/icons-react';
 
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import { useTranslations } from '../utils/i18n';
 

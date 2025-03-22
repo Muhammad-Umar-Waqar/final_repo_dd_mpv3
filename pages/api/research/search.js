@@ -1,59 +1,59 @@
-// import { searchResearch } from '../../../db/search';
+import { searchResearch } from '../../../db/search';
 
-// export default async function handler(req, res) {
-//   if (req.method !== 'GET') {
-//     return res.status(405).json({ error: 'Method not allowed' });
-//   }
+export default async function handler(req, res) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-//   try {
-//     const {
-//       q = '',              // search term
-//       lang = 'en-us',      // language
-//       page = 1,           // current page
-//       limit = 10,         // results per page
-//       outcomes,           // outcomes filter
-//       interventions,      // interventions filter
-//       trialType,         // trial type
-//       trialSize,         // trial size
-//       trialDuration,     // trial duration
-//       geography,         // geography
-//       year,              // publication year
-//       sponsorship,       // sponsorship
-//       domains            // domains
-//     } = req.query;
+  try {
+    const {
+      q = '',              // search term
+      lang = 'en-us',      // language
+      page = 1,           // current page
+      limit = 10,         // results per page
+      outcomes,           // outcomes filter
+      interventions,      // interventions filter
+      trialType,         // trial type
+      trialSize,         // trial size
+      trialDuration,     // trial duration
+      geography,         // geography
+      year,              // publication year
+      sponsorship,       // sponsorship
+      domains            // domains
+    } = req.query;
 
-//     // Convert parameters from string to array when needed
-//     const parseArrayParam = (param) => {
-//       if (!param) return [];
-//       return Array.isArray(param) ? param : [param];
-//     };
+    // Convert parameters from string to array when needed
+    const parseArrayParam = (param) => {
+      if (!param) return [];
+      return Array.isArray(param) ? param : [param];
+    };
 
-//     // Convert specific parameters
-//     const parsedYear = year ? parseInt(year) : undefined;
-//     const parsedSponsorship = sponsorship === 'true' ? true : sponsorship === 'false' ? false : undefined;
+    // Convert specific parameters
+    const parsedYear = year ? parseInt(year) : undefined;
+    const parsedSponsorship = sponsorship === 'true' ? true : sponsorship === 'false' ? false : undefined;
 
-//     const results = await searchResearch({
-//       searchTerm: q,
-//       lang,
-//       skip: (parseInt(page) - 1) * parseInt(limit),
-//       limit: parseInt(limit),
-//       outcomes: parseArrayParam(outcomes),
-//       interventions: parseArrayParam(interventions),
-//       trialType: parseArrayParam(trialType),
-//       trialSize: parseArrayParam(trialSize),
-//       trialDuration: parseArrayParam(trialDuration),
-//       geography: parseArrayParam(geography),
-//       year: parsedYear,
-//       sponsorship: parsedSponsorship,
-//       domains: parseArrayParam(domains)
-//     });
+    const results = await searchResearch({
+      searchTerm: q,
+      lang,
+      skip: (parseInt(page) - 1) * parseInt(limit),
+      limit: parseInt(limit),
+      outcomes: parseArrayParam(outcomes),
+      interventions: parseArrayParam(interventions),
+      trialType: parseArrayParam(trialType),
+      trialSize: parseArrayParam(trialSize),
+      trialDuration: parseArrayParam(trialDuration),
+      geography: parseArrayParam(geography),
+      year: parsedYear,
+      sponsorship: parsedSponsorship,
+      domains: parseArrayParam(domains)
+    });
 
-//     res.status(200).json(results);
-//   } catch (error) {
-//     console.error('Error in research search:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// } 
+    res.status(200).json(results);
+  } catch (error) {
+    console.error('Error in research search:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+} 
 
 
 
@@ -824,159 +824,159 @@
 
 
 
-import { Client } from 'typesense';
-import dotenv from 'dotenv';
-dotenv.config({ path: ".env.local" });
+// import { Client } from 'typesense';
+// import dotenv from 'dotenv';
+// dotenv.config({ path: ".env.local" });
 
-// Mapping for domain filters (from shorthand to full value)
-const domainMapping = {
-  pharmacology: "Pharmacological Treatments",
-  behavioral: "Behavioral",
-  complications: "Diabetes Complications",
-  digital: "Digital",
-  prevention: "Diabetes Prevention",
-  supplements: "Supplements",
-  t1d: "T1D"
-};
+// // Mapping for domain filters (from shorthand to full value)
+// const domainMapping = {
+//   pharmacology: "Pharmacological Treatments",
+//   behavioral: "Behavioral",
+//   complications: "Diabetes Complications",
+//   digital: "Digital",
+//   prevention: "Diabetes Prevention",
+//   supplements: "Supplements",
+//   t1d: "T1D"
+// };
 
-const typesense = new Client({
-  nodes: [
-    {
-      host: process.env.TYPESENSE_HOST, // e.g. "search.dediabetes.com"
-      protocol: "https",
-      path: "/"
-    }
-  ],
-  apiKey: process.env.TYPESENSE_API_KEY,
-  connectionTimeoutSeconds: 5
-});
+// const typesense = new Client({
+//   nodes: [
+//     {
+//       host: process.env.TYPESENSE_HOST, // e.g. "search.dediabetes.com"
+//       protocol: "https",
+//       path: "/"
+//     }
+//   ],
+//   apiKey: process.env.TYPESENSE_API_KEY,
+//   connectionTimeoutSeconds: 5
+// });
 
-// Helper to ensure parameters are arrays
-const parseArrayParam = (param) => {
-  if (!param) return [];
-  return Array.isArray(param) ? param : [param];
-};
+// // Helper to ensure parameters are arrays
+// const parseArrayParam = (param) => {
+//   if (!param) return [];
+//   return Array.isArray(param) ? param : [param];
+// };
 
-// Helper to wrap values in quotes for filter expressions
-const quoteValues = (arr) => arr.map(val => `"${val}"`).join(',');
+// // Helper to wrap values in quotes for filter expressions
+// const quoteValues = (arr) => arr.map(val => `"${val}"`).join(',');
 
-export default async function handler(req, res) {
-  if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+// export default async function handler(req, res) {
+//   if (req.method !== 'GET') {
+//     return res.status(405).json({ error: 'Method not allowed' });
+//   }
   
-  try {
-    const {
-      q = '',
-      lang = 'en-us',
-      page = 1,
-      limit = 10,
-      outcomes,
-      interventions,
-      studyType,
-      size,
-      duration,
-      region,
-      year,
-      sponsorship,
-      bias_overall,  // Note: using bias_overall key
-      domains,
-      age,
-      sex,
-      other,
-      industrySponsored,
-      type = "research"
-    } = req.query;
+//   try {
+//     const {
+//       q = '',
+//       lang = 'en-us',
+//       page = 1,
+//       limit = 10,
+//       outcomes,
+//       interventions,
+//       studyType,
+//       size,
+//       duration,
+//       region,
+//       year,
+//       sponsorship,
+//       bias_overall,  // Note: using bias_overall key
+//       domains,
+//       age,
+//       sex,
+//       other,
+//       industrySponsored,
+//       type = "research"
+//     } = req.query;
     
-    // Build filter expressions for Typesense.
-    const filters = [];
-    filters.push(`type:=${type}`);
-    if (lang) filters.push(`lang:=${lang}`);
-    if (outcomes) {
-      const arr = parseArrayParam(outcomes);
-      filters.push(`outcomes:=[${quoteValues(arr)}]`);
-    }
-    if (interventions) {
-      const arr = parseArrayParam(interventions);
-      filters.push(`interventions:=[${quoteValues(arr)}]`);
-    }
-    if (studyType) {
-      const arr = parseArrayParam(studyType);
-      filters.push(`studyType:=[${quoteValues(arr)}]`);
-    }
-    if (size) {
-      const arr = parseArrayParam(size);
-      filters.push(`size:=[${quoteValues(arr)}]`);
-    }
-    if (duration) {
-      const arr = parseArrayParam(duration);
-      filters.push(`duration:=[${quoteValues(arr)}]`);
-    }
-    if (region) {
-      const arr = parseArrayParam(region);
-      filters.push(`region:=[${quoteValues(arr)}]`);
-    }
-    if (domains) {
-      const arr = parseArrayParam(domains).map(val =>
-        domainMapping[val.toLowerCase()] || val
-      );
-      console.log("DomainArr:", arr);
-      filters.push(`domains:=[${quoteValues(arr)}]`);
-    }
-    if (year) {
-      filters.push(`year:=${year}`);
-    }
-    if (bias_overall) {
-      filters.push(`bias_overall:=${quoteValues(parseArrayParam(bias_overall))}`);
-    }
-    if (sponsorship !== undefined) {
-      filters.push(`sponsorship:=${sponsorship}`);
-    }
-    if (age) {
-      const arr = parseArrayParam(age);
-      filters.push(`age:=[${quoteValues(arr)}]`);
-    }
-    if (sex) {
-      const arr = parseArrayParam(sex);
-      filters.push(`sex:=[${quoteValues(arr)}]`);
-    }
-    if (other) {
-      const arr = parseArrayParam(other);
-      filters.push(`other:=[${quoteValues(arr)}]`);
-    }
-    if (industrySponsored !== undefined) {
-      filters.push(`industrySponsored:=${industrySponsored}`);
-    }
+//     // Build filter expressions for Typesense.
+//     const filters = [];
+//     filters.push(`type:=${type}`);
+//     if (lang) filters.push(`lang:=${lang}`);
+//     if (outcomes) {
+//       const arr = parseArrayParam(outcomes);
+//       filters.push(`outcomes:=[${quoteValues(arr)}]`);
+//     }
+//     if (interventions) {
+//       const arr = parseArrayParam(interventions);
+//       filters.push(`interventions:=[${quoteValues(arr)}]`);
+//     }
+//     if (studyType) {
+//       const arr = parseArrayParam(studyType);
+//       filters.push(`studyType:=[${quoteValues(arr)}]`);
+//     }
+//     if (size) {
+//       const arr = parseArrayParam(size);
+//       filters.push(`size:=[${quoteValues(arr)}]`);
+//     }
+//     if (duration) {
+//       const arr = parseArrayParam(duration);
+//       filters.push(`duration:=[${quoteValues(arr)}]`);
+//     }
+//     if (region) {
+//       const arr = parseArrayParam(region);
+//       filters.push(`region:=[${quoteValues(arr)}]`);
+//     }
+//     if (domains) {
+//       const arr = parseArrayParam(domains).map(val =>
+//         domainMapping[val.toLowerCase()] || val
+//       );
+//       console.log("DomainArr:", arr);
+//       filters.push(`domains:=[${quoteValues(arr)}]`);
+//     }
+//     if (year) {
+//       filters.push(`year:=${year}`);
+//     }
+//     if (bias_overall) {
+//       filters.push(`bias_overall:=${quoteValues(parseArrayParam(bias_overall))}`);
+//     }
+//     if (sponsorship !== undefined) {
+//       filters.push(`sponsorship:=${sponsorship}`);
+//     }
+//     if (age) {
+//       const arr = parseArrayParam(age);
+//       filters.push(`age:=[${quoteValues(arr)}]`);
+//     }
+//     if (sex) {
+//       const arr = parseArrayParam(sex);
+//       filters.push(`sex:=[${quoteValues(arr)}]`);
+//     }
+//     if (other) {
+//       const arr = parseArrayParam(other);
+//       filters.push(`other:=[${quoteValues(arr)}]`);
+//     }
+//     if (industrySponsored !== undefined) {
+//       filters.push(`industrySponsored:=${industrySponsored}`);
+//     }
     
-    const filterBy = filters.join(" && ");
+//     const filterBy = filters.join(" && ");
     
-    const searchParameters = {
-      q,  
-      query_by: "title,description",
-      page: Number(page),
-      per_page: Number(limit),
-      filter_by: filterBy || undefined,
-      sort_by: "publishDate:desc"
-    };
+//     const searchParameters = {
+//       q,  
+//       query_by: "title,description",
+//       page: Number(page),
+//       per_page: Number(limit),
+//       filter_by: filterBy || undefined,
+//       sort_by: "publishDate:desc"
+//     };
     
-    const searchResult = await typesense
-      .collections("dediabetes6")
-      .documents()
-      .search(searchParameters);
+//     const searchResult = await typesense
+//       .collections("dediabetes6")
+//       .documents()
+//       .search(searchParameters);
 
-    console.log("SEARCH-API", searchResult.hits.map((n)=> console.log("studyType:", n.document)));
+//     console.log("SEARCH-API", searchResult.hits.map((n)=> console.log("studyType:", n.document)));
     
-    // Format response to match your frontend expectations
-    const formatted = {
-      results: searchResult.hits.map(hit => hit.document),
-      total: searchResult.found,
-      page: searchResult.page,
-      totalPages: Math.ceil(searchResult.found / limit)
-    };
+//     // Format response to match your frontend expectations
+//     const formatted = {
+//       results: searchResult.hits.map(hit => hit.document),
+//       total: searchResult.found,
+//       page: searchResult.page,
+//       totalPages: Math.ceil(searchResult.found / limit)
+//     };
     
-    res.status(200).json(formatted);
-  } catch (error) {
-    console.error("TypeSense research search error:", error);
-    res.status(500).json({ error: "TypeSense research search error" });
-  }
-}
+//     res.status(200).json(formatted);
+//   } catch (error) {
+//     console.error("TypeSense research search error:", error);
+//     res.status(500).json({ error: "TypeSense research search error" });
+//   }
+// }

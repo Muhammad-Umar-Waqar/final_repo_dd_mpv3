@@ -173,8 +173,26 @@ export const esTranslations = {
       sponsorship: {
         title: "PATROCINIO",
         items: ["Patrocinado por la industria", "No patrocinado"]
-      }
-    }
+      },
+       domainsTitle : "Dominio",
+        yearTitle: "Año",
+        durationTitle: "Duración",
+        sizeTitle: "Tamaño",
+        regionTitle: "Región",
+        ageTitle: "Edad",
+        sexTitle: "Sexo",
+        otherTitle: "Otro",
+        studyTypeTitle: "Tipo de estudio",
+        industrySponsoredTitle: "Patrocinado por la industria",
+        biasTitle: "Sesgo",
+        title: "Filtros",
+        closeMenu: "Cerrar",
+        yearPlaceholder: "Ingrese año",
+        applyFilters: "Aplicar filtros"
+            
+    },
+   yearFromPlaceholder : "De",
+    yearToPlaceholder : "A"
   },
   // SearchSection
   searchSection: {

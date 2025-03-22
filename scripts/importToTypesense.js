@@ -420,7 +420,7 @@ async function migrateData() {
     ? doc.data.study_type_group.map(item => item.study_type).filter(Boolean)
     : [];
 
-    
+
     // Map size field
     const size =
       contentType === "research" && doc.data?.size_group?.[0]?.study_size
@@ -437,10 +437,12 @@ async function migrateData() {
         ? [doc.data.region_group[0].region]
         : [];
     // Map year field from publication_year
+    // Map year field from publication_year and convert to number (or default to 0)
     const year =
-      contentType === "research" && doc.data?.publication_year
-        ? doc.data.publication_year.toString()
-        : "";
+    contentType === "research" && doc.data?.publication_year
+      ? parseInt(doc.data.publication_year, 10)
+      : 0;
+
     // Map sponsorship as string (even though industry_sponsored is boolean)
     const sponsorship =
       contentType === "research" && typeof doc.data?.industry_sponsored === "boolean"
@@ -565,7 +567,7 @@ async function migrateData() {
   // Import documents into the "dediabetes6" collection (ensure this matches your updated schema)
   try {
     const importResponse = await typesense
-      .collections("dediabetes6")
+      .collections("dediabetes7")
       .documents()
       .import(transformedDocs, { action: "upsert" });
     console.log("Import response:", importResponse);

@@ -172,8 +172,25 @@ export const enTranslations = {
       sponsorship: {
         title: "SPONSORSHIP",
         items: ["Industry sponsored", "Non-sponsored"]
-      }
-    }
+      },
+    domainsTitle: "Domain",
+    yearTitle: "Year",
+    durationTitle: "Duration",
+    sizeTitle: "Size",
+    regionTitle : "Region",
+    ageTitle: "Age",
+    sexTitle: "Sex",
+    otherTitle: "Other",
+    studyTypeTitle: "Study Type",
+    industrySponsoredTitle: "Industry Sponsored",
+    biasTitle: "Bias",
+    title: "Filters",
+    closeMenu: "Close",
+    yearPlaceholder: "Enter year",
+    applyFilters: "Apply Filters"
+    },
+    yearFromPlaceholder : "From",
+    yearToPlaceholder : "To"
   },
   // SearchSection
   searchSection: {

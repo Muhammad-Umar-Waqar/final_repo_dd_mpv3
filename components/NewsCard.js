@@ -3,6 +3,7 @@ import { IconClock, IconBookmark } from '@tabler/icons-react';
 import ShareMenu from './ShareMenu';
 import Link from 'next/link';
 import { useTranslations } from '../utils/i18n';
+import { useSession } from 'next-auth/react';
 
 const NewsCard = ({
   category,
@@ -18,6 +19,7 @@ const NewsCard = ({
 }) => {
   const { t } = useTranslations();
 
+const {data:session, status}  = useSession();
     // Function to convert UNIX timestamp to 'YYYY-MM-DD' format
     const formatDate = (timestamp) => {
       const date = new Date(timestamp * 1000); // Convert to milliseconds
@@ -72,7 +74,7 @@ const NewsCard = ({
             <div>
               <h4 className="text-sm font-medium text-foreground">{publisher}</h4>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <time>{year || formatDate(publishDate)}</time>
+                <time>{year || (session?.user?.role === "premium" || session?.user?.role === "admin" ? formatDate(publishDate): publishDate)}</time>
               </div>
             </div>
           </div>
