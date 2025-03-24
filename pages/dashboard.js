@@ -44,6 +44,8 @@ const SampleTable = () => {
   const [debouncedSearch, setDebouncedSearch] = useState(searchQuery);
   const [roleFilter, setRoleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const [isPremium, setIsPremium] = useState(selectedUser?.role?.toLowerCase() === "premium");
+  const [premiumDuration, setPremiumDuration] = useState("1"); // "1" for 1 Month, "4" for 4 Months
 
 
 
@@ -83,7 +85,7 @@ const SampleTable = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openRoleModal, setOpenRoleModal] = useState(false);
-  const [isPremium, setIsPremium] = useState(false);
+  // const [isPremium, setIsPremium] = useState(false);
   const [message, setMessage] = useState('');
 
   const handleOpen = (event, user) => {
@@ -110,8 +112,43 @@ const SampleTable = () => {
     setIsPremium((prev) => !prev);
   };
 
+  // const handleSaveRole = async () => {
+  //   console.log("selectedUserID from handleSaveRole ", selectedUser?._id);
+  //   try {
+  //     const response = await fetch("/api/admin/change-role", {
+  //       method: "PUT",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         userId: selectedUser?._id,
+  //         newRole: isPremium ? "premium" : "basic",
+  //         locale,
+  //       }),
+  //     });
+
+  //     const result = await response.json();
+  //     if (!response.ok) throw new Error(result.message);
+  //     console.log("User Role Changed Successfully", result);
+  //     setData((prevData) =>
+  //       prevData.map((user) =>
+  //         user._id === selectedUser?._id
+  //           ? { ...user, role: isPremium ? "Premium" : "Basic" }
+  //           : user
+  //       )
+  //     );
+  //     handleCloseRoleModal();
+  //     setOpen(true);
+  //     setMessage(result.message);
+  //     // alert(result.message);
+
+  //   } catch (error) {
+  //     console.error("Error:", error.message);
+  //     alert(error.message);
+  //     setMessage(error.message);
+  //   }
+  // };
+
+
   const handleSaveRole = async () => {
-    console.log("selectedUserID from handleSaveRole ", selectedUser?._id);
     try {
       const response = await fetch("/api/admin/change-role", {
         method: "PUT",
@@ -119,31 +156,60 @@ const SampleTable = () => {
         body: JSON.stringify({
           userId: selectedUser?._id,
           newRole: isPremium ? "premium" : "basic",
+          premiumDuration, // this will be undefined if switching to basic
           locale,
         }),
       });
-
+  
       const result = await response.json();
       if (!response.ok) throw new Error(result.message);
-      console.log("User Role Changed Successfully", result);
+  
+      // Update your local state with the new role
       setData((prevData) =>
-        prevData.map((user) =>
-          user._id === selectedUser?._id
-            ? { ...user, role: isPremium ? "Premium" : "Basic" }
-            : user
-        )
+        prevData.map((user) => {
+          if (user._id === selectedUser._id) {
+            const now = new Date();
+            const updatedPremiumExpiresAt = isPremium
+              ? (premiumDuration === "1"
+                  ? new Date(Date.UTC(
+                      now.getUTCFullYear(),
+                      now.getUTCMonth() + 1,
+                      now.getUTCDate(),
+                      now.getUTCHours(),
+                      now.getUTCMinutes(),
+                      now.getUTCSeconds()
+                    ))
+                  : new Date(Date.UTC(
+                      now.getUTCFullYear(),
+                      now.getUTCMonth() + 4,
+                      now.getUTCDate(),
+                      now.getUTCHours(),
+                      now.getUTCMinutes(),
+                      now.getUTCSeconds()
+                    )))
+              : null;
+            return {
+              ...user,
+              role: isPremium ? "premium" : "basic",
+              premiumExpiresAt: updatedPremiumExpiresAt,
+            };
+          }
+          return user;
+        })
       );
-      handleCloseRoleModal();
+      
+      // Close modal and show message
+      setOpenRoleModal(false);
       setOpen(true);
       setMessage(result.message);
-      // alert(result.message);
-
     } catch (error) {
       console.error("Error:", error.message);
       alert(error.message);
       setMessage(error.message);
     }
   };
+
+  
 
   const handleDeleteUser = async (userId) => {
     try {
@@ -403,7 +469,6 @@ const SampleTable = () => {
                   <TableCell className="text-black dark:text-white"
               > {(row.role?.toUpperCase() || "N/A")}</TableCell>
                  
-                  
                      <TableCell className="text-black dark:text-white" >
                   {(row.role == "admin" || row.role == "basic" || !(row.premiumExpiresAt)) ? (locale === "es" ? "No aplica" : "N/A")  : 
                 new Date(row.premiumExpiresAt).toLocaleDateString(locale === "es" ? "es-ES" : "en-US", {
@@ -468,7 +533,7 @@ const SampleTable = () => {
         </MenuItem>
       </Popover>
       {/* Role Selection Modal */}
-      <Dialog open={openRoleModal} onClose={handleCloseRoleModal}>
+      {/* <Dialog open={openRoleModal} onClose={handleCloseRoleModal}>
         <DialogTitle>{translations.editUserRole}</DialogTitle>
         <DialogContent sx={{ width: "250px", paddingX: 3 }}>
           <FormControlLabel
@@ -484,8 +549,89 @@ const SampleTable = () => {
           {translations.save}
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
 
+
+{/* <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{locale === "es" ? "Editar Rol de Usuario" : "Edit User Role"}</DialogTitle>
+      <DialogContent sx={{ width: "250px", paddingX: 3 }}>
+        <FormControlLabel
+          control={<Switch checked={isPremium} onChange={handleRoleChange} />}
+          label={isPremium ? (locale === "es" ? "Premium" : "Premium") : (locale === "es" ? "Básico" : "Basic")}
+        />
+
+        {isPremium && (
+          <FormControl fullWidth sx={{ marginTop: 2 }}>
+            <InputLabel id="premium-duration-label">
+              {locale === "es" ? "Duración de Premium" : "Premium Duration"}
+            </InputLabel>
+            <Select
+              labelId="premium-duration-label"
+              value={premiumDuration}
+              label={locale === "es" ? "Duración de Premium" : "Premium Duration"}
+              onChange={(e) => setPremiumDuration(e.target.value)}
+            >
+              <MenuItem value="1">{locale === "es" ? "1 Mes" : "1 Month"}</MenuItem>
+              <MenuItem value="4">{locale === "es" ? "4 Meses" : "4 Months"}</MenuItem>
+            </Select>
+          </FormControl>
+        )}
+      </DialogContent>
+      <DialogActions sx={{ paddingX: 3 }}>
+        <Button onClick={onClose} color="secondary">
+          {locale === "es" ? "Cancelar" : "Cancel"}
+        </Button>
+        <Button onClick={handleSaveRole} color="primary" variant="contained">
+          {locale === "es" ? "Guardar" : "Save"}
+        </Button>
+      </DialogActions>
+    </Dialog> */}
+
+<Dialog open={openRoleModal} onClose={handleCloseRoleModal}>
+  <DialogTitle>
+    {locale === "es" ? "Editar Rol de Usuario" : "Edit User Role"}
+  </DialogTitle>
+  <DialogContent sx={{ width: "250px", paddingX: 3 }}>
+    <FormControlLabel
+      control={<Switch checked={isPremium} onChange={handleRoleChange} />}
+      label={
+        isPremium
+          ? locale === "es" ? "Premium" : "Premium"
+          : locale === "es" ? "Básico" : "Basic"
+      }
+    />
+    {isPremium && (
+      <FormControl fullWidth sx={{ marginTop: 2 }}>
+        <InputLabel id="premium-duration-label">
+          {locale === "es" ? "Duración de Premium" : "Premium Duration"}
+        </InputLabel>
+        <Select
+          labelId="premium-duration-label"
+          value={premiumDuration}
+          label={locale === "es" ? "Duración de Premium" : "Premium Duration"}
+          onChange={(e) => setPremiumDuration(e.target.value)}
+        >
+          <MenuItem value="1">
+            {locale === "es" ? "1 Mes" : "1 Month"}
+          </MenuItem>
+          <MenuItem value="4">
+            {locale === "es" ? "4 Meses" : "4 Months"}
+          </MenuItem>
+        </Select>
+      </FormControl>
+    )}
+  </DialogContent>
+  <DialogActions sx={{ paddingX: 3 }}>
+    <Button onClick={handleCloseRoleModal} color="secondary">
+      {locale === "es" ? "Cancelar" : "Cancel"}
+    </Button>
+    <Button onClick={handleSaveRole} color="primary" variant="contained">
+      {locale === "es" ? "Guardar" : "Save"}
+    </Button>
+  </DialogActions>
+</Dialog>
+
+    
         {/* MUI Dialog for Success Message */}
         <Dialog open={open} onClose={() => setOpen(false)}>
         {/* <DialogTitle>Operation Performed</DialogTitle> */}
