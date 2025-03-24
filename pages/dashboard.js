@@ -57,6 +57,17 @@ const SampleTable = () => {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
+
+  // Reset page to 1 when search or filters change
+useEffect(() => {
+  router.push({
+    pathname: router.pathname,
+    query: { ...router.query, page: 1 },
+  });
+}, [debouncedSearch, roleFilter, statusFilter]);
+
+
+
   // Fetch data when currentPage, debouncedSearch, roleFilter, or statusFilter change
   useEffect(() => {
     const fetchData = async () => {
