@@ -241,7 +241,8 @@
 
 
 import React, { useState, useEffect, useRef } from 'react';
-import { IconLock, IconSearch } from '@tabler/icons-react';
+import { IconSearch, IconAdjustmentsHorizontal } from '@tabler/icons-react';
+
 import { useTranslations } from '../utils/i18n';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
@@ -463,7 +464,7 @@ const BasicSearchSection = ({ showFilterButton = true, isLoading = false, autoFo
             onClick={() => handleFilterSectionClick()}
             className="bg-gray-100 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-1.5 sm:gap-2"
             >
-              <IconLock className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500 " />
+              <IconAdjustmentsHorizontal className="w-3 h-3 sm:w-4 sm:h-4 text-gray-500 " />
               <span className="hidden xs:inline">{t('searchSection.filterButton')}</span>
             </button>
           )}

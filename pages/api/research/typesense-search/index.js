@@ -436,9 +436,9 @@ export default async function handler(req, res) {
       .documents()
       .search(searchParameters);
 
-      console.log("Final filter expression:", filterBy);
+      // console.log("Final filter expression:", filterBy);
 
-    console.log("SEARCH-API", searchResult.hits.map((n)=> console.log("studyType:", n.document)));
+    // console.log("SEARCH-API", searchResult.hits.map((n)=> console.log("studyType:", n.document)));
     
     // Format response to match your frontend expectations
     const formatted = {

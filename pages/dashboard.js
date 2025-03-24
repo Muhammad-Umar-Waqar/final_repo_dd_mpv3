@@ -194,6 +194,7 @@ const SampleTable = () => {
     save: locale === "es" ? "Guardar" : "Save",
     premiumLabel: locale === "es" ? "Premium" : "Premium",
     basicLabel: locale === "es" ? "Básico" : "Basic",
+    expiresAt: locale === "es" ? "Expira el" : "Expires At",
   };
   
   
@@ -356,6 +357,7 @@ const SampleTable = () => {
                className="text-black dark:text-white"
               >{translations.email}</TableCell>
               <TableCell className="text-black dark:text-white">{translations.role}</TableCell>
+              <TableCell className="text-black dark:text-white">{translations.expiresAt}</TableCell>
               <TableCell className="text-black dark:text-white">{translations.status}</TableCell>
               <TableCell className="text-black dark:text-white">{translations.edit}</TableCell>
             </TableRow>
@@ -369,6 +371,9 @@ const SampleTable = () => {
                   </TableCell>
                   <TableCell>
                     <Skeleton variant="text" width={150} />
+                  </TableCell>
+                  <TableCell>
+                    <Skeleton variant="text" width={80} />
                   </TableCell>
                   <TableCell>
                     <Skeleton variant="text" width={80} />
@@ -397,6 +402,19 @@ const SampleTable = () => {
                   {row.email}</TableCell>
                   <TableCell className="text-black dark:text-white"
               > {(row.role?.toUpperCase() || "N/A")}</TableCell>
+                 
+                  
+                     <TableCell className="text-black dark:text-white" >
+                  {(row.role == "admin" || row.role == "basic" || !(row.premiumExpiresAt)) ? (locale === "es" ? "No aplica" : "N/A")  : 
+                new Date(row.premiumExpiresAt).toLocaleDateString(locale === "es" ? "es-ES" : "en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric"
+                })
+                
+                }
+                  </TableCell>
+                  
                   <TableCell className="text-black dark:text-white" >
                     {row.isVerified ? (
                       <CheckCircle className="text-green-500" size={20} />
@@ -404,6 +422,7 @@ const SampleTable = () => {
                       <XCircle className="text-red-500" size={20} />
                     )}
                   </TableCell>
+
                   <TableCell>
                   <IconButton
                     onClick={(event) => row.role !== "admin" && handleOpen(event, row)}

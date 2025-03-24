@@ -1092,13 +1092,18 @@ const filterOptions = {
       <div className="h-full overflow-y-auto">
         <div className="p-4 border-b border-border flex justify-between items-center">
           <h2 className="font-semibold">{t('filterMenu.title') || "Filters"}</h2>
+          <div className='flex items-center justify-around gap-2'>
+            <button   onClick={() => {
+    router.push({ pathname: router.pathname }, undefined, { shallow: true });
+  }} className='text-sm underline text-gray-700 hover:text-primary'>Clear All</button>
           <button
             onClick={onClose}
             className="p-1 hover:bg-secondary/10 rounded-full"
             aria-label={t('filterMenu.closeMenu') || "Close"}
-          >
+            >
             <IconX className="w-5 h-5" />
           </button>
+            </div>
         </div>
 
         <div className="p-2">

@@ -490,6 +490,7 @@ export const esTranslations = {
     },
     cancelButton: "Cancelar Suscripción",
     unsubscribed: "Desuscrito",
+    subscribed: "Suscrito",
     returnHome: "Volver al Inicio"
   },
   // ============= TRADUCCIONES PARA PLANTILLA DE INVESTIGACIÓN =============

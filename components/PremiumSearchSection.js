@@ -1,7 +1,7 @@
 
 //currentSS2
 import React, { useState, useEffect, useRef } from 'react';
-import { IconLock, IconSearch } from '@tabler/icons-react';
+import {  IconSearch, IconAdjustmentsHorizontal } from '@tabler/icons-react';
 import { useTranslations } from '../utils/i18n';
 import FilterMenu from './FilterMenu';
 import { useRouter } from 'next/router';
@@ -150,7 +150,7 @@ const PremiumSearchSection = ({ showFilterButton = true, isLoading = false, auto
           onClick={() => setIsFilterMenuOpen(true)}
           className="px-2 sm:px-3 py-1 sm:py-1.5 rounded-full border border-input bg-background hover:bg-secondary/10 transition-colors text-xs flex items-center gap-1.5 sm:gap-2"
         >
-          <IconLock className="w-3 h-3 sm:w-4 sm:h-4" />
+          <IconAdjustmentsHorizontal className="w-3 h-3 sm:w-4 sm:h-4" />
           <span className="hidden xs:inline">{t('searchSection.filterButton')}</span>
         </button>
       )}

@@ -487,6 +487,7 @@ export const enTranslations = {
     },
     cancelButton: "Cancel Subscription",
     unsubscribed: "Unsubscribed",
+    subscribed: "Subscribed",
     returnHome: "Return to Home"
   },
   // ============= RESEARCH TEMPLATE TRANSLATIONS =============
