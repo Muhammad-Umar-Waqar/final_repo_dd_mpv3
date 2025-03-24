@@ -268,7 +268,7 @@
 
 
 
-
+import { authOptions } from '../../auth/[...nextauth]';
 import { Client } from 'typesense';
 import dotenv from 'dotenv';
 dotenv.config({ path: ".env.local" });
@@ -283,6 +283,8 @@ const domainMapping = {
   supplements: "Supplements",
   t1d: "T1D"
 };
+import { getServerSession } from 'next-auth/next';
+
 
 const typesense = new Client({
   nodes: [
@@ -309,6 +311,14 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
+
+  // Validate session using getServerSession.
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  
   
   try {
     const {
