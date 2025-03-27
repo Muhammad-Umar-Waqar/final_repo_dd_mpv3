@@ -133,7 +133,7 @@ const PremiumSearchSection = ({
   const defaultFilters = [
     { id: 'all', labelKey: 'searchSection.filters.all' },
     { id: 'behavioral', labelKey: 'searchSection.filters.behavioral', domain: 'behavioral' },
-    { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'complications' },
+    { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'Diabetes Complications' },
     { id: 'digital', labelKey: 'searchSection.filters.digital', domain: 'digital' },
     { id: 'pharmacology', labelKey: 'searchSection.filters.pharmacology', domain: 'pharmacology' },
     { id: 'prevention', labelKey: 'searchSection.filters.prevention', domain: 'prevention' },
