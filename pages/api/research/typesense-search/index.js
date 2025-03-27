@@ -2,6 +2,7 @@ import { authOptions } from '../../auth/[...nextauth]';
 import { Client } from 'typesense';
 import dotenv from 'dotenv';
 dotenv.config({ path: ".env.local" });
+import { getServerSession } from 'next-auth/next';
 
 // Mapping for domain filters (from shorthand to full value)
 const domainMapping = {
@@ -13,7 +14,7 @@ const domainMapping = {
   supplements: "Supplements",
   t1d: "T1D"
 };
-import { getServerSession } from 'next-auth/next';
+
 
 
 const typesense = new Client({
@@ -101,13 +102,28 @@ export default async function handler(req, res) {
       const arr = parseArrayParam(region);
       filters.push(`region:=[${quoteValues(arr)}]`);
     }
+    // if (domains) {
+    //   const arr = parseArrayParam(domains).map(val =>
+    //     domainMapping[val.toLowerCase()] || val
+    //   );
+    //   console.log("DomainArr:", arr);
+    //   filters.push(`domains:=[${quoteValues(arr)}]`);
+    // }
+
     if (domains) {
-      const arr = parseArrayParam(domains).map(val =>
-        domainMapping[val.toLowerCase()] || val
-      );
+      const arr = parseArrayParam(domains).map(val => {
+        // Only apply the mapping if type equals 'research'
+        if (type === 'research') {
+          return domainMapping[val.toLowerCase()] || val;
+        }
+        // For articles (blog_post), return the domain as is
+        return val;
+      });
       console.log("DomainArr:", arr);
       filters.push(`domains:=[${quoteValues(arr)}]`);
     }
+
+    
     // if (year) {
     //   filters.push(`year:=${year}`);
     // }

@@ -74,8 +74,38 @@ const PremiumSearchSection = ({
   }, [showFilterButton]);
 
   // Define a mapping function to get localized domain values.
+  // const getLocalizedDomain = (domain) => {
+  //   // Adjust these mappings as needed.
+  //   const mapping = {
+  //     exercise: { en: "exercise", es: "ejercicio" },
+  //     complications: { en: "complications", es: "complicaciones" },
+  //     symptoms: { en: "symptoms", es: "síntomas" },
+  //     diet: { en: "diet", es: "alimentacion" },
+  //     treatment: { en: "treatment", es: "tratamiento" },
+  //   };
+
+  //   // For research pages, always show the English version for "complications"
+  // if (router.query.docType === "research" && domain === "complications") {
+  //   return "Diabetes Complications";
+  // }
+
+  
+  //   if (mapping[domain]) {
+  //     return router.locale === "es" ? mapping[domain].es : mapping[domain].en;
+  //   }
+  //   return domain;
+  // };
+
   const getLocalizedDomain = (domain) => {
-    // Adjust these mappings as needed.
+    // Determine if we're on the research (index) page.
+    const isResearchPage = router.pathname === '/';
+    
+    // For research page, override complications mapping to always be "Diabetes Complications".
+    if (isResearchPage && domain === "complications") {
+      return "Diabetes Complications";
+    }
+  
+    // Normal mapping for other cases.
     const mapping = {
       exercise: { en: "exercise", es: "ejercicio" },
       complications: { en: "complications", es: "complicaciones" },
@@ -83,11 +113,9 @@ const PremiumSearchSection = ({
       diet: { en: "diet", es: "alimentacion" },
       treatment: { en: "treatment", es: "tratamiento" },
     };
-    if (mapping[domain]) {
-      return router.locale === "es" ? mapping[domain].es : mapping[domain].en;
-    }
-    return domain;
+    return router.locale === "es" ? mapping[domain]?.es || domain : mapping[domain]?.en || domain;
   };
+  
 
   // Handle filter button clicks.
   // For dynamic categories, we expect filter.domain === category id.
@@ -133,7 +161,7 @@ const PremiumSearchSection = ({
   const defaultFilters = [
     { id: 'all', labelKey: 'searchSection.filters.all' },
     { id: 'behavioral', labelKey: 'searchSection.filters.behavioral', domain: 'behavioral' },
-    { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'Diabetes Complications' },
+    { id: 'complications', labelKey: 'searchSection.filters.complications', domain: 'complications' },
     { id: 'digital', labelKey: 'searchSection.filters.digital', domain: 'digital' },
     { id: 'pharmacology', labelKey: 'searchSection.filters.pharmacology', domain: 'pharmacology' },
     { id: 'prevention', labelKey: 'searchSection.filters.prevention', domain: 'prevention' },
