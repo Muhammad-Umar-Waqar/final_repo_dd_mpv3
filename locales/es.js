@@ -63,7 +63,8 @@ export const esTranslations = {
       name: "Nombre",
       email: "Correo electrónico",
       message: "Mensaje",
-      submit: "Enviar Mensaje"
+      submit: "Enviar Mensaje",
+      loadingSubmit: "Enviando"
     },
     success: "¡Gracias por su mensaje! Nos pondremos en contacto pronto."
   },
@@ -208,7 +209,12 @@ export const esTranslations = {
       pharmacology: "Farmacología",
       prevention: "Prevención",
       supplements: "Suplementos",
-      t1d: "T1D"
+      t1d: "T1D",
+      exercise: "Ejercicio",
+      diet: "Dieta",
+      complications: "Complicaciones",
+      symptoms: "Síntomas",
+      treatment: "Tratamiento",
     }
   },
   newsGrid: {

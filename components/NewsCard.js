@@ -21,12 +21,25 @@ const NewsCard = ({
 
 const {data:session, status}  = useSession();
     // Function to convert UNIX timestamp to 'YYYY-MM-DD' format
+    // const formatDate = (timestamp) => {
+    //   const date = new Date(timestamp * 1000); // Convert to milliseconds
+    //   return date?.toISOString().split('T')[0]; // Extract 'YYYY-MM-DD'
+    // };
+
+
     const formatDate = (timestamp) => {
-      const date = new Date(timestamp * 1000); // Convert to milliseconds
+      // Ensure timestamp is defined and is a valid number
+      if (!timestamp || isNaN(Number(timestamp))) {
+        return ''; // or return a fallback value like 'N/A'
+      }
+      const num = Number(timestamp);
+      const date = new Date(num * 1000); // Convert seconds to milliseconds
+      if (isNaN(date.getTime())) {
+        return '';
+      }
       return date.toISOString().split('T')[0]; // Extract 'YYYY-MM-DD'
     };
-
-
+    
 
   return (
     <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">

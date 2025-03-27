@@ -62,7 +62,8 @@ export const enTranslations = {
       name: "Name",
       email: "Email",
       message: "Message",
-      submit: "Send Message"
+      submit: "Send Message",
+      loadingSubmit: "Sending"
     },
     success: "Thank you for your message! We'll get back to you soon."
   },
@@ -206,7 +207,12 @@ export const enTranslations = {
       pharmacology: "Pharmacology",
       prevention: "Prevention",
       supplements: "Supplements",
-      t1d: "T1D"
+      t1d: "T1D",
+      exercise: "Exercise",
+      diet: "Diet",
+      complications: "Complications",
+      symptoms: "Symptoms",
+      treatment: "Treatment",
     }
   },
   newsGrid: {
@@ -278,7 +284,7 @@ export const enTranslations = {
   outcomes: {
     title: "Outcomes Analysis",
     description: "Analysis of diabetes outcomes and their effectiveness, bias, and potential bias",
-    filterPlaceholder: "Filter outcomes...",
+    filterPlaceholder: "Filter outcomes",
     effectiveness: "Effectiveness",
     bias: "Bias",
     tableHeaders: {
@@ -308,7 +314,7 @@ export const enTranslations = {
   medications: {
     title: "Medications Analysis",
     description: "Analysis of diabetes medications and their outcomes, effectiveness, and potential bias",
-    filterPlaceholder: "Filter medications...",
+    filterPlaceholder: "Filter medications",
     effectiveness: "Effectiveness",
     bias: "Bias",
     tableHeaders: {

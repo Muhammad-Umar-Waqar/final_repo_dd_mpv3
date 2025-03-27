@@ -7,7 +7,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useSession } from "next-auth/react";
 import { getApiEndpointForUserArticle } from '../utils/getApiEndpointForUser';
+import { getAllBlogCategories } from '../lib/prismic';
 // import { getApiEndpointForUser } from '../utils/getApiEndpointForUser';
+
 
 const ArticlesHero = () => {
   const { t } = useTranslations();
