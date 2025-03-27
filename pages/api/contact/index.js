@@ -24,8 +24,8 @@ export default async function handler(req, res) {
           },
           To: [
             {
-              Email: "mohammthegreat@gmail.com", // Replace with your receiving email address
-              Name: "Admin",
+              Email: "contact@dediabetes.com", // Replace with your receiving email address
+              Name: "Contact Panel",
             },
           ],
           Subject: locale === "es" ? "Nuevo Mensaje de Contacto" : "New Contact Form Submission",

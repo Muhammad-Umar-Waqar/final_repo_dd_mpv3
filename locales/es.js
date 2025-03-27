@@ -28,7 +28,7 @@ export const esTranslations = {
     supplements: "Suplementos",
     articles: "Articulos",
     premium: "Membresía Premium",
-    login: "Iniciar sesión / Registrarse",
+    login: "Entrar / Unirse",
     logout: "Cerrar sesión",
     search: "Buscar"
   },
