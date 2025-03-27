@@ -62,7 +62,8 @@ export const enTranslations = {
       name: "Name",
       email: "Email",
       message: "Message",
-      submit: "Send Message"
+      submit: "Send Message",
+      loadingSubmit: "Sending"
     },
     success: "Thank you for your message! We'll get back to you soon."
   },
@@ -172,8 +173,25 @@ export const enTranslations = {
       sponsorship: {
         title: "SPONSORSHIP",
         items: ["Industry sponsored", "Non-sponsored"]
-      }
-    }
+      },
+    domainsTitle: "Domain",
+    yearTitle: "Year",
+    durationTitle: "Duration",
+    sizeTitle: "Size",
+    regionTitle : "Region",
+    ageTitle: "Age",
+    sexTitle: "Sex",
+    otherTitle: "Other",
+    studyTypeTitle: "Study Type",
+    industrySponsoredTitle: "Industry Sponsored",
+    biasTitle: "Bias",
+    title: "Filters",
+    closeMenu: "Close",
+    yearPlaceholder: "Enter year",
+    applyFilters: "Apply Filters"
+    },
+    yearFromPlaceholder : "From",
+    yearToPlaceholder : "To"
   },
   // SearchSection
   searchSection: {
@@ -189,7 +207,12 @@ export const enTranslations = {
       pharmacology: "Pharmacology",
       prevention: "Prevention",
       supplements: "Supplements",
-      t1d: "T1D"
+      t1d: "T1D",
+      exercise: "Exercise",
+      diet: "Diet",
+      complications: "Complications",
+      symptoms: "Symptoms",
+      treatment: "Treatment",
     }
   },
   newsGrid: {
@@ -261,7 +284,7 @@ export const enTranslations = {
   outcomes: {
     title: "Outcomes Analysis",
     description: "Analysis of diabetes outcomes and their effectiveness, bias, and potential bias",
-    filterPlaceholder: "Filter outcomes...",
+    filterPlaceholder: "Filter outcomes",
     effectiveness: "Effectiveness",
     bias: "Bias",
     tableHeaders: {
@@ -291,7 +314,7 @@ export const enTranslations = {
   medications: {
     title: "Medications Analysis",
     description: "Analysis of diabetes medications and their outcomes, effectiveness, and potential bias",
-    filterPlaceholder: "Filter medications...",
+    filterPlaceholder: "Filter medications",
     effectiveness: "Effectiveness",
     bias: "Bias",
     tableHeaders: {
@@ -418,13 +441,13 @@ export const enTranslations = {
     subtitle: "Easy, smart, and always the right choice",
     description: "One plan for full access and advanced search, empowering evidence-based diabetes care",
     billing: {
-      monthly: "Monthly",
-      yearly: "Yearly",
-      yearlyDiscount: "Yearly -25%",
+      monthly: "1 Month - $5",
+      yearly: "4 Months - $15",
+      yearlyDiscount: "Save 25%",
       free: "Free",
-      month: "/month",
-      billedYearly: "(billed yearly)",
-      billedMonthly: "(billed monthly)"
+      month: "/one-time",
+      billedYearly: "(one-time payment)",
+      billedMonthly: "(one-time payment)"
     },
     basic: {
       title: "Basic",
@@ -470,6 +493,7 @@ export const enTranslations = {
     },
     cancelButton: "Cancel Subscription",
     unsubscribed: "Unsubscribed",
+    subscribed: "Subscribed",
     returnHome: "Return to Home"
   },
   // ============= RESEARCH TEMPLATE TRANSLATIONS =============

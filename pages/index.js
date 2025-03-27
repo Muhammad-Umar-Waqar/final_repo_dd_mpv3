@@ -1,4 +1,5 @@
-// pages/index.js
+// pages/in-x.js
+//currentSS
 import Head from 'next/head';
 import { useTranslations } from '../utils/i18n';
 import { useRouter } from 'next/router';
@@ -8,8 +9,12 @@ import IntroSection from '../components/IntroSection';
 import SearchSection from '../components/SearchSection';
 import NewsGrid from '../components/NewsGrid';
 import Footer from '../components/Footer';
+import { getApiEndpointForUser } from '../utils/getApiEndpointForUser';
+import { useSession } from "next-auth/react";
+
 
 export default function Home() {
+    const {data: session, status} = useSession();
   const { t, locale } = useTranslations();
   const router = useRouter();
   const [searchResults, setSearchResults] = useState({
@@ -20,6 +25,8 @@ export default function Home() {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const endpoint = getApiEndpointForUser(session?.user?.role);
+  console.log("End..", endpoint);
   // Effect to handle search when URL params change
   useEffect(() => {
     // Wait for router to be ready
@@ -49,7 +56,16 @@ export default function Home() {
           geography,     // geography filter
           year,          // publication year
           sponsorship,   // sponsorship filter
-          domains        // domains filter
+          bias_overall, // bias
+          domains,        // domains filter
+          age,
+          duration,
+          size,
+          region,
+          other,
+          studyType,
+          industrySponsored,
+          docType = 'research'
         } = router.query;
 
         // Build query string
@@ -60,7 +76,7 @@ export default function Home() {
         if (page) queryParams.append('page', page);
         if (limit) queryParams.append('limit', limit);
         queryParams.append('lang', dbLocale);
-        
+        queryParams.append('type', docType);
         // Handle array parameters
         const appendArrayParam = (param, name) => {
           if (!param) return;
@@ -68,7 +84,15 @@ export default function Home() {
             queryParams.append(name, value)
           );
         };
-
+        // And add them to your query string:
+        appendArrayParam(age, 'age');
+        appendArrayParam(duration, 'duration');
+        appendArrayParam(size, 'size');
+        appendArrayParam(region, 'region');
+        appendArrayParam(other, 'other');
+        appendArrayParam(studyType, 'studyType');
+        // For industry sponsored, if you decide to keep the key, then:
+        if (industrySponsored !== undefined) queryParams.append('industrySponsored', industrySponsored);
         appendArrayParam(outcomes, 'outcomes');
         appendArrayParam(interventions, 'interventions');
         appendArrayParam(trialType, 'trialType');
@@ -79,17 +103,24 @@ export default function Home() {
 
         // Add single value parameters
         if (year) queryParams.append('year', year);
+        if (bias_overall) queryParams.append('bias_overall', bias_overall);
         if (sponsorship !== undefined) queryParams.append('sponsorship', sponsorship);
 
         // Make API request to research endpoint
-        const response = await fetch(`/api/research/search?${queryParams.toString()}`);
+
+        // const response = await fetch(`/api/research/search?${queryParams.toString()}`);
         
+        const response = await fetch(`${endpoint}?${queryParams.toString()}`);
+
         if (!response.ok) {
           throw new Error('Search request failed');
         }
 
         const data = await response.json();
         setSearchResults(data);
+        console.log("Search Result:>:", data.results);
+
+      
       } catch (error) {
         console.error('Error fetching search results:', error);
       } finally {

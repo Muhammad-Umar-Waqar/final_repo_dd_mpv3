@@ -1,5 +1,7 @@
 import { connectToDatabase } from "../../../../lib/mongodb";
 import { ObjectId } from "mongodb";
+import { getToken } from "next-auth/jwt";
+
 
 export default async function handler(req, res) {
   if (req.method !== "DELETE") {
@@ -7,8 +9,28 @@ export default async function handler(req, res) {
   }
 
   try {
+
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    if (!token || !token.email) {
+      return res.status(401).json({
+        message: req.body.locale === "es" ? "No autorizado." : "Unauthorized."
+      });
+    }
+
+     // Get admin emails from env and ensure token email is allowed
+     const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [];
+     if (!adminEmails.includes(token.email)) {
+       return res.status(403).json({
+         message: req.body.locale === "es" ? "Acceso denegado." : "Access denied."
+       });
+     }
+ 
+
+
     const { db } = await connectToDatabase();
     const { userId, locale } = req.body;
+
+
 
     if (!userId) {
       return res.status(400).json({ 

@@ -128,6 +128,7 @@ export async function getStaticPaths({ locales }) {
     
     // Get all research posts and create paths for both root and /research/ URLs
     const researchPosts = await getAllDocuments('research', dbLocale);
+    console.log("researchPosts at pages/[uid].js", researchPosts);
     const researchPaths = researchPosts.flatMap((post) => [
       {
         params: { uid: post.uid },
@@ -165,6 +166,7 @@ export async function getStaticProps({ params, locale }) {
 
     // Try to find the document as a research post first
     let post = await getDocumentByUID('research', cleanUid, dbLocale);
+   
     if (post) {
       // Check if we should redirect to the alternate language version
       if (post.alternate_languages?.length > 0) {

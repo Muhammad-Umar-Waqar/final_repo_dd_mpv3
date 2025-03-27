@@ -26,11 +26,15 @@ export default function Login() {
       password,
       redirect: false, // Prevent automatic redirect
     });
+    console.log("result:", result)
 
     if (result?.error) {
       setError(result.error);
-    }  if (typeof window !== 'undefined') {
-      window.location.href = "/"; // Redirect to /home on successful login
+    }
+    if(result.status == 200 || !result.error ){
+      if (typeof window !== 'undefined') {
+        window.location.href = "/"; // Redirect to /home on successful login
+      }
     }
   };
 

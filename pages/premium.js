@@ -6,13 +6,17 @@ import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/router';
-
+// import PayPalCheckout from '../components/PayPalCheckout';
+import CheckoutModal from '../components/PayPalCheckOutDialog';
 
 
 export default function Premium() {
   const [billingCycle, setBillingCycle] = useState('yearly');
   const { t } = useTranslations();
- 
+  const [selectedPlan, setSelectedPlan] = useState("1month"); 
+  
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
   const basicFeatures = [
     { name: t('premium.features.zeroAds'), included: true },
     { name: t('premium.features.noTracking'), included: true },
@@ -29,70 +33,32 @@ export default function Premium() {
     { name: t('premium.features.biasAnalysis'), included: true },
   ];
 
-  const monthlyPrice = 3.0;
-  const yearlyDiscount = 0.25;
-  const yearlyPrice = monthlyPrice * 12 * (1 - yearlyDiscount);
+  const monthlyPrice = 5;
+  // const yearlyDiscount = 0.25;
+  const yearlyPrice = 15;
 
 
   const { data: session, update } = useSession();
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
- 
+  const [isModalOpen, setModalOpen] = useState(false);
   
 
   const router = useRouter();
 
 
-  
-  const handleUpgrade = async () => {
+
+
+  const handleSubscribe = () => {
     if (!session) {
-      setMessage("You must be logged in to upgrade.");
       router.push('/login');
+      return;
     }
-    
-    
-
-    setLoading(true);
-    setMessage("");
-
-    try {
-      const res = await fetch("/api/upgrade", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newRole: "premium" }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.refreshSession) {
-        setMessage("Successfully upgraded to Premium!");
-        await update({
-          ...session,
-          user: {
-            ...session?.user,
-            role: "premium" 
-          }
-        });
-
-        
-
-        setIsSubscribed(true); 
-     
-        router.reload();
-
-      } else {
-        setMessage(data.error || "Something went wrong.");
-      }
-    } catch (error) {
-      
-      setMessage("An error occurred.");
-    }
-
-    setLoading(false);
+    // Optionally set selected plan here based on your UI logic:
+    setSelectedPlan(billingCycle === 'yearly' ? "4months" : "1month");
+    // Open the checkout modal
+    setModalOpen(true);
   };
-
-
-  const [isSubscribed, setIsSubscribed] = useState(false);
 
 useEffect(() => {
   if (session?.user?.role === 'premium') {
@@ -102,6 +68,7 @@ useEffect(() => {
   }
 }, [session]);
 
+console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
 
 
   return (
@@ -176,9 +143,13 @@ useEffect(() => {
 
           {/* Premium Plan */}
           <div className="border-2 border-primary rounded-lg p-8 bg-background relative">
-            <div className="absolute -top-4 left-4 bg-primary text-white px-4 py-1 rounded-full text-sm">
-              {t('premium.billing.yearlyDiscount')}
-            </div>
+            {
+               billingCycle === 'yearly' && <div className="absolute -top-4 left-4 bg-primary text-white px-4 py-1 rounded-full text-sm">
+                {t('premium.billing.yearlyDiscount')} 
+                </div>
+                 }
+            
+           
             <div className="flex items-center gap-2 mb-4">
               <IconCrown className="w-6 h-6 text-primary" />
               <h2 className="text-2xl font-bold">{t('premium.premium.title')}</h2>
@@ -186,7 +157,7 @@ useEffect(() => {
             <p className="text-muted-foreground mb-4">{t('premium.premium.subtitle')}</p>
             <div className="mb-8">
               <span className="text-4xl font-bold">
-                ${billingCycle === 'yearly' ? (yearlyPrice / 12).toFixed(2) : monthlyPrice.toFixed(2)}
+                ${billingCycle === 'yearly' ? yearlyPrice : monthlyPrice}
               </span>
               <span className="text-muted-foreground">{t('premium.billing.month')}</span>
               <p className="text-sm text-muted-foreground">
@@ -204,27 +175,33 @@ useEffect(() => {
                 </div>
               ))}
             </div>
-            <button
-  className={`w-full py-3 ${
-    !session ? "bg-gray-400 cursor-not-allowed" : // Disable before session loads
-    isSubscribed || session?.user?.role === "admin"
-      ? "bg-gray-400 cursor-not-allowed" // Disable for admins and subscribed users
-      : "bg-primary hover:bg-primary/90 transition-colors"
-  } text-white rounded-md`}
-  onClick={handleUpgrade}
-  disabled={!session || loading || isSubscribed || session?.user?.role === "admin"}
->
-  {loading
-    ? "Upgrading..."
-    : isSubscribed
-      ? t('premium.premium.subscribed')
-      : t('premium.premium.subscribeButton')}
-</button>
+                <button
+      className={`w-full py-3 ${
+        !session ? "bg-gray-400" : // Disable before session loads
+        isSubscribed || session?.user?.role === "admin"
+          ? "bg-gray-400 cursor-not-allowed" // Disable for admins and subscribed users
+          : "bg-primary hover:bg-primary/90 transition-colors"
+      } text-white rounded-md`}
+      // onClick={() => setSelectedPlan( billingCycle === 'monthly' ? "1month" : "4months" )}
+      onClick={handleSubscribe}
+      disabled={loading || isSubscribed || session?.user?.role === "admin"}
+    >
+      {loading
+        ? "Upgrading..."
+        : isSubscribed
+          ? t('premium.premium.subscribed')
+          : t('premium.premium.subscribeButton')}
+    </button>
 
 
           </div>
         </div>
       </main>
+      <CheckoutModal
+        open={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        productType={selectedPlan}
+      />
       <Footer />
     </div>
   );

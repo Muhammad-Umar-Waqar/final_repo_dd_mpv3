@@ -3,7 +3,7 @@ import { useTranslations } from '../utils/i18n';
 import NewsCard from './NewsCard';
 import Pagination from './ui/pagination';
 
-const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading = false }) => {
+const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading = false,  }) => {
   const { t } = useTranslations();
 
   // Loading skeleton for cards
@@ -84,6 +84,7 @@ const NewsGrid = ({ results = [], total = 0, page = 1, totalPages = 1, isLoading
               description={item.description}
               publisher={item.publisher}
               publishDate={item.publishDate}
+              year={item.year}
               timeToRead={item.timeToRead}
               featuredImage={item.featuredImage}
               type={item.type}

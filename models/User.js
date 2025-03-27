@@ -9,6 +9,7 @@ const UserSchema = new mongoose.Schema({
   verificationTokenExpires: { type: Date },
   resetPasswordToken: { type: String },
   resetPasswordExpires: { type: Date },
+  premiumExpiresAt: { type: Date }
 });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

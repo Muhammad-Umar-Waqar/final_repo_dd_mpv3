@@ -1,5 +1,4 @@
 
-
 import { connectToDatabase } from "../../../lib/mongodb"; // Adjust path as needed
 
 export default async function handler(req, res) {

@@ -5,13 +5,13 @@ import { IconCheck, IconCircleCheck } from '@tabler/icons-react';
 import Footer from '../components/Footer';
 import { useTranslations } from '../utils/i18n';
 import { useSession } from "next-auth/react";
-
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { Skeleton } from '@mui/material';
 
 export default function MembershipPremium() {
   const { t } = useTranslations();
-  const { data: session, update } = useSession();
+  const { data: session, update, status } = useSession();
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -31,6 +31,7 @@ export default function MembershipPremium() {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
+    
     if (session?.user?.role === 'premium') {
       setIsSubscribed(true);
     } else {
@@ -38,56 +39,6 @@ export default function MembershipPremium() {
     }
   }, [session]);
 
-
-
-  // Handle cancel subscription
-  const handleCancelSubscription = async () => {
-   
-    if (!session) {
-      setMessage("You must be logged in to unsubscribed!.");
-      router.push('/login');
-    }
-    
-
-    setLoading(true);
-    setMessage("");
-
-    try {
-      const res = await fetch("/api/unsubscribe", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newRole: "basic" }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.refreshSession) {
-        setMessage("User Unsubscribed!");
-        await update({
-          ...session,
-          user: {
-            ...session?.user,
-            role: "basic" 
-          }
-        }
-      );
-      
-         
-      setIsSubscribed(false);
-      
-      router.reload();
-
-      } else {
-        setMessage(data.error || "Something went wrong.");
-      }
-    } catch (error) {
-      // console.error("Error:", error);
-      setMessage("An error occurred.");
-    }
-
-    setLoading(false);
-
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -146,18 +97,18 @@ export default function MembershipPremium() {
                 ))}
               </div>
             </div>
-            
-                  <button
-        onClick={handleCancelSubscription}
-        disabled={loading || !isSubscribed || session.user.role == "admin"}
-        className={`w-full py-3 border border-gray-300 text-gray-700 rounded-md transition-colors ${
-          loading ? "cursor-not-allowed opacity-50" : "hover:bg-gray-50"
-        }`}
-      >
-        {loading
-          ? "Processing..."
-          : isSubscribed || session?.user?.role == "admin" ? t('membership.cancelButton') : t('membership.unsubscribed')}
-      </button>
+            {(loading || status === "loading") ? (
+  // MUI Skeleton for button
+  <Skeleton variant="rectangular" width="100%" height={48} />
+) :
+(
+  (isSubscribed || session?.user?.role === "admin") && (
+    <button disabled={(status == "loading") || !isSubscribed || session?.user?.role === "admin" }  className={`w-full py-3 border border-gray-300 text-gray-700 rounded-md transition-colors cursor-not-allowed opacity-50`}>
+      {t("membership.subscribed")}
+    </button>
+  )
+)
+}
 
           </div>
         </div>

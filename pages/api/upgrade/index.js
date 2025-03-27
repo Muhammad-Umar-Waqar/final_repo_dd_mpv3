@@ -1,5 +1,4 @@
 import { getServerSession } from "next-auth/next";
-
 import { authOptions } from "../auth/[...nextauth].js"; // Ensure the correct import path
 import { connectToDatabase } from "../../../lib/mongodb";
 
@@ -13,9 +12,6 @@ export default async function handler(req, res) {
   }
 
   try {
-  
- 
-
     // Get session from server-side
     const session = await getServerSession(req, res, authOptions);
   
@@ -34,7 +30,6 @@ export default async function handler(req, res) {
       { returnDocument: "after" } // Returns the updated document
     );
 
-    
     if (!updatedUser.value) {
       return res.status(404).json({ error: "User not found" });
     }

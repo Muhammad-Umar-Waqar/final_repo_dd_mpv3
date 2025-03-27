@@ -28,7 +28,7 @@ export const esTranslations = {
     supplements: "Suplementos",
     articles: "Articulos",
     premium: "Membresía Premium",
-    login: "Iniciar sesión / Registrarse",
+    login: "Entrar / Unirse",
     logout: "Cerrar sesión",
     search: "Buscar"
   },
@@ -63,7 +63,8 @@ export const esTranslations = {
       name: "Nombre",
       email: "Correo electrónico",
       message: "Mensaje",
-      submit: "Enviar Mensaje"
+      submit: "Enviar Mensaje",
+      loadingSubmit: "Enviando"
     },
     success: "¡Gracias por su mensaje! Nos pondremos en contacto pronto."
   },
@@ -173,8 +174,26 @@ export const esTranslations = {
       sponsorship: {
         title: "PATROCINIO",
         items: ["Patrocinado por la industria", "No patrocinado"]
-      }
-    }
+      },
+       domainsTitle : "Dominio",
+        yearTitle: "Año",
+        durationTitle: "Duración",
+        sizeTitle: "Tamaño",
+        regionTitle: "Región",
+        ageTitle: "Edad",
+        sexTitle: "Sexo",
+        otherTitle: "Otro",
+        studyTypeTitle: "Tipo de estudio",
+        industrySponsoredTitle: "Patrocinado por la industria",
+        biasTitle: "Sesgo",
+        title: "Filtros",
+        closeMenu: "Cerrar",
+        yearPlaceholder: "Ingrese año",
+        applyFilters: "Aplicar filtros"
+            
+    },
+   yearFromPlaceholder : "De",
+    yearToPlaceholder : "A"
   },
   // SearchSection
   searchSection: {
@@ -190,7 +209,12 @@ export const esTranslations = {
       pharmacology: "Farmacología",
       prevention: "Prevención",
       supplements: "Suplementos",
-      t1d: "T1D"
+      t1d: "T1D",
+      exercise: "Ejercicio",
+      diet: "Dieta",
+      complications: "Complicaciones",
+      symptoms: "Síntomas",
+      treatment: "Tratamiento",
     }
   },
   newsGrid: {
@@ -419,13 +443,13 @@ export const esTranslations = {
     subtitle: "Fácil, inteligente y siempre la mejor opción",
     description: "Un plan para acceso completo y búsqueda avanzada, potenciando el cuidado de la diabetes basado en evidencia",
     billing: {
-      monthly: "Mensual",
-      yearly: "Anual",
-      yearlyDiscount: "Anual -25%",
+      monthly: "1 Mes - $5",
+      yearly: "4 Meses - $15",
+      yearlyDiscount: "Ahorra 25%",
       free: "Gratis",
-      month: "/mes",
-      billedYearly: "(facturado anualmente)",
-      billedMonthly: "(facturado mensualmente)"
+      month: "/pago único",
+      billedYearly: "(pago único)",
+      billedMonthly: "(pago único)"
     },
     basic: {
       title: "Básico",
@@ -472,6 +496,7 @@ export const esTranslations = {
     },
     cancelButton: "Cancelar Suscripción",
     unsubscribed: "Desuscrito",
+    subscribed: "Suscrito",
     returnHome: "Volver al Inicio"
   },
   // ============= TRADUCCIONES PARA PLANTILLA DE INVESTIGACIÓN =============

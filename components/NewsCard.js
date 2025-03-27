@@ -3,6 +3,7 @@ import { IconClock, IconBookmark } from '@tabler/icons-react';
 import ShareMenu from './ShareMenu';
 import Link from 'next/link';
 import { useTranslations } from '../utils/i18n';
+import { useSession } from 'next-auth/react';
 
 const NewsCard = ({
   category,
@@ -13,9 +14,33 @@ const NewsCard = ({
   timeToRead,
   type,
   uid,
-  featuredImage
+  featuredImage,
+  year
 }) => {
   const { t } = useTranslations();
+
+const {data:session, status}  = useSession();
+    // Function to convert UNIX timestamp to 'YYYY-MM-DD' format
+    // const formatDate = (timestamp) => {
+    //   const date = new Date(timestamp * 1000); // Convert to milliseconds
+    //   return date?.toISOString().split('T')[0]; // Extract 'YYYY-MM-DD'
+    // };
+
+
+    const formatDate = (timestamp) => {
+      // Ensure timestamp is defined and is a valid number
+      if (!timestamp || isNaN(Number(timestamp))) {
+        return ''; // or return a fallback value like 'N/A'
+      }
+      const num = Number(timestamp);
+      const date = new Date(num * 1000); // Convert seconds to milliseconds
+      if (isNaN(date.getTime())) {
+        return '';
+      }
+      return date.toISOString().split('T')[0]; // Extract 'YYYY-MM-DD'
+    };
+    
+
   return (
     <div className="bg-background border border-border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="aspect-[16/9] relative bg-muted">
@@ -62,7 +87,7 @@ const NewsCard = ({
             <div>
               <h4 className="text-sm font-medium text-foreground">{publisher}</h4>
               <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <time>{publishDate}</time>
+                <time>{year || (session?.user?.role === "premium" || session?.user?.role === "admin" ? formatDate(publishDate): publishDate)}</time>
               </div>
             </div>
           </div>
