@@ -171,9 +171,9 @@ const PremiumSearchSection = ({
 
   const alternateFilters = [
     { id: 'exercise', labelKey: 'searchSection.filters.exercise' },
-    { id: 'diet', labelKey: 'searchSection.filters.diet' },
     { id: 'complications', labelKey: 'searchSection.filters.complications' },
     { id: 'symptoms', labelKey: 'searchSection.filters.symptoms' },
+    { id: 'diet', labelKey: 'searchSection.filters.diet' },
     { id: 'treatment', labelKey: 'searchSection.filters.treatment' },
   ];
 
