@@ -47,53 +47,6 @@ export default function Premium() {
   const router = useRouter();
 
 
-  
-  // const handleUpgrade = async () => {
-  //   if (!session) {
-  //     setMessage("You must be logged in to upgrade.");
-  //     router.push('/login');
-  //   }
-    
-    
-
-  //   setLoading(true);
-  //   setMessage("");
-
-  //   try {
-  //     const res = await fetch("/api/upgrade", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ newRole: "premium" }),
-  //     });
-
-  //     const data = await res.json();
-
-  //     if (res.ok && data.refreshSession) {
-  //       setMessage("Successfully upgraded to Premium!");
-        // await update({
-        //   ...session,
-        //   user: {
-        //     ...session?.user,
-        //     role: "premium" 
-        //   }
-        // });
-
-        
-
-        // setIsSubscribed(true); 
-     
-        // router.reload();
-
-  //     } else {
-  //       setMessage(data.error || "Something went wrong.");
-  //     }
-  //   } catch (error) {
-      
-  //     setMessage("An error occurred.");
-  //   }
-
-  //   setLoading(false);
-  // };
 
 
   const handleSubscribe = () => {

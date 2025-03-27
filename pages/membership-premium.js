@@ -40,56 +40,6 @@ export default function MembershipPremium() {
   }, [session]);
 
 
-
-  // // Handle cancel subscription
-  // const handleCancelSubscription = async () => {
-   
-  //   if (!session) {
-  //     setMessage("You must be logged in to unsubscribed!.");
-  //     router.push('/login');
-  //   }
-    
-
-  //   setLoading(true);
-  //   setMessage("");
-
-  //   try {
-  //     const res = await fetch("/api/unsubscribe", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ newRole: "basic" }),
-  //     });
-
-  //     const data = await res.json();
-
-  //     if (res.ok && data.refreshSession) {
-  //       setMessage("User Unsubscribed!");
-  //       await update({
-  //         ...session,
-  //         user: {
-  //           ...session?.user,
-  //           role: "basic" 
-  //         }
-  //       }
-  //     );
-      
-         
-  //     setIsSubscribed(false);
-      
-  //     router.reload();
-
-  //     } else {
-  //       setMessage(data.error || "Something went wrong.");
-  //     }
-  //   } catch (error) {
-  //     // console.error("Error:", error);
-  //     setMessage("An error occurred.");
-  //   }
-
-  //   setLoading(false);
-
-  // };
-
   return (
     <div className="min-h-screen bg-background">
       <Head>
@@ -159,17 +109,6 @@ export default function MembershipPremium() {
   )
 )
 }
-                  {/* <button
-        onClick={handleCancelSubscription}
-        disabled={loading || !isSubscribed || session.user.role == "admin"}
-        className={`w-full py-3 border border-gray-300 text-gray-700 rounded-md transition-colors ${
-          loading ? "cursor-not-allowed opacity-50" : "hover:bg-gray-50"
-        }`}
-      >
-        {loading
-          ? "Processing..."
-          : isSubscribed || session?.user?.role == "admin" ? t('membership.cancelButton') : t('membership.unsubscribed')}
-      </button> */}
 
           </div>
         </div>

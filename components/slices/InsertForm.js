@@ -15,7 +15,7 @@ const Contact = () => (
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="message">Mensaje:</label>
           <textarea name="message" className="no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none" />
         </div>
-        <button type="submit" className="border border-themeBrandColor border-solid bg-themeBrandColor hover:bg-white text-white hover:text-themeBrandColor focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Enviar</button>
+        <button type="submit" className="border border-themeBrandColor border-solid bg-themeBrandColor hover:bg-white  hover:text-themeBrandColor focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">Enviar</button>
       </form>
 
 

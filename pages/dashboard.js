@@ -543,60 +543,6 @@ useEffect(() => {
           {translations.deleteUser}
         </MenuItem>
       </Popover>
-      {/* Role Selection Modal */}
-      {/* <Dialog open={openRoleModal} onClose={handleCloseRoleModal}>
-        <DialogTitle>{translations.editUserRole}</DialogTitle>
-        <DialogContent sx={{ width: "250px", paddingX: 3 }}>
-          <FormControlLabel
-            control={<Switch checked={isPremium} onChange={handleRoleChange} />}
-            label={isPremium ? translations.premium : translations.basic}
-          />
-        </DialogContent>
-        <DialogActions sx={{ paddingX: 3 }}>
-          <Button onClick={handleCloseRoleModal} color="secondary">
-          {translations.cancel}
-          </Button>
-          <Button onClick={handleSaveRole} color="primary" variant="contained">
-          {translations.save}
-          </Button>
-        </DialogActions>
-      </Dialog> */}
-
-
-{/* <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{locale === "es" ? "Editar Rol de Usuario" : "Edit User Role"}</DialogTitle>
-      <DialogContent sx={{ width: "250px", paddingX: 3 }}>
-        <FormControlLabel
-          control={<Switch checked={isPremium} onChange={handleRoleChange} />}
-          label={isPremium ? (locale === "es" ? "Premium" : "Premium") : (locale === "es" ? "Básico" : "Basic")}
-        />
-
-        {isPremium && (
-          <FormControl fullWidth sx={{ marginTop: 2 }}>
-            <InputLabel id="premium-duration-label">
-              {locale === "es" ? "Duración de Premium" : "Premium Duration"}
-            </InputLabel>
-            <Select
-              labelId="premium-duration-label"
-              value={premiumDuration}
-              label={locale === "es" ? "Duración de Premium" : "Premium Duration"}
-              onChange={(e) => setPremiumDuration(e.target.value)}
-            >
-              <MenuItem value="1">{locale === "es" ? "1 Mes" : "1 Month"}</MenuItem>
-              <MenuItem value="4">{locale === "es" ? "4 Meses" : "4 Months"}</MenuItem>
-            </Select>
-          </FormControl>
-        )}
-      </DialogContent>
-      <DialogActions sx={{ paddingX: 3 }}>
-        <Button onClick={onClose} color="secondary">
-          {locale === "es" ? "Cancelar" : "Cancel"}
-        </Button>
-        <Button onClick={handleSaveRole} color="primary" variant="contained">
-          {locale === "es" ? "Guardar" : "Save"}
-        </Button>
-      </DialogActions>
-    </Dialog> */}
 
 <Dialog open={openRoleModal} onClose={handleCloseRoleModal}>
   <DialogTitle>
