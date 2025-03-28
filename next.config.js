@@ -7,16 +7,7 @@ const nextConfig = {
     locales: ['en', 'es'],
     defaultLocale: 'en',
     localeDetection: false,
-    domains: [
-      {
-        domain: 'dediabetes.com',
-        defaultLocale: 'en',
-      },
-      {
-        domain: 'es.dediabetes.com',
-        defaultLocale: 'es',
-      },
-    ],
+    
   },
   images: {
     domains: ['images.prismic.io', 'dediabetes.cdn.prismic.io'],

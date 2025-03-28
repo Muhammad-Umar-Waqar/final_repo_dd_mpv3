@@ -208,11 +208,11 @@ export const enTranslations = {
       prevention: "Prevention",
       supplements: "Supplements",
       t1d: "T1D",
-      exercise: "Exercise",
-      diet: "Diet",
-      complications: "Complications",
-      symptoms: "Symptoms",
-      treatment: "Treatment",
+      exercise: "exercise",
+      diet: "diet",
+      complications: "complications",
+      symptoms: "symptoms",
+      treatment: "treatment",
     }
   },
   newsGrid: {
