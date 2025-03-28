@@ -13,7 +13,7 @@ const nextConfig = {
         defaultLocale: 'en',
       },
       {
-        domain: 'es.dediabetes.com',
+        domain: 'dediabetes.com',
         defaultLocale: 'es',
       },
     ],
@@ -83,7 +83,6 @@ const nextConfig = {
         source: '/acido-linoleico-conjugado',
         destination: '/es/blog/acido-linoleico-conjugado',
         permanent: true,
-        locale: false,
       },
       {
         source: '/acido-lipoico-diabetes',
