@@ -210,11 +210,11 @@ export const esTranslations = {
       prevention: "Prevención",
       supplements: "Suplementos",
       t1d: "T1D",
-      exercise: "Ejercicio",
-      diet: "Dieta",
-      complications: "Complicaciones",
-      symptoms: "Síntomas",
-      treatment: "Tratamiento",
+      exercise: "ejercicio",
+      diet: "dieta",
+      complications: "complicaciones",
+      symptoms: "síntomas",
+      treatment: "tratamiento",
     }
   },
   newsGrid: {
