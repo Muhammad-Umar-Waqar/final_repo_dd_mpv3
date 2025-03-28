@@ -7,7 +7,16 @@ const nextConfig = {
     locales: ['en', 'es'],
     defaultLocale: 'en',
     localeDetection: false,
-    
+    domains: [
+      {
+        domain: 'dediabetes.com',
+        defaultLocale: 'en',
+      },
+      {
+        domain: 'es.dediabetes.com',
+        defaultLocale: 'es',
+      },
+    ],
   },
   images: {
     domains: ['images.prismic.io', 'dediabetes.cdn.prismic.io'],
@@ -74,6 +83,7 @@ const nextConfig = {
         source: '/acido-linoleico-conjugado',
         destination: '/es/blog/acido-linoleico-conjugado',
         permanent: true,
+        locale: false,
       },
       {
         source: '/acido-lipoico-diabetes',
