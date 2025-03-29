@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { trackPageView } from './lib/pirsch';
 
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
@@ -53,6 +54,15 @@ export async function middleware(req) {
     }
   }
 
+  // Track page view with Pirsch
+  if (process.env.NODE_ENV === 'production') {
+    try {
+      await trackPageView(req);
+    } catch (error) {
+      console.error('Pirsch tracking error:', error);
+    }
+  }
+
   return NextResponse.next();
 }
 
@@ -68,14 +78,3 @@ export const config = {
     '/premium',
   ],
 };
-
-
-
-
-
-
-
-
-
-
-
