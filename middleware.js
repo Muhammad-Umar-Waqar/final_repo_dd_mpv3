@@ -55,11 +55,18 @@ export async function middleware(req) {
   }
 
   // Track page view with Pirsch
+  // Only track in production mode and only for non-API routes and non-asset requests
   if (process.env.NODE_ENV === 'production') {
-    try {
-      await trackPageView(req);
-    } catch (error) {
-      console.error('Pirsch tracking error:', error);
+    const isAsset = /\.(ico|png|jpg|jpeg|gif|svg|css|js)$/i.test(pathname);
+    const isApiRoute = pathname.startsWith('/api/');
+    
+    if (!isApiRoute && !isAsset) {
+      try {
+        await trackPageView(req);
+        console.log('Tracked page view for:', pathname);
+      } catch (error) {
+        console.error('Pirsch tracking error:', error);
+      }
     }
   }
 
@@ -68,6 +75,14 @@ export async function middleware(req) {
 
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder files (.png, .jpg, .ico, etc.)
+     */
+    '/((?!api|_next/static|_next/image|.*\\.png$|.*\\.jpg$|.*\\.ico$|.*\\.svg$|.*\\.css$|.*\\.js$).*)',
   ],
 };

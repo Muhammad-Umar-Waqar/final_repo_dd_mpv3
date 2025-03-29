@@ -1,9 +1,15 @@
 // pages/api/analytics/test-pirsch.js
+// This endpoint is for testing Pirsch integration in development mode
 import { getAccessToken, trackPageView, trackEvent } from '../../../lib/pirsch';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // In production, this endpoint should not be accessible
+  if (process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ error: 'This endpoint is only available in development mode' });
   }
 
   try {
@@ -33,14 +39,16 @@ export default async function handler(req, res) {
       // Create a mock request object similar to what middleware receives
       const mockReq = {
         url: '/test-page',
-        headers: new Headers({
-          'user-agent': req.headers['user-agent'] || 'Test User Agent',
-          'referer': req.headers['referer'] || 'https://test-referrer.com',
-          'x-forwarded-for': req.headers['x-forwarded-for'] || '127.0.0.1',
-          'accept-language': req.headers['accept-language'] || 'en-US'
-        }),
-        get: function(name) {
-          return this.headers.get(name);
+        headers: {
+          get: function(name) {
+            const headers = {
+              'user-agent': req.headers['user-agent'] || 'Test User Agent',
+              'referer': req.headers['referer'] || 'https://test-referrer.com',
+              'x-forwarded-for': req.headers['x-forwarded-for'] || '127.0.0.1',
+              'accept-language': req.headers['accept-language'] || 'en-US'
+            };
+            return headers[name.toLowerCase()] || '';
+          }
         }
       };
       
