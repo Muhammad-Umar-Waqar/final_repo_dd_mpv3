@@ -68,13 +68,6 @@ export async function middleware(req) {
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/interventions/:path*',
-    '/outcomes/:path*',
-    '/medications/:path*',
-    '/supplements/:path*',
-    '/login',
-    '/membership-premium',
-    '/premium',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };
