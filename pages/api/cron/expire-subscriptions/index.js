@@ -4,6 +4,7 @@ import { connectToDatabase } from '../../../../lib/mongodb';
 export default async function handler(req, res) {
   // Check for the secret in headers or query params
   if (req.headers['cron-secret'] !== process.env.CRON_SECRET) {
+    console.log("CRON SECRET NOT FOUND!");
     return res.status(403).json({ error: 'Forbidden' });
   }
   
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
       { premiumExpiresAt: { $lte: now } },
       { $set: { role: "basic" }, $unset: { premiumExpiresAt: "" } }
     );
-
+    console.log("CRON EXECUTED");
     return res.status(200).json({ message: "Subscription expiration job executed", result });
   } catch (error) {
     console.error("Error in subscription expiration cron job:", error);
