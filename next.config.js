@@ -205,6 +205,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/consumo-yuca-mandioca',
+        destination: '/es/blog/consumo-yuca-mandioca',
+        permanent: true,
+      },
+      {
         source: '/cremas-cuidado-piel-diabetes',
         destination: '/es/blog/cremas-cuidado-piel-diabetes',
         permanent: true,
