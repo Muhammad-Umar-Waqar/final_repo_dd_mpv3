@@ -3,9 +3,11 @@ import { connectToDatabase } from '../../../../lib/mongodb';
 
 export default async function handler(req, res) {
   // Check for the secret in headers or query params
-  if (req.headers['cron-secret'] !== process.env.CRON_SECRET) {
-    console.log("CRON SECRET NOT FOUND!");
-    return res.status(403).json({ error: 'Forbidden' });
+  const authHeader = request.headers.get('authorization');
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', {
+      status: 401,
+    });
   }
   
   try {
@@ -25,3 +27,5 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
+
+
