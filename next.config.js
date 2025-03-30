@@ -165,6 +165,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: '/como-bajar-el-azucar-en-la-sangre-con-vinagre-de-manzana',
+        destination: '/es/blog/como-bajar-el-azucar-en-la-sangre-con-vinagre-de-manzana',
+        permanent: true,
+      },
+      {
         source: '/como-controlar-la-diabetes',
         destination: '/es/blog/como-controlar-la-diabetes',
         permanent: true,
@@ -212,6 +217,11 @@ const nextConfig = {
       {
         source: '/cremas-cuidado-piel-diabetes',
         destination: '/es/blog/cremas-cuidado-piel-diabetes',
+        permanent: true,
+      },
+      {
+        source: '/cuales-jugos-deben-beber-los-diabeticos',
+        destination: '/es/blog/cuales-jugos-deben-beber-los-diabeticos',
         permanent: true,
       },
       {
@@ -312,6 +322,11 @@ const nextConfig = {
       {
         source: '/dolor-estomacal-en-losas-diabeticosas',
         destination: '/es/blog/dolor-estomacal-en-losas-diabeticosas',
+        permanent: true,
+      },
+      {
+        source: '/efecto-somogyi',
+        destination: '/es/blog/efecto-somogyi',
         permanent: true,
       },
       {
@@ -484,6 +499,11 @@ const nextConfig = {
         destination: '/es/blog/pastillas-para-la-diabetes',
         permanent: true,
       },
+      {
+        source: '/perdida-peso-debido-diabetes',
+        destination: '/es/blog/perdida-peso-debido-diabetes',
+        permanent: true,
+      }, 
       {
         source: '/pie-diabetico',
         destination: '/es/blog/pie-diabetico',
