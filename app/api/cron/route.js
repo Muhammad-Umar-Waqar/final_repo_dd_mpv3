@@ -72,7 +72,7 @@ export async function GET(request) {
   
   try {
     const result = await expireSubscriptions();
-    console.log("CRON EXECUTED");
+    console.log("CRON EXECUTED!");
     return NextResponse.json({ message: "Subscription expiration job executed", result });
   } catch (error) {
     console.error("Error in subscription expiration cron job:", error);
