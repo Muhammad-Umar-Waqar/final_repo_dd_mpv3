@@ -104,33 +104,11 @@ export async function getStaticProps({ params, locale }) {
     let post = await getDocumentByUID('blog_post', params.uid, dbLocale);
     let authorDoc = null;
     
-    // Si estamos en la ruta /blog/ (locale 'en') pero el post está en español,
-    // redirigir a la versión en español
-    if (locale === 'en' && post?.lang === 'es-es') {
-      return {
-        redirect: {
-          destination: `/es/blog/${params.uid}`,
-          permanent: true
-        }
-      };
-    }
-    
-    // If we don't find the post in the current language, we try with the other language
+    // If not found in current locale, try the other locale
     if (!post) {
       console.log('Post not found in current locale, trying other locale...');
       const otherLocale = dbLocale === 'en-us' ? 'es-es' : 'en-us';
       post = await getDocumentByUID('blog_post', params.uid, otherLocale);
-      
-      // If we find the post in the other language and we are on the /blog/ path (locale 'en')
-      // but the post is in Spanish, redirect to the Spanish version
-      if (post && locale === 'en' && post.lang === 'es-es') {
-        return {
-          redirect: {
-            destination: `/es/blog/${params.uid}`,
-            permanent: true
-          }
-        };
-      }
       
       if (!post) {
         console.log('Post not found in any locale');
@@ -138,7 +116,7 @@ export async function getStaticProps({ params, locale }) {
       }
     }
 
-    // The rest of the existing code to handle alternative language redirects
+    // Check if we should redirect to the alternate language version
     if (post.alternate_languages?.length > 0) {
       const currentLang = post.lang;
       const requestedLang = dbLocale;
@@ -159,7 +137,6 @@ export async function getStaticProps({ params, locale }) {
       }
     }
 
-    // El resto del código existente para obtener información del autor
     console.log('Post author data:', post.data.author);
 
     // Fetch author document if author UID exists
