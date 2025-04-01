@@ -26,7 +26,7 @@ export default function Login() {
       password,
       redirect: false, // Prevent automatic redirect
     });
-    console.log("result:", result)
+    console.log("result:")
 
     if (result?.error) {
       setError(result.error);

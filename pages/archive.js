@@ -100,10 +100,9 @@ export default function Archive() {
           throw new Error('Search request failed');
         }
         const data = await response.json();
-        console.log("ARCHIVED Data:", data);
         setSearchResults(data);
       } catch (error) {
-        console.error('Error fetching search results:', error);
+        console.error('Error fetching search results:');
       } finally {
         setIsLoading(false);
       }

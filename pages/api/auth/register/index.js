@@ -65,9 +65,9 @@ export default async function handler(req, res) {
 
     try {
       const result = await mailjetClient.post("send", { version: "v3.1" }).request(emailData);
-      console.log("Email Sent: ", result.body);
+      console.log("Email Sent: ");
     } catch (emailError) {
-      console.error("Error sending verification email:", emailError);
+      console.error("Error sending verification email:");
       return res.status(500).json({ message: locale === "es" ? "Error al enviar correo de verificación." : "Error sending verification email." });
     }
    
@@ -78,7 +78,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error("Error registering user:", error);
+    console.error("Error registering user:");
     return res.status(500).json({  message: locale === "es" ? "Error al registrar el usuario." : "Error Registering User.", });
   }
 }

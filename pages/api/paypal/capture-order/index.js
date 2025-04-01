@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     // Get orderID and productType from the request body.
     // productType should be "1month" or "4month"
     const { orderID, productType } = req.body;
-    console.log("productTypeFromcaptureOrder", productType)
+  
     // Get PayPal credentials from environment
     const { NEXT_PUBLIC_PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = process.env;
     const basicAuth = Buffer.from(`${NEXT_PUBLIC_PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`).toString("base64");
@@ -71,8 +71,7 @@ export default async function handler(req, res) {
       premiumExpiresAt = now;
     }
 
-    console.log("PREMIUMEXPIRESAT>: ", premiumExpiresAt);
-    console.log("ProductType2>: ", productType);
+
 
     // 4) Update the user in the database: set role to "premium" and store expiration date.
     const { db } = await connectToDatabase();
@@ -87,7 +86,7 @@ export default async function handler(req, res) {
     });
     
   } catch (error) {
-    console.error("PayPal Capture Order Error:", error);
+    console.error("PayPal Capture Order Error:");
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }

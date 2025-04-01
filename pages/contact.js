@@ -56,7 +56,7 @@ export default function Contact() {
         setErrorMessage(data.message || (locale === "es" ? "Error en el envío." : "Error sending message."));
       }
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error sending message:");
       setErrorMessage(locale === "es" ? "Error al enviar el mensaje." : "Error sending message.");
     } finally {
       setIsLoading(false);

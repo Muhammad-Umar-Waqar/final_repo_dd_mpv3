@@ -40,7 +40,7 @@ export async function getStaticProps({ locale }) {
       revalidate: 3600
     };
   } catch (error) {
-    console.error('Error fetching interventions data:', error);
+    console.error('Error fetching interventions data');
     return {
       props: {
         interventionsData: []

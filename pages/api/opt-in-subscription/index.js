@@ -54,7 +54,7 @@ export default async function handler(req, res) {
         });
       }
     } catch (error) {
-      console.error("Subscription Error:", error);
+      console.error("Subscription Error:");
       return res.status(500).json({ 
         message: locale === "es" ? "Error interno del servidor" : "Internal Server Error" 
       });

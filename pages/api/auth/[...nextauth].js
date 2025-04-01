@@ -47,10 +47,7 @@ export const authOptions = {
      if (token.role === "premium" && token.premiumExpiresAt) {
       const expiry = new Date(token.premiumExpiresAt);
       const now = new Date();
-      console.log("expiry!", expiry);
-      console.log("now!", now);
       if (now > expiry) {
-        console.log("PassedAWAY:")
         // Subscription has expired: downgrade user role
         session.user.role = "basic";
         // Optionally, remove premiumExpiresAt from session as well
@@ -66,7 +63,7 @@ export const authOptions = {
             { $set: { role: "basic" }, $unset: { premiumExpiresAt: "" } }
           );
         } catch (error) {
-          console.error("Error updating user subscription:", error);
+          console.error("Error updating user subscription:");
           // Optionally, handle the error further (e.g., add a fallback, notify an admin, etc.)
         }
          

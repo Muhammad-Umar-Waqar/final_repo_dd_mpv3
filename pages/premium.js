@@ -68,7 +68,7 @@ useEffect(() => {
   }
 }, [session]);
 
-console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
+
 
 
   return (

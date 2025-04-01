@@ -37,7 +37,6 @@ const Hero = () => {
       
       setMessage(data.message); // Use message from API response
     } catch (error) {
-      console.error("Error in Subscription", error);
       setMessage(t("hero.subscriptionError")); // Use translation for generic error
     } finally{
       setLoading(false);

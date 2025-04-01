@@ -66,7 +66,7 @@ export default async function handler(req, res) {
     const orderData = await orderResponse.json();
     return res.status(200).json(orderData);
   } catch (error) {
-    console.error("PayPal Create Order Error:", error);
+    console.error("PayPal Create Order Error:");
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }

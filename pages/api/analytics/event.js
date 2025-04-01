@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ success: true });
   } catch (error) {
-    console.error('Error tracking event:', error);
+    console.error('Error tracking event:');
     return res.status(500).json({ error: 'Failed to track event' });
   }
 }

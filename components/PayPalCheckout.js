@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 export default function PayPalCheckout({ productType }) {
     const { data: session, update } = useSession();
 const router = useRouter();
-console.log("productTypeFromPayPalCheck:", productType);
   return (
     <PayPalButtons
       style={{ layout: "vertical", shape: "rect", label: "paypal" }}
