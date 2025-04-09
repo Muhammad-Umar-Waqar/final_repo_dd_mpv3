@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { trackPageView } from './lib/pirsch';
 
 export async function middleware(req) {
   const { pathname } = req.nextUrl;
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  console.log("Token: ", token)                                                      
+                                                    
 
   // Admin-specific logic
   if (token?.role === 'admin') {
@@ -53,29 +54,35 @@ export async function middleware(req) {
     }
   }
 
+  // Track page view with Pirsch
+  // Only track in production mode and only for non-API routes and non-asset requests
+  if (process.env.NODE_ENV === 'production') {
+    const isAsset = /\.(ico|png|jpg|jpeg|gif|svg|css|js)$/i.test(pathname);
+    const isApiRoute = pathname.startsWith('/api/');
+    
+    if (!isApiRoute && !isAsset) {
+      try {
+        await trackPageView(req);
+        console.log('Tracked page view for:', pathname);
+      } catch (error) {
+        console.error('Pirsch tracking error:', error);
+      }
+    }
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/interventions/:path*',
-    '/outcomes/:path*',
-    '/medications/:path*',
-    '/supplements/:path*',
-    '/login',
-    '/membership-premium',
-    '/premium',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder files (.png, .jpg, .ico, etc.)
+     */
+    '/((?!api|_next/static|_next/image|.*\\.png$|.*\\.jpg$|.*\\.ico$|.*\\.svg$|.*\\.css$|.*\\.js$).*)',
   ],
 };
-
-
-
-
-
-
-
-
-
-
-

@@ -60,7 +60,7 @@ export default async function handler(req, res) {
       message: locale === "es" ? "Enlace de restablecimiento enviado a tu correo electrónico" : "Reset link sent to email" 
     });
   } catch (error) {
-    console.error("Error in forgot password:", error);
+    console.error("Error in forgot password:");
     return res.status(500).json({ 
       message: locale === "es" ? "Error interno del servidor" : "Internal Server Error" 
     });

@@ -39,7 +39,7 @@ export default function Articles() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const endpoint = getApiEndpointForUserArticle(session?.user?.role);
-  console.log("END..", endpoint);
+  
 
   // Effect to handle search when URL params change
   useEffect(() => {
@@ -93,10 +93,10 @@ export default function Articles() {
         }
 
         const data = await response.json();
-        console.log("ArticlesData: ", data);
+      
         setSearchResults(data);
       } catch (error) {
-        console.error('Error fetching search results:', error);
+        console.error('Error fetching search results:');
         // Here you could set some error state if needed
       } finally {
         setIsLoading(false);
@@ -111,7 +111,7 @@ export default function Articles() {
       <Head>
         <title>{`${t('siteName')} - ${t('articles.pageTitle')}`}</title>
         <meta name="description" content={t('articles.description')} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <ArticlesHero />

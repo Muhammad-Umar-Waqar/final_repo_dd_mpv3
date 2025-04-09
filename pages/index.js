@@ -26,7 +26,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
 
   const endpoint = getApiEndpointForUser(session?.user?.role);
-  console.log("End..", endpoint);
+ 
   // Effect to handle search when URL params change
   useEffect(() => {
     // Wait for router to be ready
@@ -118,11 +118,11 @@ export default function Home() {
 
         const data = await response.json();
         setSearchResults(data);
-        console.log("Search Result:>:", data.results);
+       
 
       
       } catch (error) {
-        console.error('Error fetching search results:', error);
+        console.error('Error fetching search results');
       } finally {
         setIsLoading(false);
       }
@@ -136,7 +136,7 @@ export default function Home() {
       <Head>
         <title>{`${t('siteName')} - ${t('homeTitle')}`}</title>
         <meta name="description" content={t('homeDescription')} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <Hero />

@@ -6,7 +6,7 @@ import PayPalCheckout from './PayPalCheckout';
 
 
 export default function CheckoutModal({ open, onClose, productType }) {
-    console.log("ProductTypeFromDIALOG:", productType)
+  
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>

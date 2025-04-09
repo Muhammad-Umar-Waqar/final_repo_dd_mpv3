@@ -36,7 +36,7 @@ export default async function handler(req, res) {
   
     return res.status(200).json({ message: "Upgraded to premium!", user: updatedUser.value,  refreshSession: true  });
   } catch (error) {
-    console.error("Error in Upgrade API:", error);
+    console.error("Error in Upgrade API:");
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }

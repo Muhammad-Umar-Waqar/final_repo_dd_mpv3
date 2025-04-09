@@ -22,7 +22,7 @@ export default function ResearchPost() {
         const data = await response.json();
         setResearch(data);
       } catch (error) {
-        console.error('Error fetching research:', error);
+        console.error('Error fetching research:');
       } finally {
         setLoading(false);
       }

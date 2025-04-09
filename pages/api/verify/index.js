@@ -39,7 +39,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ message: "Email verified successfully" });
   } catch (error) {
-    console.error("Email verification error:", error);
+    console.error("Email verification error:");
     return res.status(500).json({ message: "Error verifying email" });
   }
 }

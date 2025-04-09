@@ -45,7 +45,7 @@ export default function MembershipPremium() {
       <Head>
         <title>{t('membership.title')} - deDiabetes</title>
         <meta name="description" content={t('membership.description')} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <main className="max-w-4xl mx-auto px-4 py-16">

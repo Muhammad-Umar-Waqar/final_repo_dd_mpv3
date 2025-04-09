@@ -89,7 +89,7 @@ export default async function handler(req, res) {
       message: locale === "es" ? "Rol actualizado con éxito." : "Role updated successfully."
     });
   } catch (error) {
-    console.error("Error updating user role:", error);
+    console.error("Error updating user role:");
     return res.status(500).json({
       message: req.body?.locale === "es" ? "Error al actualizar el rol." : "Error updating role."
     });

@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     const result = await mailjetClient
       .post("send", { version: "v3.1" })
       .request(emailData);
-    console.log("Contact Form Email Sent:", result.body);
+    console.log("Contact Form Email Sent:");
 
     return res.status(200).json({
       message:
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
           : "Message sent successfully!",
     });
   } catch (error) {
-    console.error("Error sending contact form message:", error);
+    console.error("Error sending contact form message:");
     return res.status(500).json({
       message:
         locale === "es"

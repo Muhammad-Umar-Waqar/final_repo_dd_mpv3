@@ -2759,7 +2759,7 @@ export default function Home() {
       <Head>
         <title>{`${t('siteName')} - ${t('homeTitle')}`}</title>
         <meta name="description" content={t('homeDescription')} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
@@ -2793,7 +2793,7 @@ export default function Interventions() {
           name="description" 
           content={t('interventions.filterPlaceholder')} 
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
       
       <InterventionsPage />
@@ -2826,7 +2826,7 @@ export default function Login() {
       <Head>
         <title>Login - deDiabetes</title>
         <meta name="description" content="Login to your deDiabetes account" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
@@ -2909,7 +2909,7 @@ export default function Medications() {
       <Head>
         <title>Medications Analysis - deDiabetes</title>
         <meta name="description" content="Analysis of diabetes medications and their outcomes, effectiveness, and potential bias" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
       
       <MedicationsPage />
@@ -3049,7 +3049,7 @@ export default function Outcomes() {
       <Head>
         <title>Outcomes Analysis - deDiabetes</title>
         <meta name="description" content="Analysis of diabetes outcomes and their related interventions, effectiveness, and potential bias" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
       
       <OutcomesPage />
@@ -3275,7 +3275,7 @@ export default function Premium() {
       <Head>
         <title>Premium Membership - deDiabetes</title>
         <meta name="description" content="Upgrade to Premium - Access advanced features and comprehensive diabetes research" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
@@ -3410,7 +3410,7 @@ export default function Register() {
       <Head>
         <title>Register - deDiabetes</title>
         <meta name="description" content="Create your deDiabetes account" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
@@ -3871,7 +3871,7 @@ export default function Supplements() {
       <Head>
         <title>Supplements Analysis - deDiabetes</title>
         <meta name="description" content="Analysis of diabetes supplements and their outcomes, effectiveness, and potential bias" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
       
       <SupplementsPage />

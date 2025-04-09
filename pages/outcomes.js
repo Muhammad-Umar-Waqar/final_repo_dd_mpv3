@@ -14,7 +14,7 @@ export default function Outcomes({ outcomesData }) {
           name="description" 
           content={t('outcomes.description')} 
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
       
       <OutcomesPage outcomesData={outcomesData} />

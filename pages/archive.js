@@ -100,10 +100,9 @@ export default function Archive() {
           throw new Error('Search request failed');
         }
         const data = await response.json();
-        console.log("ARCHIVED Data:", data);
         setSearchResults(data);
       } catch (error) {
-        console.error('Error fetching search results:', error);
+        console.error('Error fetching search results:');
       } finally {
         setIsLoading(false);
       }
@@ -117,7 +116,7 @@ export default function Archive() {
       <Head>
         <title>{`${t('siteName')} - ${t('archive.pageTitle')}`}</title>
         <meta name="description" content={t('archive.description')} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       {/* Archive Hero Section */}

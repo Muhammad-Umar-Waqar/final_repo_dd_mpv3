@@ -12,7 +12,7 @@ const PostCard = ({ title, date, description, slug }) => {
       const dateLocale = locale === 'es' ? es : enUS;
       return format(new Date(date), 'MMMM d, yyyy', { locale: dateLocale });
     } catch (error) {
-      console.error('Error formatting date:', error);
+      console.error('Error formatting date');
       return date;
     }
   };

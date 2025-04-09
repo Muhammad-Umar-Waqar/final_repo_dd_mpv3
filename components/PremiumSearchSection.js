@@ -66,7 +66,7 @@ const PremiumSearchSection = ({
           const data = await res.json();
           setDynamicCategories(data);
         } catch (err) {
-          console.error("Error fetching dynamic categories:", err);
+          console.error("Error fetching dynamic categories");
         }
       };
       fetchCategories();

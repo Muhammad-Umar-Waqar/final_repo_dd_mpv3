@@ -68,7 +68,7 @@ useEffect(() => {
   }
 }, [session]);
 
-console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
+
 
 
   return (
@@ -76,7 +76,7 @@ console.log("Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
       <Head>
         <title>{`${t('premium.title')} - deDiabetes`}</title>
         <meta name="description" content={t('premium.description')} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <main className="max-w-7xl mx-auto px-4 py-16">

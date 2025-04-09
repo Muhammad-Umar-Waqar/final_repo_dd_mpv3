@@ -61,7 +61,7 @@ export async function getStaticProps({ locale }) {
       revalidate: 60, // Revalidate every minute
     };
   } catch (error) {
-    console.error('Error fetching blog posts:', error);
+    console.error('Error fetching blog posts:');
     return {
       props: {
         posts: [],

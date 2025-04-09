@@ -14,7 +14,7 @@ export default function Medications({ medicationsData }) {
           name="description" 
           content={t('medications.description')} 
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
       
       <MedicationsPage medicationsData={medicationsData} />

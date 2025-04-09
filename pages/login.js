@@ -26,7 +26,7 @@ export default function Login() {
       password,
       redirect: false, // Prevent automatic redirect
     });
-    console.log("result:", result)
+    console.log("result:")
 
     if (result?.error) {
       setError(result.error);
@@ -65,7 +65,7 @@ export default function Login() {
       <Head>
         <title>{`${translations.title} - deDiabetes`}</title>
         <meta name="description" content={locale === 'es' ? 'Inicia sesión en tu cuenta deDiabetes' : 'Login to your deDiabetes account'} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/dd_favicon.jpg" />
       </Head>
 
       <main className="max-w-md mx-auto px-4 py-16">

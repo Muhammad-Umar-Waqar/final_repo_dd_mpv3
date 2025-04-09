@@ -76,16 +76,16 @@ useEffect(() => {
         const response = await fetch(
           `/api/admin/fetch-all-users?page=${currentPage}&limit=${rowsPerPage}&search=${debouncedSearch}&role=${roleFilter}&isVerified=${statusFilter}`
         );
-        console.log("Response", response);
+       
         const result = await response.json();
         if (response.ok) {
           setData(result.users);
           setTotalPages(result.totalPages);
         } else {
-          console.error("Error fetching users:", result.message);
+          console.error("Error fetching users:");
         }
       } catch (error) {
-        console.error("Network error while fetching users:", error);
+        console.error("Network error while fetching users:");
       } finally {
         setLoading(false);
       }
@@ -109,7 +109,7 @@ useEffect(() => {
   };
 
   const handleOpenRoleModal = () => { 
-    console.log("selectedUser from openRoleModal ", selectedUser);
+    console.log("selectedUser from openRoleModal");
     setIsPremium(selectedUser?.role === "Premium"); // Set switch based on user role
     setOpenRoleModal(true);
     handleClose();
@@ -122,42 +122,6 @@ useEffect(() => {
   const handleRoleChange = () => {
     setIsPremium((prev) => !prev);
   };
-
-  // const handleSaveRole = async () => {
-  //   console.log("selectedUserID from handleSaveRole ", selectedUser?._id);
-  //   try {
-  //     const response = await fetch("/api/admin/change-role", {
-  //       method: "PUT",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         userId: selectedUser?._id,
-  //         newRole: isPremium ? "premium" : "basic",
-  //         locale,
-  //       }),
-  //     });
-
-  //     const result = await response.json();
-  //     if (!response.ok) throw new Error(result.message);
-  //     console.log("User Role Changed Successfully", result);
-  //     setData((prevData) =>
-  //       prevData.map((user) =>
-  //         user._id === selectedUser?._id
-  //           ? { ...user, role: isPremium ? "Premium" : "Basic" }
-  //           : user
-  //       )
-  //     );
-  //     handleCloseRoleModal();
-  //     setOpen(true);
-  //     setMessage(result.message);
-  //     // alert(result.message);
-
-  //   } catch (error) {
-  //     console.error("Error:", error.message);
-  //     alert(error.message);
-  //     setMessage(error.message);
-  //   }
-  // };
-
 
   const handleSaveRole = async () => {
     try {
@@ -214,7 +178,7 @@ useEffect(() => {
       setOpen(true);
       setMessage(result.message);
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error("Error");
       alert(error.message);
       setMessage(error.message);
     }
