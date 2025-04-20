@@ -10,7 +10,7 @@ export default function Custom404() {
       <Head>
         <title>{t('notFound.metaTitle')}</title>
         <meta name="description" content={t('notFound.metaDescription')} />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
 
       <div className="text-center">

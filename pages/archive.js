@@ -116,7 +116,7 @@ export default function Archive() {
       <Head>
         <title>{`${t('siteName')} - ${t('archive.pageTitle')}`}</title>
         <meta name="description" content={t('archive.description')} />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
 
       {/* Archive Hero Section */}

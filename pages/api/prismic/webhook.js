@@ -52,7 +52,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
-
+  console.log('req.body.type', req.body.type);
   // Get the secret from headers or body
   const secret =
     req.headers['prismic-webhook-secret'] ||
@@ -67,21 +67,25 @@ export default async function handler(req, res) {
     const { db } = await connectToDatabase();
     const client = createClient();
 
-    // If it's a test trigger, respond successfully
+    // If it's a test trigger, 
+    // 
+    // respond successfully
+
     if (req.body.type === 'test-trigger') {
       return res.status(200).json({ message: 'Test trigger received successfully' });
     }
 
     // Process documents from the payload
     const documents = req.body.documents || [];
-    
+    console.log("Docs:>", documents)
     // Check if it's an API update
     if (req.body.type === 'api-update') {
+
       for (const documentId of documents) {
         try {
           // Try to get the document from Prismic
           const doc = await client.getByID(documentId, { lang: '*' });
-          
+          console.log("Doc:>", doc);
           if (doc) {
             // If the document exists, sync it
             await syncDocument(db, doc);
@@ -92,7 +96,7 @@ export default async function handler(req, res) {
           }
         } catch (error) {
           // If there's an error getting the document, assume it was deleted
-          if (error.message.includes('404') || error.message.includes('not found')) {
+          if (error.message.includes('404') ||   error.message.includes('No documents were returned')) {
             await deleteDocument(db, documentId);
           } else {
             console.error(`Error processing document ${documentId}:`, error);

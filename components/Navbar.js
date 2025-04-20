@@ -15,7 +15,10 @@ import {
   IconCrown,
   IconLogin,
   IconX,
-  IconArticleFilled
+  IconArticleFilled,
+  IconTableExport,
+  IconTableHeart
+  
 } from '@tabler/icons-react';
 import { signOut, useSession } from 'next-auth/react';
 
@@ -56,6 +59,8 @@ export default function Navbar() {
  
   const membershipHref = session?.user?.role === "premium" ? "/membership-premium" : "/premium";
   const adminHref = session?.user?.role === "admin" ? "/dashboard" : "/404";
+  const adminIntervetionHref = session?.user?.role === "admin" ? "/interventions-table" : "/404";
+  const adminOutcomeHref = session?.user?.role === "admin" ? "/outcomes-table" : "/404";
   
 
   const toggleLanguage = () => {
@@ -127,7 +132,11 @@ export default function Navbar() {
                   <div className="p-4">
                     <nav className="space-y-1">
                     {mounted && session?.user?.role === "admin" && (
+                      <>
                     <MenuItem icon={IconLayoutDashboard} text={t('nav.dashboard')} href={adminHref} />
+                    <MenuItem icon={IconTableExport} text={t('nav.OutcomesTable')} href={adminOutcomeHref} />
+                    <MenuItem icon={IconTableHeart} text={t('nav.InterventionsTable')} href={adminIntervetionHref} />
+                      </>
                   )}
 
                       <MenuItem icon={IconHome2} text={t('nav.home')} href="/" />

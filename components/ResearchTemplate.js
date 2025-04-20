@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconChevronUp, IconPhoto, IconFileTextAi, IconCrown  } from '@tabler/icons-react';
+import { IconChevronUp, IconPhoto, IconFileTextAi, IconCrown,   } from '@tabler/icons-react';
 
 import { useSession } from "next-auth/react";
 
@@ -12,7 +12,6 @@ import Footer from './Footer';
 import NewsletterSection from './common/newsletter';
 import { Alert } from '@mui/material';
 import { useRouter } from 'next/router';
-
 const ResearchTemplate = ({
   title = "Understanding Artificial Pancreas Systems: Results from a 24-Month Trial",
   author = "Dr. Sarah Johnson",
@@ -22,6 +21,7 @@ const ResearchTemplate = ({
   readTime = "8 min read",
   headerImage,
   summary = "",
+  copyright_license = "",
   studyDesign = {
     interventions: [],
     outcomes: [],
@@ -29,6 +29,7 @@ const ResearchTemplate = ({
     duration: "",
     size: ""
   },
+  
   studyPopulation = {
     ageRange: "",
     sex: "",
@@ -70,6 +71,10 @@ const ResearchTemplate = ({
       .replace(/\(|\)/g, '')
       .replace(/[–-]/g, '–');  // Normaliza los guiones
   };
+  
+  
+  // const outcomes1UidValue = getDocumentByUID('outcomes', studyDesign.outcomes.map((outcome) => (outcome)), en-us)
+  // console.log("outcomes1UidValue: ", outcomes1UidValue);
 
   const translateValue = (value, type) => {
     if (!value) return '';
@@ -99,8 +104,9 @@ const ResearchTemplate = ({
   const handleUpgrade = () => {
     if(!session) router.push('/login');
     if(session?.user?.role == "basic") router.push('/premium');
-    
   }
+
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -434,10 +440,6 @@ const ResearchTemplate = ({
   </div>
         )}
 
-
-
-
-
         {journalReference?.length > 0 && (
           <section className="prose prose-sm sm:prose-base lg:prose-lg max-w-none mb-8 sm:mb-16">
             <section className="mb-8">
@@ -446,6 +448,17 @@ const ResearchTemplate = ({
                 <p key={index} className="" dangerouslySetInnerHTML={{ __html: ref }} />
               ))}
             </section>
+            
+            <p className="mt-4 text-sm text-gray-500">
+    © {new Date().getFullYear()} deDiabetes. Licensed under <a 
+      href="https://creativecommons.org/publicdomain/zero/1.0/" 
+      className="text-primary hover:underline"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {copyright_license || ""}
+    </a>
+    </p>
           </section>
         )}
 

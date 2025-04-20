@@ -12,6 +12,9 @@ export default async function handler(req, res) {
       return res.status(404).json({ message: 'Research post not found' });
     }
 
+   
+
+    console.log("DOC::", doc?.data?.copyright_license)
     // Transform the MongoDB document into the expected format
     const transformedData = {
       title: doc.data?.json_content?.short_title,
@@ -19,6 +22,7 @@ export default async function handler(req, res) {
       publishDate: doc.data?.json_content?.publication_date,
       domain: doc.data?.domain,
       summary: doc.data?.json_content?.TLDR,
+      // copyright_license: doc.data?.json_content?.copyright_license,
       studyDesign: {
         interventions: doc.data?.json_content?.interventions_SNOMED,
         outcomes: doc.data?.json_content?.outcomes_using_COMET,
@@ -54,7 +58,7 @@ export default async function handler(req, res) {
         youtube: doc.data?.mentions_group?.youtube || []
       }
     };
-
+  
     res.status(200).json(transformedData);
   } catch (error) {
     console.error('Error fetching research post:', error);

@@ -27,7 +27,7 @@ const Contact = () => (
 )
 
 const insertForm = (allSlices) => {
-  console.log(allSlices)
+  // console.log(allSlices)
   switch (allSlices.input.primary.form_type) {
     // These are the API IDs of the slices
     case 'contactus':

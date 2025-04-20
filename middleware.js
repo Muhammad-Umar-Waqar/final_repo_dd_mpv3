@@ -23,6 +23,20 @@ export async function middleware(req) {
     url.pathname = '/404';
     return NextResponse.redirect(url);
   }
+  
+  // Restrict intervention-table to admins only
+  if (pathname.startsWith('/interventions-table')) {
+    const url = req.nextUrl.clone();
+    url.pathname = '/404';
+    return NextResponse.redirect(url);
+  }
+
+  // Restrict outcomes-table to admins only
+  if (pathname.startsWith('/outcomes-table')) {
+    const url = req.nextUrl.clone();
+    url.pathname = '/404';
+    return NextResponse.redirect(url);
+  }
 
   // Redirect logged-in users away from login
   if (pathname === '/login' && token) {

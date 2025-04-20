@@ -12,7 +12,7 @@ export default function BlogPost({ post, authorImage, authorName }) {
   const router = useRouter();
   const { t, locale } = useTranslations();
 
-  console.log('BlogPost component rendered with authorImage:', authorImage);
+  // console.log('BlogPost component rendered with authorImage:', authorImage);
 
   // Show loading state if page is being generated
   if (router.isFallback) {

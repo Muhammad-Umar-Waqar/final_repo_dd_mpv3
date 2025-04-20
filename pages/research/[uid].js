@@ -21,6 +21,7 @@ export default function ResearchPost() {
         if (!response.ok) throw new Error('Failed to fetch research');
         const data = await response.json();
         setResearch(data);
+        // console.log("Research Data", data);
       } catch (error) {
         console.error('Error fetching research:');
       } finally {
@@ -92,6 +93,7 @@ export default function ResearchPost() {
     author: mention.author || ''
   })) || [];
 
+ 
   return (
     <div className="min-h-screen bg-background">
       <Head>
@@ -139,6 +141,7 @@ export default function ResearchPost() {
         studyCards={studyCards}
         xCards={xCards}
         youtubeCards={youtubeCards}
+        // copyright_license={research.copyright_license}
       />
     </div>
   );

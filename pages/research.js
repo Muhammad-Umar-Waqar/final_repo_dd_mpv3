@@ -31,7 +31,7 @@ export default function Research({ allStudies }) {
           name="description" 
           content={`${t('researchTable.studies')} ${item} ${t('researchTable.for')} ${outcome}`}
         />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
       
       <ResearchPage 

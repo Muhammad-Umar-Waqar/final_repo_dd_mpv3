@@ -76,7 +76,7 @@ useEffect(() => {
       <Head>
         <title>{`${t('premium.title')} - deDiabetes`}</title>
         <meta name="description" content={t('premium.description')} />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
 
       <main className="max-w-7xl mx-auto px-4 py-16">

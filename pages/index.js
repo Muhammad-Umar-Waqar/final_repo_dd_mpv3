@@ -136,7 +136,7 @@ export default function Home() {
       <Head>
         <title>{`${t('siteName')} - ${t('homeTitle')}`}</title>
         <meta name="description" content={t('homeDescription')} />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
 
       <Hero />

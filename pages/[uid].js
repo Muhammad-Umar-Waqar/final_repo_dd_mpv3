@@ -8,10 +8,12 @@ import ResearchSkeleton from '../components/research/ResearchSkeleton';
 import NotFoundState from '../components/research/NotFoundState';
 import { mapResearchData } from '../lib/research/research-mapper';
 
-export default function Page({ post, type }) {
+
+export default function Page({ post, type, research  }) {
+  // console.log("RESEARCH<<", research)
   const router = useRouter();
   const { t, locale } = useTranslations();
-
+  // console.log("[uid].js", post);
   // Show loading state if page is being generated
   if (router.isFallback) {
     return <ResearchSkeleton />;
@@ -30,10 +32,10 @@ export default function Page({ post, type }) {
     );
   }
 
-  // If it's a research post, transform the data and use ResearchTemplate
+  // console.log('ResearchFrom[uid].js', research)
+    // If it's a research post, transform the data and use ResearchTemplate
   if (type === 'research') {
-    const research = mapResearchData(post);
-
+    // const research = mapResearchData(post);
     return (
       <div className="min-h-screen bg-background">
         <ResearchSEO
@@ -128,7 +130,7 @@ export async function getStaticPaths({ locales }) {
     
     // Get all research posts and create paths for both root and /research/ URLs
     const researchPosts = await getAllDocuments('research', dbLocale);
-    console.log("researchPosts at pages/[uid].js", researchPosts);
+    // console.log("researchPosts at pages/[uid].js", researchPosts);
     const researchPaths = researchPosts.flatMap((post) => [
       {
         params: { uid: post.uid },
@@ -167,7 +169,63 @@ export async function getStaticProps({ params, locale }) {
     // Try to find the document as a research post first
     let post = await getDocumentByUID('research', cleanUid, dbLocale);
    
+    // console.log("POST RETURNED", post);
+
+        // 1a) pull out every outcomes1.uid
+    const allOutcomeUids = (post.data.body || [])
+    .flatMap(section =>
+      (section.items || []).map(item => item.outcomes1?.uid)
+    ).filter(Boolean);
+
+    const allInterventionsUids = (post.data.body || [])
+    .flatMap(section => {
+      const primaries = Array.isArray(section.primary)
+        ? section.primary
+        : section.primary
+          ? [section.primary]
+          : [];
+      return primaries.map(p => p.intervention?.uid).filter(Boolean);
+    });
+  
+
+    // 1b) dedupe
+    const uniqueOutcomeUids = Array.from(new Set(allOutcomeUids));
+    const uniqueInterventionUids = Array.from(new Set(allInterventionsUids));
+
+    const outcomeDocs = await Promise.all(
+      uniqueOutcomeUids.map((uid) =>
+        getDocumentByUID('outcomes', uid, dbLocale)
+      )
+    );
+
+    const interventionDocs = await Promise.all(
+      uniqueInterventionUids.map((uid) =>
+        getDocumentByUID('interventions', uid, dbLocale)
+      )
+    );
+ 
+
+    const interventionMap = interventionDocs.reduce((map, doc) => {
+      if (doc && doc.uid) map[doc.uid] = doc;
+      return map;
+    }, {});
+
+    
+
+    const outcomeMap = outcomeDocs.reduce((map, doc) => {
+      if (doc && doc.uid) map[doc.uid] = doc;
+      return map;
+    }, {});
+
+    // console.log("allOutcomeUids", allOutcomeUids);
+    // console.log("outcomeMap", outcomeMap);
+    // console.log("interventionMap", interventionMap);
+
+
     if (post) {
+      // build the fully-hydrated research object
+      const research = mapResearchData(post, outcomeMap, interventionMap);
+      
       // Check if we should redirect to the alternate language version
       if (post.alternate_languages?.length > 0) {
         const currentLang = post.lang;
@@ -206,7 +264,8 @@ export async function getStaticProps({ params, locale }) {
       return {
         props: {
           post,
-          type: 'research'
+          type: 'research',
+          research,
         },
         revalidate: 60,
       };
@@ -242,7 +301,8 @@ export async function getStaticProps({ params, locale }) {
         return {
           props: {
             post,
-            type: 'research'
+            type: 'research',
+            research,
           },
           revalidate: 60,
         };
@@ -272,7 +332,7 @@ export async function getStaticProps({ params, locale }) {
     return {
       props: {
         post,
-        type: 'page'
+        type: 'page',
       },
       revalidate: 60,
     };

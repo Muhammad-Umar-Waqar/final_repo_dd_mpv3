@@ -30,7 +30,9 @@ export const enTranslations = {
     premium: "Premium Membership",
     login: "Login / Sign-up",
     logout: "Logout",
-    search: "Search"
+    search: "Search",
+    OutcomesTable: "Outcomes Table",
+    InterventionsTable: "Interventions Table"
   },
   footer: {
     about: "About us",
@@ -883,5 +885,19 @@ export const enTranslations = {
         ]
       }
     }
+  },
+  admin: {
+    tableHeaders: {
+      doi: "DOI",
+      interventionText: "Intervention Text",
+      outcomeText: "Outcome Text"
+    }
+  },
+  adminTable: {
+    noData: "No data available"
+  },
+  adminSearch: {
+    interventionsPlaceholder: "Search interventions…",
+    outcomesPlaceholder: "Search outcomes…"
   }
 };

@@ -14,7 +14,7 @@ export default function Supplements({ supplementsData }) {
           name="description" 
           content={t('supplements.description')} 
         />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
       
       <SupplementsPage supplementsData={supplementsData} />

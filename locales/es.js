@@ -30,7 +30,9 @@ export const esTranslations = {
     premium: "Membresía Premium",
     login: "Entrar / Unirse",
     logout: "Cerrar sesión",
-    search: "Buscar"
+    search: "Buscar",
+    OutcomesTable: "Tabla Resultados",
+    InterventionsTable: "Tabla intervenciones"
   },
   footer: {
     about: "Sobre nosotros",
@@ -884,5 +886,19 @@ export const esTranslations = {
         ]
       }
     }
+  },
+  admin: {
+    tableHeaders: {
+      doi: "DOI",
+      interventionText: "Texto de la intervención",
+      outcomeText: "Texto del resultado"
+    }
+  },
+  adminTable: {
+    noData: "No hay datos disponibles"
+  },
+  adminSearch: {
+    interventionsPlaceholder: "Buscar intervenciones…",
+    outcomesPlaceholder: "Buscar resultados…"
   }
 };

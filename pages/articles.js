@@ -111,7 +111,7 @@ export default function Articles() {
       <Head>
         <title>{`${t('siteName')} - ${t('articles.pageTitle')}`}</title>
         <meta name="description" content={t('articles.description')} />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
 
       <ArticlesHero />

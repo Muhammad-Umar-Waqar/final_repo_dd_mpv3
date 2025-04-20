@@ -44,7 +44,7 @@ const PostTemplate = ({
   studyCards = [],
   xCards = [],
   youtubeCards = [],
-  relatedPosts = []
+  relatedPosts = [],
 }) => {
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -57,6 +57,7 @@ const PostTemplate = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // console.log("PostTemplatejournalReference: ", journalReference);
   return (
     <div className="min-h-screen bg-background">
       {showBackToTop && (

@@ -14,9 +14,8 @@ export default function Interventions({ interventionsData }) {
           name="description" 
           content={t('interventions.description')} 
         />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
-      
       <InterventionsPage interventionsData={interventionsData} />
     </>
   );

@@ -118,7 +118,7 @@ export default function Register() {
       <Head>
         <title>{`${translations.title} - deDiabetes`}</title>
         <meta name="description" content={locale === 'es' ? 'Crea tu cuenta deDiabetes' : 'Create your deDiabetes account'} />
-        <link rel="icon" href="/dd_favicon.jpg" />
+        <link rel="icon" href="/dd_favicon.png" />
       </Head>
 
       <main className="max-w-md mx-auto px-4 py-16">
