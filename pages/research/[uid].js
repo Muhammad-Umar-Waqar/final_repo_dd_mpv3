@@ -55,7 +55,7 @@ export default function ResearchPost() {
       </div>
     );
   }
-
+  console.log("POST>{IOD}2:", research);
   // Transform mentions into card format
   const expertCards = research.mentions?.expert?.map(mention => ({
     title: mention.title || '',
@@ -141,7 +141,7 @@ export default function ResearchPost() {
         studyCards={studyCards}
         xCards={xCards}
         youtubeCards={youtubeCards}
-        // copyright_license={research.copyright_license}
+        copyright_license={research.copyright_license}
       />
     </div>
   );
